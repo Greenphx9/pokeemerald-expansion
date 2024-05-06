@@ -144,6 +144,8 @@ void FieldGetPlayerInput(struct FieldInput *input, u16 newKeys, u16 heldKeys)
 #endif
 }
 
+#include "heat_start_menu.h"
+
 int ProcessPlayerFieldInput(struct FieldInput *input)
 {
     struct MapPosition position;
@@ -196,7 +198,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     {
         FlagSet(FLAG_OPENED_START_MENU);
         PlaySE(SE_WIN_OPEN);
-        ShowStartMenu();
+        HeatStartMenu_Init();
         return TRUE;
     }
     if (input->pressedSelectButton && UseRegisteredKeyItemOnField() == TRUE)
