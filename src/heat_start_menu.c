@@ -132,7 +132,7 @@ struct HeatStartMenu {
 };
 
 static EWRAM_DATA struct HeatStartMenu *sHeatStartMenu = NULL;
-static EWRAM_DATA u8 menuSelected = MENU_POKETCH;
+static EWRAM_DATA u8 menuSelected = 255;
 static EWRAM_DATA u8 (*sSaveDialogCallback)(void) = NULL;
 static EWRAM_DATA u8 sSaveDialogTimer = 0;
 static EWRAM_DATA u8 sSaveInfoWindowId = 0;
@@ -513,6 +513,18 @@ const u8 *const gDayNameStringsTable[7] = {
     gText_Friday,
 };
 
+static void SetSelectedMenu(void) {
+  if (FlagGet(FLAG_SYS_POKENAV_GET) == TRUE) {
+    menuSelected = MENU_POKETCH;
+  } else if (FlagGet(FLAG_SYS_POKEDEX_GET) == TRUE) {
+    menuSelected = MENU_POKEDEX;
+  } else if (FlagGet(FLAG_SYS_POKEMON_GET) == TRUE) {
+    menuSelected = MENU_PARTY;
+  } else {
+    menuSelected = MENU_BAG;
+  }
+}
+
 void HeatStartMenu_Init(void) {
   if (!IsOverworldLinkActive()) {
     FreezeObjectEvents();
@@ -521,7 +533,15 @@ void HeatStartMenu_Init(void) {
   }
 
   LockPlayerFieldControls();
-  
+ 
+  if (FlagGet(FLAG_SYS_POKENAV_GET) == FALSE && menuSelected == 0) {
+    menuSelected = 255;
+  }
+
+  if (menuSelected == 255) {
+    SetSelectedMenu();
+  }
+
   if (sHeatStartMenu == NULL) {
     sHeatStartMenu = AllocZeroed(sizeof(struct HeatStartMenu));
   }
@@ -530,6 +550,7 @@ void HeatStartMenu_Init(void) {
     SetMainCallback2(CB2_ReturnToFieldWithOpenMenu);
     return;
   }
+  
 
   sHeatStartMenu->savedCallback = CB2_ReturnToFieldWithOpenMenu;
   sHeatStartMenu->loadState = 0;
