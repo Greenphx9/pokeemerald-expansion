@@ -92,10 +92,10 @@ static void InitSave(void);
 
 /* ENUMs */
 enum MENU {
-  MENU_POKETCH,
   MENU_POKEDEX,
   MENU_PARTY,
   MENU_BAG,
+  MENU_POKETCH,
   MENU_TRAINER_CARD,
   MENU_SAVE,
   MENU_OPTIONS,
@@ -566,7 +566,10 @@ void HeatStartMenu_Init(void) {
 }
 
 static void HeatStartMenu_LoadSprites(void) {
+  u32 index;
   LoadSpritePalette(sSpritePal_Icon);
+  index = IndexOfSpritePaletteTag(TAG_ICON_PAL);
+  LoadPalette(sIconPal, OBJ_PLTT_ID(index), PLTT_SIZE_4BPP); 
   LoadCompressedSpriteSheet(sSpriteSheet_Icon);
 }
 
@@ -581,10 +584,10 @@ u32 x = 224;
   u32 y7 = 150;
 
   if (FlagGet(FLAG_SYS_POKENAV_GET) == TRUE) {
-    sHeatStartMenu->spriteIdPoketch = CreateSprite(&gSpriteIconPoketch, x, y1, 0);
-    sHeatStartMenu->spriteIdPokedex = CreateSprite(&gSpriteIconPokedex, x-1, y2, 0);
-    sHeatStartMenu->spriteIdParty   = CreateSprite(&gSpriteIconParty, x, y3, 0);
-    sHeatStartMenu->spriteIdBag     = CreateSprite(&gSpriteIconBag, x, y4, 0);
+    sHeatStartMenu->spriteIdPokedex = CreateSprite(&gSpriteIconPokedex, x-1, y1-2, 0);
+    sHeatStartMenu->spriteIdParty   = CreateSprite(&gSpriteIconParty, x, y2-3, 0);
+    sHeatStartMenu->spriteIdBag     = CreateSprite(&gSpriteIconBag, x, y3-2, 0);
+    sHeatStartMenu->spriteIdPoketch = CreateSprite(&gSpriteIconPoketch, x, y4+1, 0);
     sHeatStartMenu->spriteIdTrainerCard = CreateSprite(&gSpriteIconTrainerCard, x, y5, 0);
     sHeatStartMenu->spriteIdSave    = CreateSprite(&gSpriteIconSave, x, y6, 0);
     sHeatStartMenu->spriteIdOptions = CreateSprite(&gSpriteIconOptions, x, y7, 0);
@@ -616,6 +619,7 @@ static void HeatStartMenu_LoadBgGfx(void) {
   u8* buf = GetBgTilemapBuffer(0); 
   DecompressAndCopyTileDataToVram(0, sStartMenuTiles, 0, 0, 0);
   LZDecompressWram(sStartMenuTilemap, buf);
+  LoadPalette(gStandardMenuPalette, BG_PLTT_ID(15), PLTT_SIZE_4BPP);
   LoadPalette(sStartMenuPalette, BG_PLTT_ID(14), PLTT_SIZE_4BPP);
   ScheduleBgCopyTilemapToVram(0);
 }
@@ -1174,7 +1178,7 @@ static void HeatStartMenu_HandleInput_DPADDOWN(void) {
 
 static void HeatStartMenu_HandleInput_DPADUP(void) {
   switch (menuSelected) {
-    case MENU_POKETCH:
+    case MENU_POKEDEX:
       break;
     default:
       
