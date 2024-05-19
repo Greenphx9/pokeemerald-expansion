@@ -567,10 +567,8 @@ void HeatStartMenu_Init(void) {
 }
 
 static void HeatStartMenu_LoadSprites(void) {
-  u32 index;
+ 
   LoadSpritePalette(sSpritePal_Icon);
-  index = IndexOfSpritePaletteTag(TAG_ICON_PAL);
-  LoadPalette(sIconPal, OBJ_PLTT_ID(index), PLTT_SIZE_4BPP); 
   LoadCompressedSpriteSheet(sSpriteSheet_Icon);
 }
 
@@ -1202,6 +1200,10 @@ static void HeatStartMenu_HandleInput_DPADUP(void) {
 }
 
 static void Task_HeatStartMenu_HandleMainInput(u8 taskId) {
+  u32 index;
+  index = IndexOfSpritePaletteTag(TAG_ICON_PAL);
+  LoadPalette(sIconPal, OBJ_PLTT_ID(index), PLTT_SIZE_4BPP); 
+
   if (JOY_NEW(A_BUTTON)) {
     if (sHeatStartMenu->loadState == 0) {
       if (menuSelected != MENU_SAVE) {
