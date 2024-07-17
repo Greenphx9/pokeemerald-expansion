@@ -125,7 +125,7 @@ struct HeatStartMenu {
   u32 sStartClockWindowId;
   u32 sMenuNameWindowId;
   u32 sSafariBallsWindowId;
-  u32 flag; // some u32 holding values for controlling the sprite anims an lifetime
+  u32 flag; // some u32 holding values for controlling the sprite anims and lifetime
   
   u32 spriteIdPoketch;
   u32 spriteIdPokedex;
@@ -724,6 +724,7 @@ static void HeatStartMenu_SafariZone_CreateSprites(void) {
 
 static void HeatStartMenu_LoadBgGfx(void) {
   u8* buf = GetBgTilemapBuffer(0); 
+  LoadBgTilemap(0, 0, 0, 0);
   DecompressAndCopyTileDataToVram(0, sStartMenuTiles, 0, 0, 0);
   if (GetSafariZoneFlag() == FALSE) {
     LZDecompressWram(sStartMenuTilemap, buf);
