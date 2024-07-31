@@ -50,5 +50,6 @@ u8 CreateMonSprite_PicBox(u16 species, s16 x, s16 y, u8 subpriority);
 void StartEscapeRopeFieldEffect(void);
 
 void Task_StairWarp(u8 taskId);
+void Task_ExitStairs(u8 taskId);
 
 #endif // GUARD_FIELD_EFFECTS_H
