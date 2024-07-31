@@ -60,9 +60,21 @@ enum PreviewImageId
     IMG_COUNT
 };
 
-#define MPS_TYPE_CAVE   0
-#define MPS_TYPE_NON_CAVE 1
-#define MPS_TYPE_ANY    2
+// These are the number of frames the map preview will be on screen. Increase or decrease them as you like.
+#define DURATION_LONG       120 // This is how long the map preview will last when the player enters the map for the first time.
+
+#define DURATION_SHORT      40  // This is how long the map preview will last if the player has visited the map before.
+
+#define DURATION_ALWAYS     0   // If this number is not 0, DURATION_ALWAYS will override both DURATION_LONG and DURATION_SHORT.
+                                // For example, if you set DURATION_ALWAYS to 100, the map preview will always
+                                // have a duration of 100 frames every time, regardless of the flag state.
+
+
+#define MPS_TYPE_CAVE       0
+#define MPS_TYPE_NON_CAVE   1
+#define MPS_TYPE_ANY        2
+
+#define FLAG_NULL           0
 
 struct MapPreviewScreen
 {
