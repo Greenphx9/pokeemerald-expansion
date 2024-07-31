@@ -12,13 +12,18 @@
 #define DOOR_SOUND_SLIDING 1
 #define DOOR_SOUND_ARENA   2
 
+enum {
+    DOOR_SIZE_1x1,
+    DOOR_SIZE_1x2,
+};
+
 struct DoorGraphics
 {
     u16 metatileNum;
     u8 sound;
     u8 size;
-    const void *tiles;
-    const void *palettes;
+    const u8 *tiles;
+    const u8 *palettes;
 };
 
 struct DoorAnimFrame
@@ -131,14 +136,18 @@ static const u8 sDoorAnimTiles_TrainerHillLobbyElevator[] = INCBIN_U8("graphics/
 static const u16 sDoorNullPalette48[16] = {};
 static const u8 sDoorAnimTiles_TrainerHillRoofElevator[] = INCBIN_U8("graphics/door_anims/trainer_hill_roof_elevator.4bpp");
 static const u16 sDoorNullPalette49[16] = {};
+static const u8 sDoorAnimTiles_Pallet[] = INCBIN_U8("graphics/door_anims/kanto/pallet.4bpp");
+static const u16 sDoorNullPalette50[16] = {};
+
+#define CLOSED_DOOR_TILES_OFFSET 0xFFFF
 
 static const struct DoorAnimFrame sDoorOpenAnimFrames[] =
 {
-    {4, -1},
-    {4, 0},
-    {4, 0x100},
-    {4, 0x200},
-    {0, 0},
+    {4, CLOSED_DOOR_TILES_OFFSET},
+    {4, 0 * TILE_SIZE_4BPP},
+    {4, 4 * TILE_SIZE_4BPP},
+    {4, 8 * TILE_SIZE_4BPP},
+    {}
 };
 
 static const struct DoorAnimFrame sDoorCloseAnimFrames[] =
@@ -219,6 +228,7 @@ static const u8 sDoorAnimPalettes_BattleDomePreBattleRoom[] = {9, 9, 7, 7, 7, 7,
 static const u8 sDoorAnimPalettes_BattleTentInterior[] = {9, 9, 9, 9, 9, 9, 9, 9};
 static const u8 sDoorAnimPalettes_TrainerHillLobbyElevator[] = {7, 7, 7, 7, 7, 7, 7, 7};
 static const u8 sDoorAnimPalettes_TrainerHillRoofElevator[] = {9, 9, 7, 7, 7, 7, 7, 7};
+static const u8 sDoorAnimPalettes_Pallet[] = {8, 8, 8, 8, 8, 8, 8, 8};
 
 static const struct DoorGraphics sDoorAnimGraphicsTable[] =
 {
@@ -277,21 +287,20 @@ static const struct DoorGraphics sDoorAnimGraphicsTable[] =
     {METATILE_BattleTent_Door,                              DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_BattleTentInterior, sDoorAnimPalettes_BattleTentInterior},
     {METATILE_TrainerHill_Door_Elevator_Lobby,              DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_TrainerHillLobbyElevator, sDoorAnimPalettes_TrainerHillLobbyElevator},
     {METATILE_TrainerHill_Door_Elevator_Roof,               DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_TrainerHillRoofElevator, sDoorAnimPalettes_TrainerHillRoofElevator},
+    // Kanto:
+    {METATILE_KANTO_PalletTown_Door,                        DOOR_SOUND_NORMAL,  1, sDoorAnimTiles_Pallet, sDoorAnimPalettes_Pallet},
     {},
 };
 
-// NOTE: The tiles of a door's animation must be copied to VRAM because they are not already part of any given tileset.
-//       This means that if there are any pre-existing tiles in this copied region that are visible when the door
-//       animation is played they will be overwritten.
-#define DOOR_TILE_START_SIZE1 (NUM_TILES_TOTAL - 8)
-#define DOOR_TILE_START_SIZE2 (NUM_TILES_TOTAL - 16)
+// NOTE: The tiles of a door's animation must be copied to VRAM because they are
+//       not already part of any given tileset. This means that if there are any
+//       pre-existing tiles in this copied region that are visible when the door
+//       animation is played, they will be overwritten.
+#define DOOR_TILE_START (NUM_TILES_TOTAL - 8)
 
-static void CopyDoorTilesToVram(const struct DoorGraphics *gfx, const struct DoorAnimFrame *frame)
+static void CopyDoorTilesToVram(const u8 *tiles)
 {
-    if (gfx->size == 2)
-        CpuFastCopy(gfx->tiles + frame->offset, (void *)(VRAM + TILE_OFFSET_4BPP(DOOR_TILE_START_SIZE2)), 16 * TILE_SIZE_4BPP);
-    else
-        CpuFastCopy(gfx->tiles + frame->offset, (void *)(VRAM + TILE_OFFSET_4BPP(DOOR_TILE_START_SIZE1)), 8 * TILE_SIZE_4BPP);
+    CpuFastCopy(tiles, (void *)(VRAM + TILE_OFFSET_4BPP(DOOR_TILE_START)), 8 * TILE_SIZE_4BPP);
 }
 
 static void BuildDoorTiles(u16 *tiles, u16 tileNum, const u8 *paletteNums)
@@ -306,7 +315,7 @@ static void BuildDoorTiles(u16 *tiles, u16 tileNum, const u8 *paletteNums)
         tiles[i] = tile | (tileNum + i);
     }
 
-    // The remaining layers are left as tile 0 (with the same palette)
+    // The remaining tiles (top layer) always use tile 0 (with the same palette)
     for (; i < 8; i++)
     {
         tile = *(paletteNums++) << 12;
@@ -316,47 +325,28 @@ static void BuildDoorTiles(u16 *tiles, u16 tileNum, const u8 *paletteNums)
 
 static void DrawCurrentDoorAnimFrame(const struct DoorGraphics *gfx, u32 x, u32 y, const u8 *paletteNums)
 {
-    u16 tiles[24];
+    u16 tiles[8];
+    if (gfx->size == 1)
+        BuildDoorTiles(tiles, DOOR_TILE_START, paletteNums);
 
-    if (gfx->size == 2)
-    {
-        // Top left metatile
-        BuildDoorTiles(&tiles[8], DOOR_TILE_START_SIZE2 + 0, &paletteNums[0]);
-        DrawDoorMetatileAt(x, y - 1, &tiles[8]);
-
-        // Bottom left metatile
-        BuildDoorTiles(&tiles[8], DOOR_TILE_START_SIZE2 + 4, &paletteNums[4]);
-        DrawDoorMetatileAt(x, y, &tiles[8]);
-
-        // Top right metatile
-        BuildDoorTiles(&tiles[8], DOOR_TILE_START_SIZE2 + 8, &paletteNums[0]);
-        DrawDoorMetatileAt(x + 1, y - 1, &tiles[8]);
-
-        // Bottom right metatile
-        BuildDoorTiles(&tiles[8], DOOR_TILE_START_SIZE2 + 12, &paletteNums[4]);
-        DrawDoorMetatileAt(x + 1, y, &tiles[8]);
-    }
     else
     {
-        // Top metatile
-        BuildDoorTiles(&tiles[0], DOOR_TILE_START_SIZE1 + 0, &paletteNums[0]);
-        DrawDoorMetatileAt(x, y - 1, &tiles[0]);
-
-        // Bottom metatile
-        BuildDoorTiles(&tiles[0], DOOR_TILE_START_SIZE1 + 4, &paletteNums[4]);
-        DrawDoorMetatileAt(x, y, &tiles[0]);
+        BuildDoorTiles(tiles, DOOR_TILE_START, paletteNums);
+        DrawDoorMetatileAt(x, y - 1, tiles);
+        BuildDoorTiles(tiles, DOOR_TILE_START + 4, &paletteNums[4]);
     }
+
+    DrawDoorMetatileAt(x, y, tiles);
 }
 
-static void DrawClosedDoorTiles(const struct DoorGraphics *gfx, u32 x, u32 y)
+static void DrawClosedDoorTiles(const struct DoorGraphics *gfx, int x, int y)
 {
-    CurrentMapDrawMetatileAt(x, y - 1);
-    CurrentMapDrawMetatileAt(x, y);
-
-    if (gfx->size == 2)
+    if (gfx->size == 1)
+        CurrentMapDrawMetatileAt(x, y);
+    else
     {
-        CurrentMapDrawMetatileAt(x + 1, y - 1);
-        CurrentMapDrawMetatileAt(x + 1, y);
+        CurrentMapDrawMetatileAt(x, y);
+        CurrentMapDrawMetatileAt(x, y - 1);
     }
 }
 
@@ -370,7 +360,7 @@ static void DrawDoor(const struct DoorGraphics *gfx, const struct DoorAnimFrame 
     }
     else
     {
-        CopyDoorTilesToVram(gfx, frame);
+        CopyDoorTilesToVram(&gfx->tiles[frame->offset]);
         DrawCurrentDoorAnimFrame(gfx, x, y, gfx->palettes);
         if (ShouldUseMultiCorridorDoor())
             DrawCurrentDoorAnimFrame(gfx, gSpecialVar_0x8004 + MAP_OFFSET, gSpecialVar_0x8005 + MAP_OFFSET, gfx->palettes);

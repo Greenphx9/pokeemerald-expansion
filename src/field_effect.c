@@ -243,7 +243,6 @@ static void UseVsSeeker_CleanUpFieldEffect(struct Task *task);
 static void ForceStairsMovement(u16 metatileBehavior, s16 *x, s16 *y);
 static void GetStairsMovementDirection(u8 metatileBehavior, s16 *x, s16 *y);
 static void UpdateStairsMovement(s16 speedX, s16 speedY, s16 *offsetX, s16 *offsetY, s16 *timer);
-static void Task_ExitStairs(u8 taskId);
 static void ExitStairsMovement(s16 *speedX, s16 *speedY, s16 *offsetX, s16 *offsetY, s16 *timer);
 static bool8 WaitStairExitMovementFinished(s16 *speedX, s16 *speedY, s16 *offsetX, s16 *offsetY, s16 *timer);
 
@@ -4112,7 +4111,7 @@ static void GetStairsMovementDirection(u8 metatileBehavior, s16 *x, s16 *y)
     }
 }
 
-static void Task_ExitStairs(u8 taskId)
+void Task_ExitStairs(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
     switch (data[0])
