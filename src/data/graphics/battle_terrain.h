@@ -86,3 +86,9 @@ const u32 gBattleTerrainAnimTilemap_Building[] = INCBIN_U32("graphics/battle_ter
 
 const u32 gBattleTerrainAnimTiles_Rayquaza[] = INCBIN_U32("graphics/battle_terrain/sky/anim_tiles.4bpp.lz");
 const u32 gBattleTerrainAnimTilemap_Rayquaza[] = INCBIN_U32("graphics/battle_terrain/sky/anim_map.bin.lz");
+
+const u32 gBattleTerrainTiles_KantoGrass[] = INCBIN_U32("graphics/battle_terrain/kanto/grass/terrain.4bpp.lz");
+const u32 gBattleTerrainPalette_KantoGrass[] = INCBIN_U32("graphics/battle_terrain/kanto/grass/terrain.gbapal.lz");
+const u32 gBattleTerrainTilemap_KantoGrass[] = INCBIN_U32("graphics/battle_terrain/kanto/grass/terrain.bin.lz");
+const u32 gBattleTerrainAnimTiles_KantoGrass[] = INCBIN_U32("graphics/battle_terrain/kanto/grass/anim.4bpp.lz");
+const u32 gBattleTerrainAnimTilemap_KantoGrass[] = INCBIN_U32("graphics/battle_terrain/kanto/grass/anim.bin.lz");

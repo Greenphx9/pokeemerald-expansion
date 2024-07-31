@@ -157,12 +157,12 @@ static const struct WindowTemplate sStandardBattleWindowTemplates[] =
 {
     [B_WIN_MSG] = {
         .bg = 0,
-        .tilemapLeft = 2,
+        .tilemapLeft = 1,
         .tilemapTop = 15,
-        .width = 26,
+        .width = 28,
         .height = 4,
         .paletteNum = 0,
-        .baseBlock = 0x0090,
+        .baseBlock = 0x090
     },
     [B_WIN_ACTION_PROMPT] = {
         .bg = 0,
@@ -614,11 +614,11 @@ const struct BattleBackground sBattleTerrainTable[] =
 {
     [BATTLE_TERRAIN_GRASS] =
     {
-        .tileset = gBattleTerrainTiles_TallGrass,
-        .tilemap = gBattleTerrainTilemap_TallGrass,
-        .entryTileset = gBattleTerrainAnimTiles_TallGrass,
-        .entryTilemap = gBattleTerrainAnimTilemap_TallGrass,
-        .palette = gBattleTerrainPalette_TallGrass,
+        .tileset = gBattleTerrainTiles_KantoGrass,
+        .tilemap = gBattleTerrainTilemap_KantoGrass,
+        .entryTileset = gBattleTerrainAnimTiles_KantoGrass,
+        .entryTilemap = gBattleTerrainAnimTilemap_KantoGrass,
+        .palette = gBattleTerrainPalette_KantoGrass,
     },
 
     [BATTLE_TERRAIN_LONG_GRASS] =
