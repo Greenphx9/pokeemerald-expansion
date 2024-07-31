@@ -300,7 +300,7 @@
 #define VAR_CONTEST_CATEGORY          0x8011
 #define VAR_MON_BOX_ID                0x8012
 #define VAR_MON_BOX_POS               0x8013
-#define VAR_UNUSED_0x8014             0x8014
+#define VAR_TEXT_COLOR                0x8014
 #define VAR_TRAINER_BATTLE_OPPONENT_A 0x8015 // Alias of gTrainerBattleOpponent_A
 
 #define SPECIAL_VARS_END              0x8015
@@ -323,5 +323,12 @@
 #define VAR_TEMP_FRONTIER_TUTOR_ID         VAR_TEMP_E
 
 #define VAR_TEMP_TRANSFERRED_SPECIES  VAR_TEMP_1
+
+// Text color ids for VAR_TEXT_COLOR / VAR_PREV_TEXT_COLOR
+#define NPC_TEXT_COLOR_DEFAULT   0 // If an NPC is selected, use the color specified by GetColorFromTextColorTable, otherwise use Neutral.
+#define NPC_TEXT_COLOR_MALE      1 // Blue, for male NPCs
+#define NPC_TEXT_COLOR_FEMALE    2 // Red, for female NPCs
+#define NPC_TEXT_COLOR_MON       3 // Black, for Pokémon
+#define NPC_TEXT_COLOR_NEUTRAL   4 // Black, for inanimate objects and messages from the game
 
 #endif // GUARD_CONSTANTS_VARS_H

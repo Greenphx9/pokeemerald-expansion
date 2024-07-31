@@ -2,8 +2,15 @@
 #include "text.h"
 #include "dynamic_placeholder_text_util.h"
 #include "string_util.h"
+#include "constants/event_objects.h"
 
 static EWRAM_DATA const u8 *sStringPointers[8] = {};
+
+static const u8 sTextColorTable[] =
+{
+    [OBJ_EVENT_GFX_BRENDAN_NORMAL] = NPC_TEXT_COLOR_MALE,
+    [OBJ_EVENT_GFX_MOM] = NPC_TEXT_COLOR_FEMALE,
+};
 
 void DynamicPlaceholderTextUtil_Reset(void)
 {
@@ -53,4 +60,12 @@ u8 *DynamicPlaceholderTextUtil_ExpandPlaceholders(u8 *dest, const u8 *src)
 const u8 *DynamicPlaceholderTextUtil_GetPlaceholderPtr(u8 idx)
 {
     return sStringPointers[idx];
+}
+
+u8 GetColorFromTextColorTable(u16 graphicId)
+{
+    if (graphicId >= NELEMS(sTextColorTable))
+        return NPC_TEXT_COLOR_DEFAULT;
+    DebugPrintf("graphicId: %d", graphicId);
+    return sTextColorTable[graphicId];
 }
