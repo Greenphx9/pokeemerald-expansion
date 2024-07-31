@@ -32,3 +32,5 @@ Normally, aside from the Sevii Islands, Fire Red has nothing to do after the Eli
 > Hang on poke**emerald**-expansion? I thought this was a Kanto-based hack?
 
 While the base of this hack is Pokemon Emerald, the whole of Kanto, and many Fire-Red/Leaf-Green exclusive features have been ported over, allowing me to use the pokeemerald-expansion project in a Kanto hack.
+
+Sound interesting to you? Make sure to [join the discord!](https://discord.gg/hrbsUVwWes)
