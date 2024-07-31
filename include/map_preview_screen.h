@@ -61,11 +61,13 @@ enum PreviewImageId
 };
 
 // These are the number of frames the map preview will be on screen. Increase or decrease them as you like.
-#define DURATION_LONG       120 // This is how long the map preview will last when the player enters the map for the first time.
+#define DURATION_LONG       120 // This is the number of frames the map preview will last when the player enters the map for the first time.
 
-#define DURATION_SHORT      40  // This is how long the map preview will last if the player has visited the map before.
+#define DURATION_SHORT      40  // This is the number of frames the map preview will last if the player has visited the map before.
 
-#define DURATION_ALWAYS     0   // If this number is not 0, DURATION_ALWAYS will override both DURATION_LONG and DURATION_SHORT.
+#define DURATION_NO_FLAG    40  // This is the number of frames the map preview will last if the map's flagId is FLAG_NULL.
+
+#define DURATION_ALWAYS     0   // If this number is not 0, DURATION_ALWAYS will override all other duration values.
                                 // For example, if you set DURATION_ALWAYS to 100, the map preview will always
                                 // have a duration of 100 frames every time, regardless of the flag state.
 

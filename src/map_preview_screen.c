@@ -636,7 +636,7 @@ u16 MapPreview_GetDuration(u8 mapsec)
         }
         else
         {
-            return DURATION_SHORT;
+            return DURATION_NO_FLAG;
         }
     }
     else if (DURATION_ALWAYS != 0) {
