@@ -3,7 +3,7 @@
 
 enum MapPreviewScreenId
 {
-    MPS_VIRIDIAN_FOREST = 0u,
+    MPS_VIRIDIAN_FOREST,
     MPS_MT_MOON,
     MPS_DIGLETTS_CAVE,
     MPS_ROCK_TUNNEL,
@@ -34,6 +34,32 @@ enum MapPreviewScreenId
     MPS_COUNT
 };
 
+enum PreviewImageId
+{
+    IMG_VIRIDIAN_FOREST,
+    IMG_MT_MOON,
+    IMG_DIGLETTS_CAVE,
+    IMG_ROCK_TUNNEL,
+    IMG_POKEMON_TOWER,
+    IMG_SAFARI_ZONE,
+    IMG_SEAFOAM_ISLANDS,
+    IMG_POKEMON_MANSION,
+    IMG_ROCKET_HIDEOUT,
+    IMG_SILPH_CO,
+    IMG_VICTORY_ROAD,
+    IMG_CERULEAN_CAVE,
+    IMG_POWER_PLANT,
+    IMG_MT_EMBER,
+    IMG_ROCKET_WAREHOUSE,
+    IMG_MONEAN_CHAMBER,
+    IMG_DOTTED_HOLE,
+    IMG_BERRY_FOREST,
+    IMG_ICEFALL_CAVE,
+    IMG_LOST_CAVE,
+    IMG_ALTERING_CAVE,
+    IMG_COUNT
+};
+
 #define MPS_TYPE_CAVE   0
 #define MPS_TYPE_NON_CAVE 1
 #define MPS_TYPE_ANY    2
@@ -43,6 +69,11 @@ struct MapPreviewScreen
     u8 mapsec;
     u8 type;
     u16 flagId;
+    u8 image;
+};
+
+struct ImageData
+{
     const void *tilesptr;
     const void *tilemapptr;
     const void *palptr;
