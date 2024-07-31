@@ -240,6 +240,13 @@ static void UseVsSeeker_DoPlayerAnimation(struct Task *task);
 static void UseVsSeeker_ResetPlayerGraphics(struct Task *task);
 static void UseVsSeeker_CleanUpFieldEffect(struct Task *task);
 
+static void ForceStairsMovement(u16 metatileBehavior, s16 *x, s16 *y);
+static void GetStairsMovementDirection(u8 metatileBehavior, s16 *x, s16 *y);
+static void UpdateStairsMovement(s16 speedX, s16 speedY, s16 *offsetX, s16 *offsetY, s16 *timer);
+static void Task_ExitStairs(u8 taskId);
+static void ExitStairsMovement(s16 *speedX, s16 *speedY, s16 *offsetX, s16 *offsetY, s16 *timer);
+static bool8 WaitStairExitMovementFinished(s16 *speedX, s16 *speedY, s16 *offsetX, s16 *offsetY, s16 *timer);
+
 // Static RAM declarations
 
 static u8 sActiveList[32];
@@ -4002,4 +4009,177 @@ static void UseVsSeeker_CleanUpFieldEffect(struct Task *task)
     gPlayerAvatar.preventStep = FALSE;
     FieldEffectActiveListRemove(FLDEFF_USE_VS_SEEKER);
     DestroyTask(FindTaskIdByFunc(Task_FldEffUseVsSeeker));
+}
+
+void Task_StairWarp(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+    struct ObjectEvent *playerObj = &gObjectEvents[gPlayerAvatar.objectEventId];
+    struct Sprite *playerSpr = &gSprites[gPlayerAvatar.spriteId];
+    switch (data[0])
+    {
+    case 0:
+        LockPlayerFieldControls();
+        FreezeObjectEvents();
+        CameraObjectFreeze();
+        data[0]++;
+        break;
+    case 1:
+        if (!ObjectEventIsMovementOverridden(playerObj) || ObjectEventClearHeldMovementIfFinished(playerObj))
+        {
+            if (data[15] != 0)
+                data[15]--;
+            else
+            {
+                TryFadeOutOldMapMusic();
+                PlayRainStoppingSoundEffect();
+                playerSpr->oam.priority = 1;
+                ForceStairsMovement(data[1], &data[2], &data[3]);
+                PlaySE(SE_EXIT);
+                data[0]++;
+            }
+        }
+        break;
+    case 2:
+        UpdateStairsMovement(data[2], data[3], &data[4], &data[5], &data[6]);
+        data[15]++;
+        if (data[15] >= 12)
+        {
+            WarpFadeOutScreen();
+            data[0]++;
+        }
+        break;
+    case 3:
+        UpdateStairsMovement(data[2], data[3], &data[4], &data[5], &data[6]);
+        if (!gPaletteFade.active && BGMusicStopped())
+            data[0]++;
+        break;
+    default:
+        gFieldCallback = FieldCB_DefaultWarpExit;
+        WarpIntoMap();
+        SetMainCallback2(CB2_LoadMap);
+        DestroyTask(taskId);
+        break;
+    }
+}
+
+static void UpdateStairsMovement(s16 speedX, s16 speedY, s16 *offsetX, s16 *offsetY, s16 *timer)
+{
+    struct Sprite *playerSpr = &gSprites[gPlayerAvatar.spriteId];
+    struct ObjectEvent *playerObj = &gObjectEvents[gPlayerAvatar.objectEventId];
+    if (speedY > 0 || *timer > 6)
+        *offsetY += speedY;
+    *offsetX += speedX;
+    (*timer)++;
+    playerSpr->x2 = *offsetX >> 5;
+    playerSpr->y2 = *offsetY >> 5;
+    if (playerObj->heldMovementFinished)
+        ObjectEventForceSetHeldMovement(playerObj, GetWalkInPlaceNormalMovementAction(GetPlayerFacingDirection()));
+}
+
+static void ForceStairsMovement(u16 metatileBehavior, s16 *x, s16 *y)
+{
+    ObjectEventForceSetHeldMovement(&gObjectEvents[gPlayerAvatar.objectEventId], GetWalkInPlaceNormalMovementAction(GetPlayerFacingDirection()));
+    GetStairsMovementDirection(metatileBehavior, x, y);
+}
+
+static void GetStairsMovementDirection(u8 metatileBehavior, s16 *x, s16 *y)
+{
+    if (MetatileBehavior_IsDirectionalUpRightStairWarp(metatileBehavior))
+    {
+        *x = 16;
+        *y = -10;
+    }
+    else if (MetatileBehavior_IsDirectionalUpLeftStairWarp(metatileBehavior))
+    {
+        *x = -17;
+        *y = -10;
+    }
+    else if (MetatileBehavior_IsDirectionalDownRightStairWarp(metatileBehavior))
+    {
+        *x = 17;
+        *y = 3;
+    }
+    else if (MetatileBehavior_IsDirectionalDownLeftStairWarp(metatileBehavior))
+    {
+        *x = -17;
+        *y = 3;
+    }
+    else
+    {
+        *x = 0;
+        *y = 0;
+    }
+}
+
+static void Task_ExitStairs(u8 taskId)
+{
+    s16 *data = gTasks[taskId].data;
+    switch (data[0])
+    {
+    default:
+        if (IsWeatherNotFadingIn() == TRUE)
+        {
+            CameraObjectReset();
+            UnlockPlayerFieldControls();
+            DestroyTask(taskId);
+        }
+        break;
+    case 0:
+        Overworld_PlaySpecialMapMusic();
+        WarpFadeInScreen();
+        LockPlayerFieldControls();
+        ExitStairsMovement(&data[1], &data[2], &data[3], &data[4], &data[5]);
+        data[0]++;
+        break;
+    case 1:
+        if (!WaitStairExitMovementFinished(&data[1], &data[2], &data[3], &data[4], &data[5]))
+            data[0]++;
+        break;
+    }
+}
+
+static void ExitStairsMovement(s16 *speedX, s16 *speedY, s16 *offsetX, s16 *offsetY, s16 *timer)
+{
+    s16 x, y;
+    u8 metatileBehavior;
+    s32 direction;
+    struct Sprite *sprite;
+    PlayerGetDestCoords(&x, &y);
+    metatileBehavior = MapGridGetMetatileBehaviorAt(x, y);
+    if (MetatileBehavior_IsDirectionalDownRightStairWarp(metatileBehavior) || MetatileBehavior_IsDirectionalUpRightStairWarp(metatileBehavior))
+        direction = DIR_WEST;
+    else
+        direction = DIR_EAST;
+    ObjectEventForceSetHeldMovement(&gObjectEvents[gPlayerAvatar.objectEventId], GetWalkInPlaceFastMovementAction(direction));
+    GetStairsMovementDirection(metatileBehavior, speedX, speedY);
+    *offsetX = *speedX * 16;
+    *offsetY = *speedY * 16;
+    *timer = 16;
+    sprite = &gSprites[gPlayerAvatar.spriteId];
+    sprite->x2 = *offsetX >> 5;
+    sprite->y2 = *offsetY >> 5;
+    *speedX *= -1;
+    *speedY *= -1;
+}
+
+static bool8 WaitStairExitMovementFinished(s16 *speedX, s16 *speedY, s16 *offsetX, s16 *offsetY, s16 *timer)
+{
+    struct Sprite *sprite;
+    sprite = &gSprites[gPlayerAvatar.spriteId];
+    if (*timer != 0)
+    {
+        *offsetX += *speedX;
+        *offsetY += *speedY;
+        sprite->x2 = *offsetX >> 5;
+        sprite->y2 = *offsetY >> 5;
+        (*timer)--;
+        return TRUE;
+    }
+    else
+    {
+        sprite->x2 = 0;
+        sprite->y2 = 0;
+        return FALSE;
+    }
 }

@@ -1114,6 +1114,16 @@ static void PlayCollisionSoundIfNotFacingWarp(u8 direction)
 
     if (!sArrowWarpMetatileBehaviorChecks[direction - 1](metatileBehavior))
     {
+        if (direction == DIR_WEST)
+        {
+            if (MetatileBehavior_IsDirectionalUpLeftStairWarp(metatileBehavior) || MetatileBehavior_IsDirectionalDownLeftStairWarp(metatileBehavior))
+                return;
+        }
+        if (direction == DIR_EAST)
+        {
+            if (MetatileBehavior_IsDirectionalUpRightStairWarp(metatileBehavior) || MetatileBehavior_IsDirectionalDownRightStairWarp(metatileBehavior))
+                return;
+        }
         // Check if walking up into a door
         if (direction == DIR_NORTH)
         {

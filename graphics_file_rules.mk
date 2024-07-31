@@ -28,7 +28,7 @@ contest_types := cool beauty cute smart tough
 ### Tilesets ###
 
 $(TILESETGFXDIR)/secondary/petalburg/tiles.4bpp: %.4bpp: %.png
-	$(GFX) $< $@ -num_tiles 159 -Wnum_tiles
+	$(GFX) $< $@ -num_tiles 64 -Wnum_tiles
 
 $(TILESETGFXDIR)/secondary/rustboro/tiles.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 498 -Wnum_tiles
@@ -219,6 +219,8 @@ $(TILESETGFXDIR)/secondary/battle_frontier_ranking_hall/tiles.4bpp: %.4bpp: %.pn
 $(TILESETGFXDIR)/secondary/mystery_events_house/tiles.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 509 -Wnum_tiles
 
+$(TILESETGFXDIR)/secondary/pallet_town/tiles.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 76 -Wnum_tiles
 
 
 ### Fonts ###

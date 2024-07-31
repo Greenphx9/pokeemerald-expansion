@@ -525,6 +525,14 @@ void DoFallWarp(void)
     gFieldCallback = FieldCB_FallWarpExit;
 }
 
+void DoStairWarp(u16 metatileBehavior, u16 delay)
+{
+    u8 taskId = CreateTask(Task_StairWarp, 10);
+    gTasks[taskId].data[1] = metatileBehavior;
+    gTasks[taskId].data[15] = delay;
+    Task_StairWarp(taskId);
+}
+
 void DoEscalatorWarp(u8 metatileBehavior)
 {
     LockPlayerFieldControls();
