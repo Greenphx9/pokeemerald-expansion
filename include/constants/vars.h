@@ -152,7 +152,7 @@
 #define VAR_BIRCH_LAB_STATE                              0x4084
 #define VAR_PETALBURG_GYM_STATE                          0x4085 // 0-1: Wally tutorial, 2-6: 0-4 badges, 7: Defeated Norman, 8: Rematch Norman
 #define VAR_CONTEST_HALL_STATE                           0x4086
-#define VAR_CABLE_CLUB_STATE                             0x4087
+//#define VAR_CABLE_CLUB_STATE                             0x4087
 #define VAR_CONTEST_TYPE                                 0x4088
 #define VAR_SECRET_BASE_INITIALIZED                      0x4089
 #define VAR_CONTEST_PRIZE_PICKUP                         0x408A
@@ -264,7 +264,7 @@
 #define VAR_ROXANNE_CALL_STEP_COUNTER                    0x40F4
 #define VAR_SCOTT_BF_CALL_STEP_COUNTER                   0x40F5
 #define VAR_RIVAL_RAYQUAZA_CALL_STEP_COUNTER             0x40F6
-#define VAR_MAP_SCENE_PALLET_TOWN_PLAYERS_HOUSE_2F       0x40F7
+//#define VAR_MAP_SCENE_PALLET_TOWN_PLAYERS_HOUSE_2F       0x40F7
 #define VAR_UNUSED_0x40F8                                0x40F8 // Unused Var
 #define VAR_UNUSED_0x40F9                                0x40F9 // Unused Var
 #define VAR_UNUSED_0x40FA                                0x40FA // Unused Var
@@ -273,6 +273,67 @@
 #define VAR_UNUSED_0x40FD                                0x40FD // Unused Var
 #define VAR_UNUSED_0x40FE                                0x40FE // Unused Var
 #define VAR_UNUSED_0x40FF                                0x40FF // Unused Var
+
+#define VAR_MAP_SCENE_PALLET_TOWN_OAK                                          0x4050
+#define VAR_MAP_SCENE_VIRIDIAN_CITY_OLD_MAN                                    0x4051
+#define VAR_MAP_SCENE_CERULEAN_CITY_RIVAL                                      0x4052
+#define VAR_VERMILION_CITY_TICKET_CHECK_TRIGGER                                0x4053
+#define VAR_MAP_SCENE_ROUTE22                                                  0x4054
+#define VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB                           0x4055
+#define VAR_MAP_SCENE_PALLET_TOWN_PLAYERS_HOUSE_2F                             0x4056
+#define VAR_MAP_SCENE_VIRIDIAN_CITY_MART                                       0x4057
+#define VAR_MAP_SCENE_PALLET_TOWN_RIVALS_HOUSE                                 0x4058
+#define VAR_MAP_SCENE_POKEMON_TOWER_6F                                         0x4059
+#define VAR_MAP_SCENE_VIRIDIAN_CITY_GYM_DOOR                                   0x405A
+#define VAR_MAP_SCENE_S_S_ANNE_2F_CORRIDOR                                     0x405B
+#define VAR_MAP_SCENE_SILPH_CO_7F                                              0x405C
+#define VAR_MAP_SCENE_POKEMON_TOWER_2F                                         0x405D
+#define VAR_MAP_SCENE_ROUTE16                                                  0x405E
+#define VAR_MAP_SCENE_ROUTE23                                                  0x405F
+#define VAR_MAP_SCENE_SILPH_CO_11F                                             0x4060
+#define VAR_MAP_SCENE_PEWTER_CITY_MUSEUM_1F                                    0x4061
+#define VAR_MAP_SCENE_ROUTE5_ROUTE6_ROUTE7_ROUTE8_GATES                        0x4062
+#define VAR_MAP_SCENE_SEAFOAM_ISLANDS_B4F                                      0x4063
+#define VAR_MAP_SCENE_VICTORY_ROAD_1F                                          0x4064
+#define VAR_MAP_SCENE_VICTORY_ROAD_2F_BOULDER1                                 0x4065
+#define VAR_MAP_SCENE_VICTORY_ROAD_2F_BOULDER2                                 0x4066
+#define VAR_MAP_SCENE_VICTORY_ROAD_3F                                          0x4067
+#define VAR_MAP_SCENE_POKEMON_LEAGUE                                           0x4068
+#define VAR_MAP_SCENE_CINNABAR_ISLAND_POKEMON_LAB_EXPERIMENT_ROOM_WHICH_FOSSIL 0x4069
+#define VAR_MAP_SCENE_CINNABAR_ISLAND_POKEMON_LAB_EXPERIMENT_ROOM_REVIVE_STATE 0x406A
+#define VAR_MAP_SCENE_ROUTE24                                                  0x406B
+#define VAR_MAP_SCENE_PEWTER_CITY                                              0x406C
+#define VAR_0x406D                                                             0x406D
+#define VAR_MAP_SCENE_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE                        0x406E
+#define VAR_CABLE_CLUB_STATE                                                   0x406F
+#define VAR_MAP_SCENE_PALLET_TOWN_SIGN_LADY                                    0x4070
+#define VAR_MAP_SCENE_CINNABAR_ISLAND                                          0x4071
+#define VAR_0x4072                                                             0x4072
+#define VAR_MAP_SCENE_SAFFRON_CITY_POKEMON_TRAINER_FAN_CLUB                    0x4073
+#define VAR_MAP_SCENE_SEVEN_ISLAND_HOUSE_ROOM1                                 0x4074
+#define VAR_MAP_SCENE_ONE_ISLAND_HARBOR                                        0x4075
+#define VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F                             0x4076
+#define VAR_0x4077                                                             0x4077
+#define VAR_MAP_SCENE_TWO_ISLAND                                               0x4078
+#define VAR_MAP_SCENE_TWO_ISLAND_JOYFUL_GAME_CORNER                            0x4079
+#define VAR_0x407A                                                             0x407A
+#define VAR_MAP_SCENE_THREE_ISLAND                                             0x407B
+#define VAR_MAP_SCENE_POKEMON_CENTER_TEALA                                     0x407C
+#define VAR_MAP_SCENE_CERULEAN_CITY_ROCKET                                     0x407D
+#define VAR_MAP_SCENE_VERMILION_CITY                                           0x407E
+#define VAR_MAP_SCENE_MT_EMBER_EXTERIOR                                        0x407F
+#define VAR_MAP_SCENE_ICEFALL_CAVE_BACK                                        0x4080
+#define VAR_MAP_SCENE_SAFFRON_CITY_DOJO                                        0x4081
+#define VAR_MAP_SCENE_TRAINER_TOWER                                            0x4082
+#define VAR_MAP_SCENE_FIVE_ISLAND_LOST_CAVE_ROOM10                             0x4083
+#define VAR_MAP_SCENE_FIVE_ISLAND_RESORT_GORGEOUS                              0x4084
+#define VAR_MAP_SCENE_INDIGO_PLATEAU_EXTERIOR                                  0x4085
+#define VAR_MAP_SCENE_FOUR_ISLAND                                              0x4086
+#define VAR_0x4087                                                             0x4087
+#define VAR_MAP_SCENE_ROCKET_WAREHOUSE                                         0x4088
+#define VAR_MAP_SCENE_SIX_ISLAND_POKEMON_CENTER_1F                             0x4089
+#define VAR_MAP_SCENE_CINNABAR_ISLAND_2                                        0x408A
+#define VAR_MAP_SCENE_MT_MOON_B2F                                              0x408B
 
 #define VARS_END                                         0x40FF
 #define VARS_COUNT                                       (VARS_END - VARS_START + 1)
