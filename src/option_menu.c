@@ -40,10 +40,21 @@ enum
 {
     MENUITEM_WILDMUSIC = 0,
     MENUITEM_TRAINERMUSIC,
+    MENUITEM_LEADERMUSIC,
     MENUITEM_E4MUSIC,
     MENUITEM_CHAMPIONMUSIC,
     MENUITEM_CANCEL_PG_2,
     MENUITEM_COUNT_PG_2,
+};
+
+enum
+{
+    MENUITEM_FASTINTRO = 0,
+    MENUITEM_FASTHPDRAIN,
+    MENUITEM_FASTEXPGROW,
+    MENUITEM_WILDSCALING,
+    MENUITEM_CANCEL_PG_3,
+    MENUITEM_COUNT_PG_3,
 };
 
 // Window Ids
@@ -57,6 +68,7 @@ enum
 {
     OPTIONS_PAGE_1,
     OPTIONS_PAGE_2,
+    OPTIONS_PAGE_3,
     OPTIONS_PAGE_COUNT,
 };
 
@@ -68,7 +80,7 @@ struct OptionMenu
     /*0x10*/ u8 loadState;
     /*0x11*/ u8 state;
     /*0x12*/ u8 loadPaletteState;
-    /*0x13*/ u8 page:1;
+    /*0x13*/ u8 page:2;
 };
 
 static EWRAM_DATA struct OptionMenu *sOptionMenuPtr = NULL;
@@ -159,12 +171,19 @@ static const struct BgTemplate sOptionMenuBgTemplates[] =
 
 static const u16 sOptionMenuPalette[] = INCBIN_U16("graphics/misc/option_menu.gbapal");
 static const u16 sOptionMenuItemCountsPg1[MENUITEM_COUNT_PG_1] = {3, 2, 2, 2, 2, 10, 0};
-static const u16 sOptionMenuItemCountsPg2[MENUITEM_COUNT_PG_2] = {2, 0};
+static const u16 sOptionMenuItemCountsPg2[MENUITEM_COUNT_PG_2] = {2, 2, 2, 2, 2, 0};
+static const u16 sOptionMenuItemCountsPg3[MENUITEM_COUNT_PG_3] = {2, 2, 2, 2, 0};
 
 static const u8 sText_WildMusic[] = _("Wild Music");
 static const u8 sText_TrainerMusic[] = _("Trainer Music");
+static const u8 sText_LeaderMusic[] = _("Leader Music");
 static const u8 sText_E4Music[] = _("Elite 4 Music");
 static const u8 sText_ChampionMusic[] = _("Champion Music");
+
+static const u8 sText_FastIntro[] = _("Fast Intro");
+static const u8 sText_FastHP[] = _("Fast HP Bars");
+static const u8 sText_FastEXP[] = _("Fast EXP Bars");
+static const u8 sText_ScaleWild[] = _("Scale Wild");
 
 static const u8 *const sOptionMenuItemsNamesPg1[MENUITEM_COUNT_PG_1] =
 {
@@ -177,13 +196,23 @@ static const u8 *const sOptionMenuItemsNamesPg1[MENUITEM_COUNT_PG_1] =
     [MENUITEM_CANCEL_PG_1] = gText_OptionMenuCancel,
 };
 
-static const u8 *const sOptionMenuItemsNamesPg2[MENUITEM_COUNT_PG_1] =
+static const u8 *const sOptionMenuItemsNamesPg2[MENUITEM_COUNT_PG_2] =
 {
     [MENUITEM_WILDMUSIC]  = sText_WildMusic,
     [MENUITEM_TRAINERMUSIC]  = sText_TrainerMusic,
+    [MENUITEM_LEADERMUSIC]  = sText_LeaderMusic,
     [MENUITEM_E4MUSIC]  = sText_E4Music,
     [MENUITEM_CHAMPIONMUSIC]  = sText_ChampionMusic,
     [MENUITEM_CANCEL_PG_2] = gText_OptionMenuCancel,   
+};
+
+static const u8 *const sOptionMenuItemsNamesPg3[MENUITEM_COUNT_PG_3] =
+{
+    [MENUITEM_FASTINTRO] = sText_FastIntro,
+    [MENUITEM_FASTHPDRAIN] = sText_FastHP,
+    [MENUITEM_FASTEXPGROW] = sText_FastEXP,
+    [MENUITEM_WILDSCALING] = sText_ScaleWild,
+    [MENUITEM_CANCEL_PG_3] = gText_OptionMenuCancel,  
 };
  
 
@@ -227,6 +256,12 @@ static const u8 *const sWildMusicOptions[] =
 	sText_Emerald
 };
 
+static const u8 *const sOffOnOptions[] =
+{
+    gText_BattleSceneOff, 
+    gText_BattleSceneOn
+};
+
 static const u8 sOptionMenuPickSwitchCancelTextColor[] = {TEXT_DYNAMIC_COLOR_6, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY};
 static const u8 sOptionMenuTextColor[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_LIGHT_RED, TEXT_COLOR_RED};
 
@@ -237,10 +272,17 @@ static const u8 sText_SoundDesc[] = _("Change how sound is outputted.");
 static const u8 sText_ButtonModeDesc[] = _("Change what the {L_BUTTON} & {R_BUTTON} buttons do.");
 static const u8 sText_FrameDesc[] = _("Change the message box frame.");
 static const u8 sText_CancelDesc[] = _("Exit options menu.");
+
 static const u8 sText_WildMusicDesc[] = _("Change music that plays in wild battles.");
+static const u8 sText_LeaderMusicDesc[] = _("Change music that plays in leader battles.");
 static const u8 sText_TrainerMusicDesc[] = _("Change music that plays in trainer battles.");
 static const u8 sText_E4MusicDesc[] = _("Change music that plays in Elite 4 battles.");
-static const u8 sText_ChampionMusicDesc[] = _("Change music that plays in the champion battle.");
+static const u8 sText_ChampionMusicDesc[] = _("Change music that plays in champion battles.");
+
+static const u8 sText_FastIntroDesc[] = _("Battle text plays while mon animation plays.");
+static const u8 sText_FastHPDesc[] = _("HP bars move faster.");
+static const u8 sText_FastEXPDesc[] = _("EXP bars move faster.");
+static const u8 sText_ScaleWildDesc[] = _("Wild mon levels get scaled to your levels.");
 
 static const u8 *const sOptionMenuItemsDescPg1[MENUITEM_COUNT_PG_1] =
 {
@@ -256,10 +298,20 @@ static const u8 *const sOptionMenuItemsDescPg1[MENUITEM_COUNT_PG_1] =
 static const u8 *const sOptionMenuItemsDescPg2[MENUITEM_COUNT_PG_2] =
 {
     [MENUITEM_WILDMUSIC]  = sText_WildMusicDesc,
-    [MENUITEM_TRAINERaMUSIC]  = sText_TrainerMusicDesc,
+    [MENUITEM_TRAINERMUSIC]  = sText_TrainerMusicDesc,
+    [MENUITEM_LEADERMUSIC]  = sText_LeaderMusicDesc,
     [MENUITEM_E4MUSIC]  = sText_E4MusicDesc,
     [MENUITEM_CHAMPIONMUSIC]  = sText_ChampionMusicDesc,
     [MENUITEM_CANCEL_PG_2] = sText_CancelDesc,
+};
+
+static const u8 *const sOptionMenuItemsDescPg3[MENUITEM_COUNT_PG_3] =
+{
+    [MENUITEM_FASTINTRO] = sText_FastIntroDesc,
+    [MENUITEM_FASTHPDRAIN] = sText_FastHPDesc,
+    [MENUITEM_FASTEXPGROW] = sText_FastEXPDesc,
+    [MENUITEM_WILDSCALING] = sText_ScaleWildDesc, 
+    [MENUITEM_CANCEL_PG_3] = sText_CancelDesc,
 };
 
 // Functions
@@ -296,6 +348,14 @@ void CB2_OptionsMenuFromStartMenu(void)
     sOptionMenuPtr->option[OPTIONS_PAGE_1][MENUITEM_BUTTONMODE] = gSaveBlock2Ptr->optionsButtonMode;
     sOptionMenuPtr->option[OPTIONS_PAGE_1][MENUITEM_FRAMETYPE] = gSaveBlock2Ptr->optionsWindowFrameType;
     sOptionMenuPtr->option[OPTIONS_PAGE_2][MENUITEM_WILDMUSIC] = gSaveBlock2Ptr->optionsWildMusic;
+    sOptionMenuPtr->option[OPTIONS_PAGE_2][MENUITEM_TRAINERMUSIC] = gSaveBlock2Ptr->optionsTrainerMusic;
+    sOptionMenuPtr->option[OPTIONS_PAGE_2][MENUITEM_LEADERMUSIC] = gSaveBlock2Ptr->optionsLeaderMusic;
+    sOptionMenuPtr->option[OPTIONS_PAGE_2][MENUITEM_E4MUSIC] = gSaveBlock2Ptr->optionsE4Music;
+    sOptionMenuPtr->option[OPTIONS_PAGE_2][MENUITEM_CHAMPIONMUSIC] = gSaveBlock2Ptr->optionsChampionMusic;
+    sOptionMenuPtr->option[OPTIONS_PAGE_3][MENUITEM_FASTINTRO] = gSaveBlock2Ptr->optionsFastIntro;
+    sOptionMenuPtr->option[OPTIONS_PAGE_3][MENUITEM_FASTHPDRAIN] = gSaveBlock2Ptr->optionsFastHP;
+    sOptionMenuPtr->option[OPTIONS_PAGE_3][MENUITEM_FASTEXPGROW] = gSaveBlock2Ptr->optionsFastEXP;
+    sOptionMenuPtr->option[OPTIONS_PAGE_3][MENUITEM_WILDSCALING] = gSaveBlock2Ptr->optionsWildScale;
     sOptionMenuPtr->page = OPTIONS_PAGE_1;
     
     for (i = 0; i < MENUITEM_COUNT_PG_1 - 1; i++)
@@ -307,6 +367,11 @@ void CB2_OptionsMenuFromStartMenu(void)
     {
         if (sOptionMenuPtr->option[OPTIONS_PAGE_2][i] > (sOptionMenuItemCountsPg2[i]) - 1)
             sOptionMenuPtr->option[OPTIONS_PAGE_2][i] = 0;
+    }
+    for (i = 0; i < MENUITEM_COUNT_PG_3 - 1; i++)
+    {
+        if (sOptionMenuPtr->option[OPTIONS_PAGE_3][i] > (sOptionMenuItemCountsPg3[i]) - 1)
+            sOptionMenuPtr->option[OPTIONS_PAGE_3][i] = 0;
     }
     SetMainCallback2(CB2_OptionMenu);
 }
@@ -402,12 +467,29 @@ static void InitOptionMenuBg(void)
     ShowBg(2);
 };
 
+static u8 OptionMenu_GetPage(void)
+{
+    return sOptionMenuPtr->page;
+}
+
+static const u8 sText_General[] = _("General");
+static const u8 sText_Music[] = _("Music");
+static const u8 sText_Battle[] = _("Battle");
+
+static const u8 *const sOptionMenuHeaderNames[OPTIONS_PAGE_COUNT] =
+{
+    sText_General,
+    sText_Music,
+    sText_Battle,
+};
+
 static void OptionMenu_PickSwitchCancel(void)
 {
     s32 x;
     x = 0xE4 - GetStringWidth(FONT_SMALL, gText_PickSwitchCancel, 0);
     FillWindowPixelBuffer(2, PIXEL_FILL(15)); 
     AddTextPrinterParameterized3(2, FONT_SMALL, x, 0, sOptionMenuPickSwitchCancelTextColor, 0, gText_PickSwitchCancel);
+    AddTextPrinterParameterized3(2, FONT_SMALL, 0x05, 0, sOptionMenuPickSwitchCancelTextColor, 0, sOptionMenuHeaderNames[OptionMenu_GetPage()]);
     PutWindowTilemap(2);
     CopyWindowToVram(2, COPYWIN_FULL);
 }
@@ -443,11 +525,6 @@ static bool8 LoadOptionMenuPalette(void)
     }
     sOptionMenuPtr->loadPaletteState++;
     return FALSE;
-}
-
-static u8 OptionMenu_GetPage(void)
-{
-    return sOptionMenuPtr->page;
 }
 
 static void Task_OptionMenu(u8 taskId)
@@ -497,8 +574,13 @@ static void Task_OptionMenu(u8 taskId)
                     for(i = MENUITEM_WILDMUSIC; i < MENUITEM_COUNT_PG_2; i++)
                         BufferOptionMenuString(OPTIONS_PAGE_2, i);
                     break;
+                case OPTIONS_PAGE_3:
+                    for(i = MENUITEM_FASTINTRO; i < MENUITEM_COUNT_PG_3; i++)
+                        BufferOptionMenuString(OPTIONS_PAGE_3, i);
+                    break;
             }
             UpdateSettingSelectionDisplay(sOptionMenuPtr->cursorPos);
+            OptionMenu_PickSwitchCancel();
             break;
         }
         break;
@@ -523,6 +605,8 @@ static u16 GetOptionsPageCount(void)
         return sOptionMenuItemCountsPg1[sOptionMenuPtr->cursorPos];
     else if (OptionMenu_GetPage() == OPTIONS_PAGE_2)
         return sOptionMenuItemCountsPg2[sOptionMenuPtr->cursorPos];
+    else if (OptionMenu_GetPage() == OPTIONS_PAGE_3)
+        return sOptionMenuItemCountsPg3[sOptionMenuPtr->cursorPos];
     return 0;
 }
 
@@ -561,6 +645,8 @@ static u8 OptionMenu_ProcessInput(void)
             sOptionMenuPtr->cursorPos = MENUITEM_CANCEL_PG_1;
         else if (sOptionMenuPtr->cursorPos == MENUITEM_WILDMUSIC && OptionMenu_GetPage() == OPTIONS_PAGE_2)
             sOptionMenuPtr->cursorPos = MENUITEM_CANCEL_PG_2;
+        else if (sOptionMenuPtr->cursorPos == MENUITEM_FASTINTRO && OptionMenu_GetPage() == OPTIONS_PAGE_3)
+            sOptionMenuPtr->cursorPos = MENUITEM_CANCEL_PG_3;
         else
             sOptionMenuPtr->cursorPos = sOptionMenuPtr->cursorPos - 1;
         PrintOptionMenuHeader();
@@ -572,6 +658,8 @@ static u8 OptionMenu_ProcessInput(void)
             sOptionMenuPtr->cursorPos = MENUITEM_TEXTSPEED;
         else if (sOptionMenuPtr->cursorPos == MENUITEM_CANCEL_PG_2 && OptionMenu_GetPage() == OPTIONS_PAGE_2)
             sOptionMenuPtr->cursorPos = MENUITEM_WILDMUSIC;
+        else if (sOptionMenuPtr->cursorPos == MENUITEM_CANCEL_PG_3 && OptionMenu_GetPage() == OPTIONS_PAGE_3)
+            sOptionMenuPtr->cursorPos = MENUITEM_FASTINTRO;
         else
             sOptionMenuPtr->cursorPos = sOptionMenuPtr->cursorPos + 1;
         PrintOptionMenuHeader();
@@ -592,11 +680,13 @@ static u8 OptionMenu_ProcessInput(void)
     }
     else if (JOY_REPEAT(R_BUTTON) || JOY_NEW(R_BUTTON))
     {
-        if (OptionMenu_GetPage() != OPTIONS_PAGE_2)
+        if (OptionMenu_GetPage() != OPTIONS_PAGE_3)
         {
             sOptionMenuPtr->page++;
-            if (sOptionMenuPtr->cursorPos >= MENUITEM_COUNT_PG_2)
+            if (sOptionMenuPtr->cursorPos >= MENUITEM_COUNT_PG_2 && OptionMenu_GetPage() == OPTIONS_PAGE_2)
                 sOptionMenuPtr->cursorPos = MENUITEM_COUNT_PG_2 - 1;
+            else if (sOptionMenuPtr->cursorPos >= MENUITEM_COUNT_PG_3 && OptionMenu_GetPage() == OPTIONS_PAGE_3)
+                sOptionMenuPtr->cursorPos = MENUITEM_COUNT_PG_3 - 1;
         }
         LoadOptionMenuItemNames();
         PrintOptionMenuHeader();
@@ -654,12 +744,13 @@ static void BufferOptionMenuString(u8 page, u8 selection)
             break;
         }
     }
-    else
+    else if (page == OPTIONS_PAGE_2)
     {
         switch (selection)
         {
         case MENUITEM_WILDMUSIC:
         case MENUITEM_TRAINERMUSIC:
+        case MENUITEM_LEADERMUSIC:
         case MENUITEM_E4MUSIC:
         case MENUITEM_CHAMPIONMUSIC:
             AddTextPrinterParameterized3(1, FONT_SHORT, x, y, dst, -1, sWildMusicOptions[sOptionMenuPtr->option[page][selection]]);
@@ -667,6 +758,20 @@ static void BufferOptionMenuString(u8 page, u8 selection)
         default:
             break;
         }
+    }
+    else
+    {
+        switch (selection)
+        {
+        case MENUITEM_FASTINTRO:
+        case MENUITEM_FASTHPDRAIN:
+        case MENUITEM_FASTEXPGROW:
+        case MENUITEM_WILDSCALING:
+            AddTextPrinterParameterized3(1, FONT_SHORT, x, y, dst, -1, sOffOnOptions[sOptionMenuPtr->option[page][selection]]);
+            break;
+        default:
+            break;
+        } 
     }
     PutWindowTilemap(1);
     CopyWindowToVram(1, COPYWIN_FULL);
@@ -684,6 +789,14 @@ static void CloseAndSaveOptionMenu(u8 taskId)
     gSaveBlock2Ptr->optionsButtonMode = sOptionMenuPtr->option[OPTIONS_PAGE_1][MENUITEM_BUTTONMODE];
     gSaveBlock2Ptr->optionsWindowFrameType = sOptionMenuPtr->option[OPTIONS_PAGE_1][MENUITEM_FRAMETYPE];
     gSaveBlock2Ptr->optionsWildMusic = sOptionMenuPtr->option[OPTIONS_PAGE_2][MENUITEM_WILDMUSIC];
+    gSaveBlock2Ptr->optionsTrainerMusic = sOptionMenuPtr->option[OPTIONS_PAGE_2][MENUITEM_TRAINERMUSIC];
+    gSaveBlock2Ptr->optionsLeaderMusic = sOptionMenuPtr->option[OPTIONS_PAGE_2][MENUITEM_LEADERMUSIC];
+    gSaveBlock2Ptr->optionsE4Music = sOptionMenuPtr->option[OPTIONS_PAGE_2][MENUITEM_E4MUSIC];
+    gSaveBlock2Ptr->optionsChampionMusic = sOptionMenuPtr->option[OPTIONS_PAGE_2][MENUITEM_CHAMPIONMUSIC];
+    gSaveBlock2Ptr->optionsFastIntro = sOptionMenuPtr->option[OPTIONS_PAGE_3][MENUITEM_FASTINTRO]; 
+    gSaveBlock2Ptr->optionsFastHP = sOptionMenuPtr->option[OPTIONS_PAGE_3][MENUITEM_FASTHPDRAIN]; 
+    gSaveBlock2Ptr->optionsFastEXP = sOptionMenuPtr->option[OPTIONS_PAGE_3][MENUITEM_FASTEXPGROW];
+    gSaveBlock2Ptr->optionsWildScale = sOptionMenuPtr->option[OPTIONS_PAGE_3][MENUITEM_WILDSCALING];
     SetPokemonCryStereo(gSaveBlock2Ptr->optionsSound);
     FREE_AND_SET_NULL(sOptionMenuPtr);
     DestroyTask(taskId);
@@ -694,8 +807,10 @@ static void PrintOptionMenuHeader(void)
     FillWindowPixelBuffer(0, PIXEL_FILL(1));
     if (OptionMenu_GetPage() == OPTIONS_PAGE_1)
         AddTextPrinterParameterized(WIN_TEXT_OPTION, FONT_SHORT_NARROW, sOptionMenuItemsDescPg1[sOptionMenuPtr->cursorPos], 8, 1, TEXT_SKIP_DRAW, NULL);
-    if (OptionMenu_GetPage() == OPTIONS_PAGE_2)
+    else if (OptionMenu_GetPage() == OPTIONS_PAGE_2)
         AddTextPrinterParameterized(WIN_TEXT_OPTION, FONT_SHORT_NARROW, sOptionMenuItemsDescPg2[sOptionMenuPtr->cursorPos], 8, 1, TEXT_SKIP_DRAW, NULL);
+    else if (OptionMenu_GetPage() == OPTIONS_PAGE_3)
+        AddTextPrinterParameterized(WIN_TEXT_OPTION, FONT_SHORT_NARROW, sOptionMenuItemsDescPg3[sOptionMenuPtr->cursorPos], 8, 1, TEXT_SKIP_DRAW, NULL);
     PutWindowTilemap(0);
     CopyWindowToVram(0, COPYWIN_FULL);
 }
@@ -741,6 +856,12 @@ static void LoadOptionMenuItemNames(void)
             for (i = 0; i < MENUITEM_COUNT_PG_2; i++)
             {
                 AddTextPrinterParameterized(WIN_OPTIONS, FONT_SHORT, sOptionMenuItemsNamesPg2[i], 8, (u8)((i * (GetFontAttribute(FONT_SHORT, FONTATTR_MAX_LETTER_HEIGHT))) + 2) - i, TEXT_SKIP_DRAW, NULL);    
+            }
+            break;
+        case OPTIONS_PAGE_3:
+            for (i = 0; i < MENUITEM_COUNT_PG_3; i++)
+            {
+                AddTextPrinterParameterized(WIN_OPTIONS, FONT_SHORT, sOptionMenuItemsNamesPg3[i], 8, (u8)((i * (GetFontAttribute(FONT_SHORT, FONTATTR_MAX_LETTER_HEIGHT))) + 2) - i, TEXT_SKIP_DRAW, NULL);    
             }
             break;
     }

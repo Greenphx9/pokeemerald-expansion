@@ -96,7 +96,15 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsBattleStyle = OPTIONS_BATTLE_STYLE_SET;
     gSaveBlock2Ptr->optionsBattleSceneOff = FALSE;
     gSaveBlock2Ptr->regionMapZoom = FALSE;
-    gSaveBlock2Ptr->optionsWildMusic = OPTIONS_WILD_MUSIC_FRLG;
+    gSaveBlock2Ptr->optionsWildMusic = OPTIONS_MUSIC_FRLG;
+    gSaveBlock2Ptr->optionsTrainerMusic = OPTIONS_MUSIC_FRLG;
+    gSaveBlock2Ptr->optionsLeaderMusic = OPTIONS_MUSIC_FRLG;
+    gSaveBlock2Ptr->optionsE4Music = OPTIONS_MUSIC_FRLG;
+    gSaveBlock2Ptr->optionsChampionMusic = OPTIONS_MUSIC_FRLG;
+    gSaveBlock2Ptr->optionsFastIntro = 1;
+    gSaveBlock2Ptr->optionsFastHP = 1;
+    gSaveBlock2Ptr->optionsFastEXP = 1;
+    gSaveBlock2Ptr->optionsWildScale = 1;
 }
 
 static void ClearPokedexFlags(void)

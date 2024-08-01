@@ -533,6 +533,14 @@ struct SaveBlock2
     /*0x624*/ u16 contestLinkResults[CONTEST_CATEGORIES_COUNT][CONTESTANT_COUNT];
     /*0x64C*/ struct BattleFrontier frontier;
     /*0x???*/ u16 optionsWildMusic:1;
+              u16 optionsTrainerMusic:1;
+              u16 optionsLeaderMusic:1;
+              u16 optionsE4Music:1;
+              u16 optionsChampionMusic:1;
+              u16 optionsFastIntro:1;
+              u16 optionsFastHP:1;
+              u16 optionsFastEXP:1;
+              u16 optionsWildScale:1;
 }; // sizeof=0xF2C
 
 extern struct SaveBlock2 *gSaveBlock2Ptr;
