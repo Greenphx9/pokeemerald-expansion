@@ -5756,6 +5756,8 @@ u16 GetBattleBGM(void)
         }
     }
     else
+        if (gSaveBlock2Ptr->optionsWildMusic == OPTIONS_WILD_MUSIC_EMERALD)
+            return MUS_VS_WILD;
         return MUS_RG_VS_WILD;
 }
 
