@@ -48,6 +48,16 @@ static const u16 sTextWindowFrame18_Pal[] = INCBIN_U16("graphics/text_window/18.
 static const u16 sTextWindowFrame19_Pal[] = INCBIN_U16("graphics/text_window/19.gbapal");
 static const u16 sTextWindowFrame20_Pal[] = INCBIN_U16("graphics/text_window/20.gbapal");
 
+const u16 gStdTextWindow_KantoGfx[] = INCBIN_U16("graphics/text_window/std.4bpp");
+
+const u16 gTextWindowPalettesKanto[][16] = {
+    INCBIN_U16("graphics/text_window/stdpal_0.gbapal"),
+    INCBIN_U16("graphics/text_window/stdpal_1.gbapal"),
+    INCBIN_U16("graphics/text_window/stdpal_2.gbapal"),
+    INCBIN_U16("graphics/text_window/stdpal_3.gbapal"),
+    INCBIN_U16("graphics/text_window/stdpal_4.gbapal")
+};
+
 static const u16 sTextWindowPalettes[][16] =
 {
     INCBIN_U16("graphics/text_window/message_box.gbapal"),
@@ -94,6 +104,12 @@ void LoadMessageBoxGfx(u8 windowId, u16 destOffset, u8 palOffset)
 {
     LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), gMessageBox_Gfx, 0x1C0, destOffset);
     LoadPalette(GetOverworldTextboxPalettePtr(), palOffset, PLTT_SIZE_4BPP);
+}
+
+void LoadMessageBoxGfx_Kanto(u8 windowId, u16 destOffset, u8 palOffset)
+{
+    LoadBgTiles(windowId, gStdTextWindow_KantoGfx, 0x120, destOffset);
+    LoadPalette(GetTextWindowPaletteKanto(3), palOffset, PLTT_SIZE_4BPP);
 }
 
 void LoadUserWindowBorderGfx_(u8 windowId, u16 destOffset, u8 palOffset)
@@ -194,4 +210,29 @@ void LoadUserWindowBorderGfxOnBg(u8 bg, u16 destOffset, u8 palOffset)
 {
     LoadBgTiles(bg, sWindowFrames[gSaveBlock2Ptr->optionsWindowFrameType].tiles, 0x120, destOffset);
     LoadPalette(GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType)->pal, palOffset, PLTT_SIZE_4BPP);
+}
+
+const u16 *GetTextWindowPaletteKanto(u8 id)
+{
+    switch (id)
+    {
+    case 0:
+        id = 0;
+        break;
+    case 1:
+        id = 0x10;
+        break;
+    case 2:
+        id = 0x20;
+        break;
+    case 3:
+        id = 0x30;
+        break;
+    case 4:
+    default:
+        id = 0x40;
+        break;
+    }
+
+    return (const u16 *)(gTextWindowPalettesKanto) + id;
 }

@@ -1069,7 +1069,7 @@ static void Task_HandleMainMenuAPressed(u8 taskId)
                 break;
             case ACTION_OPTION:
                 gMain.savedCallback = CB2_ReinitMainMenu;
-                SetMainCallback2(CB2_InitOptionMenu);
+                SetMainCallback2(CB2_OptionsMenuFromStartMenu);
                 DestroyTask(taskId);
                 break;
             case ACTION_MYSTERY_GIFT:

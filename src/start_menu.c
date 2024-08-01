@@ -762,7 +762,7 @@ static bool8 StartMenuOptionCallback(void)
         PlayRainStoppingSoundEffect();
         RemoveExtraStartMenuWindows();
         CleanupOverworldWindowsAndTilemaps();
-        SetMainCallback2(CB2_InitOptionMenu); // Display option menu
+        SetMainCallback2(CB2_OptionsMenuFromStartMenu); // Display option menu
         gMain.savedCallback = CB2_ReturnToFieldWithOpenMenu;
 
         return TRUE;
