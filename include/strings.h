@@ -3045,8 +3045,4 @@ extern const u8 gText_BasePointsResetToZero[];
 extern const u8 gText_Fertilize[];
 extern const u8 gText_PlantBerry[];
 
-// Map name pop-up
-extern const u8 gText_AM[];
-extern const u8 gText_PM[];
-
 #endif // GUARD_STRINGS_H
