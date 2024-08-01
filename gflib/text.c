@@ -77,10 +77,8 @@ static const u8 sFontHalfRowOffsets[] =
     0x00, 0x01, 0x02, 0x00, 0x03, 0x04, 0x05, 0x03, 0x06, 0x07, 0x08, 0x06, 0x00, 0x01, 0x02, 0x00
 };
 
-static const u8 sDownArrowTiles[] = INCBIN_U8("graphics/fonts/down_arrow.4bpp");
-static const u8 sDarkDownArrowTiles[] = INCBIN_U8("graphics/fonts/down_arrow_alt.4bpp");
-static const u8 sUnusedFRLGBlankedDownArrow[] = INCBIN_U8("graphics/fonts/unused_frlg_blanked_down_arrow.4bpp");
-static const u8 sUnusedFRLGDownArrow[] = INCBIN_U8("graphics/fonts/unused_frlg_down_arrow.4bpp");
+static const u8 sDownArrowTiles[]         = INCBIN_U8("graphics/fonts/down_arrow.4bpp");
+static const u8 sDarkDownArrowTiles[]     = INCBIN_U8("graphics/fonts/down_arrow_RS.4bpp");
 static const u8 sDownArrowYCoords[]           = { 0, 16, 32, 16 };
 static const u8 sWindowVerticalScrollSpeeds[] = {
     [OPTIONS_TEXT_SPEED_SLOW] = 1,
@@ -890,10 +888,10 @@ void TextPrinterDrawDownArrow(struct TextPrinter *textPrinter)
             {
             case FALSE:
             default:
-                arrowTiles = sUnusedFRLGDownArrow;
+                arrowTiles = sDownArrowTiles;
                 break;
             case TRUE:
-                arrowTiles = sUnusedFRLGDownArrow;
+                arrowTiles = sDarkDownArrowTiles;
                 break;
             }
 
@@ -997,10 +995,10 @@ void DrawDownArrow(u8 windowId, u16 x, u16 y, u8 bgColor, bool32 drawArrow, u8 *
             {
             case FALSE:
             default:
-                arrowTiles = sUnusedFRLGDownArrow;
+                arrowTiles = sDownArrowTiles;
                 break;
             case TRUE:
-                arrowTiles = sUnusedFRLGDownArrow;
+                arrowTiles = sDarkDownArrowTiles;
                 break;
             }
 
