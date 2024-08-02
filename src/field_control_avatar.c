@@ -18,6 +18,7 @@
 #include "item_menu.h"
 #include "link.h"
 #include "match_call.h"
+#include "map_name_popup.h"
 #include "metatile_behavior.h"
 #include "overworld.h"
 #include "pokemon.h"
@@ -198,6 +199,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     {
         FlagSet(FLAG_OPENED_START_MENU);
         PlaySE(SE_WIN_OPEN);
+        HideMapNamePopUpWindow();
         HeatStartMenu_Init();
         return TRUE;
     }
