@@ -375,6 +375,10 @@
 #define OBJ_EVENT_PAL_TAG_RS_MAY                  0x1123
 #define OBJ_EVENT_PAL_TAG_DYNAMIC                 0x1124
 #define OBJ_EVENT_PAL_TAG_OAK                     0x1125
+#define OBJ_EVENT_PAL_TAG_NPC_BLUE                0x1126
+#define OBJ_EVENT_PAL_TAG_NPC_PINK                0x1127
+#define OBJ_EVENT_PAL_TAG_NPC_GREEN               0x1128
+#define OBJ_EVENT_PAL_TAG_NPC_WHITE               0x1129
 
 #if OW_FOLLOWERS_POKEBALLS
 // Vanilla
