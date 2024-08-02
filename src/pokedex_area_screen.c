@@ -30,9 +30,9 @@
 //   determined by the data for the corresponding MAPSEC in gRegionMapEntries.
 
 // Only maps in the following map groups have their encounters considered for the area screen
-#define MAP_GROUP_TOWNS_AND_ROUTES MAP_GROUP(PETALBURG_CITY)
-#define MAP_GROUP_DUNGEONS MAP_GROUP(METEOR_FALLS_1F_1R)
-#define MAP_GROUP_SPECIAL_AREA MAP_GROUP(SAFARI_ZONE_NORTHWEST)
+#define MAP_GROUP_TOWNS_AND_ROUTES MAP_GROUP(UNDEFINED)
+#define MAP_GROUP_DUNGEONS MAP_GROUP(UNDEFINED)
+#define MAP_GROUP_SPECIAL_AREA MAP_GROUP(UNDEFINED)
 
 #define AREA_SCREEN_WIDTH 32
 #define AREA_SCREEN_HEIGHT 20
@@ -124,7 +124,6 @@ static const u16 sMovingRegionMapSections[3] =
 
 static const u16 sFeebasData[][3] =
 {
-    {SPECIES_FEEBAS, MAP_GROUP(ROUTE119), MAP_NUM(ROUTE119)},
     {NUM_SPECIES}
 };
 
@@ -276,10 +275,10 @@ static void FindMapsWithMon(u16 species)
             case MAP_GROUP_TOWNS_AND_ROUTES:
                 SetAreaHasMon(sFeebasData[i][1], sFeebasData[i][2]);
                 break;
-            case MAP_GROUP_DUNGEONS:
-            case MAP_GROUP_SPECIAL_AREA:
-                SetSpecialMapHasMon(sFeebasData[i][1], sFeebasData[i][2]);
-                break;
+            //case MAP_GROUP_DUNGEONS:
+            //case MAP_GROUP_SPECIAL_AREA:
+            //    SetSpecialMapHasMon(sFeebasData[i][1], sFeebasData[i][2]);
+            //    break;
             }
         }
     }
@@ -294,10 +293,10 @@ static void FindMapsWithMon(u16 species)
             case MAP_GROUP_TOWNS_AND_ROUTES:
                 SetAreaHasMon(gWildMonHeaders[i].mapGroup, gWildMonHeaders[i].mapNum);
                 break;
-            case MAP_GROUP_DUNGEONS:
-            case MAP_GROUP_SPECIAL_AREA:
-                SetSpecialMapHasMon(gWildMonHeaders[i].mapGroup, gWildMonHeaders[i].mapNum);
-                break;
+            //case MAP_GROUP_DUNGEONS:
+            //case MAP_GROUP_SPECIAL_AREA:
+            //    SetSpecialMapHasMon(gWildMonHeaders[i].mapGroup, gWildMonHeaders[i].mapNum);
+            //    break;
             }
         }
     }

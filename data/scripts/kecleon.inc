@@ -50,18 +50,15 @@ Route119_EventScript_Kecleon2::
 EventScript_Kecleon::
 	checkitem ITEM_DEVON_SCOPE
 	goto_if_eq VAR_RESULT, TRUE, EventScript_AskUseDevonScope
-	msgbox Kecleon_Text_SomethingUnseeable, MSGBOX_DEFAULT
 	release
 	end
 
 EventScript_AskUseDevonScope::
-	msgbox Kecleon_Text_WantToUseDevonScope, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, YES, EventScript_BattleKecleon
 	release
 	end
 
 EventScript_BattleKecleon::
-	msgbox Kecleon_Text_UseDevonScopeMonAttacked, MSGBOX_DEFAULT
 	closemessage
 	applymovement VAR_LAST_TALKED, Common_Movement_FacePlayer
 	waitmovement 0
