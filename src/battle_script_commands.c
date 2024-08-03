@@ -1158,8 +1158,9 @@ static bool32 TryAegiFormChange(void)
 
 bool32 ProteanTryChangeType(u32 battler, u32 ability, u32 move, u32 moveType)
 {
-      if ((ability == ABILITY_PROTEAN || ability == ABILITY_LIBERO)
-         && !gDisableStructs[gBattlerAttacker].usedProteanLibero
+      if ((((ability == ABILITY_PROTEAN || ability == ABILITY_LIBERO)
+         && !gDisableStructs[gBattlerAttacker].usedProteanLibero)
+         || (ability == ABILITY_ORIGENE))
          && (gBattleMons[battler].type1 != moveType || gBattleMons[battler].type2 != moveType
              || (gBattleMons[battler].type3 != moveType && gBattleMons[battler].type3 != TYPE_MYSTERY))
          && move != MOVE_STRUGGLE
@@ -1254,7 +1255,7 @@ static void Cmd_attackcanceler(void)
     // Check Protean activation.
     if (ProteanTryChangeType(gBattlerAttacker, attackerAbility, gCurrentMove, moveType))
     {
-        if (B_PROTEAN_LIBERO == GEN_9)
+        if (B_PROTEAN_LIBERO == GEN_9 && attackerAbility != ABILITY_ORIGENE)
             gDisableStructs[gBattlerAttacker].usedProteanLibero = TRUE;
         PREPARE_TYPE_BUFFER(gBattleTextBuff1, moveType);
         gBattlerAbility = gBattlerAttacker;

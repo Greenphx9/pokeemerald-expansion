@@ -2607,4 +2607,9 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .cantBeSwapped = TRUE,
         .cantBeTraced = TRUE,
     },
+    [ABILITY_ORIGENE] =
+    {
+        .name = _("Origene"),
+        .description = COMPOUND_STRING("Changes type to move's."),
+    },
 };
