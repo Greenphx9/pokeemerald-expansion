@@ -2912,11 +2912,19 @@ u8 DoBattlerEndTurnEffects(void)
             gBattleStruct->turnEffectsTracker++;
             break;
         case ENDTURN_SLOW_START:
-            if (gDisableStructs[battler].slowStartTimer
-                && --gDisableStructs[battler].slowStartTimer == 0
+            if (gBattleStruct->slowStartTimer[GetBattlerSide(battler)]
+                && --gBattleStruct->slowStartTimer[GetBattlerSide(battler)] == 0
                 && ability == ABILITY_SLOW_START)
             {
                 BattleScriptExecute(BattleScript_SlowStartEnds);
+                effect++;
+            }
+            else if (gBattleStruct->slowStartTimer[GetBattlerSide(battler)]
+            && ability == ABILITY_SLOW_START)
+            {
+                ConvertIntToDecimalStringN(gStringVar2, gBattleStruct->slowStartTimer[GetBattlerSide(battler)], STR_CONV_MODE_LEFT_ALIGN, 1);
+                StringCopy(gBattleTextBuff1, gStringVar2);
+                BattleScriptExecute(BattleScript_SlowStartTicks);
                 effect++;
             }
             gBattleStruct->turnEffectsTracker++;
@@ -4400,10 +4408,17 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
         case ABILITY_SLOW_START:
             if (!gSpecialStatuses[battler].switchInAbilityDone)
             {
-                gDisableStructs[battler].slowStartTimer = 5;
-                gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_SLOWSTART;
+                if (!gBattleStruct->slowStartStarted[GetBattlerSide(battler)])
+                {
+                    gBattleStruct->slowStartTimer[GetBattlerSide(battler)] = 5;
+                    gBattleStruct->slowStartStarted[GetBattlerSide(battler)] = TRUE;
+                }      
+                if (gBattleStruct->slowStartTimer[GetBattlerSide(battler)] != 0)
+                {
+                    gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SWITCHIN_SLOWSTART;
+                    BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
+                }
                 gSpecialStatuses[battler].switchInAbilityDone = TRUE;
-                BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
                 effect++;
             }
             break;
@@ -9553,7 +9568,7 @@ static inline u32 CalcAttackStat(u32 move, u32 battlerAtk, u32 battlerDef, u32 m
             modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(2.0));
         break;
     case ABILITY_SLOW_START:
-        if (gDisableStructs[battlerAtk].slowStartTimer != 0)
+        if (gBattleStruct->slowStartTimer[GetBattlerSide(battlerAtk)] != 0)
             modifier = uq4_12_multiply_half_down(modifier, UQ_4_12(0.5));
         break;
     case ABILITY_SOLAR_POWER:

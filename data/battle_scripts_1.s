@@ -6725,6 +6725,14 @@ BattleScript_SlowStartEnds::
 	waitmessage B_WAIT_TIME_LONG
 	end2
 
+BattleScript_SlowStartTicks::
+	pause 5
+	copybyte gBattlerAbility, gBattlerAttacker
+	call BattleScript_AbilityPopUp
+	printstring STRINGID_SLOWSTARTTICKED
+	waitmessage B_WAIT_TIME_LONG
+	end2
+
 BattleScript_SelectingNotAllowedMoveGravity::
 	printselectionstring STRINGID_GRAVITYPREVENTSUSAGE
 	endselectionscript
