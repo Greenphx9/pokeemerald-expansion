@@ -12,6 +12,7 @@
 // gMapGroup_IndoorPalletTown
 #define MAP_PALLET_TOWN_PLAYERS_HOUSE_1F (0 | (1 << 8))
 #define MAP_PALLET_TOWN_PLAYERS_HOUSE_2F (1 | (1 << 8))
+#define MAP_PALLET_TOWN_RIVALS_HOUSE_1F  (2 | (1 << 8))
 
 #define MAP_GROUPS_COUNT 2
 

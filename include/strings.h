@@ -733,6 +733,12 @@ extern const u8 gText_BattlePyramid[];
 extern const u8 gText_RankingHall[];
 extern const u8 gText_ExchangeService[];
 
+extern const u8 gText_ItemsPocket_2[];
+extern const u8 gText_KeyItemsPocket_2[];
+extern const u8 gText_PokeBallsPocket_2[];
+extern const u8 gText_TmCase_2[];
+extern const u8 gText_BerryPouch_2[];
+
 // Battle Frontier Move Tutors
 extern const u8 gText_Softboiled16BP[];
 extern const u8 gText_SeismicToss24BP[];

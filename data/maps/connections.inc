@@ -6,3 +6,4 @@
 	.include "data/maps/Route1/connections.inc"
 	.include "data/maps/PalletTown_PlayersHouse_1F/connections.inc"
 	.include "data/maps/PalletTown_PlayersHouse_2F/connections.inc"
+	.include "data/maps/PalletTown_RivalsHouse_1F/connections.inc"

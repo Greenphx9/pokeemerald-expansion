@@ -9,6 +9,7 @@ gMapGroup_TownsAndRoutes::
 gMapGroup_IndoorPalletTown::
 	.4byte PalletTown_PlayersHouse_1F
 	.4byte PalletTown_PlayersHouse_2F
+	.4byte PalletTown_RivalsHouse_1F
 
 	.align 2
 gMapGroups::

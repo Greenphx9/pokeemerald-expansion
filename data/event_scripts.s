@@ -102,6 +102,8 @@ gStdScripts::
 	.4byte Std_RegisteredInMatchCall   @ STD_REGISTER_MATCH_CALL
 	.4byte Std_MsgboxGetPoints         @ MSGBOX_GETPOINTS
 	.4byte Std_MsgboxPokenav           @ MSGBOX_POKENAV
+	.4byte Std_PutItemAway             @ STD_PUT_ITEM_AWAY
+	.4byte Std_ReceivedItem            @ STD_RECEIVED_ITEM
 gStdScripts_End::
 
 	.include "data/scripts/shared_secret_base.inc"
@@ -549,6 +551,42 @@ EventScript_VsSeekerChargingDone::
 	releaseall
 	end
 
+Std_PutItemAway::
+	bufferitemnameplural STR_VAR_2, VAR_0x8000, VAR_0x8001
+	checkitemtype VAR_0x8000
+	call EventScript_BufferPutAwayPocketName
+	msgbox Text_PutItemAway
+	return
+
+EventScript_BufferPutAwayPocketName::
+	switch VAR_RESULT
+	case POCKET_ITEMS,       EventScript_BufferPutAwayPocketItems
+	case POCKET_KEY_ITEMS,   EventScript_BufferPutAwayPocketKeyItems
+	case POCKET_POKE_BALLS,  EventScript_BufferPutAwayPocketPokeBalls
+	@case POCKET_TM_CASE,     EventScript_BufferPutAwayPocketTMCase
+	@case POCKET_BERRY_POUCH, EventScript_BufferPutAwayPocketBerryPouch
+	end
+
+EventScript_BufferPutAwayPocketItems::
+	bufferstdstring STR_VAR_3, STDSTRING_ITEMS_POCKET
+	return
+
+EventScript_BufferPutAwayPocketKeyItems::
+	bufferstdstring STR_VAR_3, STDSTRING_KEY_ITEMS_POCKET
+	return
+
+EventScript_BufferPutAwayPocketPokeBalls::
+	bufferstdstring STR_VAR_3, STDSTRING_POKEBALLS_POCKET
+	return
+
+@EventScript_BufferPutAwayPocketTMCase::
+@	bufferstdstring STR_VAR_3, STDSTRING_TM_CASE
+@	return
+
+@EventScript_BufferPutAwayPocketBerryPouch::
+@	bufferstdstring STR_VAR_3, STDSTRING_BERRY_POUCH
+@	return
+
 	.include "data/scripts/pc_transfer.inc"
 	.include "data/scripts/questionnaire.inc"
 	.include "data/scripts/abnormal_weather.inc"
@@ -614,3 +652,5 @@ EventScript_VsSeekerChargingDone::
 	.include "data/maps/PalletTown_PlayersHouse_1F/scripts.inc"
 
 	.include "data/maps/PalletTown_PlayersHouse_2F/scripts.inc"
+
+	.include "data/maps/PalletTown_RivalsHouse_1F/scripts.inc"

@@ -1,10 +1,17 @@
 .set ITEMID, VAR_0x8000
 .set AMOUNT, VAR_0x8001
 
+EventScript_RestorePrevTextColor::
+	copyvar VAR_TEXT_COLOR, VAR_PREV_TEXT_COLOR
+	return
+
 Std_ObtainItem::
+	copyvar VAR_PREV_TEXT_COLOR, VAR_TEXT_COLOR
+	textcolor NPC_TEXT_COLOR_NEUTRAL
 	additem ITEMID, AMOUNT
 	copyvar VAR_0x8007, VAR_RESULT
 	call EventScript_ObtainItemMessage
+	copyvar VAR_TEXT_COLOR, VAR_PREV_TEXT_COLOR
 	return
 
 EventScript_ObtainItemMessage::

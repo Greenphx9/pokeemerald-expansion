@@ -1239,6 +1239,12 @@ const u8 gText_BattleArena[] = _("BATTLE ARENA");
 const u8 gText_BattlePike[] = _("BATTLE PIKE");
 const u8 gText_BattlePyramid[] = _("BATTLE PYRAMID");
 
+const u8 gText_ItemsPocket_2[] = _("ITEMS POCKET");
+const u8 gText_KeyItemsPocket_2[] = _("KEY ITEMS POCKET");
+const u8 gText_PokeBallsPocket_2[] = _("POKé BALLS POCKET");
+const u8 gText_TmCase_2[] = _("TM CASE");
+const u8 gText_BerryPouch_2[] = _("BERRY POUCH");
+
 ALIGNED(4) const u8 gText_FacilitySingle[] = _("{STR_VAR_1} SINGLE");
 ALIGNED(4) const u8 gText_FacilityDouble[] = _("{STR_VAR_1} DOUBLE");
 ALIGNED(4) const u8 gText_FacilityMulti[] = _("{STR_VAR_1} MULTI");

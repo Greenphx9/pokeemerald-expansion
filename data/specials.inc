@@ -556,3 +556,4 @@ gSpecials::
 	def_special Script_GetChosenMonDefensiveIVs
 	def_special SetWalkingIntoSignVars
 	def_special DisableMsgBoxWalkaway
+	def_special StarterChoice_Init

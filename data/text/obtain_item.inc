@@ -4,6 +4,10 @@ gText_ObtainedTheItem::
 gText_TheBagIsFull::
 	.string "The BAG is full…$"
 
+Text_PutItemAway::
+	.string "{PLAYER} put the {STR_VAR_2}\n"
+	.string "in the {STR_VAR_3}.$"
+
 gText_PutItemInPocket::
 	.string "{PLAYER} put away the {STR_VAR_2}\n"
 	.string "in the {STR_VAR_3} POCKET.$"

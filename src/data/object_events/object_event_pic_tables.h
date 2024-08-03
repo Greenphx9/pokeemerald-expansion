@@ -1117,6 +1117,10 @@ static const struct SpriteFrameImage sPicTable_PokeBall[] = {
     overworld_frame(gObjectEventPic_PokeBall, 2, 4, 0),
 };
 
+static const struct SpriteFrameImage sPicTable_Daisy[] = {
+    overworld_ascending_frames(gObjectEventPic_Daisy, 2, 4),
+};
+
 #if OW_FOLLOWERS_POKEBALLS
 
 #define POKEBALL_PIC_FRAMES(name)                              \

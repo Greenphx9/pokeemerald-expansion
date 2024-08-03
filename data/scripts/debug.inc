@@ -138,14 +138,20 @@ Debug_EventScript_Text_DefensiveIVs:
 	.string "HP IVs: {STR_VAR_1}, DEF IVs: {STR_VAR_2}, SPDEF IVs: {STR_VAR_3}$"
 
 Debug_EventScript_Script_1::
+	setwildbattle SPECIES_GREAT_TUSK, 100
+	dowildbattle
 	release
 	end
 
 Debug_EventScript_Script_2::
+	showmonpic SPECIES_CHANSEY, 10, 3
 	release
 	end
 
 Debug_EventScript_Script_3::
+	setvar VAR_0x8004, 2
+	callnative StarterChoice_Init
+	waitstate
 	release
 	end
 

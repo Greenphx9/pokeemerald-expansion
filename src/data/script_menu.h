@@ -940,6 +940,11 @@ const u8 *const gStdStrings[] =
     [STDSTRING_BATTLE_ARENA] = gText_BattleArena,
     [STDSTRING_BATTLE_PIKE] = gText_BattlePike,
     [STDSTRING_BATTLE_PYRAMID] = gText_BattlePyramid,
+    [STDSTRING_ITEMS_POCKET]     = gText_ItemsPocket_2,
+    [STDSTRING_KEY_ITEMS_POCKET] = gText_KeyItemsPocket_2,
+    [STDSTRING_POKEBALLS_POCKET] = gText_PokeBallsPocket_2,
+    [STDSTRING_TM_CASE]          = gText_TmCase_2,
+    [STDSTRING_BERRY_POUCH]      = gText_BerryPouch_2
 };
 
 static const u8 sLinkServicesMultichoiceIds[] =

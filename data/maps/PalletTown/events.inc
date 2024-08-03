@@ -9,6 +9,7 @@ PalletTown_ObjectEvents:
 
 PalletTown_MapWarps:
 	warp_def 6, 7, 0, 1, MAP_PALLET_TOWN_PLAYERS_HOUSE_1F
+	warp_def 15, 7, 0, 0, MAP_PALLET_TOWN_RIVALS_HOUSE_1F
 
 PalletTown_MapCoordEvents:
 	coord_event 12, 1, 0, VAR_MAP_SCENE_PALLET_TOWN_OAK, 0, PalletTown_EventScript_OakTriggerLeft
