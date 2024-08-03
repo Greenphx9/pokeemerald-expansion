@@ -26,7 +26,7 @@ SINGLE_BATTLE_TEST("Defeatist halves Attack when HP <= 50%", s16 damage)
     }
 }
 
-SINGLE_BATTLE_TEST("Defeatist halves Special Attack when HP <= 50%", s16 damage)
+SINGLE_BATTLE_TEST("Defeatist halves Special Attack when HP <= 25%", s16 damage)
 {
     u32 hp;
     PARAMETRIZE { hp = 400; }
@@ -41,6 +41,6 @@ SINGLE_BATTLE_TEST("Defeatist halves Special Attack when HP <= 50%", s16 damage)
         HP_BAR(opponent, captureDamage: &results[i].damage);
         ANIMATION(ANIM_TYPE_MOVE, MOVE_CELEBRATE, opponent);
     } FINALLY {
-        EXPECT_MUL_EQ(results[0].damage, Q_4_12(0.5), results[1].damage);
+        EXPECT_MUL_EQ(results[0].damage, Q_4_12(0.25), results[1].damage);
     }
 }
