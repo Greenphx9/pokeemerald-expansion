@@ -29,7 +29,7 @@
 #include "palette.h"
 #include "pokeball.h"
 #include "pokemon.h"
-#include "pokemon_debug.h"
+#include "pokemon_sprite_visualizer.h"
 #include "pokemon_storage_system.h"
 #include "pokemon_summary_screen.h"
 #include "region_map.h"
@@ -382,8 +382,8 @@ static const u8 sText_Info[]                                = _("Info");
 static const u8 sText_ViewIVs[]                             = _("View IV");
 static const u8 sText_ViewEVs[]                             = _("View EV");
 static const u8 sText_ViewStats[]                           = _("View Stats");
-static const u8 sText_ViewIVs_Graded[]                      = _("See Innate");
-static const u8 sText_ViewEVs_Graded[]                      = _("See Effort");
+static const u8 sText_ViewIVs_Graded[]                      = _("See IVs");
+static const u8 sText_ViewEVs_Graded[]                      = _("See EVs");
 static const u8 sText_NextLv[]                              = _("Next Lv.");
 static const u8 sText_RentalPkmn[]                          = _("Rental Pokémon");
 static const u8 sText_None[]                                = _("None");
@@ -398,8 +398,8 @@ static const u8 sText_Info[]                                = _("INFO");
 static const u8 sText_ViewIVs[]                             = _("VIEW IV");
 static const u8 sText_ViewEVs[]                             = _("VIEW EV");
 static const u8 sText_ViewStats[]                           = _("VIEW STATS");
-static const u8 sText_ViewIVs_Graded[]                      = _("SEE INNATE");
-static const u8 sText_ViewEVs_Graded[]                      = _("SEE EFFORT");
+static const u8 sText_ViewIVs_Graded[]                      = _("SEE IVS");
+static const u8 sText_ViewEVs_Graded[]                      = _("SEE EVS");
 static const u8 sText_NextLv[]                              = _("NEXT LV.");
 static const u8 sText_RentalPkmn[]                          = _("RENTAL POKéMON");
 static const u8 sText_None[]                                = _("NONE");
@@ -1147,6 +1147,10 @@ static const union AnimCmd sSpriteAnim_TypeFairy[] = {
     ANIMCMD_FRAME(TYPE_FAIRY * 8, 0, FALSE, FALSE),
     ANIMCMD_END
 };
+static const union AnimCmd sSpriteAnim_TypeStellar[] = {
+    ANIMCMD_FRAME(TYPE_STELLAR * 8, 0, FALSE, FALSE),
+    ANIMCMD_END
+};
 static const union AnimCmd sSpriteAnim_CategoryCool[] = {
     ANIMCMD_FRAME((CONTEST_CATEGORY_COOL + NUMBER_OF_MON_TYPES) * 8, 0, FALSE, FALSE),
     ANIMCMD_END
@@ -1169,6 +1173,7 @@ static const union AnimCmd sSpriteAnim_CategoryTough[] = {
 };
 
 static const union AnimCmd *const sSpriteAnimTable_MoveTypes[NUMBER_OF_MON_TYPES + CONTEST_CATEGORIES_COUNT] = {
+    sSpriteAnim_TypeMystery, // TYPE_NONE
     sSpriteAnim_TypeNormal,
     sSpriteAnim_TypeFighting,
     sSpriteAnim_TypeFlying,
@@ -1188,6 +1193,7 @@ static const union AnimCmd *const sSpriteAnimTable_MoveTypes[NUMBER_OF_MON_TYPES
     sSpriteAnim_TypeDragon,
     sSpriteAnim_TypeDark,
     sSpriteAnim_TypeFairy,
+    sSpriteAnim_TypeStellar, // TYPE_STELLAR
     sSpriteAnim_CategoryCool,
     sSpriteAnim_CategoryBeauty,
     sSpriteAnim_CategoryCute,
@@ -2146,7 +2152,7 @@ static void Task_HandleInput(u8 taskId)
     #if DEBUG_POKEMON_MENU == TRUE
         else if (JOY_NEW(SELECT_BUTTON) && !gMain.inBattle)
         {
-            sMonSummaryScreen->callback = CB2_Debug_Pokemon;
+            sMonSummaryScreen->callback = CB2_Pokemon_Sprite_Visualizer;
             StopPokemonAnimations();
             PlaySE(SE_SELECT);
             CloseSummaryScreen(taskId);
@@ -3815,7 +3821,7 @@ static void PrintMonTrainerMemo(void)
 static void BufferNatureString(void)
 {
     struct PokemonSummaryScreenData *sumStruct = sMonSummaryScreen;
-    DynamicPlaceholderTextUtil_SetPlaceholderPtr(2, gNatureNamePointers[sumStruct->summary.nature]);
+    DynamicPlaceholderTextUtil_SetPlaceholderPtr(2, gNaturesInfo[sumStruct->summary.nature].name);
     DynamicPlaceholderTextUtil_SetPlaceholderPtr(5, gText_EmptyString5);
 }
 
@@ -4025,7 +4031,7 @@ static void UNUSED PrintRibbonCount(void)
     PrintTextOnWindow(AddWindowFromTemplateList(sPageSkillsTemplate, PSS_DATA_WINDOW_SKILLS_RIBBON_COUNT), text, x, 1, 0, 0);
 }
 
-static void BufferStat(u8 *dst, s8 natureMod, u32 stat, u32 strId, u32 align)
+static void BufferStat(u8 *dst, const struct NatureInfo natureInfo, u8 statId, u32 stat, u32 strId, u32 align)
 {
     static const u8 sTextNatureDown[] = _("{COLOR}{08}");
     static const u8 sTextNatureUp[] = _("{COLOR}{05}");
@@ -4034,9 +4040,9 @@ static void BufferStat(u8 *dst, s8 natureMod, u32 stat, u32 strId, u32 align)
     static const u8 sTextDownArrow[] = _(" {DOWN_ARROW}");
     u8 *txtPtr;
 
-    if (natureMod == 0 || !BW_SUMMARY_NATURE_COLORS)
+    if ((natureInfo.statUp != statId && natureInfo.statDown != statId) || (natureInfo.statUp == statId && natureInfo.statDown == statId) || !BW_SUMMARY_NATURE_COLORS)
         txtPtr = StringCopy(dst, sTextNatureNeutral);
-    else if (natureMod > 0)
+    else if (natureInfo.statUp == statId)
         txtPtr = StringCopy(dst, sTextNatureUp);
     else
         txtPtr = StringCopy(dst, sTextNatureDown);
@@ -4045,9 +4051,9 @@ static void BufferStat(u8 *dst, s8 natureMod, u32 stat, u32 strId, u32 align)
 
     if (BW_SUMMARY_NATURE_ARROWS)
     {
-        if (natureMod > 0)
+        if (natureInfo.statUp == statId && natureInfo.statDown != statId)
             StringAppend(txtPtr, sTextUpArrow);
-        else if (natureMod < 0)
+        else if (natureInfo.statUp != statId && natureInfo.statDown == statId)
             StringAppend(txtPtr, sTextDownArrow);
     }
 
@@ -4060,7 +4066,7 @@ static void BufferAndPrintStats_HandleState(u8 mode)
     u16 hp, hp2, atk, def, spA, spD, spe;
     u8 *currentHPString = Alloc(20);
     u8 *maxHPString = Alloc(20);
-    const s8 *natureMod = gNatureStatTable[sMonSummaryScreen->summary.mintNature];
+    const struct NatureInfo natureInfo = gNaturesInfo[sMonSummaryScreen->summary.mintNature];
 
     switch (mode)
     {
@@ -4106,26 +4112,26 @@ static void BufferAndPrintStats_HandleState(u8 mode)
         PrintHPStats(mode);
 
         DynamicPlaceholderTextUtil_Reset();
-        BufferStat(gStringVar1, natureMod[STAT_ATK - 1], atk, 0, 3);
-        BufferStat(gStringVar2, natureMod[STAT_DEF - 1], def, 1, 3);
-        BufferStat(gStringVar3, natureMod[STAT_SPATK - 1], spA, 2, 3);
-        BufferStat(gStringVar4, natureMod[STAT_SPDEF - 1], spD, 3, 3);
-        BufferStat(sStringVar5, natureMod[STAT_SPEED - 1], spe, 4, 3);
+        BufferStat(gStringVar1, natureInfo, STAT_ATK, atk, 0, 3);
+        BufferStat(gStringVar2, natureInfo, STAT_DEF, def, 1, 3);
+        BufferStat(gStringVar3, natureInfo, STAT_SPATK, spA, 2, 3);
+        BufferStat(gStringVar4, natureInfo, STAT_SPDEF, spD, 3, 3);
+        BufferStat(sStringVar5, natureInfo, STAT_SPEED, spe, 4, 3);
         PrintNonHPStats();
     }
     else
     {
-        BufferStat(maxHPString, 0, hp, 0, 7);
+        BufferStat(maxHPString, gNaturesInfo[NATURE_HARDY], STAT_HP, hp, 0, 7);
         DynamicPlaceholderTextUtil_Reset();
         DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, maxHPString);
         DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, sStatsHPIVEVLayout);
         PrintHPStats(mode);
 
-        BufferStat(gStringVar1, 0, atk, 0, 3);
-        BufferStat(gStringVar2, 0, def, 1, 3);
-        BufferStat(gStringVar3, 0, spA, 2, 3);
-        BufferStat(gStringVar4, 0, spD, 3, 3);
-        BufferStat(sStringVar5, 0, spe, 4, 3);
+        BufferStat(gStringVar1, gNaturesInfo[NATURE_HARDY], STAT_ATK, atk, 0, 3);
+        BufferStat(gStringVar2, gNaturesInfo[NATURE_HARDY], STAT_DEF, def, 1, 3);
+        BufferStat(gStringVar3, gNaturesInfo[NATURE_HARDY], STAT_SPATK, spA, 2, 3);
+        BufferStat(gStringVar4, gNaturesInfo[NATURE_HARDY], STAT_SPDEF, spD, 3, 3);
+        BufferStat(sStringVar5, gNaturesInfo[NATURE_HARDY], STAT_SPEED, spe, 4, 3);
         PrintNonHPStats();
     }
 
@@ -4161,13 +4167,13 @@ static void PrintHPStats(u8 mode)
 
 static void BufferNonHPStats(void)
 {
-    const s8 *natureMod = gNatureStatTable[sMonSummaryScreen->summary.mintNature];
+    const struct NatureInfo natureInfo = gNaturesInfo[sMonSummaryScreen->summary.mintNature];
     DynamicPlaceholderTextUtil_Reset();
-    BufferStat(gStringVar1, natureMod[STAT_ATK - 1], sMonSummaryScreen->summary.atk, 0, 3);
-    BufferStat(gStringVar2, natureMod[STAT_DEF - 1], sMonSummaryScreen->summary.def, 1, 3);
-    BufferStat(gStringVar3, natureMod[STAT_SPATK - 1], sMonSummaryScreen->summary.spatk, 2, 3);
-    BufferStat(gStringVar4, natureMod[STAT_SPDEF - 1], sMonSummaryScreen->summary.spdef, 3, 3);
-    BufferStat(sStringVar5, natureMod[STAT_SPEED - 1], sMonSummaryScreen->summary.speed, 4, 3);
+    BufferStat(gStringVar1, natureInfo, STAT_ATK, sMonSummaryScreen->summary.atk, 0, 3);
+    BufferStat(gStringVar2, natureInfo, STAT_DEF, sMonSummaryScreen->summary.def, 1, 3);
+    BufferStat(gStringVar3, natureInfo, STAT_SPATK, sMonSummaryScreen->summary.spatk, 2, 3);
+    BufferStat(gStringVar4, natureInfo, STAT_SPDEF, sMonSummaryScreen->summary.spdef, 3, 3);
+    BufferStat(sStringVar5, natureInfo, STAT_SPEED, sMonSummaryScreen->summary.speed, 4, 3);
 }
 
 static void PrintNonHPStats(void)
