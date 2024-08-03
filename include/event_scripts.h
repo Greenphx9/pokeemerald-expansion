@@ -606,6 +606,10 @@ extern const u8 SecretBase_EventScript_CaveUseSecretPower[];
 extern const u8 SecretBase_EventScript_TreeUseSecretPower[];
 extern const u8 SecretBase_EventScript_ShrubUseSecretPower[];
 
+// field_control_avatar
+extern const u8 EventScript_PokemartSign[];
+extern const u8 EventScript_PokecenterSign[];
+
 // trainer hill
 extern const u8 TrainerHill_EventScript_TrainerBattle[];
 

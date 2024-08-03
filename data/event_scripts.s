@@ -573,6 +573,7 @@ EventScript_VsSeekerChargingDone::
 	.include "data/scripts/profile_man.inc"
 	.include "data/scripts/day_care.inc"
 	.include "data/scripts/flash.inc"
+	.include "data/scripts/flavour_text.inc"
 	.include "data/scripts/players_house.inc"
 	.include "data/scripts/berry_blender.inc"
 	.include "data/text/mauville_man.inc"

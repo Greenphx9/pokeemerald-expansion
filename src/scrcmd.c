@@ -1830,6 +1830,12 @@ bool8 ScrCmd_bufferboxname(struct ScriptContext *ctx)
     return FALSE;
 }
 
+bool8 ScrCmd_signmsg(struct ScriptContext * ctx)
+{
+    MsgSetSignpost();
+    return FALSE;
+}
+
 bool8 ScrCmd_giveegg(struct ScriptContext *ctx)
 {
     u16 species = VarGet(ScriptReadHalfword(ctx));

@@ -438,8 +438,8 @@ PalletTown_EventScript_SignLadyShowSign::
 	setvar VAR_MAP_SCENE_PALLET_TOWN_SIGN_LADY, 1
 	setvar SIGN_LADY_READY, FALSE
 	@ TODO: Implement sign functionality
-	@special SetWalkingIntoSignVars
-	@special DisableMsgBoxWalkaway
+	special SetWalkingIntoSignVars
+	special DisableMsgBoxWalkaway
 	signmsg
 	msgbox PalletTown_Text_PressStartToOpenMenuCopy
 	normalmsg

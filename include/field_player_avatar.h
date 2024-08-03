@@ -65,5 +65,6 @@ void SetPlayerInvisibility(bool8 invisible);
 u8 player_get_pos_including_state_based_drift(s16 *x, s16 *y);
 void StartFishing(u8 rod);
 bool8 IsDirectionalStairWarpMetatileBehavior(u16 metatileBehavior, u8 playerDirection);
+bool8 MetatileBehavior_IsSignpost(u8 metatileBehavior);
 
 #endif // GUARD_FIELD_PLAYER_AVATAR_H

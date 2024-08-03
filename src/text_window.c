@@ -4,7 +4,10 @@
 #include "window.h"
 #include "palette.h"
 #include "bg.h"
+#include "menu_helpers.h"
 #include "graphics.h"
+
+const u16 gSignpostWindow_Gfx[] = INCBIN_U16("graphics/text_window/signpost.4bpp");
 
 const u8 gTextWindowFrame1_Gfx[] = INCBIN_U8("graphics/text_window/1.4bpp");
 static const u8 sTextWindowFrame2_Gfx[] = INCBIN_U8("graphics/text_window/2.4bpp");
@@ -112,6 +115,12 @@ void LoadMessageBoxGfx_Kanto(u8 windowId, u16 destOffset, u8 palOffset)
     LoadPalette(GetTextWindowPaletteKanto(3), palOffset, PLTT_SIZE_4BPP);
 }
 
+void LoadMenuMessageWindowGfx(u8 windowId, u16 destOffset, u8 palOffset)
+{
+    LoadBgTiles(windowId, gMenuMessageWindow_Gfx, 0x280, destOffset);
+    LoadPalette(GetTextWindowPaletteKanto(0), palOffset, PLTT_SIZE_4BPP);
+}
+
 void LoadUserWindowBorderGfx_(u8 windowId, u16 destOffset, u8 palOffset)
 {
     LoadUserWindowBorderGfx(windowId, destOffset, palOffset);
@@ -126,6 +135,12 @@ void LoadWindowGfx(u8 windowId, u8 frameId, u16 destOffset, u8 palOffset)
 void LoadUserWindowBorderGfx(u8 windowId, u16 destOffset, u8 palOffset)
 {
     LoadWindowGfx(windowId, gSaveBlock2Ptr->optionsWindowFrameType, destOffset, palOffset);
+}
+
+void LoadSignpostWindowGfx(u8 windowId, u16 destOffset, u8 palOffset)
+{
+    LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), gSignpostWindow_Gfx, 0x260, destOffset);
+    LoadPalette(GetTextWindowPalette(1), palOffset, PLTT_SIZE_4BPP);
 }
 
 void DrawTextBorderOuter(u8 windowId, u16 tileNum, u8 palNum)

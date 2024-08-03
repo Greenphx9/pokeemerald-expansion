@@ -38,6 +38,13 @@
 #include "constants/songs.h"
 #include "constants/trainer_hill.h"
 
+#define SIGNPOST_POKECENTER 0
+#define SIGNPOST_POKEMART 1
+#define SIGNPOST_INDIGO_1 2
+#define SIGNPOST_INDIGO_2 3
+#define SIGNPOST_SCRIPTED 240
+#define SIGNPOST_NA 255
+
 static EWRAM_DATA u8 sWildEncounterImmunitySteps = 0;
 static EWRAM_DATA u16 sPrevMetatileBehavior = 0;
 
@@ -56,6 +63,10 @@ static bool32 TrySetupDiveDownScript(void);
 static bool32 TrySetupDiveEmergeScript(void);
 static bool8 TryStartStepBasedScript(struct MapPosition *, u16, u16);
 static bool8 CheckStandardWildEncounter(u16);
+static bool8 TrySetUpWalkIntoSignpostScript(struct MapPosition * position, u16 metatileBehavior, u8 playerDirection);
+static void SetUpWalkIntoSignScript(const u8 *script, u8 playerDirection);
+static u8 GetFacingSignpostType(u16 metatileBehvaior, u8 direction);
+static const u8 *GetSignpostScriptAtMapPosition(struct MapPosition * position); 
 static bool8 TryArrowWarp(struct MapPosition *, u16, u8);
 static bool8 IsWarpMetatileBehavior(u16);
 static bool8 IsArrowWarpMetatileBehavior(u16, u8);
@@ -156,6 +167,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     gSpecialVar_LastTalked = 0;
     gSelectedObjectEvent = 0;
 
+    ResetFacingNpcOrSignpostVars();
     playerDirection = GetPlayerFacingDirection();
     GetPlayerPosition(&position);
     metatileBehavior = MapGridGetMetatileBehaviorAt(position.x, position.y);
@@ -175,6 +187,20 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
         if (TryStartStepBasedScript(&position, metatileBehavior, playerDirection) == TRUE)
             return TRUE;
     }
+    if (input->checkStandardWildEncounter)
+    {
+        if (input->dpadDirection == 0 || input->dpadDirection == playerDirection)
+        {
+            GetInFrontOfPlayerPosition(&position);
+            metatileBehavior = MapGridGetMetatileBehaviorAt(position.x, position.y);
+            if (TrySetUpWalkIntoSignpostScript(&position, metatileBehavior, playerDirection) == TRUE)
+            {
+                return TRUE;
+            }
+            GetPlayerPosition(&position);
+            metatileBehavior = MapGridGetMetatileBehaviorAt(position.x, position.y);
+        }
+    }
     if (input->checkStandardWildEncounter && CheckStandardWildEncounter(metatileBehavior) == TRUE)
         return TRUE;
     if (input->heldDirection && input->dpadDirection == playerDirection)
@@ -185,6 +211,14 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
 
     GetInFrontOfPlayerPosition(&position);
     metatileBehavior = MapGridGetMetatileBehaviorAt(position.x, position.y);
+    if (input->heldDirection && input->dpadDirection == playerDirection)
+    {
+        if (TrySetUpWalkIntoSignpostScript(&position, metatileBehavior, playerDirection) == TRUE)
+        {
+            return TRUE;
+        }
+    }
+
     if (input->pressedAButton && TryStartInteractionScript(&position, metatileBehavior, playerDirection) == TRUE)
         return TRUE;
 
@@ -337,12 +371,15 @@ static const u8 *GetInteractedObjectEventScript(struct MapPosition *position, u8
 
 static const u8 *GetInteractedBackgroundEventScript(struct MapPosition *position, u8 metatileBehavior, u8 direction)
 {
+    u8 signpostType;
     const struct BgEvent *bgEvent = GetBackgroundEventAtPosition(&gMapHeader, position->x - MAP_OFFSET, position->y - MAP_OFFSET, position->elevation);
 
     if (bgEvent == NULL)
         return NULL;
     if (bgEvent->bgUnion.script == NULL)
         return EventScript_TestSignpostMsg;
+
+    signpostType = GetFacingSignpostType(metatileBehavior, direction);
 
     switch (bgEvent->kind)
     {
@@ -382,6 +419,9 @@ static const u8 *GetInteractedBackgroundEventScript(struct MapPosition *position
         }
         return NULL;
     }
+
+    if (signpostType != SIGNPOST_NA)
+        MsgSetSignpost();
 
     return bgEvent->bgUnion.script;
 }
@@ -424,6 +464,26 @@ static const u8 *GetInteractedMetatileScript(struct MapPosition *position, u8 me
         return EventScript_Questionnaire;
     if (MetatileBehavior_IsTrainerHillTimer(metatileBehavior) == TRUE)
         return EventScript_TrainerHillTimer;
+    /*if (MetatileBehavior_IsIndigoPlateauSign1(metatileBehavior) == TRUE)
+    {
+        MsgSetSignpost();
+        return EventScript_Indigo_UltimateGoal;
+    }
+    if (MetatileBehavior_IsIndigoPlateauSign2(metatileBehavior) == TRUE)
+    {
+        MsgSetSignpost();
+        return EventScript_Indigo_HighestAuthority;
+    }
+    if (MetatileBehavior_IsPlayerFacingPokeMartSign(metatileBehavior, direction) == TRUE)
+    {
+        MsgSetSignpost();
+        return EventScript_PokemartSign;
+    }
+    if (MetatileBehavior_IsPlayerFacingPokemonCenterSign(metatileBehavior, direction) == TRUE)
+    {
+        MsgSetSignpost();
+        return EventScript_PokecenterSign;
+    }*/
 
     elevation = position->elevation;
     if (elevation == MapGridGetElevationAt(position->x, position->y))
@@ -668,6 +728,86 @@ static bool8 CheckStandardWildEncounter(u16 metatileBehavior)
 
     sPrevMetatileBehavior = metatileBehavior;
     return FALSE;
+}
+
+static bool8 TrySetUpWalkIntoSignpostScript(struct MapPosition * position, u16 metatileBehavior, u8 playerDirection)
+{
+    u8 signpostType;
+    const u8 * script;
+    if (JOY_HELD(DPAD_LEFT | DPAD_RIGHT))
+        return FALSE;
+    if (playerDirection == DIR_EAST || playerDirection == DIR_WEST)
+        return FALSE;
+
+    signpostType = GetFacingSignpostType(metatileBehavior, playerDirection);
+    if (signpostType == SIGNPOST_POKECENTER)
+    {
+        SetUpWalkIntoSignScript(EventScript_PokecenterSign, playerDirection);
+        return TRUE;
+    }
+    else if (signpostType == SIGNPOST_POKEMART)
+    {
+        SetUpWalkIntoSignScript(EventScript_PokemartSign, playerDirection);
+        return TRUE;
+    }
+    /*else if (signpostType == SIGNPOST_INDIGO_1)
+    {
+        SetUpWalkIntoSignScript(EventScript_Indigo_UltimateGoal, playerDirection);
+        return TRUE;
+    }
+    else if (signpostType == SIGNPOST_INDIGO_2)
+    {
+        SetUpWalkIntoSignScript(EventScript_Indigo_HighestAuthority, playerDirection);
+        return TRUE;
+    }*/
+    else
+    {
+        script = GetSignpostScriptAtMapPosition(position);
+        if (script == NULL)
+            return FALSE;
+        if (signpostType != SIGNPOST_SCRIPTED)
+            return FALSE;
+        SetUpWalkIntoSignScript(script, playerDirection);
+        return TRUE;
+    }
+}
+
+static u8 GetFacingSignpostType(u16 metatileBehavior, u8 playerDirection)
+{
+    /*if (MetatileBehavior_IsPlayerFacingPokemonCenterSign(metatileBehavior, playerDirection) == TRUE)
+        return SIGNPOST_POKECENTER;
+
+    if (MetatileBehavior_IsPlayerFacingPokeMartSign(metatileBehavior, playerDirection) == TRUE)
+        return SIGNPOST_POKEMART;
+
+    if (MetatileBehavior_IsIndigoPlateauSign1(metatileBehavior) == TRUE)
+        return SIGNPOST_INDIGO_1;
+
+    if (MetatileBehavior_IsIndigoPlateauSign2(metatileBehavior) == TRUE)
+        return SIGNPOST_INDIGO_2;*/
+
+    if (MetatileBehavior_IsSignpost(metatileBehavior) == TRUE)
+        return SIGNPOST_SCRIPTED;
+
+    return SIGNPOST_NA;
+}
+
+static void SetUpWalkIntoSignScript(const u8 *script, u8 playerDirection)
+{
+    gSpecialVar_Facing = playerDirection;
+    ScriptContext_SetupScript(script);
+    SetWalkingIntoSignVars();
+    MsgSetSignpost();
+}
+
+static const u8 *GetSignpostScriptAtMapPosition(struct MapPosition * position)
+{
+    const struct BgEvent * event = GetBackgroundEventAtPosition(&gMapHeader, position->x - MAP_OFFSET, position->y - MAP_OFFSET, position->elevation);
+    if (event == NULL)
+        return NULL;
+    if (event->bgUnion.script != NULL)
+        return event->bgUnion.script;
+    return EventScript_TestSignpostMsg;
 }
 
 static bool8 TryArrowWarp(struct MapPosition *position, u16 metatileBehavior, u8 direction)

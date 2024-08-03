@@ -12,12 +12,21 @@
 #include "string_util.h"
 #include "sound.h"
 #include "mail.h"
+#include "palette.h"
+#include "text_window.h"
 #include "overworld.h"
 #include "decompress.h"
 #include "constants/songs.h"
 #include "constants/items.h"
 
 #define TAG_SWAP_LINE 109
+#define DLG_WINDOW_PALETTE_NUM 15
+#define DLG_WINDOW_BASE_TILE_NUM 0x200
+#define STD_WINDOW_PALETTE_NUM 14
+#define STD_WINDOW_PALETTE_SIZE PLTT_SIZEOF(10)
+#define STD_WINDOW_BASE_TILE_NUM 0x214
+
+extern void ResetContextNpcTextColor(void); // field_specials
 
 static void Task_ContinueTaskAfterMessagePrints(u8 taskId);
 static void Task_CallYesOrNoCallback(u8 taskId);
@@ -443,4 +452,18 @@ void UpdateSwapLineSpritesPos(u8 *spriteIds, u8 count, s16 x, u16 y)
 
         gSprites[spriteIds[i]].y = 1 + y;
     }
+}
+
+void LoadSignpostWindowFrameGfx(void)
+{
+    Menu_LoadStdPal();
+    LoadSignpostWindowGfx(0, DLG_WINDOW_BASE_TILE_NUM, BG_PLTT_ID(DLG_WINDOW_PALETTE_NUM));
+    LoadUserWindowBorderGfx(0, STD_WINDOW_BASE_TILE_NUM, BG_PLTT_ID(STD_WINDOW_PALETTE_NUM));
+}
+
+void LoadStdWindowFrameGfx(void)
+{
+    Menu_LoadStdPal();
+    LoadMenuMessageWindowGfx(0, DLG_WINDOW_BASE_TILE_NUM, BG_PLTT_ID(DLG_WINDOW_PALETTE_NUM));
+    LoadUserWindowBorderGfx(0, STD_WINDOW_BASE_TILE_NUM, BG_PLTT_ID(STD_WINDOW_PALETTE_NUM));
 }

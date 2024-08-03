@@ -15,6 +15,8 @@ struct YesNoFuncTable
     TaskFunc noFunc;
 };
 
+extern const u16 gMenuMessageWindow_Gfx[];
+
 void ResetVramOamAndBgCntRegs(void);
 void ResetAllBgsCoordinates(void);
 void SetVBlankHBlankCallbacksToNull(void);
@@ -38,5 +40,8 @@ void CreateSwapLineSprites(u8 *spriteIds, u8 count);
 void DestroySwapLineSprites(u8 *spriteIds, u8 count);
 void SetSwapLineSpritesInvisibility(u8 *spriteIds, u8 count, bool8 invisible);
 void UpdateSwapLineSpritesPos(u8 *spriteIds, u8 count, s16 x, u16 y);
+void LoadSignpostWindowGfx(u8 windowId, u16 destOffset, u8 palIdx);
+void LoadSignpostWindowFrameGfx(void);
+void LoadStdWindowFrameGfx(void);
 
 #endif //GUARD_MENU_HELPERS_H

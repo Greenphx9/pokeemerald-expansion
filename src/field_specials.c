@@ -3779,6 +3779,12 @@ void PreparePartyForSkyBattle(void)
     CompactPartySlots();
 }
 
+void ResetContextNpcTextColor(void)
+{
+    gSelectedObjectEvent = 0;
+    gSpecialVar_TextColor = NPC_TEXT_COLOR_DEFAULT;
+}
+
 u8 ContextNpcGetTextColor(void)
 {
     u8 gfxId;

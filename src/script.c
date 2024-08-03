@@ -2,6 +2,7 @@
 #include "script.h"
 #include "event_data.h"
 #include "mystery_gift.h"
+#include "text_window.h"
 #include "util.h"
 #include "constants/event_objects.h"
 #include "constants/map_scripts.h"
@@ -20,7 +21,10 @@ enum {
     CONTEXT_SHUTDOWN,
 };
 
+extern void ResetContextNpcTextColor(void); // field_specials
+
 extern const u8 *gRamScriptRetAddr;
+EWRAM_DATA u8 gWalkAwayFromSignInhibitTimer = 0;
 
 static u8 sGlobalScriptContextStatus;
 static struct ScriptContext sGlobalScriptContext;
@@ -30,6 +34,10 @@ static bool8 sLockFieldControls;
 extern ScrCmdFunc gScriptCmdTable[];
 extern ScrCmdFunc gScriptCmdTableEnd[];
 extern void *gNullScriptPtr;
+
+static u8 sMsgIsSignpost;
+static u8 sMsgBoxWalkawayDisabled;
+static u8 sMsgBoxIsCancelable;
 
 void InitScriptContext(struct ScriptContext *ctx, void *cmdTable, void *cmdTableEnd)
 {
@@ -500,4 +508,62 @@ void InitRamScript_NoObjectEvent(u8 *script, u16 scriptSize)
         scriptSize = sizeof(gSaveBlock1Ptr->ramScript.data.script);
     InitRamScript(script, scriptSize, MAP_GROUP(UNDEFINED), MAP_NUM(UNDEFINED), NO_OBJECT);
 #endif //FREE_MYSTERY_EVENT_BUFFERS
+}
+
+void DisableMsgBoxWalkaway(void)
+{
+    sMsgBoxWalkawayDisabled = TRUE;
+}
+
+void EnableMsgBoxWalkaway(void)
+{
+    sMsgBoxWalkawayDisabled = FALSE;
+}
+
+bool8 IsMsgBoxWalkawayDisabled(void)
+{
+    return sMsgBoxWalkawayDisabled;
+}
+
+void SetWalkingIntoSignVars(void)
+{
+    gWalkAwayFromSignInhibitTimer = 6;
+    sMsgBoxIsCancelable = TRUE;
+}
+
+void ClearMsgBoxCancelableState(void)
+{
+    sMsgBoxIsCancelable = FALSE;
+}
+
+bool8 CanWalkAwayToCancelMsgBox(void)
+{
+    if(sMsgBoxIsCancelable == TRUE)
+        return TRUE;
+    else
+        return FALSE;
+}
+
+void MsgSetSignpost(void)
+{
+    sMsgIsSignpost = TRUE;
+}
+
+void MsgSetNotSignpost(void)
+{
+    sMsgIsSignpost = FALSE;
+}
+
+bool8 IsMsgSignpost(void)
+{
+    if(sMsgIsSignpost == TRUE)
+        return TRUE;
+    else
+        return FALSE;
+}
+
+void ResetFacingNpcOrSignpostVars(void)
+{
+    ResetContextNpcTextColor();
+    MsgSetNotSignpost();
 }
