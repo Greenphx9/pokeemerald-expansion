@@ -74,8 +74,9 @@ static bool32 HasBadOdds(u32 battler, bool32 emitResult)
 	u8 opposingPosition, atkType1, atkType2, defType1, defType2, effectiveness;
     s32 i, damageDealt = 0, maxDamageDealt = 0, damageTaken = 0, maxDamageTaken = 0;
     u32 aiMove, playerMove, aiBestMove = MOVE_NONE, aiAbility = AI_DATA->abilities[battler], opposingBattler, weather = AI_GetWeather(AI_DATA);
-    bool32 getsOneShot = FALSE, hasStatusMove = FALSE, hasSuperEffectiveMove = FALSE;
+    bool32 getsOneShot = FALSE, hasStatusMove = FALSE, hasSuperEffectiveMove = FALSE, getsChecked;
 	u16 typeEffectiveness = UQ_4_12(1.0), aiMoveEffect; //baseline typing damage
+    const struct SmogonData* smogonData;
 
     // Only use this if AI_FLAG_SMART_SWITCHING is set for the trainer
     if (!(AI_THINKING_STRUCT->aiFlags[battler] & AI_FLAG_SMART_SWITCHING))
@@ -93,6 +94,20 @@ static bool32 HasBadOdds(u32 battler, bool32 emitResult)
 	atkType2 = gBattleMons[opposingBattler].type2;
 	defType1 = gBattleMons[battler].type1;
 	defType2 = gBattleMons[battler].type2;
+
+    smogonData = GetSpeciesSmogonData(gBattleMons[battler].species);
+
+    for (i = 0; smogonData != NULL && smogonData->checks[i].species != CHECKS_END; i++)
+    {
+        u16 checkSpecies = smogonData->checks[i].species;
+        u16 checkPercentage = smogonData->checks[i].percentage;
+        u8 ran = Random() % 101; //should not always switch
+        //switch if there's a high chance we get checked
+        if (checkSpecies == gBattleMons[battler].species && (checkPercentage >= 80 || checkPercentage >= ran))
+        {
+            getsChecked = TRUE;
+        }
+    }
 
     // Check AI moves for damage dealt
     for (i = 0; i < MAX_MON_MOVES; i++)
@@ -142,16 +157,30 @@ static bool32 HasBadOdds(u32 battler, bool32 emitResult)
             typeEffectiveness = uq4_12_multiply(typeEffectiveness, (GetTypeModifier(atkType2, defType2)));
     }
 
-    // Get max damage mon could take
-    for (i = 0; i < MAX_MON_MOVES; i++)
+    //For some reason, the default AI just knows our moves, even without omniscent. Strange and unfair.
+    /*for (i = 0; i < MAX_MON_MOVES; i++)
     {
         playerMove = gBattleMons[opposingBattler].moves[i];
+        DebugPrintf("playerMove: %d", playerMove);
         if (playerMove != MOVE_NONE && gMovesInfo[playerMove].power != 0)
         {
             struct SimulatedDamage dmg = AI_CalcDamage(playerMove, opposingBattler, battler, &effectiveness, FALSE, weather, DMG_ROLL_HIGHEST);
             if (dmg.expected > maxDamageTaken)
                 maxDamageTaken = damageTaken;
         }
+    }*/
+
+    // Get max damage mon could take
+    for (i = 0; i < MAX_MON_MOVES; i++)
+    {
+        playerMove = GetMovesArray(opposingBattler)[i];
+        DebugPrintf("playerMove: %d", playerMove);
+        if (playerMove != MOVE_NONE && gMovesInfo[playerMove].power != 0)
+        {
+            struct SimulatedDamage dmg = AI_CalcDamage(playerMove, opposingBattler, battler, &effectiveness, FALSE, weather, DMG_ROLL_HIGHEST);
+            if (dmg.expected > maxDamageTaken)
+                maxDamageTaken = damageTaken;
+        }    
     }
 
     // Check if mon gets one shot
@@ -213,6 +242,24 @@ static bool32 HasBadOdds(u32 battler, bool32 emitResult)
 			return TRUE;
 		}
 	}
+
+    if (getsChecked
+    && (gBattleMons[battler].hp >= gBattleMons[battler].maxHP / 2))
+    {
+        // Then check if they have an important status move, which is worth using even in a bad matchup
+        if (hasStatusMove)
+            return FALSE;
+
+        // 50% chance to stay in regardless
+        if (Random() % 2 == 0)
+            return FALSE;
+
+        // Switch mon out
+		gBattleStruct->AI_monToSwitchIntoId[battler] = PARTY_SIZE;
+		if (emitResult)
+            BtlController_EmitTwoReturnValues(battler, 1, B_ACTION_SWITCH, 0);
+		return TRUE;
+    }
 	return FALSE;
 }
 

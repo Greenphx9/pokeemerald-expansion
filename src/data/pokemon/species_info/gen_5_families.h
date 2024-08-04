@@ -11415,6 +11415,7 @@ const struct SpeciesInfo gSpeciesInfoGen5[] =
         .teachableLearnset = sLandorusTeachableLearnset,
         .formSpeciesIdTable = sLandorusFormSpeciesIdTable,
         .formChangeTable = sLandorusFormChangeTable,
+        .smogonData = &sLandoTSmogonData,
     },
 #endif //P_FAMILY_LANDORUS
 

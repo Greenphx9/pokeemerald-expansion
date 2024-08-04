@@ -458,6 +458,7 @@ struct SpeciesInfo /*0xC4*/
  /* 0xC0 */ const void* overworldShinyPalette;
 #endif //OW_PKMN_OBJECTS_SHARE_PALETTES
 #endif //OW_POKEMON_OBJECT_EVENTS
+ /* 0xC4 */ const struct SmogonData* smogonData;
 };
 
 struct MoveInfo
@@ -666,6 +667,19 @@ struct Fusion
     u16 unfuseForgetMove;
 };
 
+#define CHECKS_END 0xFFFF
+
+struct Checks
+{
+    u16 species;
+    u8 percentage;
+};
+
+struct SmogonData
+{
+    const struct Checks *checks;
+};
+
 extern const struct Fusion *const gFusionTablePointers[NUM_SPECIES];
 
 #define NUM_UNOWN_FORMS 28
@@ -786,6 +800,7 @@ const u16 *GetSpeciesEggMoves(u16 species);
 const struct Evolution *GetSpeciesEvolutions(u16 species);
 const u16 *GetSpeciesFormTable(u16 species);
 const struct FormChange *GetSpeciesFormChanges(u16 species);
+const struct SmogonData* GetSpeciesSmogonData(u16 species);
 u8 CalculatePPWithBonus(u16 move, u8 ppBonuses, u8 moveIndex);
 void RemoveMonPPBonus(struct Pokemon *mon, u8 moveIndex);
 void RemoveBattleMonPPBonus(struct BattlePokemon *mon, u8 moveIndex);

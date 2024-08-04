@@ -1,5 +1,7 @@
 #include "constants/abilities.h"
 #include "species_info/shared_dex_text.h"
+#include "smogon_data/checks.h"
+#include "smogon_data/smogon_data.h"
 
 // Macros for ease of use.
 
@@ -118,6 +120,7 @@ const struct SpeciesInfo gSpeciesInfo[] =
         .levelUpLearnset = sNoneLevelUpLearnset,
         .teachableLearnset = sNoneTeachableLearnset,
         .eggMoveLearnset = sNoneEggMoveLearnset,
+        .smogonData = &sNoneSmogonData,
     },
 
     #include "species_info/gen_1_families.h"

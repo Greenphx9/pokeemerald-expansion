@@ -3605,6 +3605,14 @@ const struct FormChange *GetSpeciesFormChanges(u16 species)
     return evolutions;
 }
 
+const struct SmogonData* GetSpeciesSmogonData(u16 species)
+{
+    const struct SmogonData *smogonData = gSpeciesInfo[SanitizeSpeciesId(species)].smogonData;
+    if (smogonData == NULL)
+        return gSpeciesInfo[SPECIES_NONE].smogonData;
+    return smogonData;    
+}
+
 u8 CalculatePPWithBonus(u16 move, u8 ppBonuses, u8 moveIndex)
 {
     u8 basePP = gMovesInfo[move].pp;
