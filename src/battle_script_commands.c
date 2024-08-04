@@ -1157,6 +1157,42 @@ static bool32 TryAegiFormChange(void)
     return TRUE;
 }
 
+static bool32 IsSpeedDeoxysMove(void)
+{
+    u16 moveEffect = gMovesInfo[gCurrentMove].effect;
+    return (moveEffect == EFFECT_SLEEP
+    || moveEffect == EFFECT_TOXIC
+    || moveEffect == EFFECT_PARALYZE
+    || moveEffect == EFFECT_POISON
+    || moveEffect == EFFECT_WILL_O_WISP
+    || moveEffect == EFFECT_STEALTH_ROCK
+    || moveEffect == EFFECT_TOXIC_SPIKES
+    || moveEffect == EFFECT_SPIKES);
+}
+
+static bool32 TryDeoxysFormChange(void)
+{
+    u16 species;
+    // Only Deoxys with Stance Change can transform, transformed mons cannot.
+    if (GetBattlerAbility(gBattlerAttacker) != ABILITY_ADAPTIVE_FORM
+        || gBattleMons[gBattlerAttacker].status2 & STATUS2_TRANSFORMED)
+        return FALSE;
+
+    species = gBattleMons[gBattlerAttacker].species;
+    if (species != SPECIES_DEOXYS_SPEED && IsSpeedDeoxysMove())
+        gBattleMons[gBattlerAttacker].species = SPECIES_DEOXYS_SPEED;
+    else if (species != SPECIES_DEOXYS_DEFENSE && IS_MOVE_STATUS(gCurrentMove) && !IsSpeedDeoxysMove())
+        gBattleMons[gBattlerAttacker].species = SPECIES_DEOXYS_DEFENSE;
+    else if (species != SPECIES_DEOXYS_ATTACK && (IS_MOVE_PHYSICAL(gCurrentMove) || IS_MOVE_SPECIAL(gCurrentMove)))
+        gBattleMons[gBattlerAttacker].species = SPECIES_DEOXYS_ATTACK;
+    else
+        return FALSE;
+
+    BattleScriptPushCursor();
+    gBattlescriptCurrInstr = BattleScript_AttackerFormChange;
+    return TRUE;
+}
+
 bool32 ProteanTryChangeType(u32 battler, u32 ability, u32 move, u32 moveType)
 {
       if ((((ability == ABILITY_PROTEAN || ability == ABILITY_LIBERO)
@@ -1220,6 +1256,8 @@ static void Cmd_attackcanceler(void)
     }
     if (B_STANCE_CHANGE_FAIL < GEN_7 && TryAegiFormChange())
         return;
+    if (TryDeoxysFormChange())
+        return;
     if (AtkCanceller_UnableToUseMove(moveType))
         return;
 
@@ -1280,6 +1318,8 @@ static void Cmd_attackcanceler(void)
         return;
     }
     if (B_STANCE_CHANGE_FAIL >= GEN_7 && TryAegiFormChange())
+        return;
+    if (TryDeoxysFormChange())
         return;
 
     gHitMarker &= ~HITMARKER_ALLOW_NO_PP;

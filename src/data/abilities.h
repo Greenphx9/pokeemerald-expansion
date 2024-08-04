@@ -2612,4 +2612,15 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
         .name = _("Origene"),
         .description = COMPOUND_STRING("Changes type to move's."),
     },
+    [ABILITY_ADAPTIVE_FORM] =
+    {
+        .name = _("Adaptive Form"),
+        .description = COMPOUND_STRING("Transforms as it battles."),
+        .aiRating = 10,
+        .cantBeCopied = TRUE,
+        .cantBeSwapped = TRUE,
+        .cantBeTraced = TRUE,
+        .cantBeSuppressed = TRUE,
+        .cantBeOverwritten = TRUE,
+    },
 };
