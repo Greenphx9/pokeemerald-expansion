@@ -22,3 +22,9 @@ This should convert all of the **metatiles.bin** files, and you can copy them to
 Next, run ghoulslash's [convert_metatile_attributes](https://github.com/ghoulslash/tools/blob/master/decomps/convert_metatile_attributes.py) script on each **metatile_attributes.bin** file, and then copy it over. 
 
 Now your tilesets should be fully working with Emerald. Of course, metatile behaviours will be broken unless you align yours with Emerald, but its still a good start
+
+## Maps
+There are multiple ways of doing this, but I find my way simplest:
+- Create a new map in Porymap with the same width, height, and headers as the map you are trying to port.
+- Copy the **layout.bin** & **border.bin** files from **pokefirered/data/layouts/MAP/** folder, to **pokeemerald/data/layouts/MAP**.
+- Reload your project in Porymap, and your done!
