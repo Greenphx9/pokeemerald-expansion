@@ -41,3 +41,14 @@ const struct Tileset gTileset_GenericBuilding1 =
     .metatileAttributes = gMetatileAttributes_GenericBuilding1,
     .callback = NULL,
 };
+
+const struct Tileset gTileset_Lab_Kanto =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_Lab_Kanto,
+    .palettes = gTilesetPalettes_Lab_Kanto,
+    .metatiles = gMetatiles_Lab_Kanto,
+    .metatileAttributes = gMetatileAttributes_Lab_Kanto,
+    .callback = NULL,
+};

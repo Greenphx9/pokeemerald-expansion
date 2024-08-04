@@ -224,7 +224,6 @@ gSpecials::
 	def_special UpdateShoalTideFlag
 	def_special InitBirchState
 	def_special ScriptGetPokedexInfo
-	def_special ShowPokedexRatingMessage
 	def_special DoPCTurnOnEffect
 	def_special DoPCTurnOffEffect
 	def_special SetDeptStoreFloor
@@ -557,3 +556,5 @@ gSpecials::
 	def_special SetWalkingIntoSignVars
 	def_special DisableMsgBoxWalkaway
 	def_special StarterChoice_Init
+	def_special GetProfOaksRatingMessage
+	def_special HasAllMons

@@ -46,17 +46,17 @@
 #define FLAG_HIDE_OAK_IN_PALLET_TOWN          0x21
 #define FLAG_HIDE_OAK_IN_HIS_LAB              0x22
 #define FLAG_HIDE_TOWN_MAP                    0x23
-#define FLAG_UNUSED_0x024    0x24 // Unused Flag
-#define FLAG_UNUSED_0x025    0x25 // Unused Flag
-#define FLAG_UNUSED_0x026    0x26 // Unused Flag
-#define FLAG_UNUSED_0x027    0x27 // Unused Flag
-#define FLAG_UNUSED_0x028    0x28 // Unused Flag
-#define FLAG_UNUSED_0x029    0x29 // Unused Flag
-#define FLAG_UNUSED_0x02A    0x2A // Unused Flag
-#define FLAG_UNUSED_0x02B    0x2B // Unused Flag
-#define FLAG_UNUSED_0x02C    0x2C // Unused Flag
-#define FLAG_UNUSED_0x02D    0x2D // Unused Flag
-#define FLAG_UNUSED_0x02E    0x2E // Unused Flag
+#define FLAG_HIDE_BULBASAUR_BALL              0x24
+#define FLAG_HIDE_SQUIRTLE_BALL               0x25
+#define FLAG_HIDE_CHARMANDER_BALL             0x26
+#define FLAG_HIDE_RIVAL_IN_LAB                0x27
+#define FLAG_HIDE_POKEDEX                     0x28
+#define FLAG_VISITED_OAKS_LAB                 0x29
+#define FLAG_BEAT_RIVAL_IN_OAKS_LAB           0x2A 
+#define FLAG_GOT_POKEBALLS_FROM_OAK_AFTER_22_RIVAL    0x2B
+#define FLAG_OAK_SAW_DEX_COMPLETION           0x2C
+#define FLAG_OAK_SKIP_22_RIVAL_CHECK          0x2D
+#define FLAG_OAKS_RATING_IS_VIA_PC            0x2E
 #define FLAG_UNUSED_0x02F    0x2F // Unused Flag
 #define FLAG_UNUSED_0x030    0x30 // Unused Flag
 #define FLAG_UNUSED_0x031    0x31 // Unused Flag

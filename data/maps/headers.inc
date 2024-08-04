@@ -7,3 +7,4 @@
 	.include "data/maps/PalletTown_PlayersHouse_1F/header.inc"
 	.include "data/maps/PalletTown_PlayersHouse_2F/header.inc"
 	.include "data/maps/PalletTown_RivalsHouse_1F/header.inc"
+	.include "data/maps/PalletTown_ProfessorOaksLab/header.inc"

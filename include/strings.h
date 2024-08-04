@@ -14,8 +14,7 @@ extern const u8 gText_ExpandedPlaceholder_Archie[];
 extern const u8 gText_ExpandedPlaceholder_Maxie[];
 extern const u8 gText_ExpandedPlaceholder_Kyogre[];
 extern const u8 gText_ExpandedPlaceholder_Groudon[];
-extern const u8 gText_ExpandedPlaceholder_Brendan[];
-extern const u8 gText_ExpandedPlaceholder_May[];
+extern const u8 gText_ExpandedPlaceholder_Gary[];
 
 extern const u8 gText_FromSpace[];
 
@@ -543,29 +542,6 @@ extern const u8 gText_SearchingPleaseWait[];
 extern const u8 gText_SearchCompleted[];
 extern const u8 gText_NoMatchingPkmnWereFound[];
 extern const u8 gText_SelectorArrow[];
-
-// birch dex rating text
-extern const u8 gBirchDexRatingText_LessThan10[];
-extern const u8 gBirchDexRatingText_LessThan20[];
-extern const u8 gBirchDexRatingText_LessThan30[];
-extern const u8 gBirchDexRatingText_LessThan40[];
-extern const u8 gBirchDexRatingText_LessThan50[];
-extern const u8 gBirchDexRatingText_LessThan60[];
-extern const u8 gBirchDexRatingText_LessThan70[];
-extern const u8 gBirchDexRatingText_LessThan80[];
-extern const u8 gBirchDexRatingText_LessThan90[];
-extern const u8 gBirchDexRatingText_LessThan100[];
-extern const u8 gBirchDexRatingText_LessThan110[];
-extern const u8 gBirchDexRatingText_LessThan120[];
-extern const u8 gBirchDexRatingText_LessThan130[];
-extern const u8 gBirchDexRatingText_LessThan140[];
-extern const u8 gBirchDexRatingText_LessThan150[];
-extern const u8 gBirchDexRatingText_LessThan160[];
-extern const u8 gBirchDexRatingText_LessThan170[];
-extern const u8 gBirchDexRatingText_LessThan180[];
-extern const u8 gBirchDexRatingText_LessThan190[];
-extern const u8 gBirchDexRatingText_LessThan200[];
-extern const u8 gBirchDexRatingText_DexCompleted[];
 
 // player pc text
 extern const u8 gText_WhatWouldYouLike[];

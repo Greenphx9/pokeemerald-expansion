@@ -271,6 +271,12 @@ EventScript_RegionMap::
 	releaseall
 	end
 
+EventScript_ChangePokemonNickname::
+	fadescreen FADE_TO_BLACK
+	special ChangePokemonNickname
+	waitstate
+	return
+
 Common_EventScript_PlayBrineysBoatMusic::
 	setflag FLAG_DONT_TRANSITION_MUSIC
 	playbgm MUS_SAILING, FALSE
@@ -620,6 +626,7 @@ EventScript_BufferPutAwayPocketPokeBalls::
 	.include "data/scripts/safari_zone.inc"
 	.include "data/scripts/roulette.inc"
 	.include "data/text/pokedex_rating.inc"
+	.include "data/scripts/pokedex_rating.inc"
 	.include "data/text/lottery_corner.inc"
 	.include "data/text/event_ticket_1.inc"
 	.include "data/text/braille.inc"
@@ -654,3 +661,5 @@ EventScript_BufferPutAwayPocketPokeBalls::
 	.include "data/maps/PalletTown_PlayersHouse_2F/scripts.inc"
 
 	.include "data/maps/PalletTown_RivalsHouse_1F/scripts.inc"
+
+	.include "data/maps/PalletTown_ProfessorOaksLab/scripts.inc"

@@ -9,3 +9,6 @@ const u16 gMetatileAttributes_Building_Kanto[] = INCBIN_U16("data/tilesets/prima
 
 const u16 gMetatiles_GenericBuilding1[] = INCBIN_U16("data/tilesets/secondary/generic_building_1/metatiles.bin");
 const u16 gMetatileAttributes_GenericBuilding1[] = INCBIN_U16("data/tilesets/secondary/generic_building_1/metatile_attributes.bin");
+
+const u16 gMetatiles_Lab_Kanto[] = INCBIN_U16("data/tilesets/secondary/lab_kanto/metatiles.bin");
+const u16 gMetatileAttributes_Lab_Kanto[] = INCBIN_U16("data/tilesets/secondary/lab_kanto/metatile_attributes.bin");
