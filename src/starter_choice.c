@@ -11,6 +11,7 @@
 #include "event_scripts.h"
 #include "fieldmap.h"
 #include "field_effect.h"
+#include "field_message_box.h"
 #include "field_player_avatar.h"
 #include "field_specials.h"
 #include "field_weather.h"
@@ -128,6 +129,8 @@ static void StarterChoice_CreateMonGfx(u16 species, bool8 isShiny, u32 personali
 static void StarterChoice_Destroy(void);
 static void StarterChoice_PrintMonStats(void);
 
+extern const u8 PalletTown_ProfessorOaksLab_Text_Controls[];
+
 void StarterChoice_Init(void) 
 {
     u8 nature, i;
@@ -179,6 +182,8 @@ void StarterChoice_Init(void)
 
     StarterChoice_PrintMonStats();
 
+    ShowFieldMessage(PalletTown_ProfessorOaksLab_Text_Controls);
+
     CreateTask(Task_StarterChoice_HandleMainInput, 0);
 }
 
@@ -199,6 +204,7 @@ static void StarterChoice_Destroy(void)
     ScriptUnfreezeObjectEvents();  
     UnlockPlayerFieldControls();
     ScriptContext_Enable();
+    HideFieldMessageBox();
 }
 
 static void Task_StarterChoice_HandleMainInput(u8 taskId)
@@ -240,6 +246,7 @@ static void Task_StarterChoice_HandleMainInput(u8 taskId)
         StringCopy(gStringVar1, GetSpeciesName(GetMonData(&sStarterChoice->mons[sStarterChoice->selectedMon], MON_DATA_SPECIES)));
         CopyMon(&gPlayerParty[0], &sStarterChoice->mons[sStarterChoice->selectedMon], sizeof(struct Pokemon));
         StarterChoice_Destroy();
+        VarSet(VAR_0x8001, 1);
         DestroyTask(taskId);
     }
     else if (JOY_NEW(B_BUTTON))
@@ -247,6 +254,7 @@ static void Task_StarterChoice_HandleMainInput(u8 taskId)
         FreeAndDestroyMonPicSprite(sStarterChoice->spriteId);
         ClearToTransparentAndRemoveWindow(sStarterChoice->windowId);
         StarterChoice_Destroy();
+        VarSet(VAR_0x8001, 0);
         DestroyTask(taskId);
     }
 }

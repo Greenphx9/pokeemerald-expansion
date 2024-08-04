@@ -24,8 +24,8 @@ PalletTown_ProfessorOaksLab_MapCoordEvents:
 	coord_event 6, 8, 0, VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 2, PalletTown_ProfessorOaksLab_EventScript_LeaveStarterSceneTrigger
 	coord_event 7, 8, 0, VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 2, PalletTown_ProfessorOaksLab_EventScript_LeaveStarterSceneTrigger
 	coord_event 5, 8, 0, VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 3, PalletTown_ProfessorOaksLab_EventScript_RivalBattleTriggerLeft
-	coord_event 6, 8, 0, VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 3, PalletTown_ProfessorOaksLab_EventScript_RivalBattleTriggerLeft
-	coord_event 7, 8, 0, VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 3, PalletTown_ProfessorOaksLab_EventScript_RivalBattleTriggerLeft
+	coord_event 6, 8, 0, VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 3, PalletTown_ProfessorOaksLab_EventScript_RivalBattleTriggerMid
+	coord_event 7, 8, 0, VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 3, PalletTown_ProfessorOaksLab_EventScript_RivalBattleTriggerRight
 
 PalletTown_ProfessorOaksLab_MapBGEvents:
 	bg_sign_event 2, 1, 0, BG_EVENT_PLAYER_FACING_ANY, PalletTown_ProfessorOaksLab_EventScript_Computer
