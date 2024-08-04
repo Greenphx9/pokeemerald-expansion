@@ -3024,7 +3024,7 @@ Move_CAPTIVATE::
 
 Move_STEALTH_ROCK::
 	loadspritegfx ANIM_TAG_STEALTH_ROCK
-	monbg ANIM_DEF_PARTNER
+	@monbg ANIM_DEF_PARTNER
 	playsewithpan SE_M_JUMP_KICK, SOUND_PAN_ATTACKER
 	waitplaysewithpan SE_M_HORN_ATTACK, SOUND_PAN_TARGET, 28
 	createsprite gStealthRockSpriteTemplate, ANIM_TARGET, 2, 20, 0, 0, 24, 30
@@ -3036,7 +3036,7 @@ Move_STEALTH_ROCK::
 	waitplaysewithpan SE_M_HORN_ATTACK, SOUND_PAN_TARGET, 28
 	createsprite gStealthRockSpriteTemplate, ANIM_TARGET, 2, 20, 0, 24, 24, 30
 	waitforvisualfinish
-	clearmonbg ANIM_DEF_PARTNER
+	@clearmonbg ANIM_DEF_PARTNER
 	end
 
 Move_GRASS_KNOT::

@@ -59,6 +59,32 @@
       "trainer_sight_or_berry_tree_id": "0",
       "script": "NULL",
       "flag": "FLAG_HIDE_OAK_IN_PALLET_TOWN"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(PIDGEY)",
+      "x": 7,
+      "y": 4,
+      "elevation": 4,
+      "movement_type": "MOVEMENT_TYPE_WANDER_LEFT_AND_RIGHT",
+      "movement_range_x": 2,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "PalletTown_EventScript_FatMan",
+      "flag": "FLAG_TEMP_1"
+    },
+    {
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(SPEAROW)",
+      "x": 16,
+      "y": 4,
+      "elevation": 4,
+      "movement_type": "MOVEMENT_TYPE_WANDER_LEFT_AND_RIGHT",
+      "movement_range_x": 2,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "PalletTown_EventScript_FatMan",
+      "flag": "FLAG_TEMP_2"
     }
   ],
   "warp_events": [
