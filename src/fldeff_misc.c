@@ -270,7 +270,7 @@ static const struct SpriteTemplate sSpriteTemplate_SandPillar =
     .callback = SpriteCB_SandPillar_BreakTop,
 };
 
-const struct SpritePalette gSpritePalette_SandPillar = {gTilesetPalettes_SecretBase[5], FLDEFF_PAL_TAG_SAND_PILLAR};
+const struct SpritePalette gSpritePalette_SandPillar = {NULL, FLDEFF_PAL_TAG_SAND_PILLAR};
 
 static const u8 sRecordMixLights_Gfx[] = INCBIN_U8("graphics/field_effects/pics/record_mix_lights.4bpp");
 static const u16 sRecordMixLights_Pal[] = INCBIN_U16("graphics/field_effects/palettes/record_mix_lights.gbapal");
@@ -667,24 +667,6 @@ static void StartSecretBaseTreeFieldEffect(void)
 
 bool8 FldEff_SecretPowerTree(void)
 {
-    s16 mb = MapGridGetMetatileBehaviorAt(gPlayerFacingPosition.x, gPlayerFacingPosition.y) & 0xFFF;
-
-    if (mb == MB_SECRET_BASE_SPOT_TREE_LEFT)
-        gFieldEffectArguments[7] = 0;
-
-    if (mb == MB_SECRET_BASE_SPOT_TREE_RIGHT)
-        gFieldEffectArguments[7] = 2;
-
-    AdjustSecretPowerSpritePixelOffsets();
-
-    CreateSprite(&sSpriteTemplate_SecretPowerTree,
-                 gSprites[gPlayerAvatar.spriteId].oam.x + gFieldEffectArguments[5],
-                 gSprites[gPlayerAvatar.spriteId].oam.y + gFieldEffectArguments[6],
-                 148);
-
-    if (gFieldEffectArguments[7] == 1 || gFieldEffectArguments[7] == 3)
-        ToggleSecretBaseEntranceMetatile();
-
     return FALSE;
 }
 

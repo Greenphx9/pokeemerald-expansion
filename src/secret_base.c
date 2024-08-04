@@ -243,30 +243,6 @@ void CheckPlayerHasSecretBase(void)
 
 static u8 GetSecretBaseTypeInFrontOfPlayer_(void)
 {
-    s16 x, y;
-    s16 behavior;
-
-    GetXYCoordsOneStepInFrontOfPlayer(&x, &y);
-    behavior = MapGridGetMetatileBehaviorAt(x, y) & 0xFFF;
-    if (behavior == MB_SECRET_BASE_SPOT_RED_CAVE || behavior == MB_SECRET_BASE_SPOT_RED_CAVE_OPEN)
-        return SECRET_BASE_RED_CAVE;
-
-    if (behavior == MB_SECRET_BASE_SPOT_BROWN_CAVE || behavior == MB_SECRET_BASE_SPOT_BROWN_CAVE_OPEN)
-        return SECRET_BASE_BROWN_CAVE;
-
-    if (behavior == MB_SECRET_BASE_SPOT_BLUE_CAVE || behavior == MB_SECRET_BASE_SPOT_BLUE_CAVE_OPEN)
-        return SECRET_BASE_BLUE_CAVE;
-
-    if (behavior == MB_SECRET_BASE_SPOT_YELLOW_CAVE || behavior == MB_SECRET_BASE_SPOT_YELLOW_CAVE_OPEN)
-        return SECRET_BASE_YELLOW_CAVE;
-
-    if (behavior == MB_SECRET_BASE_SPOT_TREE_LEFT  || behavior == MB_SECRET_BASE_SPOT_TREE_LEFT_OPEN
-     || behavior == MB_SECRET_BASE_SPOT_TREE_RIGHT || behavior == MB_SECRET_BASE_SPOT_TREE_RIGHT_OPEN)
-        return SECRET_BASE_TREE;
-
-    if (behavior == MB_SECRET_BASE_SPOT_SHRUB || behavior == MB_SECRET_BASE_SPOT_SHRUB_OPEN)
-        return SECRET_BASE_SHRUB;
-
     return 0;
 }
 
@@ -1225,7 +1201,7 @@ void SecretBasePerStepCallback(u8 taskId)
             if (sInFriendSecretBase == TRUE)
                 VarSet(VAR_SECRET_BASE_HIGH_TV_FLAGS, VarGet(VAR_SECRET_BASE_HIGH_TV_FLAGS) | SECRET_BASE_USED_STAND);
         }
-        else if (behavior == MB_IMPASSABLE_WEST_AND_EAST && tileId == METATILE_SecretBase_Slide_StairLanding)
+        else if (tileId == METATILE_SecretBase_Slide_StairLanding)
         {
             if (sInFriendSecretBase == TRUE)
             {

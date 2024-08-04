@@ -8989,16 +8989,16 @@ static void GetGroundEffectFlags_LongGrassOnBeginStep(struct ObjectEvent *objEve
 
 static void GetGroundEffectFlags_Tracks(struct ObjectEvent *objEvent, u32 *flags)
 {
-    if (MetatileBehavior_IsDeepSand(objEvent->previousMetatileBehavior))
+    /*if (MetatileBehavior_IsDeepSand(objEvent->previousMetatileBehavior))
         *flags |= GROUND_EFFECT_FLAG_DEEP_SAND;
-    else if (MetatileBehavior_IsSandOrDeepSand(objEvent->previousMetatileBehavior)
-             || MetatileBehavior_IsFootprints(objEvent->previousMetatileBehavior))
+    else */if (MetatileBehavior_IsSandOrDeepSand(objEvent->previousMetatileBehavior)
+             )//|| MetatileBehavior_IsFootprints(objEvent->previousMetatileBehavior))
         *flags |= GROUND_EFFECT_FLAG_SAND;
 }
 
 static void GetGroundEffectFlags_SandHeap(struct ObjectEvent *objEvent, u32 *flags)
 {
-    if (MetatileBehavior_IsDeepSand(objEvent->currentMetatileBehavior)
+    /*if (MetatileBehavior_IsDeepSand(objEvent->currentMetatileBehavior)
         && MetatileBehavior_IsDeepSand(objEvent->previousMetatileBehavior))
     {
         if (!objEvent->inSandPile)
@@ -9009,9 +9009,9 @@ static void GetGroundEffectFlags_SandHeap(struct ObjectEvent *objEvent, u32 *fla
         }
     }
     else
-    {
+    {*/
         objEvent->inSandPile = FALSE;
-    }
+    /*}*/
 }
 
 static void GetGroundEffectFlags_ShallowFlowingWater(struct ObjectEvent *objEvent, u32 *flags)
