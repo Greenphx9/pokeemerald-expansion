@@ -162,7 +162,9 @@ extern const union AnimCmd *const sAnims_Trainer[];
 extern const struct TrainerSprite gTrainerSprites[];
 extern const struct TrainerBacksprite gTrainerBacksprites[];
 
-extern const struct Trainer gTrainers[];
+extern const struct Trainer gTrainersNormal[];
+extern const struct Trainer gTrainersHard[];
+extern const struct Trainer gTrainersCasual[];
 extern const struct Trainer gBattlePartners[];
 
 extern const struct TrainerClass gTrainerClasses[TRAINER_CLASS_COUNT];
@@ -187,14 +189,37 @@ static inline u16 SanitizeTrainerId(u16 trainerId)
     return trainerId;
 }
 
+static inline const struct Trainer* GetTrainerStruct(u16 trainerId)
+{
+    // We check if the trainer's party is NULL as all trainers should have parties.
+    // If it is NULL, the trainer presumably doesn't exist in the array, so we should
+    // load from the normal trainer array (gTrainersNormal)
+    if (TRUE) // Check if on hard mode (to be implemented)
+    {
+        if (gTrainersHard[trainerId].party != NULL)
+            return gTrainersHard;
+        else 
+            return gTrainersNormal;
+    }
+    else if (FALSE) // Check if on casual mode (to be implemented)
+    {
+        if (gTrainersHard[trainerId].party != NULL)
+            return gTrainersHard;
+        else 
+            return gTrainersNormal;
+    }
+    else // Assume normal mode
+        return gTrainersNormal;
+}
+
 static inline const struct Trainer *GetTrainerStructFromId(u16 trainerId)
 {
-    return &gTrainers[SanitizeTrainerId(trainerId)];
+    return &GetTrainerStruct(SanitizeTrainerId(trainerId))[SanitizeTrainerId(trainerId)];
 }
 
 static inline const u8 GetTrainerClassFromId(u16 trainerId)
 {
-    return gTrainers[SanitizeTrainerId(trainerId)].trainerClass;
+    return GetTrainerStruct(SanitizeTrainerId(trainerId))[SanitizeTrainerId(trainerId)].trainerClass;
 }
 
 static inline const u8 *GetTrainerClassNameFromId(u16 trainerId)
@@ -208,52 +233,52 @@ static inline const u8 *GetTrainerNameFromId(u16 trainerId)
 {
     if (trainerId > TRAINER_PARTNER(PARTNER_NONE))
         return gBattlePartners[trainerId - TRAINER_PARTNER(PARTNER_NONE)].trainerName;
-    return gTrainers[SanitizeTrainerId(trainerId)].trainerName;
+    return GetTrainerStruct(SanitizeTrainerId(trainerId))[SanitizeTrainerId(trainerId)].trainerName;
 }
 
 static inline const u8 GetTrainerPicFromId(u16 trainerId)
 {
-    return gTrainers[SanitizeTrainerId(trainerId)].trainerPic;
+    return GetTrainerStruct(SanitizeTrainerId(trainerId))[SanitizeTrainerId(trainerId)].trainerPic;
 }
 
 static inline const u8 GetTrainerStartingStatusFromId(u16 trainerId)
 {
-    return gTrainers[SanitizeTrainerId(trainerId)].startingStatus;
+    return GetTrainerStruct(SanitizeTrainerId(trainerId))[SanitizeTrainerId(trainerId)].startingStatus;
 }
 
 static inline const bool32 IsTrainerDoubleBattle(u16 trainerId)
 {
-    return gTrainers[SanitizeTrainerId(trainerId)].doubleBattle;
+    return GetTrainerStruct(SanitizeTrainerId(trainerId))[SanitizeTrainerId(trainerId)].doubleBattle;
 }
 
 static inline const u8 GetTrainerPartySizeFromId(u16 trainerId)
 {
-    return gTrainers[SanitizeTrainerId(trainerId)].partySize;
+    return GetTrainerStruct(SanitizeTrainerId(trainerId))[SanitizeTrainerId(trainerId)].partySize;
 }
 
 static inline const bool32 DoesTrainerHaveMugshot(u16 trainerId)
 {
-    return gTrainers[SanitizeTrainerId(trainerId)].mugshotEnabled;
+    return GetTrainerStruct(SanitizeTrainerId(trainerId))[SanitizeTrainerId(trainerId)].mugshotEnabled;
 }
 
 static inline const u8 GetTrainerMugshotColorFromId(u16 trainerId)
 {
-    return gTrainers[SanitizeTrainerId(trainerId)].mugshotColor;
+    return GetTrainerStruct(SanitizeTrainerId(trainerId))[SanitizeTrainerId(trainerId)].mugshotColor;
 }
 
 static inline const u16 *GetTrainerItemsFromId(u16 trainerId)
 {
-    return gTrainers[SanitizeTrainerId(trainerId)].items;
+    return GetTrainerStruct(SanitizeTrainerId(trainerId))[SanitizeTrainerId(trainerId)].items;
 }
 
 static inline const struct TrainerMon *GetTrainerPartyFromId(u16 trainerId)
 {
-    return gTrainers[SanitizeTrainerId(trainerId)].party;
+    return GetTrainerStruct(SanitizeTrainerId(trainerId))[SanitizeTrainerId(trainerId)].party;
 }
 
 static inline const bool32 GetTrainerAIFlagsFromId(u16 trainerId)
 {
-    return gTrainers[SanitizeTrainerId(trainerId)].aiFlags;
+    return GetTrainerStruct(SanitizeTrainerId(trainerId))[SanitizeTrainerId(trainerId)].aiFlags;
 }
 
 #endif // GUARD_DATA_H
