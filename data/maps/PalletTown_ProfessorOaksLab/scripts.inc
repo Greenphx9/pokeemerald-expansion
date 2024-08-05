@@ -681,7 +681,7 @@ PalletTown_ProfessorOaksLab_EventScript_RivalApproachForBattleSquirtleRight::
 # 341 "data/maps/PalletTown_ProfessorOaksLab/scripts.pory"
 PalletTown_ProfessorOaksLab_EventScript_RivalBattleSquirtle::
 # 342 "data/maps/PalletTown_ProfessorOaksLab/scripts.pory"
-	trainerbattle_earlyrival TRAINER_RIVAL_OAKS_LAB_SQUIRTLE, 0, PalletTown_ProfessorOaksLab_Text_RivalDefeat, Text_RivalVictory
+	trainerbattle_earlyrival TRAINER_RIVAL_OAKS_LAB_SQUIRTLE, RIVAL_BATTLE_TUTORIAL, PalletTown_ProfessorOaksLab_Text_RivalDefeat, Text_RivalVictory
 # 343 "data/maps/PalletTown_ProfessorOaksLab/scripts.pory"
 	goto PalletTown_ProfessorOaksLab_EventScript_EndRivalBattle
 # 344 "data/maps/PalletTown_ProfessorOaksLab/scripts.pory"
@@ -787,7 +787,7 @@ PalletTown_ProfessorOaksLab_EventScript_RivalApproachForBattleCharmanderRight::
 # 394 "data/maps/PalletTown_ProfessorOaksLab/scripts.pory"
 PalletTown_ProfessorOaksLab_EventScript_RivalBattleCharmander::
 # 395 "data/maps/PalletTown_ProfessorOaksLab/scripts.pory"
-	trainerbattle_earlyrival TRAINER_RIVAL_OAKS_LAB_CHARMANDER, 0, PalletTown_ProfessorOaksLab_Text_RivalDefeat, Text_RivalVictory
+	trainerbattle_earlyrival TRAINER_RIVAL_OAKS_LAB_CHARMANDER, RIVAL_BATTLE_TUTORIAL, PalletTown_ProfessorOaksLab_Text_RivalDefeat, Text_RivalVictory
 # 396 "data/maps/PalletTown_ProfessorOaksLab/scripts.pory"
 	goto PalletTown_ProfessorOaksLab_EventScript_EndRivalBattle
 # 397 "data/maps/PalletTown_ProfessorOaksLab/scripts.pory"
@@ -899,7 +899,7 @@ PalletTown_ProfessorOaksLab_EventScript_RivalApproachForBattleBulbasaurRight::
 # 450 "data/maps/PalletTown_ProfessorOaksLab/scripts.pory"
 PalletTown_ProfessorOaksLab_EventScript_RivalBattleBulbasaur::
 # 451 "data/maps/PalletTown_ProfessorOaksLab/scripts.pory"
-	trainerbattle_earlyrival TRAINER_RIVAL_OAKS_LAB_BULBASAUR, 0, PalletTown_ProfessorOaksLab_Text_RivalDefeat, Text_RivalVictory
+	trainerbattle_earlyrival TRAINER_RIVAL_OAKS_LAB_BULBASAUR, RIVAL_BATTLE_TUTORIAL, PalletTown_ProfessorOaksLab_Text_RivalDefeat, Text_RivalVictory
 # 452 "data/maps/PalletTown_ProfessorOaksLab/scripts.pory"
 	goto PalletTown_ProfessorOaksLab_EventScript_EndRivalBattle
 # 453 "data/maps/PalletTown_ProfessorOaksLab/scripts.pory"
