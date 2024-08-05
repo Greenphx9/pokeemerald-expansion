@@ -651,11 +651,11 @@ const struct BattleBackground sBattleTerrainTable[] =
 
     [BATTLE_TERRAIN_WATER] =
     {
-        .tileset = gBattleTerrainTiles_Water,
-        .tilemap = gBattleTerrainTilemap_Water,
-        .entryTileset = gBattleTerrainAnimTiles_Water,
-        .entryTilemap = gBattleTerrainAnimTilemap_Water,
-        .palette = gBattleTerrainPalette_Water,
+        .tileset = gBattleTerrainTiles_DPPTWaterDay,
+        .tilemap = gBattleTerrainTilemap_DPPTWaterDay,
+        .entryTileset = gBattleTerrainAnimTiles_KantoWater,
+        .entryTilemap = gBattleTerrainAnimTilemap_KantoWater,
+        .palette = gBattleTerrainPalette_DPPTWaterDay,
     },
 
     [BATTLE_TERRAIN_POND] =
@@ -722,6 +722,14 @@ const struct BattleBackground sBattleTerrainTableNight[] =
         .entryTilemap = gBattleTerrainAnimTilemap_KantoSand,
         .palette = gBattleTerrainPalette_DPPTSandNight,
     },
+    [BATTLE_TERRAIN_WATER] =
+    {
+        .tileset = gBattleTerrainTiles_DPPTWaterNight,
+        .tilemap = gBattleTerrainTilemap_DPPTWaterNight,
+        .entryTileset = gBattleTerrainAnimTiles_KantoWater,
+        .entryTilemap = gBattleTerrainAnimTilemap_KantoWater,
+        .palette = gBattleTerrainPalette_DPPTWaterNight,
+    },
 };
 
 const struct BattleBackground sBattleTerrainTableAfternoon[] =
@@ -741,6 +749,14 @@ const struct BattleBackground sBattleTerrainTableAfternoon[] =
         .entryTileset = gBattleTerrainAnimTiles_KantoSand,
         .entryTilemap = gBattleTerrainAnimTilemap_KantoSand,
         .palette = gBattleTerrainPalette_DPPTSandAfternoon,
+    },
+    [BATTLE_TERRAIN_WATER] =
+    {
+        .tileset = gBattleTerrainTiles_DPPTWaterAfternoon,
+        .tilemap = gBattleTerrainTilemap_DPPTWaterAfternoon,
+        .entryTileset = gBattleTerrainAnimTiles_KantoWater,
+        .entryTilemap = gBattleTerrainAnimTilemap_KantoWater,
+        .palette = gBattleTerrainPalette_DPPTWaterAfternoon,
     },
 };
 
@@ -887,9 +903,9 @@ void DrawMainBattleBackground(void)
         {
         default:
         case MAP_BATTLE_SCENE_NORMAL:
-            LZDecompressVram(GetCurrentBattleTerrainTable()[BATTLE_TERRAIN_SAND].tileset, (void *)(BG_CHAR_ADDR(2)));
-            LZDecompressVram(GetCurrentBattleTerrainTable()[BATTLE_TERRAIN_SAND].tilemap, (void *)(BG_SCREEN_ADDR(26)));
-            LoadCompressedPalette(GetCurrentBattleTerrainTable()[BATTLE_TERRAIN_SAND].palette, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
+            LZDecompressVram(GetCurrentBattleTerrainTable()[BATTLE_TERRAIN_WATER].tileset, (void *)(BG_CHAR_ADDR(2)));
+            LZDecompressVram(GetCurrentBattleTerrainTable()[BATTLE_TERRAIN_WATER].tilemap, (void *)(BG_SCREEN_ADDR(26)));
+            LoadCompressedPalette(GetCurrentBattleTerrainTable()[BATTLE_TERRAIN_WATER].palette, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
             break;
         case MAP_BATTLE_SCENE_GYM:
             LZDecompressVram(gBattleTerrainTiles_Building, (void *)(BG_CHAR_ADDR(2)));
@@ -1284,8 +1300,8 @@ void DrawBattleEntryBackground(void)
 
         if (GetCurrentMapBattleScene() == MAP_BATTLE_SCENE_NORMAL)
         {
-            LZDecompressVram(GetCurrentBattleTerrainTable()[BATTLE_TERRAIN_SAND].entryTileset, (void *)(BG_CHAR_ADDR(1)));
-            LZDecompressVram(GetCurrentBattleTerrainTable()[BATTLE_TERRAIN_SAND].entryTilemap, (void *)(BG_SCREEN_ADDR(28)));
+            LZDecompressVram(GetCurrentBattleTerrainTable()[BATTLE_TERRAIN_WATER].entryTileset, (void *)(BG_CHAR_ADDR(1)));
+            LZDecompressVram(GetCurrentBattleTerrainTable()[BATTLE_TERRAIN_WATER].entryTilemap, (void *)(BG_SCREEN_ADDR(28)));
         }
         else
         {

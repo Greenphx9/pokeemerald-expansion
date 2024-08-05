@@ -114,3 +114,17 @@ const u32 gBattleTerrainTilemap_DPPTSandAfternoon[] = INCBIN_U32("graphics/battl
 const u32 gBattleTerrainTiles_DPPTSandNight[] = INCBIN_U32("graphics/battle_terrain/dppt/sand_night/tiles.4bpp.lz");
 const u32 gBattleTerrainPalette_DPPTSandNight[] = INCBIN_U32("graphics/battle_terrain/dppt/sand_night/tiles.gbapal.lz");
 const u32 gBattleTerrainTilemap_DPPTSandNight[] = INCBIN_U32("graphics/battle_terrain/dppt/sand_night/tiles.bin.lz");
+
+const u32 gBattleTerrainTiles_DPPTWaterDay[] = INCBIN_U32("graphics/battle_terrain/dppt/water_day/tiles.4bpp.lz");
+const u32 gBattleTerrainPalette_DPPTWaterDay[] = INCBIN_U32("graphics/battle_terrain/dppt/water_day/tiles.gbapal.lz");
+const u32 gBattleTerrainTilemap_DPPTWaterDay[] = INCBIN_U32("graphics/battle_terrain/dppt/water_day/tiles.bin.lz");
+const u32 gBattleTerrainAnimTiles_KantoWater[] = INCBIN_U32("graphics/battle_terrain/dppt/water_day/anim.4bpp.lz");
+const u32 gBattleTerrainAnimTilemap_KantoWater[] = INCBIN_U32("graphics/battle_terrain/dppt/water_day/anim.bin.lz");
+
+const u32 gBattleTerrainTiles_DPPTWaterAfternoon[] = INCBIN_U32("graphics/battle_terrain/dppt/water_afternoon/tiles.4bpp.lz");
+const u32 gBattleTerrainPalette_DPPTWaterAfternoon[] = INCBIN_U32("graphics/battle_terrain/dppt/water_afternoon/tiles.gbapal.lz");
+const u32 gBattleTerrainTilemap_DPPTWaterAfternoon[] = INCBIN_U32("graphics/battle_terrain/dppt/water_afternoon/tiles.bin.lz");
+
+const u32 gBattleTerrainTiles_DPPTWaterNight[] = INCBIN_U32("graphics/battle_terrain/dppt/water_night/tiles.4bpp.lz");
+const u32 gBattleTerrainPalette_DPPTWaterNight[] = INCBIN_U32("graphics/battle_terrain/dppt/water_night/tiles.gbapal.lz");
+const u32 gBattleTerrainTilemap_DPPTWaterNight[] = INCBIN_U32("graphics/battle_terrain/dppt/water_night/tiles.bin.lz");

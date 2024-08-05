@@ -307,6 +307,20 @@ extern const u32 gBattleTerrainTiles_DPPTSandNight[];
 extern const u32 gBattleTerrainPalette_DPPTSandNight[];
 extern const u32 gBattleTerrainTilemap_DPPTSandNight[];
 
+extern const u32 gBattleTerrainTiles_DPPTWaterDay[];
+extern const u32 gBattleTerrainPalette_DPPTWaterDay[];
+extern const u32 gBattleTerrainTilemap_DPPTWaterDay[];
+extern const u32 gBattleTerrainAnimTiles_KantoWater[];
+extern const u32 gBattleTerrainAnimTilemap_KantoWater[];
+
+extern const u32 gBattleTerrainTiles_DPPTWaterAfternoon[];
+extern const u32 gBattleTerrainPalette_DPPTWaterAfternoon[];
+extern const u32 gBattleTerrainTilemap_DPPTWaterAfternoon[];
+
+extern const u32 gBattleTerrainTiles_DPPTWaterNight[];
+extern const u32 gBattleTerrainPalette_DPPTWaterNight[];
+extern const u32 gBattleTerrainTilemap_DPPTWaterNight[];
+
 // Pokédex
 extern const u32 gPokedexInterface_Gfx[];
 extern const u16 gPokedexBgHoenn_Pal[];
