@@ -986,9 +986,9 @@ void DrawMainBattleBackground(void)
         {
         default:
         case MAP_BATTLE_SCENE_NORMAL:
-            LZDecompressVram(GetCurrentBattleTerrainTable()[BATTLE_TERRAIN_FOREST].tileset, (void *)(BG_CHAR_ADDR(2)));
-            LZDecompressVram(GetCurrentBattleTerrainTable()[BATTLE_TERRAIN_FOREST].tilemap, (void *)(BG_SCREEN_ADDR(26)));
-            LoadCompressedPalette(GetCurrentBattleTerrainTable()[BATTLE_TERRAIN_FOREST].palette, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
+            LZDecompressVram(GetCurrentBattleTerrainTable()[gBattleTerrain].tileset, (void *)(BG_CHAR_ADDR(2)));
+            LZDecompressVram(GetCurrentBattleTerrainTable()[gBattleTerrain].tilemap, (void *)(BG_SCREEN_ADDR(26)));
+            LoadCompressedPalette(GetCurrentBattleTerrainTable()[gBattleTerrain].palette, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
             break;
         case MAP_BATTLE_SCENE_GYM:
             LZDecompressVram(gBattleTerrainTiles_Building, (void *)(BG_CHAR_ADDR(2)));
@@ -1383,8 +1383,8 @@ void DrawBattleEntryBackground(void)
 
         if (GetCurrentMapBattleScene() == MAP_BATTLE_SCENE_NORMAL)
         {
-            LZDecompressVram(GetCurrentBattleTerrainTable()[BATTLE_TERRAIN_FOREST].entryTileset, (void *)(BG_CHAR_ADDR(1)));
-            LZDecompressVram(GetCurrentBattleTerrainTable()[BATTLE_TERRAIN_FOREST].entryTilemap, (void *)(BG_SCREEN_ADDR(28)));
+            LZDecompressVram(GetCurrentBattleTerrainTable()[gBattleTerrain].entryTileset, (void *)(BG_CHAR_ADDR(1)));
+            LZDecompressVram(GetCurrentBattleTerrainTable()[gBattleTerrain].entryTilemap, (void *)(BG_SCREEN_ADDR(28)));
         }
         else
         {
