@@ -43,5 +43,6 @@ void UpdateSwapLineSpritesPos(u8 *spriteIds, u8 count, s16 x, u16 y);
 void LoadSignpostWindowGfx(u8 windowId, u16 destOffset, u8 palIdx);
 void LoadSignpostWindowFrameGfx(void);
 void LoadStdWindowFrameGfx(void);
+void ResetAllBgsCoordinatesAndBgCntRegs(void);
 
 #endif //GUARD_MENU_HELPERS_H
