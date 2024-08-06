@@ -22,6 +22,7 @@
 #include "metatile_behavior.h"
 #include "overworld.h"
 #include "pokemon.h"
+#include "quests.h"
 #include "safari_zone.h"
 #include "script.h"
 #include "secret_base.h"
@@ -245,7 +246,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     {
         PlaySE(SE_WIN_OPEN);
         FreezeObjectEvents();
-        Debug_ShowMainMenu();
+        CreateTask(Task_QuestMenu_OpenFromStartMenu, 0);
         return TRUE;
     }
 #endif
