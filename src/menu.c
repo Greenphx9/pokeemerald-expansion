@@ -77,7 +77,7 @@ static EWRAM_DATA bool8 sScheduledBgCopiesToVram[4] = {FALSE};
 static EWRAM_DATA u16 sTempTileDataBufferIdx = 0;
 static EWRAM_DATA void *sTempTileDataBuffer[0x20] = {NULL};
 
-const u16 gMenuMessageWindow_Gfx[] = INCBIN_U16("graphics/text_window/dppt/menu_message.4bpp");
+const u16 gMenuMessageWindow_Gfx[] = INCBIN_U16("graphics/text_window/menu_message.4bpp");
 const u16 gStandardMenuPalette[] = INCBIN_U16("graphics/interface/std_menu.gbapal");
 
 static const u8 sTextSpeedFrameDelays[] =
