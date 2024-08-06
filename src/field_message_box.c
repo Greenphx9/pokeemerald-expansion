@@ -32,7 +32,7 @@ static void Task_DrawFieldMessage(u8 taskId)
     {
         case 0:
            if (!IsMsgSignpost())
-              LoadStdWindowFrameGfx();
+              LoadMessageBoxAndBorderGfx();
            else
               LoadSignpostWindowFrameGfx();
            task->tState++;

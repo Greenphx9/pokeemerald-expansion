@@ -248,6 +248,17 @@
 #define TEXT_DYNAMIC_COLOR_5    0xE // Usually blue-green
 #define TEXT_DYNAMIC_COLOR_6    0xF // Usually cerulean
 
+#define TEXT_COLOR_TRANSPARENT_DP  0x0
+#define TEXT_COLOR_WHITE_DP        0x1
+#define TEXT_COLOR_DARK_GRAY_DP    0x6
+#define TEXT_COLOR_LIGHT_GRAY_DP   0x7
+#define TEXT_COLOR_RED_DP          0x8
+#define TEXT_COLOR_LIGHT_RED_DP    0x9
+#define TEXT_COLOR_GREEN_DP        0xA
+#define TEXT_COLOR_LIGHT_GREEN_DP  0xB
+#define TEXT_COLOR_BLUE_DP         0xC
+#define TEXT_COLOR_LIGHT_BLUE_DP   0xD
+
 #define PLACEHOLDER_ID_UNKNOWN       0x0
 #define PLACEHOLDER_ID_PLAYER        0x1
 #define PLACEHOLDER_ID_STRING_VAR_1  0x2
