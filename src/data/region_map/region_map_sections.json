@@ -7,6 +7,14 @@
       "y": 11,
       "width": 1,
       "height": 1
+    },
+    {
+      "map_section": "MAPSEC_ROUTE_1",
+      "name": "ROUTE 1",
+      "x": 4,
+      "y": 9,
+      "width": 1,
+      "height": 2
     }
   ]
 }
