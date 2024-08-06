@@ -620,6 +620,7 @@ const struct BattleBackground sBattleTerrainTable[] =
         .entryTileset = gBattleTerrainAnimTiles_KantoGrass,
         .entryTilemap = gBattleTerrainAnimTilemap_KantoGrass,
         .palette = gBattleTerrainPalette_KantoGrass,
+        .universal = FALSE,
     },
 
     [BATTLE_TERRAIN_LONG_GRASS] =
@@ -629,6 +630,7 @@ const struct BattleBackground sBattleTerrainTable[] =
         .entryTileset = gBattleTerrainAnimTiles_LongGrass,
         .entryTilemap = gBattleTerrainAnimTilemap_LongGrass,
         .palette = gBattleTerrainPalette_LongGrass,
+        .universal = FALSE,
     },
 
     [BATTLE_TERRAIN_SAND] =
@@ -638,6 +640,7 @@ const struct BattleBackground sBattleTerrainTable[] =
         .entryTileset = gBattleTerrainAnimTiles_KantoSand,
         .entryTilemap = gBattleTerrainAnimTilemap_KantoSand,
         .palette = gBattleTerrainPalette_DPPTSandDay,
+        .universal = FALSE,
     },
 
     [BATTLE_TERRAIN_UNDERWATER] =
@@ -647,6 +650,7 @@ const struct BattleBackground sBattleTerrainTable[] =
         .entryTileset = gBattleTerrainAnimTiles_Underwater,
         .entryTilemap = gBattleTerrainAnimTilemap_Underwater,
         .palette = gBattleTerrainPalette_Underwater,
+        .universal = TRUE,
     },
 
     [BATTLE_TERRAIN_WATER] =
@@ -656,51 +660,57 @@ const struct BattleBackground sBattleTerrainTable[] =
         .entryTileset = gBattleTerrainAnimTiles_KantoWater,
         .entryTilemap = gBattleTerrainAnimTilemap_KantoWater,
         .palette = gBattleTerrainPalette_DPPTWaterDay,
+        .universal = FALSE,
     },
 
     [BATTLE_TERRAIN_POND] =
     {
-        .tileset = gBattleTerrainTiles_PondWater,
-        .tilemap = gBattleTerrainTilemap_PondWater,
-        .entryTileset = gBattleTerrainAnimTiles_PondWater,
-        .entryTilemap = gBattleTerrainAnimTilemap_PondWater,
-        .palette = gBattleTerrainPalette_PondWater,
+        .tileset = gBattleTerrainTiles_DPPTWaterDay,
+        .tilemap = gBattleTerrainTilemap_DPPTWaterDay,
+        .entryTileset = gBattleTerrainAnimTiles_KantoWater,
+        .entryTilemap = gBattleTerrainAnimTilemap_KantoWater,
+        .palette = gBattleTerrainPalette_DPPTWaterDay,
+        .universal = FALSE,
     },
 
     [BATTLE_TERRAIN_MOUNTAIN] =
     {
-        .tileset = gBattleTerrainTiles_Rock,
-        .tilemap = gBattleTerrainTilemap_Rock,
-        .entryTileset = gBattleTerrainAnimTiles_Rock,
-        .entryTilemap = gBattleTerrainAnimTilemap_Rock,
-        .palette = gBattleTerrainPalette_Rock,
+        .tileset = gBattleTerrainTiles_DPPTMountainDay,
+        .tilemap = gBattleTerrainTilemap_DPPTMountainDay,
+        .entryTileset = gBattleTerrainAnimTiles_KantoMountain,
+        .entryTilemap = gBattleTerrainAnimTilemap_KantoMountain,
+        .palette = gBattleTerrainPalette_DPPTMountainDay,
+        .universal = FALSE,
     },
 
     [BATTLE_TERRAIN_CAVE] =
     {
-        .tileset = gBattleTerrainTiles_Cave,
-        .tilemap = gBattleTerrainTilemap_Cave,
-        .entryTileset = gBattleTerrainAnimTiles_Cave,
-        .entryTilemap = gBattleTerrainAnimTilemap_Cave,
-        .palette = gBattleTerrainPalette_Cave,
+        .tileset = gBattleTerrainTiles_DPPTCave,
+        .tilemap = gBattleTerrainTilemap_DPPTCave,
+        .entryTileset = gBattleTerrainAnimTiles_KantoCave,
+        .entryTilemap = gBattleTerrainAnimTilemap_KantoCave,
+        .palette = gBattleTerrainPalette_DPPTCave,
+        .universal = TRUE,
     },
 
     [BATTLE_TERRAIN_BUILDING] =
     {
-        .tileset = gBattleTerrainTiles_Building,
-        .tilemap = gBattleTerrainTilemap_Building,
-        .entryTileset = gBattleTerrainAnimTiles_Building,
-        .entryTilemap = gBattleTerrainAnimTilemap_Building,
-        .palette = gBattleTerrainPalette_Building,
+        .tileset = gBattleTerrainTiles_DPPTBuilding,
+        .tilemap = gBattleTerrainTilemap_DPPTBuilding,
+        .entryTileset = gBattleTerrainAnimTiles_KantoBuilding,
+        .entryTilemap = gBattleTerrainAnimTilemap_KantoBuilding,
+        .palette = gBattleTerrainPalette_DPPTBuilding,
+        .universal = TRUE,
     },
 
     [BATTLE_TERRAIN_PLAIN] =
     {
-        .tileset = gBattleTerrainTiles_Building,
-        .tilemap = gBattleTerrainTilemap_Building,
-        .entryTileset = gBattleTerrainAnimTiles_Building,
-        .entryTilemap = gBattleTerrainAnimTilemap_Building,
-        .palette = gBattleTerrainPalette_Plain,
+        .tileset = gBattleTerrainTiles_DPPTBuilding,
+        .tilemap = gBattleTerrainTilemap_DPPTBuilding,
+        .entryTileset = gBattleTerrainAnimTiles_KantoBuilding,
+        .entryTilemap = gBattleTerrainAnimTilemap_KantoBuilding,
+        .palette = gBattleTerrainPalette_DPPTBuilding,
+        .universal = FALSE,
     },
 };
 
@@ -730,6 +740,22 @@ const struct BattleBackground sBattleTerrainTableNight[] =
         .entryTilemap = gBattleTerrainAnimTilemap_KantoWater,
         .palette = gBattleTerrainPalette_DPPTWaterNight,
     },
+    [BATTLE_TERRAIN_POND] =
+    {
+        .tileset = gBattleTerrainTiles_DPPTWaterNight,
+        .tilemap = gBattleTerrainTilemap_DPPTWaterNight,
+        .entryTileset = gBattleTerrainAnimTiles_KantoWater,
+        .entryTilemap = gBattleTerrainAnimTilemap_KantoWater,
+        .palette = gBattleTerrainPalette_DPPTWaterNight,
+    },
+    [BATTLE_TERRAIN_MOUNTAIN] =
+    {
+        .tileset = gBattleTerrainTiles_DPPTMountainNight,
+        .tilemap = gBattleTerrainTilemap_DPPTMountainNight,
+        .entryTileset = gBattleTerrainAnimTiles_KantoMountain,
+        .entryTilemap = gBattleTerrainAnimTilemap_KantoMountain,
+        .palette = gBattleTerrainPalette_DPPTMountainNight,
+    },
 };
 
 const struct BattleBackground sBattleTerrainTableAfternoon[] =
@@ -757,6 +783,22 @@ const struct BattleBackground sBattleTerrainTableAfternoon[] =
         .entryTileset = gBattleTerrainAnimTiles_KantoWater,
         .entryTilemap = gBattleTerrainAnimTilemap_KantoWater,
         .palette = gBattleTerrainPalette_DPPTWaterAfternoon,
+    },
+    [BATTLE_TERRAIN_POND] =
+    {
+        .tileset = gBattleTerrainTiles_DPPTWaterAfternoon,
+        .tilemap = gBattleTerrainTilemap_DPPTWaterAfternoon,
+        .entryTileset = gBattleTerrainAnimTiles_KantoWater,
+        .entryTilemap = gBattleTerrainAnimTilemap_KantoWater,
+        .palette = gBattleTerrainPalette_DPPTWaterAfternoon,
+    },
+    [BATTLE_TERRAIN_MOUNTAIN] =
+    {
+        .tileset = gBattleTerrainTiles_DPPTMountainAfternoon,
+        .tilemap = gBattleTerrainTilemap_DPPTMountainAfternoon,
+        .entryTileset = gBattleTerrainAnimTiles_KantoMountain,
+        .entryTilemap = gBattleTerrainAnimTilemap_KantoMountain,
+        .palette = gBattleTerrainPalette_DPPTMountainAfternoon,
     },
 };
 
@@ -829,14 +871,14 @@ const struct BattleBackground * GetCurrentBattleTerrainTable()
 {
     if (GetTimeOfDay() == TIME_NIGHT)
     {
-        if (sBattleTerrainTableNight[gBattleTerrain].tileset != NULL)
+        if (!sBattleTerrainTable[gBattleTerrain].universal)
             return sBattleTerrainTableNight;
         else
             return sBattleTerrainTable;
     }
     else if (GetTimeOfDay() == TIME_MORNING || GetTimeOfDay() == TIME_EVENING)
     {
-        if (sBattleTerrainTableAfternoon[gBattleTerrain].tileset != NULL)
+        if (!sBattleTerrainTable[gBattleTerrain].universal)
             return sBattleTerrainTableAfternoon;
         else
             return sBattleTerrainTable;
@@ -903,9 +945,9 @@ void DrawMainBattleBackground(void)
         {
         default:
         case MAP_BATTLE_SCENE_NORMAL:
-            LZDecompressVram(GetCurrentBattleTerrainTable()[BATTLE_TERRAIN_WATER].tileset, (void *)(BG_CHAR_ADDR(2)));
-            LZDecompressVram(GetCurrentBattleTerrainTable()[BATTLE_TERRAIN_WATER].tilemap, (void *)(BG_SCREEN_ADDR(26)));
-            LoadCompressedPalette(GetCurrentBattleTerrainTable()[BATTLE_TERRAIN_WATER].palette, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
+            LZDecompressVram(GetCurrentBattleTerrainTable()[BATTLE_TERRAIN_BUILDING].tileset, (void *)(BG_CHAR_ADDR(2)));
+            LZDecompressVram(GetCurrentBattleTerrainTable()[BATTLE_TERRAIN_BUILDING].tilemap, (void *)(BG_SCREEN_ADDR(26)));
+            LoadCompressedPalette(GetCurrentBattleTerrainTable()[BATTLE_TERRAIN_BUILDING].palette, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
             break;
         case MAP_BATTLE_SCENE_GYM:
             LZDecompressVram(gBattleTerrainTiles_Building, (void *)(BG_CHAR_ADDR(2)));
@@ -1300,8 +1342,8 @@ void DrawBattleEntryBackground(void)
 
         if (GetCurrentMapBattleScene() == MAP_BATTLE_SCENE_NORMAL)
         {
-            LZDecompressVram(GetCurrentBattleTerrainTable()[BATTLE_TERRAIN_WATER].entryTileset, (void *)(BG_CHAR_ADDR(1)));
-            LZDecompressVram(GetCurrentBattleTerrainTable()[BATTLE_TERRAIN_WATER].entryTilemap, (void *)(BG_SCREEN_ADDR(28)));
+            LZDecompressVram(GetCurrentBattleTerrainTable()[BATTLE_TERRAIN_BUILDING].entryTileset, (void *)(BG_CHAR_ADDR(1)));
+            LZDecompressVram(GetCurrentBattleTerrainTable()[BATTLE_TERRAIN_BUILDING].entryTilemap, (void *)(BG_SCREEN_ADDR(28)));
         }
         else
         {

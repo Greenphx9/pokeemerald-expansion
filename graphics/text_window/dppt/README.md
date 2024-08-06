@@ -16,4 +16,4 @@ Platinum (message_box_plat.png):
 
 HGSS (message_box_hgss.png):
 
-![Plat Textbox](../../../screenshots/text/hgss.png)
+![HGSS Textbox](../../../screenshots/text/hgss.png)
