@@ -167,6 +167,7 @@ Debug_EventScript_Script_5::
 	end
 
 Debug_EventScript_Script_6::
+	setflag FLAG_SYS_QUEST_MENU_GET
 	release
 	end
 
