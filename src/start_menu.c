@@ -637,7 +637,7 @@ void ShowStartMenu(void)
         return;
     }
     BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
-    CreateTask(Task_OpenStartMenuFullScreen, 0);
+    CreateTask(Task_ShowStartMenu, 0);
     LockPlayerFieldControls();
 }
 

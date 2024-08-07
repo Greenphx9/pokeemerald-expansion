@@ -234,7 +234,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
         FlagSet(FLAG_OPENED_START_MENU);
         PlaySE(SE_WIN_OPEN);
         HideMapNamePopUpWindow();
-        ShowStartMenu();
+        HeatStartMenu_Init();
         return TRUE;
     }
     if (input->pressedSelectButton && UseRegisteredKeyItemOnField() == TRUE)
