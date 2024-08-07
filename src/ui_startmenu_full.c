@@ -89,7 +89,7 @@ enum StartMenuBoxes
     START_MENU_PARTY,
     START_MENU_BAG,
     START_MENU_CARD,
-    START_MENU_MAP,
+    START_MENU_SAVE,
     START_MENU_OPTIONS,
 };
 
@@ -185,7 +185,7 @@ static const u16 sStartMenuPalette[] = INCBIN_U16("graphics/ui_startmenu_full/me
 //#if (FLAG_CLOCK_MODE != 0)
 //static const u32 sStartMenuTilemap[] = INCBIN_U32("graphics/ui_startmenu_full/menu_tilemap_alt.bin.lz");
 //#else
-static const u32 sStartMenuTilemap[] = INCBIN_U32("graphics/ui_startmenu_full/menu_tilemap.bin.lz");
+static const u32 sStartMenuTilemap[] = INCBIN_U32("graphics/ui_startmenu_full/menu_tiles.bin.lz");
 //#endif
 
 // Alternate Main Background for Female Player
@@ -221,7 +221,7 @@ static const u16 sHP_Pal[] = INCBIN_U16("graphics/ui_startmenu_full/hpbar_pal.gb
 static const u16 sHP_PalAlt[] = INCBIN_U16("graphics/ui_startmenu_full/hpbar_pal_alt.gbapal");
 
 // greyed buttons
-static const u32 sGreyMenuButtonMap_Gfx[] = INCBIN_U32("graphics/ui_startmenu_full/map_dark_sprite.4bpp.lz");
+//static const u32 sGreyMenuButtonMap_Gfx[] = INCBIN_U32("graphics/ui_startmenu_full/map_dark_sprite.4bpp.lz");
 static const u32 sGreyMenuButtonDex_Gfx[] = INCBIN_U32("graphics/ui_startmenu_full/dex_dark_sprite.4bpp.lz");
 static const u32 sGreyMenuButtonParty_Gfx[] = INCBIN_U32("graphics/ui_startmenu_full/party_dark_sprite.4bpp.lz");
 static const u16 sGreyMenuButton_Pal[] = INCBIN_U16("graphics/ui_startmenu_full/menu_dark.gbapal");
@@ -419,7 +419,7 @@ static const struct SpriteTemplate sSpriteTemplate_StatusIcons =
 };
 
 #define TAG_GREY_ICON 20001
-#define TAG_GREY_ICON_MAP 20003
+//#define TAG_GREY_ICON_MAP 20003
 #define TAG_GREY_ICON_DEX 20005
 #define TAG_GREY_ICON_PARTY 20007
 
@@ -430,12 +430,12 @@ static const struct OamData sOamData_GreyMenuButton =
     .priority = 1,
 };
 
-static const struct CompressedSpriteSheet sSpriteSheet_GreyMenuButtonMap =
+/*static const struct CompressedSpriteSheet sSpriteSheet_GreyMenuButtonMap =
 {
     .data = sGreyMenuButtonMap_Gfx,
     .size = 64*32*4/2,
     .tag = TAG_GREY_ICON_MAP,
-};
+};*/
 
 static const struct CompressedSpriteSheet sSpriteSheet_GreyMenuButtonParty =
 {
@@ -468,7 +468,7 @@ static const union AnimCmd *const sSpriteAnimTable_GreyMenuButton[] =
     sSpriteAnim_GreyMenuButton0,
 };
 
-static const struct SpriteTemplate sSpriteTemplate_GreyMenuButtonMap =
+/*static const struct SpriteTemplate sSpriteTemplate_GreyMenuButtonMap =
 {
     .tileTag = TAG_GREY_ICON_MAP,
     .paletteTag = TAG_GREY_ICON,
@@ -477,7 +477,7 @@ static const struct SpriteTemplate sSpriteTemplate_GreyMenuButtonMap =
     .images = NULL,
     .affineAnims = gDummySpriteAffineAnimTable,
     .callback = SpriteCallbackDummy
-};
+};*/
 
 static const struct SpriteTemplate sSpriteTemplate_GreyMenuButtonDex =
 {
@@ -795,13 +795,13 @@ static void CreateGreyedMenuBoxes()
         StartSpriteAnim(&gSprites[sStartMenuDataPtr->greyMenuBoxIds[1]], 0);
     }
 
-    if(!FlagGet(FLAG_SYS_POKENAV_GET))
+    /*if(!FlagGet(FLAG_SYS_POKENAV_GET))
     {
         if (sStartMenuDataPtr->greyMenuBoxIds[2] == SPRITE_NONE)
             sStartMenuDataPtr->greyMenuBoxIds[2] = CreateSprite(&sSpriteTemplate_GreyMenuButtonMap, CURSOR_LEFT_COL_X, CURSOR_BTM_ROW_Y, 1);
         gSprites[sStartMenuDataPtr->greyMenuBoxIds[2]].invisible = FALSE;
         StartSpriteAnim(&gSprites[sStartMenuDataPtr->greyMenuBoxIds[2]], 0);
-    }
+    }*/
     
     return;
 }
@@ -1122,7 +1122,7 @@ static bool8 StartMenuFull_LoadGraphics(void) // Load the Tilesets, Tilemaps, Sp
         ResetTempTileDataBuffers();
         if (gSaveBlock2Ptr->playerGender == FEMALE)
         {
-            DecompressAndCopyTileDataToVram(1, sStartMenuTilesAlt, 0, 0, 0);
+            DecompressAndCopyTileDataToVram(1, sStartMenuTiles, 0, 0, 0);
         }
         else
         {
@@ -1162,7 +1162,7 @@ static bool8 StartMenuFull_LoadGraphics(void) // Load the Tilesets, Tilemaps, Sp
         LoadCompressedSpriteSheet(&sSpriteSheet_StatusIcons);
         LoadCompressedSpritePalette(&sSpritePalette_StatusIcons);
 
-        LoadCompressedSpriteSheet(&sSpriteSheet_GreyMenuButtonMap);
+        //LoadCompressedSpriteSheet(&sSpriteSheet_GreyMenuButtonMap);
         LoadCompressedSpriteSheet(&sSpriteSheet_GreyMenuButtonDex);
         LoadCompressedSpriteSheet(&sSpriteSheet_GreyMenuButtonParty);
         LoadSpritePalette(&sSpritePal_GreyMenuButton);
@@ -1409,7 +1409,7 @@ void Task_OpenOptionsMenuStartMenu(u8 taskId)
         StartMenuFull_FreeResources();
         PlayRainStoppingSoundEffect();
         CleanupOverworldWindowsAndTilemaps();
-        SetMainCallback2(CB2_InitOptionMenu); 
+        SetMainCallback2(CB2_OptionsMenuFromStartMenu); 
         gMain.savedCallback = CB2_ReturnToFullScreenStartMenu;
     }
 }
@@ -1491,6 +1491,12 @@ static void Task_StartMenuFullMain(u8 taskId)
         else
             sStartMenuDataPtr->selector_y++;
     }
+    if (JOY_NEW(R_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        StartMenuFull_InitWindows();
+        StartMenuFull_LoadGraphics();
+    }
     if (JOY_NEW(A_BUTTON)) //when A is pressed, load the Task for the Menu the cursor is on, for some they require a flag to be set
     {
         switch(gSelectedMenu)
@@ -1524,16 +1530,9 @@ static void Task_StartMenuFullMain(u8 taskId)
                     PlaySE(SE_BOO);
                 }
                 break;
-            case START_MENU_MAP:
-                if(FlagGet(FLAG_SYS_POKENAV_GET))
-                {
-                    PlaySE(SE_SELECT);
-                    BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
-                    gTasks[taskId].func = Task_OpenPokenavStartMenu;
-                }
-                else{
-                    PlaySE(SE_BOO);
-                }
+            case START_MENU_SAVE:
+                PrintSaveConfirmToWindow();
+                gTasks[taskId].func = Task_HandleSaveConfirmation;
                 break;
             case START_MENU_CARD:
                 PlaySE(SE_SELECT);

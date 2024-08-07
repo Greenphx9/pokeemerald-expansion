@@ -22,7 +22,6 @@
 #include "metatile_behavior.h"
 #include "overworld.h"
 #include "pokemon.h"
-#include "quests.h"
 #include "safari_zone.h"
 #include "script.h"
 #include "secret_base.h"
@@ -235,7 +234,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
         FlagSet(FLAG_OPENED_START_MENU);
         PlaySE(SE_WIN_OPEN);
         HideMapNamePopUpWindow();
-        HeatStartMenu_Init();
+        ShowStartMenu();
         return TRUE;
     }
     if (input->pressedSelectButton && UseRegisteredKeyItemOnField() == TRUE)
@@ -246,7 +245,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     {
         PlaySE(SE_WIN_OPEN);
         FreezeObjectEvents();
-        CreateTask(Task_QuestMenu_OpenFromStartMenu, 0);
+        Debug_ShowMainMenu();
         return TRUE;
     }
 #endif
