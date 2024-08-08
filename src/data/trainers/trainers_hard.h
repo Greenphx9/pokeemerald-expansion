@@ -51,7 +51,7 @@
 #line 29
             .iv = TRAINER_PARTY_IVS(0, 0, 0, 0, 0, 0),
 #line 28
-            .lvl = 10,
+            .lvl = 1,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
             },
