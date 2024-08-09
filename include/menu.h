@@ -109,6 +109,7 @@ void BufferSaveMenuText(u8 textId, u8 *dest, u8 color);
 void RemoveMapNamePopUpWindow(void);
 u8 GetMapNamePopUpWindowId(void);
 u8 AddMapNamePopUpWindow(void);
+u16 GetStandardFrameBaseTileNum(void);
 void AddTextPrinterParameterized5(u8 windowId, u8 fontId, const u8 *str, u8 left, u8 top, u8 speed, void (*callback)(struct TextPrinterTemplate *, u16), u8 letterSpacing, u8 lineSpacing);
 void SetBgTilemapPalette(u8 bgId, u8 left, u8 top, u8 width, u8 height, u8 palette);
 void AddValToTilemapBuffer(void *ptr, int delta, int width, int height, bool32 is8BPP);
@@ -119,6 +120,7 @@ u8 InitMenuInUpperLeftCorner(u8 windowId, u8 itemCount, u8 initialCursorPos, boo
 s8 Menu_ProcessInputNoWrapAround_other(void);
 void CopyToBufferFromBgTilemap(u8 bgId, u16 *dest, u8 left, u8 top, u8 width, u8 height);
 u8 HofPCTopBar_AddWindow(u8 bg, u8 xPos, u8 yPos, u8 palette, u16 baseTile);
+void HofPCTopBar_Clear(void);
 void HofPCTopBar_RemoveWindow(void);
 void HofPCTopBar_Print(const u8 *string, u8 left, bool8 copyToVram);
 void HofPCTopBar_PrintPair(const u8 *string, const u8 *string2, bool8 noBg, u8 left, bool8 copyToVram);

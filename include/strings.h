@@ -15,6 +15,8 @@ extern const u8 gText_ExpandedPlaceholder_Maxie[];
 extern const u8 gText_ExpandedPlaceholder_Kyogre[];
 extern const u8 gText_ExpandedPlaceholder_Groudon[];
 extern const u8 gText_ExpandedPlaceholder_Gary[];
+extern const u8 gExpandedPlaceholder_Red[];
+extern const u8 gExpandedPlaceholder_Green[];
 
 extern const u8 gText_FromSpace[];
 
@@ -2884,6 +2886,7 @@ extern const u8 gText_YourName[];
 extern const u8 gText_BoxName[];
 extern const u8 gText_PkmnsNickname[];
 extern const u8 gText_TellHimTheWords[];
+extern const u8 gText_RivalsName[];
 
 // Exp. Share
 extern const u8 gText_ExpShareOn[];

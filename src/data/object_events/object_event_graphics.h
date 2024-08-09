@@ -461,3 +461,6 @@ const u16 gObjectEventPal_StrangeBall[] = INCBIN_U16("graphics/object_events/pic
 #endif //OW_FOLLOWERS_POKEBALLS
 
 const u32 gObjectEventPic_Daisy[] = INCBIN_U32("graphics/object_events/pics/people/daisy.4bpp");
+const u32 gObjectEventPic_Blue[] = INCBIN_U32("graphics/object_events/pics/people/blue.4bpp");
+const u16 gObjectEventPic_Pokedex[] = INCBIN_U16("graphics/object_events/pics/misc/pokedex.4bpp");
+const u16 gObjectEventPic_TownMap[] = INCBIN_U16("graphics/object_events/pics/misc/town_map.4bpp");

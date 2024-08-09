@@ -198,6 +198,7 @@ static const u8 sTextColorTable[] =
     [OBJ_EVENT_GFX_HOOH] = NPC_TEXT_COLOR_MON,
     [OBJ_EVENT_GFX_POKE_BALL] = NPC_TEXT_COLOR_NEUTRAL,
     [OBJ_EVENT_GFX_DAISY] = NPC_TEXT_COLOR_FEMALE,
+    [OBJ_EVENT_GFX_BLUE] = NPC_TEXT_COLOR_MALE,
 };
 
 void DynamicPlaceholderTextUtil_Reset(void)

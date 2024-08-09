@@ -107,7 +107,7 @@
       "flag": "FLAG_HIDE_CHARMANDER_BALL"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_LEAF",
+      "graphics_id": "OBJ_EVENT_GFX_BLUE",
       "x": 5,
       "y": 4,
       "elevation": 3,
@@ -120,7 +120,7 @@
       "flag": "FLAG_HIDE_RIVAL_IN_LAB"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_DEOXYS_TRIANGLE",
+      "graphics_id": "OBJ_EVENT_GFX_POKEDEX",
       "x": 4,
       "y": 1,
       "elevation": 0,
@@ -133,7 +133,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_DEOXYS_TRIANGLE",
+      "graphics_id": "OBJ_EVENT_GFX_POKEDEX",
       "x": 5,
       "y": 1,
       "elevation": 0,

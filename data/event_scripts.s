@@ -594,6 +594,8 @@ EventScript_BufferPutAwayPocketPokeBalls::
 @	bufferstdstring STR_VAR_3, STDSTRING_BERRY_POUCH
 @	return
 
+	.include "data/text/new_game_intro.inc"
+
 	.include "data/scripts/pc_transfer.inc"
 	.include "data/scripts/questionnaire.inc"
 	.include "data/scripts/abnormal_weather.inc"

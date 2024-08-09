@@ -45,6 +45,7 @@
 #include "mystery_gift.h"
 #include "union_room_chat.h"
 #include "quests.h"
+#include "string_util.h"
 #include "constants/items.h"
 
 extern const u8 EventScript_ResetAllMapFlags[];
@@ -158,9 +159,12 @@ void ResetMenuAndMonGlobals(void)
 
 void NewGameInitData(void)
 {
+    u8 rivalName[PLAYER_NAME_LENGTH + 1];
+
     if (gSaveFileStatus == SAVE_STATUS_EMPTY || gSaveFileStatus == SAVE_STATUS_CORRUPT)
         RtcReset();
 
+    StringCopy(rivalName, gSaveBlock1Ptr->rivalName);
     gDifferentSaveFile = TRUE;
     gSaveBlock2Ptr->encryptionKey = 0;
     ZeroPlayerPartyMons();
@@ -204,6 +208,7 @@ void NewGameInitData(void)
     ResetLotteryCorner();
     WarpToPlayersRoom();
     RunScriptImmediately(EventScript_ResetAllMapFlags);
+    StringCopy(gSaveBlock1Ptr->rivalName, rivalName);
     ResetMiniGamesRecords();
     InitUnionRoomChatRegisteredTexts();
     InitLilycoveLady();

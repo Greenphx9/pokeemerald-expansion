@@ -4,7 +4,7 @@
 
 PalletTown_RivalsHouse_1F_ObjectEvents:
 	object_event 1, OBJ_EVENT_GFX_DAISY, 10, 6, 0, MOVEMENT_TYPE_WANDER_AROUND, 1, 3, TRAINER_TYPE_NONE, 0, PalletTown_RivalsHouse_1F_EventScript_Daisy, 0
-	object_event 2, OBJ_EVENT_GFX_ANABEL, 6, 4, 0, MOVEMENT_TYPE_FACE_DOWN, 1, 1, TRAINER_TYPE_NONE, 0, PalletTown_RivalsHouse_1F_EventScript_TownMap, FLAG_HIDE_TOWN_MAP
+	object_event 2, OBJ_EVENT_GFX_TOWN_MAP, 6, 4, 0, MOVEMENT_TYPE_FACE_DOWN, 1, 1, TRAINER_TYPE_NONE, 0, PalletTown_RivalsHouse_1F_EventScript_TownMap, FLAG_HIDE_TOWN_MAP
 
 PalletTown_RivalsHouse_1F_MapWarps:
 	warp_def 4, 8, 0, 1, MAP_PALLET_TOWN

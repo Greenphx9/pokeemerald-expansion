@@ -10,9 +10,9 @@ PalletTown_ProfessorOaksLab_ObjectEvents:
 	object_event 5, OBJ_EVENT_GFX_ITEM_BALL, 8, 4, 0, MOVEMENT_TYPE_FACE_DOWN, 1, 1, TRAINER_TYPE_NONE, 0, PalletTown_ProfessorOaksLab_EventScript_BulbasaurBall, FLAG_HIDE_BULBASAUR_BALL
 	object_event 6, OBJ_EVENT_GFX_ITEM_BALL, 9, 4, 0, MOVEMENT_TYPE_FACE_DOWN, 1, 1, TRAINER_TYPE_NONE, 0, PalletTown_ProfessorOaksLab_EventScript_SquirtleBall, FLAG_HIDE_SQUIRTLE_BALL
 	object_event 7, OBJ_EVENT_GFX_ITEM_BALL, 10, 4, 0, MOVEMENT_TYPE_FACE_DOWN, 1, 1, TRAINER_TYPE_NONE, 0, PalletTown_ProfessorOaksLab_EventScript_CharmanderBall, FLAG_HIDE_CHARMANDER_BALL
-	object_event 8, OBJ_EVENT_GFX_LEAF, 5, 4, 3, MOVEMENT_TYPE_FACE_DOWN, 1, 1, TRAINER_TYPE_NONE, 0, PalletTown_ProfessorOaksLab_EventScript_Rival, FLAG_HIDE_RIVAL_IN_LAB
-	object_event 9, OBJ_EVENT_GFX_DEOXYS_TRIANGLE, 4, 1, 0, MOVEMENT_TYPE_FACE_DOWN, 1, 1, TRAINER_TYPE_NONE, 0, PalletTown_ProfessorOaksLab_EventScript_Pokedex, 0
-	object_event 10, OBJ_EVENT_GFX_DEOXYS_TRIANGLE, 5, 1, 0, MOVEMENT_TYPE_FACE_DOWN, 1, 1, TRAINER_TYPE_NONE, 0, PalletTown_ProfessorOaksLab_EventScript_Pokedex, 0
+	object_event 8, OBJ_EVENT_GFX_BLUE, 5, 4, 3, MOVEMENT_TYPE_FACE_DOWN, 1, 1, TRAINER_TYPE_NONE, 0, PalletTown_ProfessorOaksLab_EventScript_Rival, FLAG_HIDE_RIVAL_IN_LAB
+	object_event 9, OBJ_EVENT_GFX_POKEDEX, 4, 1, 0, MOVEMENT_TYPE_FACE_DOWN, 1, 1, TRAINER_TYPE_NONE, 0, PalletTown_ProfessorOaksLab_EventScript_Pokedex, 0
+	object_event 10, OBJ_EVENT_GFX_POKEDEX, 5, 1, 0, MOVEMENT_TYPE_FACE_DOWN, 1, 1, TRAINER_TYPE_NONE, 0, PalletTown_ProfessorOaksLab_EventScript_Pokedex, 0
 
 PalletTown_ProfessorOaksLab_MapWarps:
 	warp_def 6, 12, 0, 2, MAP_PALLET_TOWN
