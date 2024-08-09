@@ -8,49 +8,49 @@
 
 #line 1 "src/data/trainers/trainers_hard.party"
 
-#line 10
+#line 75
     [TRAINER_NONE] =
     {
-#line 12
+#line 77
         .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
-#line 13
+#line 78
         .trainerPic = TRAINER_PIC_HIKER,
         .encounterMusic_gender = 
-#line 15
+#line 80
             TRAINER_ENCOUNTER_MUSIC_MALE,
-#line 16
+#line 81
         .doubleBattle = FALSE,
         .partySize = 0,
         .party = (const struct TrainerMon[])
         {
         },
     },
-#line 18
+#line 83
     [TRAINER_RIVAL_OAKS_LAB_BULBASAUR] =
     {
-#line 19
+#line 84
         .trainerName = _("TERRY"),
-#line 20
+#line 85
         .trainerClass = TRAINER_CLASS_RIVAL_EARLY,
-#line 21
+#line 86
         .trainerPic = TRAINER_PIC_RIVAL_EARLY,
         .encounterMusic_gender = 
-#line 23
+#line 88
             TRAINER_ENCOUNTER_MUSIC_MALE,
-#line 24
+#line 89
         .doubleBattle = FALSE,
-#line 25
+#line 90
         .aiFlags = AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_TRY_TO_FAINT | AI_FLAG_CHECK_VIABILITY,
         .partySize = 1,
         .party = (const struct TrainerMon[])
         {
             {
-#line 27
+#line 92
             .species = SPECIES_BULBASAUR,
             .gender = TRAINER_MON_RANDOM_GENDER,
-#line 29
+#line 94
             .iv = TRAINER_PARTY_IVS(0, 0, 0, 0, 0, 0),
-#line 28
+#line 93
             .lvl = 1,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,

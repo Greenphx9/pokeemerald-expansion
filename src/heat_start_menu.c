@@ -766,7 +766,7 @@ static void HeatStartMenu_ShowTimeWindow(void)
         else
             StringExpandPlaceholders(gStringVar4, gText_CurrentTimeAM);  
     
-	AddTextPrinterParameterized(sHeatStartMenu->sStartClockWindowId, 1, gStringVar4, -5, 1, 0xFF, NULL);
+	AddTextPrinterParameterized(sHeatStartMenu->sStartClockWindowId, FONT_SHORT, gStringVar4, -5, 1, 0xFF, NULL);
 	CopyWindowToVram(sHeatStartMenu->sStartClockWindowId, COPYWIN_GFX);
 }
 
@@ -809,14 +809,14 @@ static void HeatStartMenu_UpdateClockDisplay(void)
 	CopyWindowToVram(sHeatStartMenu->sStartClockWindowId, COPYWIN_GFX);
 }
 
-static const u8 gText_Quests[] = _("   Quests");
-static const u8 gText_Pokedex[] = _("  Pokédex");
-static const u8 gText_Party[]   = _("   Party ");
-static const u8 gText_Bag[]     = _("    Bag  ");
-static const u8 gText_Trainer[] = _("  Trainer");
-static const u8 gText_Save[]    = _("   Save  ");
-static const u8 gText_Options[] = _("  Options");
-static const u8 gText_Flag[]    = _("   Retire");
+static const u8 gText_Quests[] = _("Quests");
+static const u8 gText_Pokedex[] = _("Pokédex");
+static const u8 gText_Party[]   = _("Party");
+static const u8 gText_Bag[]     = _("Bag ");
+static const u8 gText_Trainer[] = _("Trainer");
+static const u8 gText_Save[]    = _("Save ");
+static const u8 gText_Options[] = _("Options");
+static const u8 gText_Flag[]    = _("Retire");
 
 static void HeatStartMenu_UpdateMenuName(void) {
   
@@ -825,28 +825,28 @@ static void HeatStartMenu_UpdateMenuName(void) {
 
   switch(menuSelected) {
     case MENU_QUESTS:
-      AddTextPrinterParameterized(sHeatStartMenu->sMenuNameWindowId, 1, gText_Quests, 0, 0, 0xFF, NULL);
+      AddTextPrinterParameterized(sHeatStartMenu->sMenuNameWindowId, FONT_SHORT, gText_Quests, 4, 1, 0xFF, NULL);
       break;
     case MENU_POKEDEX:
-      AddTextPrinterParameterized(sHeatStartMenu->sMenuNameWindowId, 1, gText_Pokedex, 0, 0, 0xFF, NULL);
+      AddTextPrinterParameterized(sHeatStartMenu->sMenuNameWindowId, FONT_SHORT, gText_Pokedex, 4, 1, 0xFF, NULL);
       break;
     case MENU_PARTY:
-      AddTextPrinterParameterized(sHeatStartMenu->sMenuNameWindowId, 1, gText_Party, 0, 0, 0xFF, NULL);
+      AddTextPrinterParameterized(sHeatStartMenu->sMenuNameWindowId, FONT_SHORT, gText_Party, 4, 1, 0xFF, NULL);
       break;
     case MENU_BAG:
-      AddTextPrinterParameterized(sHeatStartMenu->sMenuNameWindowId, 1, gText_Bag, 0, 0, 0xFF, NULL);
+      AddTextPrinterParameterized(sHeatStartMenu->sMenuNameWindowId, FONT_SHORT, gText_Bag, 4, 1, 0xFF, NULL);
       break;
     case MENU_TRAINER_CARD:
-      AddTextPrinterParameterized(sHeatStartMenu->sMenuNameWindowId, 1, gText_Trainer, 0, 0, 0xFF, NULL);
+      AddTextPrinterParameterized(sHeatStartMenu->sMenuNameWindowId, FONT_SHORT, gText_Trainer, 4, 1, 0xFF, NULL);
       break;
     case MENU_SAVE:
-      AddTextPrinterParameterized(sHeatStartMenu->sMenuNameWindowId, 1, gText_Save, 0, 0, 0xFF, NULL);
+      AddTextPrinterParameterized(sHeatStartMenu->sMenuNameWindowId, FONT_SHORT, gText_Save, 4, 1, 0xFF, NULL);
       break;
     case MENU_OPTIONS:
-      AddTextPrinterParameterized(sHeatStartMenu->sMenuNameWindowId, 1, gText_Options, 0, 0, 0xFF, NULL);
+      AddTextPrinterParameterized(sHeatStartMenu->sMenuNameWindowId, FONT_SHORT, gText_Options, 4, 1, 0xFF, NULL);
       break;
     case MENU_FLAG:
-      AddTextPrinterParameterized(sHeatStartMenu->sMenuNameWindowId, 1, gText_Flag, 0, 0, 0xFF, NULL);
+      AddTextPrinterParameterized(sHeatStartMenu->sMenuNameWindowId, FONT_SHORT, gText_Flag, 4, 1, 0xFF, NULL);
       break;
   }
   CopyWindowToVram(sHeatStartMenu->sMenuNameWindowId, COPYWIN_GFX);

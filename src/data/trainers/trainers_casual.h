@@ -8,28 +8,28 @@
 
 #line 1 "src/data/trainers/trainers_casual.party"
 
-#line 10
+#line 75
     [TRAINER_NONE] =
     {
-#line 12
+#line 77
         .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
-#line 13
+#line 78
         .trainerPic = TRAINER_PIC_HIKER,
         .encounterMusic_gender = 
-#line 15
+#line 80
             TRAINER_ENCOUNTER_MUSIC_MALE,
-#line 16
+#line 81
         .doubleBattle = FALSE,
         .partySize = 1,
         .party = (const struct TrainerMon[])
         {
             {
-#line 18
+#line 83
             .species = SPECIES_BULBASAUR,
             .gender = TRAINER_MON_RANDOM_GENDER,
-#line 20
+#line 85
             .iv = TRAINER_PARTY_IVS(0, 0, 0, 0, 0, 0),
-#line 19
+#line 84
             .lvl = 10,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,
