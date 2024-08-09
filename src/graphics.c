@@ -1990,6 +1990,7 @@ const u16 gMessageBox_BW_Pal[] = INCBIN_U16("graphics/text_window/dppt/message_b
 const u8 gMessageBox_BW_Gfx[] = INCBIN_U8("graphics/text_window/dppt/message_box_bw.4bpp");
 const u8 gSignBox_BW_Gfx[] = INCBIN_U8("graphics/text_window/dppt/sign_box_bw.4bpp");
 const u8 gSignBox_HGSS_Gfx[] = INCBIN_U8("graphics/text_window/dppt/sign_box_hgss.4bpp");
+const u8 gSignBox_Plat_Gfx[] = INCBIN_U8("graphics/text_window/dppt/sign_box_plat.4bpp");
 
 const u32 gWallpaperIcon_Cross[] = INCBIN_U32("graphics/pokemon_storage/wallpapers/icons/cross.4bpp.lz");
 const u32 gWallpaperIcon_Bolt[] = INCBIN_U32("graphics/pokemon_storage/wallpapers/icons/bolt.4bpp.lz");
