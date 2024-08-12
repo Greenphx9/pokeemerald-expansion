@@ -7,6 +7,7 @@
 #include "event_object_movement.h"
 #include "event_object_lock.h"
 #include "event_scripts.h"
+#include "decompress.h"
 #include "fieldmap.h"
 #include "field_effect.h"
 #include "field_player_avatar.h"
@@ -33,6 +34,7 @@
 #include "save.h"
 #include "scanline_effect.h"
 #include "script.h"
+#include "sprite.h"
 #include "sound.h"
 #include "start_menu.h"
 #include "strings.h"
@@ -89,6 +91,10 @@ EWRAM_DATA static u8 (*sSaveDialogCallback)(void) = NULL;
 EWRAM_DATA static u8 sSaveDialogTimer = 0;
 EWRAM_DATA static bool8 sSavingComplete = FALSE;
 EWRAM_DATA static u8 sSaveInfoWindowId = 0;
+EWRAM_DATA static u8 sSelectorSpriteIds[2];
+EWRAM_DATA static u8 sSpriteIds[8];
+EWRAM_DATA static u8 sSpriteIdCount;
+EWRAM_DATA static u8 sLastY;
 
 // Menu action callbacks
 static bool8 StartMenuPokedexCallback(void);
@@ -136,6 +142,161 @@ static void SaveGameTask(u8 taskId);
 static void Task_SaveAfterLinkBattle(u8 taskId);
 static void Task_WaitForBattleTowerLinkSave(u8 taskId);
 static bool8 FieldCB_ReturnToFieldStartMenu(void);
+
+#define TAG_SELECTOR_LEFT_GFX      1250
+#define TAG_SELECTOR_RIGHT_GFX     1251
+#define TAG_POKEBALL_GFX           1252
+#define TAG_POKEDEX_GFX            1253
+#define TAG_BAG_GFX                1254
+#define TAG_MENU_PAL               0x4650
+static const u32 sSelectorLeft_Gfx[] = INCBIN_U32("graphics/dppt_start_menu/selector_left.4bpp.lz");
+static const u32 sSelectorRight_Gfx[] = INCBIN_U32("graphics/dppt_start_menu/selector_right.4bpp.lz");
+static const u16 sMenu_Pal[] = INCBIN_U16("graphics/dppt_start_menu/menu.gbapal");
+
+static const u32 sPokeball_Gfx[] = INCBIN_U32("graphics/dppt_start_menu/pokeball.4bpp.lz");
+static const u32 sPokedex_Gfx[] = INCBIN_U32("graphics/dppt_start_menu/pokedex.4bpp.lz");
+static const u32 sBag_Gfx[] = INCBIN_U32("graphics/dppt_start_menu/bag.4bpp.lz");
+
+static const struct OamData sOamData_Selector =
+{
+    .size = SPRITE_SIZE(64x32),
+    .shape = SPRITE_SHAPE(64x32),
+    .priority = 0,
+};
+
+static const struct CompressedSpriteSheet sSpriteSheet_SelectorLeft =
+{
+    .data = sSelectorLeft_Gfx,
+    .size = 64*32*4/2,
+    .tag = TAG_SELECTOR_LEFT_GFX,
+};
+
+static const struct CompressedSpriteSheet sSpriteSheet_SelectorRight =
+{
+    .data = sSelectorRight_Gfx,
+    .size = 64*32*4/2,
+    .tag = TAG_SELECTOR_RIGHT_GFX,
+};
+
+static const struct SpritePalette sSpritePal_Selector =
+{
+    .data = sMenu_Pal,
+    .tag = TAG_MENU_PAL
+};
+
+static const union AnimCmd sSpriteAnim_Selector[] =
+{
+    ANIMCMD_FRAME(0, 32),
+    ANIMCMD_JUMP(0),
+};
+
+static const union AnimCmd *const sSpriteAnimTable_Selector[] =
+{
+    sSpriteAnim_Selector,
+};
+
+static const struct SpriteTemplate sSpriteTemplate_SelectorLeft =
+{
+    .tileTag = TAG_SELECTOR_LEFT_GFX,
+    .paletteTag = TAG_MENU_PAL,
+    .oam = &sOamData_Selector,
+    .anims = sSpriteAnimTable_Selector,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallbackDummy
+};
+
+static const struct SpriteTemplate sSpriteTemplate_SelectorRight =
+{
+    .tileTag = TAG_SELECTOR_RIGHT_GFX,
+    .paletteTag = TAG_MENU_PAL,
+    .oam = &sOamData_Selector,
+    .anims = sSpriteAnimTable_Selector,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallbackDummy
+};
+
+static const struct CompressedSpriteSheet sSpriteSheet_PokeballIcon[] = 
+{
+    {sPokeball_Gfx, 32*64/2 , TAG_POKEBALL_GFX},
+    {NULL},
+};
+
+static const struct CompressedSpriteSheet sSpriteSheet_PokedexIcon[] = 
+{
+    {sPokedex_Gfx, 32*64/2 , TAG_POKEDEX_GFX},
+    {NULL},
+};
+
+static const struct CompressedSpriteSheet sSpriteSheet_BagIcon[] = 
+{
+    {sBag_Gfx, 32*64/2 , TAG_BAG_GFX},
+    {NULL},
+};
+
+static const struct OamData sOamData_Icon = {
+    .y = 0,
+    .affineMode = ST_OAM_AFFINE_DOUBLE,
+    .objMode = 0,
+    .bpp = ST_OAM_4BPP,
+    .shape = SPRITE_SHAPE(32x32),
+    .x = 0,
+    .matrixNum = 0,
+    .size = SPRITE_SIZE(32x32),
+    .tileNum = 0,
+    .priority = 0,
+    .paletteNum = 0,
+};
+
+static const union AnimCmd sSpriteAnim_Icon_Grey[] = {
+    ANIMCMD_FRAME(16, 0),
+    ANIMCMD_JUMP(0),
+};
+
+static const union AnimCmd sSpriteAnim_Icon_Default[] = {
+    ANIMCMD_FRAME(0, 0),
+    ANIMCMD_JUMP(0),
+};
+
+static const union AnimCmd *const sSpriteAnimTable_Icon[] = {
+    sSpriteAnim_Icon_Grey,
+    sSpriteAnim_Icon_Default,
+};
+
+static void SpriteCB_Pokedex(struct Sprite *sprite);
+static void SpriteCB_Pokeball(struct Sprite *sprite);
+static void SpriteCB_Bag(struct Sprite *sprite);
+
+static const struct SpriteTemplate sSpriteTemplate_Pokeball = {
+    .tileTag = TAG_POKEBALL_GFX,
+    .paletteTag = TAG_MENU_PAL,
+    .oam = &sOamData_Icon,
+    .anims = sSpriteAnimTable_Icon,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCB_Pokeball,
+};
+
+static const struct SpriteTemplate sSpriteTemplate_Pokedex = {
+    .tileTag = TAG_POKEDEX_GFX,
+    .paletteTag = TAG_MENU_PAL,
+    .oam = &sOamData_Icon,
+    .anims = sSpriteAnimTable_Icon,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCB_Pokedex,
+};
+
+static const struct SpriteTemplate sSpriteTemplate_Bag = {
+    .tileTag = TAG_BAG_GFX,
+    .paletteTag = TAG_MENU_PAL,
+    .oam = &sOamData_Icon,
+    .anims = sSpriteAnimTable_Icon,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCB_Bag,
+};
 
 static const struct WindowTemplate sWindowTemplate_SafariBalls = {
     .bg = 0,
@@ -232,6 +393,30 @@ static const struct WindowTemplate sSaveInfoWindowTemplate = {
     .paletteNum = 15,
     .baseBlock = 8
 };
+
+static void SpriteCB_Pokedex(struct Sprite* sprite) 
+{
+    if (sStartMenuItems[sCurrentStartMenuActions[sStartMenuCursorPos]].func.u8_void == StartMenuPokedexCallback)
+        StartSpriteAnim(sprite, 1);
+    else
+        StartSpriteAnim(sprite, 0);
+}
+
+static void SpriteCB_Pokeball(struct Sprite* sprite) 
+{
+    if (sStartMenuItems[sCurrentStartMenuActions[sStartMenuCursorPos]].func.u8_void == StartMenuPokemonCallback)
+        StartSpriteAnim(sprite, 1);
+    else
+        StartSpriteAnim(sprite, 0);
+}
+
+static void SpriteCB_Bag(struct Sprite* sprite) 
+{
+    if (sStartMenuItems[sCurrentStartMenuActions[sStartMenuCursorPos]].func.u8_void == StartMenuBagCallback)
+        StartSpriteAnim(sprite, 1);
+    else
+        StartSpriteAnim(sprite, 0);
+}
 
 // Local functions
 static void BuildStartMenuActions(void);
@@ -449,18 +634,39 @@ static void RemoveExtraStartMenuWindows(void)
 static bool32 PrintStartMenuActions(s8 *pIndex, u32 count)
 {
     s8 index = *pIndex;
+    u8 x = 168;
 
     do
     {
         if (sStartMenuItems[sCurrentStartMenuActions[index]].func.u8_void == StartMenuPlayerNameCallback)
         {
-            PrintPlayerNameOnWindow(GetStartMenuWindowId(), sStartMenuItems[sCurrentStartMenuActions[index]].text, 8, (index << 4) + 9);
+            PrintPlayerNameOnWindow(GetStartMenuWindowId(), sStartMenuItems[sCurrentStartMenuActions[index]].text, 32, index*20);
         }
         else
         {
             StringExpandPlaceholders(gStringVar4, sStartMenuItems[sCurrentStartMenuActions[index]].text);
-            AddTextPrinterParameterized(GetStartMenuWindowId(), FONT_NORMAL, gStringVar4, 8, (index << 4) + 9, TEXT_SKIP_DRAW, NULL);
+            AddTextPrinterParameterized(GetStartMenuWindowId(), FONT_NORMAL, gStringVar4, 32, index*20, TEXT_SKIP_DRAW, NULL);
         }
+
+        if (sStartMenuItems[sCurrentStartMenuActions[index]].func.u8_void == StartMenuPokedexCallback)
+        {
+            sSpriteIds[0] = CreateSprite(&sSpriteTemplate_Pokedex, x, sLastY, 0);
+            sSpriteIdCount++;
+            sLastY += 20;
+        }
+        else if (sStartMenuItems[sCurrentStartMenuActions[index]].func.u8_void == StartMenuPokemonCallback)
+        {
+            sSpriteIds[1] = CreateSprite(&sSpriteTemplate_Pokeball, x, sLastY, 0);
+            sSpriteIdCount++;
+            sLastY += 20;
+        }
+        else if (sStartMenuItems[sCurrentStartMenuActions[index]].func.u8_void == StartMenuBagCallback)
+        {
+            sSpriteIds[2] = CreateSprite(&sSpriteTemplate_Bag, x, sLastY, 0);
+            sSpriteIdCount++;
+            sLastY += 20;
+        }
+
 
         index++;
         if (index >= sNumStartMenuActions)
@@ -472,6 +678,8 @@ static bool32 PrintStartMenuActions(s8 *pIndex, u32 count)
         count--;
     }
     while (count != 0);
+
+    
 
     *pIndex = index;
     return FALSE;
@@ -493,6 +701,14 @@ static bool32 InitStartMenuStep(void)
     case 2:
         LoadMessageBoxAndBorderGfx();
         DrawStdWindowFrame(AddStartMenuWindow(sNumStartMenuActions), FALSE);
+        LoadCompressedSpriteSheet(&sSpriteSheet_SelectorLeft);
+        LoadCompressedSpriteSheet(&sSpriteSheet_SelectorRight);
+        LoadCompressedSpriteSheet(sSpriteSheet_PokedexIcon);
+        LoadCompressedSpriteSheet(sSpriteSheet_PokeballIcon);
+        LoadCompressedSpriteSheet(sSpriteSheet_BagIcon);
+        LoadSpritePalette(&sSpritePal_Selector);
+        sLastY = 16;
+        sSpriteIdCount = 0;
         sInitStartMenuData[1] = 0;
         sInitStartMenuData[0]++;
         break;
@@ -508,7 +724,9 @@ static bool32 InitStartMenuStep(void)
             sInitStartMenuData[0]++;
         break;
     case 5:
-        sStartMenuCursorPos = InitMenuNormal(GetStartMenuWindowId(), FONT_NORMAL, 0, 9, 16, sNumStartMenuActions, sStartMenuCursorPos);
+        sSelectorSpriteIds[0] = CreateSprite(&sSpriteTemplate_SelectorLeft, 173, 16+(20*sStartMenuCursorPos), 0);
+        sSelectorSpriteIds[1] = CreateSprite(&sSpriteTemplate_SelectorRight, 203, 16+(20*sStartMenuCursorPos), 0);
+        sStartMenuCursorPos = InitMenuNormal(GetStartMenuWindowId(), FONT_NORMAL, -1, -1, -1, sNumStartMenuActions, sStartMenuCursorPos);
         CopyWindowToVram(GetStartMenuWindowId(), COPYWIN_MAP);
         return TRUE;
     }
@@ -596,12 +814,16 @@ static bool8 HandleStartMenuInput(void)
     {
         PlaySE(SE_SELECT);
         sStartMenuCursorPos = Menu_MoveCursor(-1);
+        gSprites[sSelectorSpriteIds[0]].y = 16+(20*sStartMenuCursorPos);
+        gSprites[sSelectorSpriteIds[1]].y = 16+(20*sStartMenuCursorPos);
     }
 
     if (JOY_NEW(DPAD_DOWN))
     {
         PlaySE(SE_SELECT);
         sStartMenuCursorPos = Menu_MoveCursor(1);
+        gSprites[sSelectorSpriteIds[0]].y = 16+(20*sStartMenuCursorPos);
+        gSprites[sSelectorSpriteIds[1]].y = 16+(20*sStartMenuCursorPos);
     }
 
     if (JOY_NEW(A_BUTTON))
@@ -806,9 +1028,26 @@ static bool8 StartMenuBattlePyramidBagCallback(void)
     return FALSE;
 }
 
+static void DestroyStartMenuGfx(void)
+{
+    u32 i;
+    for (i = 0; i < sSpriteIdCount; i++)
+    {
+        FreeSpriteTilesByTag(gSprites[sSpriteIds[i]].template->tileTag);
+        DestroySprite(&gSprites[sSpriteIds[i]]);
+    }
+    for (i = 0; i < 2; i++)
+    {
+        FreeSpriteTilesByTag(gSprites[sSelectorSpriteIds[i]].template->tileTag);
+        DestroySprite(&gSprites[sSelectorSpriteIds[i]]);
+    }
+    FreeSpritePaletteByTag(TAG_MENU_PAL);
+}
+
 static bool8 SaveStartCallback(void)
 {
     InitSave();
+    DestroyStartMenuGfx();
     gMenuCallback = SaveCallback;
 
     return FALSE;
@@ -1423,6 +1662,7 @@ static void HideStartMenuWindow(void)
     ClearStdWindowAndFrame(GetStartMenuWindowId(), TRUE);
     RemoveStartMenuWindow();
     ScriptUnfreezeObjectEvents();
+    DestroyStartMenuGfx();
     UnlockPlayerFieldControls();
 }
 

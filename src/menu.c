@@ -490,7 +490,7 @@ u8 GetPlayerTextSpeedDelay(void)
 u8 AddStartMenuWindow(u8 numActions)
 {
     if (sStartMenuWindowId == WINDOW_NONE)
-        sStartMenuWindowId = AddWindowParameterized(0, 22, 1, 7, (numActions * 2) + 2, 15, 0x139);
+        sStartMenuWindowId = AddWindowParameterized(0, 19, 1, 10, (numActions * 2) + 3, 15, 0x139);
     return sStartMenuWindowId;
 }
 
@@ -943,6 +943,16 @@ void RedrawMenuCursor(u8 oldPos, u8 newPos)
     height = GetMenuCursorDimensionByFont(sMenu.fontId, 1);
     FillWindowPixelRect(sMenu.windowId, PIXEL_FILL(1), sMenu.left, sMenu.optionHeight * oldPos + sMenu.top, width, height);
     AddTextPrinterParameterized(sMenu.windowId, sMenu.fontId, gText_SelectorArrow3, sMenu.left, sMenu.optionHeight * newPos + sMenu.top, 0, 0);
+}
+
+void DrawCursorParamaterized(u8 x, u8 y)
+{
+    u8 width, height;
+
+    width = GetMenuCursorDimensionByFont(sMenu.fontId, 0);
+    height = GetMenuCursorDimensionByFont(sMenu.fontId, 1);
+    FillWindowPixelRect(sMenu.windowId, PIXEL_FILL(1), x, y, width, height);
+    AddTextPrinterParameterized(sMenu.windowId, sMenu.fontId, gText_SelectorArrow3, x, y, 0, 0);
 }
 
 u8 Menu_MoveCursor(s8 cursorDelta)
