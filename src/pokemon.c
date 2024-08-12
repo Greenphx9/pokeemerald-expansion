@@ -5688,6 +5688,27 @@ u16 GetBattleBGM(void)
         case SPECIES_REGIELEKI:
         case SPECIES_REGIDRAGO:
             return MUS_VS_REGI;
+        case SPECIES_UXIE:
+        case SPECIES_MESPRIT:
+        case SPECIES_AZELF:
+            return MUS_DP_VS_UXIE_MESPRIT_AZELF;
+        case SPECIES_PALKIA:
+        case SPECIES_DIALGA:
+            return MUS_DP_VS_DIALGA_PALKIA;
+        case SPECIES_ARCEUS:
+            return MUS_DP_VS_ARCEUS;
+        case SPECIES_GIRATINA:
+            return MUS_PL_VS_GIRATINA;
+        case SPECIES_SUICUNE:
+            return MUS_HG_VS_SUICUNE;
+        case SPECIES_ENTEI:
+            return MUS_HG_VS_ENTEI;
+        case SPECIES_RAIKOU:
+            return MUS_HG_VS_RAIKOU;
+        case SPECIES_HO_OH:
+            return MUS_HG_VS_HO_OH;
+        case SPECIES_LUGIA:
+            return MUS_HG_VS_LUGIA;
         default:
             return MUS_RG_VS_LEGEND;
         }
@@ -5750,7 +5771,7 @@ u16 GetBattleBGM(void)
     else
         if (gSaveBlock2Ptr->optionsWildMusic == OPTIONS_MUSIC_EMERALD)
             return MUS_VS_WILD;
-        return MUS_HG_VS_WILD_KANTO;
+        return MUS_RG_VS_WILD;
 }
 
 void PlayBattleBGM(void)
