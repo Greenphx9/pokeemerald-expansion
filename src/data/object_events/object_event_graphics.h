@@ -464,3 +464,12 @@ const u32 gObjectEventPic_Daisy[] = INCBIN_U32("graphics/object_events/pics/peop
 const u32 gObjectEventPic_Blue[] = INCBIN_U32("graphics/object_events/pics/people/blue.4bpp");
 const u16 gObjectEventPic_Pokedex[] = INCBIN_U16("graphics/object_events/pics/misc/pokedex.4bpp");
 const u16 gObjectEventPic_TownMap[] = INCBIN_U16("graphics/object_events/pics/misc/town_map.4bpp");
+
+const u16 gObjectEventPic_RedNormal[] = INCBIN_U16("graphics/object_events/pics/people/red_normal.4bpp");
+const u16 gObjectEventPic_RedSurfRun[] = INCBIN_U16("graphics/object_events/pics/people/red_surf_run.4bpp");
+const u16 gObjectEventPic_RedItem[] = INCBIN_U16("graphics/object_events/pics/people/red_item.4bpp");
+const u16 gObjectEventPic_RedSurf[] = INCBIN_U16("graphics/object_events/pics/people/red_surf.4bpp");
+const u16 gObjectEventPic_RedBike[] = INCBIN_U16("graphics/object_events/pics/people/red_bike.4bpp");
+const u16 gObjectEventPic_RedFish[] = INCBIN_U16("graphics/object_events/pics/people/red_fish.4bpp");
+const u16 gObjectEventPal_Player[] = INCBIN_U16("graphics/object_events/palettes/red.gbapal");
+const u16 gObjectEventPal_PlayerReflection[] = INCBIN_U16("graphics/object_events/palettes/red_reflection.gbapal");
