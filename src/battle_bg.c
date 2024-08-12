@@ -160,10 +160,10 @@ static const struct WindowTemplate sStandardBattleWindowTemplates[] =
         .bg = 0,
         .tilemapLeft = 1,
         .tilemapTop = 15,
-        .width = 28,
+        .width = 26,
         .height = 4,
         .paletteNum = 0,
-        .baseBlock = 0x090
+        .baseBlock = 0x0090,
     },
     [B_WIN_ACTION_PROMPT] = {
         .bg = 0,
