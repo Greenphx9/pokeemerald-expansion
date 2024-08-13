@@ -1667,6 +1667,6 @@ PalletTown_ProfessorOaksLab_Text_HugePokeball::
     .string "It contains multiple Pokémon inside.$"
 
 PalletTown_ProfessorOaksLab_Text_Controls::
-    .string "{DPAD_LEFTRIGHT}Move\n"
+    .string "{DPAD_UPDOWN} Move\n"
     .string "{A_BUTTON} Confirm {B_BUTTON} Cancel$"
 `

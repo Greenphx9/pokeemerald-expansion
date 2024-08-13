@@ -3337,6 +3337,6 @@ PalletTown_ProfessorOaksLab_Text_HugePokeball::
 # 1669 "data/maps/PalletTown_ProfessorOaksLab/scripts.pory"
 PalletTown_ProfessorOaksLab_Text_Controls::
 # 1670 "data/maps/PalletTown_ProfessorOaksLab/scripts.pory"
-    .string "{DPAD_LEFTRIGHT}Move\n"
+    .string "{DPAD_UPDOWN} Move\n"
 # 1671 "data/maps/PalletTown_ProfessorOaksLab/scripts.pory"
     .string "{A_BUTTON} Confirm {B_BUTTON} Cancel$"

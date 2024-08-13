@@ -48,6 +48,7 @@
 #include "task.h"
 #include "text.h"
 #include "text_window.h"
+#include "trig.h"
 #include "trainer_pokemon_sprites.h"
 #include "window.h"
 #include "union_room.h"
@@ -60,12 +61,12 @@
 
 struct StarterChoice
 {
-    u16 tilemapBuffers[4][0x400];
-    MainCallback savedCallback;
     struct Pokemon mons[9];
     u8 selectedMon;
     u8 spriteId;
-    u32 windowId;
+    u8 windowId;
+    u8 arrowSpriteIds[2];
+    u8 arrowCounter;
 };
 
 static const u16 sGrassStarters[9] =
@@ -109,9 +110,76 @@ static const u16 sFireStarters[9] =
 
 static EWRAM_DATA struct StarterChoice *sStarterChoice = NULL;
 
-static const u32 sStarterChoiceTiles[] = INCBIN_U32("graphics/starter_choice/bg_tiles.4bpp.lz");
-static const u32 sStarterChoiceTilemap[] = INCBIN_U32("graphics/starter_choice/bg2.bin.lz");
-static const u32 sStarterChoicePalette[] = INCBIN_U32("graphics/starter_choice/bg_tiles.gbapal.lz");
+#define TAG_ARROW_SC_GFX           1261
+#define TAG_ARROW_SC_PAL           0x4651
+
+static const u32 sArrow_Gfx[] = INCBIN_U32("graphics/starter_choice/arrow.4bpp.lz");
+static const u16 sArrow_Pal[] = INCBIN_U16("graphics/starter_choice/arrow.gbapal");
+
+static const struct OamData sOamData_Arrow =
+{
+    .size = SPRITE_SIZE(16x16),
+    .shape = SPRITE_SHAPE(16x16),
+    .priority = 0,
+};
+
+static const struct CompressedSpriteSheet sSpriteSheet_Arrow =
+{
+    .data = sArrow_Gfx,
+    .size = 16*16,
+    .tag = TAG_ARROW_SC_GFX,
+};
+
+static const struct SpritePalette sSpritePal_Arrow =
+{
+    .data = sArrow_Pal,
+    .tag = TAG_ARROW_SC_PAL
+};
+
+static const union AnimCmd sSpriteAnim_Arrow[] =
+{
+    ANIMCMD_FRAME(0, 16),
+    ANIMCMD_JUMP(0),
+};
+
+static const union AnimCmd *const sSpriteAnimTable_Arrow[] =
+{
+    sSpriteAnim_Arrow,
+};
+
+static const u8 sUpCoords[] =
+{
+    0, 0, 0,
+    1, 1, 1, 1,
+    2, 2, 2, 2, 2,
+    3, 3, 3, 3, 3, 3,
+    2, 2, 2, 2, 2,
+    1, 1, 1, 1,
+    0, 0, 0,
+};
+
+static void SpriteCallback_Arrow(struct Sprite *sprite)
+{
+    if (sprite->data[2] == FALSE)
+        sprite->y = sprite->data[1] - sUpCoords[sprite->data[0]];
+    else
+        sprite->y = sprite->data[1] + sUpCoords[sprite->data[0]];
+    if (sprite->data[0] >= ARRAY_COUNT(sUpCoords))
+        sprite->data[0] = 0;
+    else
+        sprite->data[0]++;
+}
+
+static const struct SpriteTemplate sSpriteTemplate_Arrow =
+{
+    .tileTag = TAG_ARROW_SC_GFX,
+    .paletteTag = TAG_ARROW_SC_PAL,
+    .oam = &sOamData_Arrow,
+    .anims = sSpriteAnimTable_Arrow,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCallback_Arrow
+};
 
 static const struct WindowTemplate sWindowTemplate_MonStats = {
     .bg = 0,
@@ -123,7 +191,6 @@ static const struct WindowTemplate sWindowTemplate_MonStats = {
     .baseBlock = 0x8
 };
 
-static void StarterChoice_LoadBgGfx(void);
 static void Task_StarterChoice_HandleMainInput(u8 taskId);
 static void StarterChoice_CreateMonGfx(u16 species, bool8 isShiny, u32 personality);
 static void StarterChoice_Destroy(void);
@@ -150,6 +217,17 @@ void StarterChoice_Init(void)
         sStarterChoice = AllocZeroed(sizeof(struct StarterChoice));
     }
 
+    LoadCompressedSpriteSheet(&sSpriteSheet_Arrow);
+    LoadSpritePalette(&sSpritePal_Arrow);    
+
+    sStarterChoice->arrowSpriteIds[0] = CreateSprite(&sSpriteTemplate_Arrow, 120, 15, 0);
+    gSprites[sStarterChoice->arrowSpriteIds[0]].data[1] = 15;
+    gSprites[sStarterChoice->arrowSpriteIds[0]].data[2] = FALSE;
+    sStarterChoice->arrowSpriteIds[1] = CreateSprite(&sSpriteTemplate_Arrow, 120, 113, 0);
+    gSprites[sStarterChoice->arrowSpriteIds[1]].data[1] = 113;
+    gSprites[sStarterChoice->arrowSpriteIds[1]].data[2] = TRUE;
+    gSprites[sStarterChoice->arrowSpriteIds[1]].vFlip = TRUE;
+
     for (i = 0; i < 9; i++)
     {
         nature = Random() % NUM_NATURES;
@@ -170,7 +248,6 @@ void StarterChoice_Init(void)
         }
         
     }
-
     curMon = sStarterChoice->mons[sStarterChoice->selectedMon];
     species = GetMonData(&curMon, MON_DATA_SPECIES);
     sStarterChoice->windowId = CreateWindowFromRect(10, 3, 8, 8);
@@ -187,15 +264,14 @@ void StarterChoice_Init(void)
     CreateTask(Task_StarterChoice_HandleMainInput, 0);
 }
 
-static void StarterChoice_LoadBgGfx(void) 
-{
-    DecompressAndCopyTileDataToVram(1, sStarterChoiceTiles, 0x0, 0x0, 0);
-    LZDecompressWram(sStarterChoiceTilemap, sStarterChoice->tilemapBuffers[0]);
-    LoadCompressedPalette(sStarterChoicePalette, BG_PLTT_ID(12), PLTT_SIZE_4BPP);
-}
-
 static void StarterChoice_Destroy(void)
 {
+    FreeSpritePaletteByTag(TAG_ARROW_SC_PAL);
+    FreeSpriteOamMatrix(&gSprites[sStarterChoice->arrowSpriteIds[0]]);
+    DestroySprite(&gSprites[sStarterChoice->arrowSpriteIds[0]]);
+    FreeSpriteOamMatrix(&gSprites[sStarterChoice->arrowSpriteIds[1]]);
+    DestroySprite(&gSprites[sStarterChoice->arrowSpriteIds[1]]);
+    FreeSpriteTilesByTag(TAG_ARROW_SC_GFX);
     if (sStarterChoice != NULL)
     {
         Free(sStarterChoice);
@@ -209,7 +285,7 @@ static void StarterChoice_Destroy(void)
 
 static void Task_StarterChoice_HandleMainInput(u8 taskId)
 {
-    if (JOY_NEW(DPAD_LEFT))
+    if (JOY_NEW(DPAD_UP))
     {
         struct Pokemon mon;
         u16 species;
@@ -224,7 +300,7 @@ static void Task_StarterChoice_HandleMainInput(u8 taskId)
         StarterChoice_CreateMonGfx(species, GetMonData(&mon, MON_DATA_IS_SHINY), GetMonData(&mon, MON_DATA_PERSONALITY));
         StarterChoice_PrintMonStats();
     }
-    else if (JOY_NEW(DPAD_RIGHT))
+    else if (JOY_NEW(DPAD_DOWN))
     {
         struct Pokemon mon;
         u16 species;
