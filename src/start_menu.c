@@ -143,19 +143,49 @@ static void Task_SaveAfterLinkBattle(u8 taskId);
 static void Task_WaitForBattleTowerLinkSave(u8 taskId);
 static bool8 FieldCB_ReturnToFieldStartMenu(void);
 
-#define TAG_SELECTOR_LEFT_GFX      1250
-#define TAG_SELECTOR_RIGHT_GFX     1251
+// NEW!
+// Config
+#define DPPT_START_MENU_DISABLE_EXIT TRUE // This is required to fit everything on screen if every action is on screen at once.
+                                          // While multi-page start screen implementation is not included here, it should be pretty simple to make your own compatible with this menu.
+
+// Sprites
+// A lot of this sprite defining code is referenced from Voluptua's start menu, credits to him: https://github.com/Voluptua/pokeemerald/blob/start_menu_1/src/heat_start_menu.c
+static void SpriteCB_Pokedex(struct Sprite *sprite);
+static void SpriteCB_Pokeball(struct Sprite *sprite);
+static void SpriteCB_Bag(struct Sprite *sprite);
+static void SpriteCB_Pokenav(struct Sprite *sprite);
+static void SpriteCB_TrainerCard(struct Sprite *sprite);
+static void SpriteCB_Save(struct Sprite *sprite);
+static void SpriteCB_Options(struct Sprite *sprite);
+static void SpriteCB_Cancel(struct Sprite *sprite);
+static void SpriteCB_Retire(struct Sprite *sprite);
+static void LoadStartMenuGfx(void);
+static void DestroyStartMenuGfx(void);
+
+#define TAG_SELECTOR_GFX           1251
 #define TAG_POKEBALL_GFX           1252
 #define TAG_POKEDEX_GFX            1253
 #define TAG_BAG_GFX                1254
+#define TAG_POKENAV_GFX            1255
+#define TAG_TRAINER_CARD_GFX       1256
+#define TAG_SAVE_GFX               1257
+#define TAG_OPTIONS_GFX            1258
+#define TAG_CANCEL_GFX             1259
+#define TAG_RETIRE_GFX             1260
 #define TAG_MENU_PAL               0x4650
-static const u32 sSelectorLeft_Gfx[] = INCBIN_U32("graphics/dppt_start_menu/selector_left.4bpp.lz");
-static const u32 sSelectorRight_Gfx[] = INCBIN_U32("graphics/dppt_start_menu/selector_right.4bpp.lz");
+
+static const u32 sSelector_Gfx[] = INCBIN_U32("graphics/dppt_start_menu/selector.4bpp.lz");
 static const u16 sMenu_Pal[] = INCBIN_U16("graphics/dppt_start_menu/menu.gbapal");
 
 static const u32 sPokeball_Gfx[] = INCBIN_U32("graphics/dppt_start_menu/pokeball.4bpp.lz");
 static const u32 sPokedex_Gfx[] = INCBIN_U32("graphics/dppt_start_menu/pokedex.4bpp.lz");
 static const u32 sBag_Gfx[] = INCBIN_U32("graphics/dppt_start_menu/bag.4bpp.lz");
+static const u32 sPokenav_Gfx[] = INCBIN_U32("graphics/dppt_start_menu/pokenav.4bpp.lz");
+static const u32 sTrainerCard_Gfx[] = INCBIN_U32("graphics/dppt_start_menu/trainer_card.4bpp.lz");
+static const u32 sSave_Gfx[] = INCBIN_U32("graphics/dppt_start_menu/save.4bpp.lz");
+static const u32 sOptions_Gfx[] = INCBIN_U32("graphics/dppt_start_menu/options.4bpp.lz");
+static const u32 sCancel_Gfx[] = INCBIN_U32("graphics/dppt_start_menu/cancel.4bpp.lz");
+static const u32 sRetire_Gfx[] = INCBIN_U32("graphics/dppt_start_menu/retire.4bpp.lz");
 
 static const struct OamData sOamData_Selector =
 {
@@ -164,18 +194,11 @@ static const struct OamData sOamData_Selector =
     .priority = 0,
 };
 
-static const struct CompressedSpriteSheet sSpriteSheet_SelectorLeft =
+static const struct CompressedSpriteSheet sSpriteSheet_Selector =
 {
-    .data = sSelectorLeft_Gfx,
+    .data = sSelector_Gfx,
     .size = 64*32*4/2,
-    .tag = TAG_SELECTOR_LEFT_GFX,
-};
-
-static const struct CompressedSpriteSheet sSpriteSheet_SelectorRight =
-{
-    .data = sSelectorRight_Gfx,
-    .size = 64*32*4/2,
-    .tag = TAG_SELECTOR_RIGHT_GFX,
+    .tag = TAG_SELECTOR_GFX,
 };
 
 static const struct SpritePalette sSpritePal_Selector =
@@ -195,20 +218,9 @@ static const union AnimCmd *const sSpriteAnimTable_Selector[] =
     sSpriteAnim_Selector,
 };
 
-static const struct SpriteTemplate sSpriteTemplate_SelectorLeft =
+static const struct SpriteTemplate sSpriteTemplate_Selector =
 {
-    .tileTag = TAG_SELECTOR_LEFT_GFX,
-    .paletteTag = TAG_MENU_PAL,
-    .oam = &sOamData_Selector,
-    .anims = sSpriteAnimTable_Selector,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCallbackDummy
-};
-
-static const struct SpriteTemplate sSpriteTemplate_SelectorRight =
-{
-    .tileTag = TAG_SELECTOR_RIGHT_GFX,
+    .tileTag = TAG_SELECTOR_GFX,
     .paletteTag = TAG_MENU_PAL,
     .oam = &sOamData_Selector,
     .anims = sSpriteAnimTable_Selector,
@@ -232,6 +244,42 @@ static const struct CompressedSpriteSheet sSpriteSheet_PokedexIcon[] =
 static const struct CompressedSpriteSheet sSpriteSheet_BagIcon[] = 
 {
     {sBag_Gfx, 32*64/2 , TAG_BAG_GFX},
+    {NULL},
+};
+
+static const struct CompressedSpriteSheet sSpriteSheet_PokenavIcon[] = 
+{
+    {sPokenav_Gfx, 32*64/2 , TAG_POKENAV_GFX},
+    {NULL},
+};
+
+static const struct CompressedSpriteSheet sSpriteSheet_TrainerCardIcon[] = 
+{
+    {sTrainerCard_Gfx, 32*64/2 , TAG_TRAINER_CARD_GFX},
+    {NULL},
+};
+
+static const struct CompressedSpriteSheet sSpriteSheet_SaveIcon[] = 
+{
+    {sSave_Gfx, 32*64/2 , TAG_SAVE_GFX},
+    {NULL},
+};
+
+static const struct CompressedSpriteSheet sSpriteSheet_OptionsIcon[] = 
+{
+    {sOptions_Gfx, 32*64/2 , TAG_OPTIONS_GFX},
+    {NULL},
+};
+
+static const struct CompressedSpriteSheet sSpriteSheet_CancelIcon[] = 
+{
+    {sCancel_Gfx, 32*64/2 , TAG_CANCEL_GFX},
+    {NULL},
+};
+
+static const struct CompressedSpriteSheet sSpriteSheet_RetireIcon[] = 
+{
+    {sRetire_Gfx, 32*64/2 , TAG_RETIRE_GFX},
     {NULL},
 };
 
@@ -264,9 +312,40 @@ static const union AnimCmd *const sSpriteAnimTable_Icon[] = {
     sSpriteAnim_Icon_Default,
 };
 
-static void SpriteCB_Pokedex(struct Sprite *sprite);
-static void SpriteCB_Pokeball(struct Sprite *sprite);
-static void SpriteCB_Bag(struct Sprite *sprite);
+static const union AffineAnimCmd sSpriteAffineAnim_IconNone[] =
+{
+    AFFINEANIMCMD_FRAME(0, 0, 0, 60),
+    AFFINEANIMCMD_END,
+};
+
+static const union AffineAnimCmd sSpriteAffineAnim_Icon[] =
+{
+    AFFINEANIMCMD_FRAME(12, 12, 0, 8),
+    AFFINEANIMCMD_FRAME(-12, -12, 0, 8),
+    // This is taken from Voluptua's start menu, huge credits to him: https://github.com/Voluptua/pokeemerald/blob/start_menu_1/src/heat_start_menu.c#L358
+    AFFINEANIMCMD_FRAME(0, 0, 1, 4),      // Begin rotating
+
+    AFFINEANIMCMD_FRAME(0, 0, -1, 4),     // Loop starts from here ; Rotate/Tilt left 
+    AFFINEANIMCMD_FRAME(0, 0, 0, 2),
+    AFFINEANIMCMD_FRAME(0, 0, -1, 4),
+    AFFINEANIMCMD_FRAME(0, 0, 0, 2),
+    AFFINEANIMCMD_FRAME(0, 0, -1, 4),
+
+    AFFINEANIMCMD_FRAME(0, 0, 1, 4),      // Rotate/Tilt Right
+    AFFINEANIMCMD_FRAME(0, 0, 0, 2),
+    AFFINEANIMCMD_FRAME(0, 0, 1, 4),
+    AFFINEANIMCMD_FRAME(0, 0, 0, 2),
+    AFFINEANIMCMD_FRAME(0, 0, 1, 4),
+
+    AFFINEANIMCMD_JUMP(3),
+    AFFINEANIMCMD_END,
+};
+
+static const union AffineAnimCmd *const sAffineAnimCmds_Icon[] =
+{   
+    sSpriteAffineAnim_IconNone,
+    sSpriteAffineAnim_Icon,
+};
 
 static const struct SpriteTemplate sSpriteTemplate_Pokeball = {
     .tileTag = TAG_POKEBALL_GFX,
@@ -274,7 +353,7 @@ static const struct SpriteTemplate sSpriteTemplate_Pokeball = {
     .oam = &sOamData_Icon,
     .anims = sSpriteAnimTable_Icon,
     .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
+    .affineAnims = sAffineAnimCmds_Icon,
     .callback = SpriteCB_Pokeball,
 };
 
@@ -284,7 +363,7 @@ static const struct SpriteTemplate sSpriteTemplate_Pokedex = {
     .oam = &sOamData_Icon,
     .anims = sSpriteAnimTable_Icon,
     .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
+    .affineAnims = sAffineAnimCmds_Icon,
     .callback = SpriteCB_Pokedex,
 };
 
@@ -294,8 +373,68 @@ static const struct SpriteTemplate sSpriteTemplate_Bag = {
     .oam = &sOamData_Icon,
     .anims = sSpriteAnimTable_Icon,
     .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
+    .affineAnims = sAffineAnimCmds_Icon,
     .callback = SpriteCB_Bag,
+};
+
+static const struct SpriteTemplate sSpriteTemplate_Pokenav = {
+    .tileTag = TAG_POKENAV_GFX,
+    .paletteTag = TAG_MENU_PAL,
+    .oam = &sOamData_Icon,
+    .anims = sSpriteAnimTable_Icon,
+    .images = NULL,
+    .affineAnims = sAffineAnimCmds_Icon,
+    .callback = SpriteCB_Pokenav,
+};
+
+static const struct SpriteTemplate sSpriteTemplate_TrainerCard = {
+    .tileTag = TAG_TRAINER_CARD_GFX,
+    .paletteTag = TAG_MENU_PAL,
+    .oam = &sOamData_Icon,
+    .anims = sSpriteAnimTable_Icon,
+    .images = NULL,
+    .affineAnims = sAffineAnimCmds_Icon,
+    .callback = SpriteCB_TrainerCard,
+};
+
+static const struct SpriteTemplate sSpriteTemplate_Save = {
+    .tileTag = TAG_SAVE_GFX,
+    .paletteTag = TAG_MENU_PAL,
+    .oam = &sOamData_Icon,
+    .anims = sSpriteAnimTable_Icon,
+    .images = NULL,
+    .affineAnims = sAffineAnimCmds_Icon,
+    .callback = SpriteCB_Save,
+};
+
+static const struct SpriteTemplate sSpriteTemplate_Options = {
+    .tileTag = TAG_OPTIONS_GFX,
+    .paletteTag = TAG_MENU_PAL,
+    .oam = &sOamData_Icon,
+    .anims = sSpriteAnimTable_Icon,
+    .images = NULL,
+    .affineAnims = sAffineAnimCmds_Icon,
+    .callback = SpriteCB_Options,
+};
+
+static const struct SpriteTemplate sSpriteTemplate_Cancel = {
+    .tileTag = TAG_CANCEL_GFX,
+    .paletteTag = TAG_MENU_PAL,
+    .oam = &sOamData_Icon,
+    .anims = sSpriteAnimTable_Icon,
+    .images = NULL,
+    .affineAnims = sAffineAnimCmds_Icon,
+    .callback = SpriteCB_Cancel,
+};
+
+static const struct SpriteTemplate sSpriteTemplate_Retire = {
+    .tileTag = TAG_RETIRE_GFX,
+    .paletteTag = TAG_MENU_PAL,
+    .oam = &sOamData_Icon,
+    .anims = sSpriteAnimTable_Icon,
+    .images = NULL,
+    .affineAnims = sAffineAnimCmds_Icon,
+    .callback = SpriteCB_Retire,
 };
 
 static const struct WindowTemplate sWindowTemplate_SafariBalls = {
@@ -357,6 +496,23 @@ static const struct MenuAction sStartMenuItems[] =
     [MENU_ACTION_PYRAMID_BAG]     = {gText_MenuBag,     {.u8_void = StartMenuBattlePyramidBagCallback}}
 };
 
+static const struct SpriteTemplate * const sIconTemplates[] =
+{
+    [MENU_ACTION_POKEDEX]         = &sSpriteTemplate_Pokedex,
+    [MENU_ACTION_POKEMON]         = &sSpriteTemplate_Pokeball,
+    [MENU_ACTION_BAG]             = &sSpriteTemplate_Bag,
+    [MENU_ACTION_POKENAV]         = &sSpriteTemplate_Pokenav,
+    [MENU_ACTION_PLAYER]          = &sSpriteTemplate_TrainerCard,
+    [MENU_ACTION_SAVE]            = &sSpriteTemplate_Save,
+    [MENU_ACTION_OPTION]          = &sSpriteTemplate_Options,
+    [MENU_ACTION_EXIT]            = &sSpriteTemplate_Cancel,
+    [MENU_ACTION_RETIRE_SAFARI]   = &sSpriteTemplate_Retire,
+    [MENU_ACTION_PLAYER_LINK]     = &sSpriteTemplate_TrainerCard,
+    [MENU_ACTION_REST_FRONTIER]   = &sSpriteTemplate_Pokeball, // TODO ?
+    [MENU_ACTION_RETIRE_FRONTIER] = &sSpriteTemplate_Retire,
+    [MENU_ACTION_PYRAMID_BAG]     = &sSpriteTemplate_Bag,
+};
+
 static const struct BgTemplate sBgTemplates_LinkBattleSave[] =
 {
     {
@@ -393,30 +549,6 @@ static const struct WindowTemplate sSaveInfoWindowTemplate = {
     .paletteNum = 15,
     .baseBlock = 8
 };
-
-static void SpriteCB_Pokedex(struct Sprite* sprite) 
-{
-    if (sStartMenuItems[sCurrentStartMenuActions[sStartMenuCursorPos]].func.u8_void == StartMenuPokedexCallback)
-        StartSpriteAnim(sprite, 1);
-    else
-        StartSpriteAnim(sprite, 0);
-}
-
-static void SpriteCB_Pokeball(struct Sprite* sprite) 
-{
-    if (sStartMenuItems[sCurrentStartMenuActions[sStartMenuCursorPos]].func.u8_void == StartMenuPokemonCallback)
-        StartSpriteAnim(sprite, 1);
-    else
-        StartSpriteAnim(sprite, 0);
-}
-
-static void SpriteCB_Bag(struct Sprite* sprite) 
-{
-    if (sStartMenuItems[sCurrentStartMenuActions[sStartMenuCursorPos]].func.u8_void == StartMenuBagCallback)
-        StartSpriteAnim(sprite, 1);
-    else
-        StartSpriteAnim(sprite, 0);
-}
 
 // Local functions
 static void BuildStartMenuActions(void);
@@ -518,11 +650,15 @@ static void BuildNormalStartMenu(void)
     AddStartMenuAction(MENU_ACTION_PLAYER);
     AddStartMenuAction(MENU_ACTION_SAVE);
     AddStartMenuAction(MENU_ACTION_OPTION);
-    AddStartMenuAction(MENU_ACTION_EXIT);
+    #if DPPT_START_MENU_DISABLE_EXIT == TRUE
+    if (!(FlagGet(FLAG_SYS_POKEDEX_GET) && FlagGet(FLAG_SYS_POKEMON_GET) && FlagGet(FLAG_SYS_POKENAV_GET)))
+        AddStartMenuAction(MENU_ACTION_EXIT);
+    #endif
 }
 
 static void BuildSafariZoneStartMenu(void)
 {
+    // Enough room on screen to fit all actions
     AddStartMenuAction(MENU_ACTION_RETIRE_SAFARI);
     AddStartMenuAction(MENU_ACTION_POKEDEX);
     AddStartMenuAction(MENU_ACTION_POKEMON);
@@ -534,6 +670,7 @@ static void BuildSafariZoneStartMenu(void)
 
 static void BuildLinkModeStartMenu(void)
 {
+    // Enough room on screen to fit all actions
     AddStartMenuAction(MENU_ACTION_POKEMON);
     AddStartMenuAction(MENU_ACTION_BAG);
 
@@ -549,6 +686,7 @@ static void BuildLinkModeStartMenu(void)
 
 static void BuildUnionRoomStartMenu(void)
 {
+    // Enough room on screen to fit all actions
     AddStartMenuAction(MENU_ACTION_POKEMON);
     AddStartMenuAction(MENU_ACTION_BAG);
 
@@ -564,6 +702,7 @@ static void BuildUnionRoomStartMenu(void)
 
 static void BuildBattlePikeStartMenu(void)
 {
+    // Enough room on screen to fit all actions
     AddStartMenuAction(MENU_ACTION_POKEDEX);
     AddStartMenuAction(MENU_ACTION_POKEMON);
     AddStartMenuAction(MENU_ACTION_PLAYER);
@@ -573,6 +712,7 @@ static void BuildBattlePikeStartMenu(void)
 
 static void BuildBattlePyramidStartMenu(void)
 {
+    // Enough room on screen to fit all actions
     AddStartMenuAction(MENU_ACTION_POKEMON);
     AddStartMenuAction(MENU_ACTION_PYRAMID_BAG);
     AddStartMenuAction(MENU_ACTION_PLAYER);
@@ -584,6 +724,7 @@ static void BuildBattlePyramidStartMenu(void)
 
 static void BuildMultiPartnerRoomStartMenu(void)
 {
+    // Enough room on screen to fit all actions
     AddStartMenuAction(MENU_ACTION_POKEMON);
     AddStartMenuAction(MENU_ACTION_PLAYER);
     AddStartMenuAction(MENU_ACTION_OPTION);
@@ -648,25 +789,11 @@ static bool32 PrintStartMenuActions(s8 *pIndex, u32 count)
             AddTextPrinterParameterized(GetStartMenuWindowId(), FONT_NORMAL, gStringVar4, 32, index*20, TEXT_SKIP_DRAW, NULL);
         }
 
-        if (sStartMenuItems[sCurrentStartMenuActions[index]].func.u8_void == StartMenuPokedexCallback)
+        if (sIconTemplates[sCurrentStartMenuActions[index]] != NULL && sCurrentStartMenuActions[index] < ARRAY_COUNT(sIconTemplates))
         {
-            sSpriteIds[0] = CreateSprite(&sSpriteTemplate_Pokedex, x, sLastY, 0);
+            sSpriteIds[sSpriteIdCount] = CreateSprite(sIconTemplates[sCurrentStartMenuActions[index]], x, 16+(index*20), 0);
             sSpriteIdCount++;
-            sLastY += 20;
         }
-        else if (sStartMenuItems[sCurrentStartMenuActions[index]].func.u8_void == StartMenuPokemonCallback)
-        {
-            sSpriteIds[1] = CreateSprite(&sSpriteTemplate_Pokeball, x, sLastY, 0);
-            sSpriteIdCount++;
-            sLastY += 20;
-        }
-        else if (sStartMenuItems[sCurrentStartMenuActions[index]].func.u8_void == StartMenuBagCallback)
-        {
-            sSpriteIds[2] = CreateSprite(&sSpriteTemplate_Bag, x, sLastY, 0);
-            sSpriteIdCount++;
-            sLastY += 20;
-        }
-
 
         index++;
         if (index >= sNumStartMenuActions)
@@ -701,14 +828,8 @@ static bool32 InitStartMenuStep(void)
     case 2:
         LoadMessageBoxAndBorderGfx();
         DrawStdWindowFrame(AddStartMenuWindow(sNumStartMenuActions), FALSE);
-        LoadCompressedSpriteSheet(&sSpriteSheet_SelectorLeft);
-        LoadCompressedSpriteSheet(&sSpriteSheet_SelectorRight);
-        LoadCompressedSpriteSheet(sSpriteSheet_PokedexIcon);
-        LoadCompressedSpriteSheet(sSpriteSheet_PokeballIcon);
-        LoadCompressedSpriteSheet(sSpriteSheet_BagIcon);
-        LoadSpritePalette(&sSpritePal_Selector);
-        sLastY = 16;
         sSpriteIdCount = 0;
+        LoadStartMenuGfx();
         sInitStartMenuData[1] = 0;
         sInitStartMenuData[0]++;
         break;
@@ -724,8 +845,9 @@ static bool32 InitStartMenuStep(void)
             sInitStartMenuData[0]++;
         break;
     case 5:
-        sSelectorSpriteIds[0] = CreateSprite(&sSpriteTemplate_SelectorLeft, 173, 16+(20*sStartMenuCursorPos), 0);
-        sSelectorSpriteIds[1] = CreateSprite(&sSpriteTemplate_SelectorRight, 203, 16+(20*sStartMenuCursorPos), 0);
+        sSelectorSpriteIds[0] = CreateSprite(&sSpriteTemplate_Selector, 181, 16+(20*sStartMenuCursorPos), 0);
+        gSprites[sSelectorSpriteIds[0]].hFlip = TRUE;
+        sSelectorSpriteIds[1] = CreateSprite(&sSpriteTemplate_Selector, 203, 16+(20*sStartMenuCursorPos), 0);
         sStartMenuCursorPos = InitMenuNormal(GetStartMenuWindowId(), FONT_NORMAL, -1, -1, -1, sNumStartMenuActions, sStartMenuCursorPos);
         CopyWindowToVram(GetStartMenuWindowId(), COPYWIN_MAP);
         return TRUE;
@@ -1026,22 +1148,6 @@ static bool8 StartMenuBattlePyramidBagCallback(void)
     }
 
     return FALSE;
-}
-
-static void DestroyStartMenuGfx(void)
-{
-    u32 i;
-    for (i = 0; i < sSpriteIdCount; i++)
-    {
-        FreeSpriteTilesByTag(gSprites[sSpriteIds[i]].template->tileTag);
-        DestroySprite(&gSprites[sSpriteIds[i]]);
-    }
-    for (i = 0; i < 2; i++)
-    {
-        FreeSpriteTilesByTag(gSprites[sSelectorSpriteIds[i]].template->tileTag);
-        DestroySprite(&gSprites[sSelectorSpriteIds[i]]);
-    }
-    FreeSpritePaletteByTag(TAG_MENU_PAL);
 }
 
 static bool8 SaveStartCallback(void)
@@ -1676,4 +1782,173 @@ void AppendToList(u8 *list, u8 *pos, u8 newEntry)
 {
     list[*pos] = newEntry;
     (*pos)++;
+}
+
+// NEW
+
+static void SpriteCB_Pokedex(struct Sprite* sprite) 
+{
+    if (sCurrentStartMenuActions[sStartMenuCursorPos] == MENU_ACTION_POKEDEX) // Easy way to see if we are hovered over the right action
+    {
+        StartSpriteAnimIfDifferent(sprite, 1);
+        StartSpriteAffineAnimIfDifferent(sprite, 1);
+    }
+    else
+    {
+        StartSpriteAnimIfDifferent(sprite, 0);
+        StartSpriteAffineAnimIfDifferent(sprite, 0);
+    }
+}
+
+static void SpriteCB_Pokeball(struct Sprite* sprite) 
+{
+    if (sCurrentStartMenuActions[sStartMenuCursorPos] == MENU_ACTION_POKEMON)
+    {
+        StartSpriteAnimIfDifferent(sprite, 1);
+        StartSpriteAffineAnimIfDifferent(sprite, 1);
+    }
+    else
+    {
+        StartSpriteAnimIfDifferent(sprite, 0);
+        StartSpriteAffineAnimIfDifferent(sprite, 0);
+    }
+}
+
+static void SpriteCB_Bag(struct Sprite* sprite) 
+{
+    if (sCurrentStartMenuActions[sStartMenuCursorPos] == MENU_ACTION_BAG || sCurrentStartMenuActions[sStartMenuCursorPos] == MENU_ACTION_PYRAMID_BAG)
+    {
+        StartSpriteAnimIfDifferent(sprite, 1);
+        StartSpriteAffineAnimIfDifferent(sprite, 1);
+    }
+    else
+    {
+        StartSpriteAnimIfDifferent(sprite, 0);
+        StartSpriteAffineAnimIfDifferent(sprite, 0);
+    }
+}
+
+static void SpriteCB_Pokenav(struct Sprite* sprite) 
+{
+    if (sCurrentStartMenuActions[sStartMenuCursorPos] == MENU_ACTION_POKENAV)
+    {
+        StartSpriteAnimIfDifferent(sprite, 1);
+        StartSpriteAffineAnimIfDifferent(sprite, 1);
+    }
+    else
+    {
+        StartSpriteAnimIfDifferent(sprite, 0);
+        StartSpriteAffineAnimIfDifferent(sprite, 0);
+    }
+}
+
+static void SpriteCB_TrainerCard(struct Sprite* sprite) 
+{
+    if (sCurrentStartMenuActions[sStartMenuCursorPos] == MENU_ACTION_PLAYER || sCurrentStartMenuActions[sStartMenuCursorPos] == MENU_ACTION_PLAYER_LINK)
+    {
+        StartSpriteAnimIfDifferent(sprite, 1);
+        StartSpriteAffineAnimIfDifferent(sprite, 1);
+    }
+    else
+    {
+        StartSpriteAnimIfDifferent(sprite, 0);
+        StartSpriteAffineAnimIfDifferent(sprite, 0);
+    }
+}
+
+static void SpriteCB_Save(struct Sprite* sprite) 
+{
+    if (sCurrentStartMenuActions[sStartMenuCursorPos] == MENU_ACTION_SAVE)
+    {
+        StartSpriteAnimIfDifferent(sprite, 1);
+        StartSpriteAffineAnimIfDifferent(sprite, 1);
+    }
+    else
+    {
+        StartSpriteAnimIfDifferent(sprite, 0);
+        StartSpriteAffineAnimIfDifferent(sprite, 0);
+    }
+}
+
+static void SpriteCB_Options(struct Sprite* sprite) 
+{
+    if (sCurrentStartMenuActions[sStartMenuCursorPos] == MENU_ACTION_OPTION)
+    {
+        StartSpriteAnimIfDifferent(sprite, 1);
+        StartSpriteAffineAnimIfDifferent(sprite, 1);
+    }
+    else
+    {
+        StartSpriteAnimIfDifferent(sprite, 0);
+        StartSpriteAffineAnimIfDifferent(sprite, 0);
+    }
+}
+
+static void SpriteCB_Cancel(struct Sprite* sprite) 
+{
+    if (sCurrentStartMenuActions[sStartMenuCursorPos] == MENU_ACTION_EXIT)
+    {
+        StartSpriteAnimIfDifferent(sprite, 1);
+        StartSpriteAffineAnimIfDifferent(sprite, 1);
+    }
+    else
+    {
+        StartSpriteAnimIfDifferent(sprite, 0);
+        StartSpriteAffineAnimIfDifferent(sprite, 0);
+    }
+}
+
+static void SpriteCB_Retire(struct Sprite* sprite) 
+{
+    if (sCurrentStartMenuActions[sStartMenuCursorPos] == MENU_ACTION_RETIRE_SAFARI || sCurrentStartMenuActions[sStartMenuCursorPos] == MENU_ACTION_RETIRE_FRONTIER)
+    {
+        StartSpriteAnimIfDifferent(sprite, 1);
+        StartSpriteAffineAnimIfDifferent(sprite, 1);
+    }
+    else
+    {
+        StartSpriteAnimIfDifferent(sprite, 0);
+        StartSpriteAffineAnimIfDifferent(sprite, 0);
+    }
+}
+
+static void LoadStartMenuGfx(void)
+{
+    LoadSpritePalette(&sSpritePal_Selector);
+    LoadCompressedSpriteSheet(&sSpriteSheet_Selector);
+    if (FlagGet(FLAG_SYS_POKEDEX_GET))
+        LoadCompressedSpriteSheet(sSpriteSheet_PokedexIcon);
+    if (FlagGet(FLAG_SYS_POKEMON_GET))
+        LoadCompressedSpriteSheet(sSpriteSheet_PokeballIcon);
+    LoadCompressedSpriteSheet(sSpriteSheet_BagIcon);
+    if (FlagGet(FLAG_SYS_POKENAV_GET))
+        LoadCompressedSpriteSheet(sSpriteSheet_PokenavIcon);
+    LoadCompressedSpriteSheet(sSpriteSheet_TrainerCardIcon);
+    if (GetSafariZoneFlag())
+        LoadCompressedSpriteSheet(sSpriteSheet_RetireIcon);
+    else
+        LoadCompressedSpriteSheet(sSpriteSheet_SaveIcon);
+    LoadCompressedSpriteSheet(sSpriteSheet_OptionsIcon);
+    LoadCompressedSpriteSheet(sSpriteSheet_CancelIcon);
+}
+
+static void DestroyStartMenuGfx(void)
+{
+    u32 i;
+    FreeSpritePaletteByTag(TAG_MENU_PAL);
+    for (i = 0; i < sSpriteIdCount; i++)
+    {
+        FreeSpriteOamMatrix(&gSprites[sSpriteIds[i]]);
+        FreeSpriteTiles(&gSprites[sSpriteIds[i]]);
+        DestroySprite(&gSprites[sSpriteIds[i]]);
+        sSpriteIds[i] = SPRITE_NONE;
+    }
+    for (i = 0; i < 2; i++)
+    {
+        FreeSpriteOamMatrix(&gSprites[sSelectorSpriteIds[i]]);
+        FreeSpriteTiles(&gSprites[sSelectorSpriteIds[i]]);
+        DestroySprite(&gSprites[sSelectorSpriteIds[i]]);
+        sSpriteIds[i] = SPRITE_NONE;
+    }
+    sSpriteIdCount = 0;
 }
