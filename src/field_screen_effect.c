@@ -34,7 +34,6 @@
 #include "constants/rgb.h"
 #include "trainer_hill.h"
 #include "fldeff.h"
-#include "ui_startmenu_full.h"
 #include "battle_pike.h"
 #include "battle_pyramid.h"
 #include "battle_pyramid_bag.h"
@@ -446,7 +445,7 @@ static void Task_WaitForFadeShowStartMenu(u8 taskId)
 void ReturnToFieldOpenStartMenu(void)
 {
     FadeInFromBlack();
-    //CreateTask(Task_WaitForFadeShowStartMenu, 0x50);
+    CreateTask(Task_WaitForFadeShowStartMenu, 0x50);
     LockPlayerFieldControls();
 }
 
