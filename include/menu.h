@@ -95,6 +95,7 @@ u8 InitMenuActionGrid(u8 windowId, u8 optionWidth, u8 columns, u8 rows, u8 initi
 u8 ChangeMenuGridCursorPosition(s8 deltaX, s8 deltaY);
 u8 GetStartMenuWindowId(void);
 void ListMenuLoadStdPalAt(u8 palOffset, u8 palId);
+void DrawCursorParamaterized(u8 x, u8 y);
 u8 Menu_MoveCursor(s8 cursorDelta);
 u8 Menu_MoveCursorNoWrapAround(s8 cursorDelta);
 void DrawStdWindowFrame(u8 windowId, bool8 CopyToVram);
