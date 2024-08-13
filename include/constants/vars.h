@@ -335,7 +335,10 @@
 #define VAR_MAP_SCENE_CINNABAR_ISLAND_2                                        0x408A
 #define VAR_MAP_SCENE_MT_MOON_B2F                                              0x408B
 
-#define VARS_END                                         0x40FF
+// Default free range of 116 free vars
+// Expanded to 372 free vars
+
+#define VARS_END                                         0x41FF
 #define VARS_COUNT                                       (VARS_END - VARS_START + 1)
 
 #define SPECIAL_VARS_START            0x8000
