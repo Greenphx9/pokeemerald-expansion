@@ -714,5 +714,6 @@ extern const u8 gOakSpeech_Text_YourRivalsNameWhatWasIt[];
 extern const u8 gOakSpeech_Text_ConfirmRivalName[];
 extern const u8 gOakSpeech_Text_RememberRivalsName[];
 extern const u8 gOakSpeech_Text_LetsGo[];
+extern const u8 gOakSpeech_Text_WelcomeToRomHack[];
 
 #endif // GUARD_EVENT_SCRIPTS_H

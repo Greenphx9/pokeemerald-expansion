@@ -1,3 +1,22 @@
+text PalletTown_ProfessorOaksLab_Text_OakThreeMonsChooseOne
+{
+    "OAK: {RIVAL}?\n"
+    "Let me think…\p"
+    "Oh, that's right, I told you to\n"
+    "come! Just wait!\p"
+    "Here, {PLAYER}.\p"
+    "I have a few spare Pokémon here.\p"
+    "Haha!\p"
+    "The Pokémon are held inside\n"
+    "these huge Poké Balls.\p"
+    "When I was young, I was a serious\n"
+    "Pokémon Trainer.\p"
+    "But now, in my old age, I prefer\n"
+    "to spend my time studying in the lab.\p"
+    "You can have one.\n"
+    "Go on, choose!"
+}
+
 raw `
 .equ LOCALID_PROF_OAK,        4
 .equ LOCALID_BULBASAUR_BALL,  5
@@ -1374,23 +1393,6 @@ PalletTown_ProfessorOaksLab_Text_RivalTellSisNotToGiveYouMap::
     .string "{PLAYER}! Hahaha!\p"
     .string "Don't bother coming around to\n"
     .string "my place after this!$"
-
-PalletTown_ProfessorOaksLab_Text_OakThreeMonsChooseOne::
-    .string "OAK: {RIVAL}?\n"
-    .string "Let me think…\p"
-    .string "Oh, that's right, I told you to\n"
-    .string "come! Just wait!\p"
-    .string "Here, {PLAYER}.\p"
-    .string "There are three POKéMON here.\p"
-    .string "Haha!\p"
-    .string "The POKéMON are held inside\n"
-    .string "these POKé BALLS.\p"
-    .string "When I was young, I was a serious\n"
-    .string "POKéMON TRAINER.\p"
-    .string "But now, in my old age, I have\n"
-    .string "only these three left.\p"
-    .string "You can have one.\n"
-    .string "Go on, choose!$"
 
 PalletTown_ProfessorOaksLab_Text_OakBePatientRival::
     .string "OAK: Be patient, {RIVAL}.\n"
