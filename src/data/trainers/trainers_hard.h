@@ -20,37 +20,16 @@
             TRAINER_ENCOUNTER_MUSIC_MALE,
 #line 81
         .doubleBattle = FALSE,
-        .partySize = 0,
-        .party = (const struct TrainerMon[])
-        {
-        },
-    },
-#line 83
-    [TRAINER_RIVAL_OAKS_LAB_BULBASAUR] =
-    {
-#line 84
-        .trainerName = _("TERRY"),
-#line 85
-        .trainerClass = TRAINER_CLASS_RIVAL_EARLY,
-#line 86
-        .trainerPic = TRAINER_PIC_RIVAL_EARLY,
-        .encounterMusic_gender = 
-#line 88
-            TRAINER_ENCOUNTER_MUSIC_MALE,
-#line 89
-        .doubleBattle = FALSE,
-#line 90
-        .aiFlags = AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_TRY_TO_FAINT | AI_FLAG_CHECK_VIABILITY,
         .partySize = 1,
         .party = (const struct TrainerMon[])
         {
             {
-#line 92
+#line 83
             .species = SPECIES_BULBASAUR,
             .gender = TRAINER_MON_RANDOM_GENDER,
-#line 94
+#line 85
             .iv = TRAINER_PARTY_IVS(0, 0, 0, 0, 0, 0),
-#line 93
+#line 84
             .lvl = 1,
             .nature = NATURE_HARDY,
             .dynamaxLevel = MAX_DYNAMAX_LEVEL,

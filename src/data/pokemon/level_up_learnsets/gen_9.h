@@ -10,8 +10,8 @@ static const struct LevelUpMove sNoneLevelUpLearnset[] = {
 static const struct LevelUpMove sBulbasaurLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 1, MOVE_TACKLE),
     LEVEL_UP_MOVE( 1, MOVE_GROWL),
-    LEVEL_UP_MOVE( 3, MOVE_VINE_WHIP),
-    LEVEL_UP_MOVE( 6, MOVE_GROWTH),
+    LEVEL_UP_MOVE( 6, MOVE_VINE_WHIP),
+    LEVEL_UP_MOVE( 7, MOVE_GROWTH),
     LEVEL_UP_MOVE( 9, MOVE_LEECH_SEED),
     LEVEL_UP_MOVE(12, MOVE_RAZOR_LEAF),
     LEVEL_UP_MOVE(15, MOVE_POISON_POWDER),
@@ -71,7 +71,7 @@ static const struct LevelUpMove sVenusaurLevelUpLearnset[] = {
 static const struct LevelUpMove sCharmanderLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 1, MOVE_SCRATCH),
     LEVEL_UP_MOVE( 1, MOVE_GROWL),
-    LEVEL_UP_MOVE( 4, MOVE_EMBER),
+    LEVEL_UP_MOVE( 6, MOVE_EMBER),
     LEVEL_UP_MOVE( 8, MOVE_SMOKESCREEN),
     LEVEL_UP_MOVE(12, MOVE_DRAGON_BREATH),
     LEVEL_UP_MOVE(17, MOVE_FIRE_FANG),
@@ -123,8 +123,8 @@ static const struct LevelUpMove sCharizardLevelUpLearnset[] = {
 static const struct LevelUpMove sSquirtleLevelUpLearnset[] = {
     LEVEL_UP_MOVE( 1, MOVE_TACKLE),
     LEVEL_UP_MOVE( 1, MOVE_TAIL_WHIP),
-    LEVEL_UP_MOVE( 3, MOVE_WATER_GUN),
-    LEVEL_UP_MOVE( 6, MOVE_WITHDRAW),
+    LEVEL_UP_MOVE( 6, MOVE_WATER_GUN),
+    LEVEL_UP_MOVE( 7, MOVE_WITHDRAW),
     LEVEL_UP_MOVE( 9, MOVE_RAPID_SPIN),
     LEVEL_UP_MOVE(12, MOVE_BITE),
     LEVEL_UP_MOVE(15, MOVE_WATER_PULSE),

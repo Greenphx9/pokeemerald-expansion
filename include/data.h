@@ -194,7 +194,7 @@ static inline const struct Trainer* GetTrainerStruct(u16 trainerId)
     // We check if the trainer's party is NULL as all trainers should have parties.
     // If it is NULL, the trainer presumably doesn't exist in the array, so we should
     // load from the normal trainer array (gTrainersNormal)
-    if (TRUE) // Check if on hard mode (to be implemented)
+    if (FALSE) // Check if on hard mode (to be implemented)
     {
         if (gTrainersHard[trainerId].party != NULL)
             return gTrainersHard;

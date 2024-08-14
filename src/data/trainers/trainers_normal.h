@@ -46,7 +46,7 @@
         {
             {
 #line 93
-            .species = SPECIES_SQUIRTLE,
+            .species = SPECIES_POPPLIO,
             .gender = TRAINER_MON_RANDOM_GENDER,
 #line 95
             .iv = TRAINER_PARTY_IVS(0, 0, 0, 0, 0, 0),
@@ -78,7 +78,7 @@
         {
             {
 #line 106
-            .species = SPECIES_BULBASAUR,
+            .species = SPECIES_SPRIGATITO,
             .gender = TRAINER_MON_RANDOM_GENDER,
 #line 108
             .iv = TRAINER_PARTY_IVS(0, 0, 0, 0, 0, 0),

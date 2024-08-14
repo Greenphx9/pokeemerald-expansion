@@ -513,6 +513,8 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_NpcWhite,              OBJ_EVENT_PAL_TAG_NPC_WHITE},
     {gObjectEventPal_Player,                OBJ_EVENT_PAL_TAG_PLAYER_RED},
     {gObjectEventPal_PlayerReflection,      OBJ_EVENT_PAL_TAG_PLAYER_RED_REFLECTION},
+    {gObjectEventPal_Player,                OBJ_EVENT_PAL_TAG_PLAYER_GREEN},
+    {gObjectEventPal_PlayerReflection,      OBJ_EVENT_PAL_TAG_PLAYER_GREEN_REFLECTION},
 #if OW_FOLLOWERS_POKEBALLS
     {gObjectEventPal_MasterBall,            OBJ_EVENT_PAL_TAG_BALL_MASTER},
     {gObjectEventPal_UltraBall,             OBJ_EVENT_PAL_TAG_BALL_ULTRA},
@@ -563,10 +565,10 @@ static const u16 sReflectionPaletteTags_Brendan[] = {
 };
 
 static const u16 sReflectionPaletteTags_May[] = {
-    OBJ_EVENT_PAL_TAG_MAY_REFLECTION,
-    OBJ_EVENT_PAL_TAG_MAY_REFLECTION,
-    OBJ_EVENT_PAL_TAG_MAY_REFLECTION,
-    OBJ_EVENT_PAL_TAG_MAY_REFLECTION,
+    OBJ_EVENT_PAL_TAG_PLAYER_GREEN_REFLECTION,
+    OBJ_EVENT_PAL_TAG_PLAYER_GREEN_REFLECTION,
+    OBJ_EVENT_PAL_TAG_PLAYER_GREEN_REFLECTION,
+    OBJ_EVENT_PAL_TAG_PLAYER_GREEN_REFLECTION,
 };
 
 static const u16 sReflectionPaletteTags_PlayerUnderwater[] = {
@@ -577,8 +579,8 @@ static const u16 sReflectionPaletteTags_PlayerUnderwater[] = {
 };
 
 static const struct PairedPalettes sPlayerReflectionPaletteSets[] = {
-    {OBJ_EVENT_PAL_TAG_BRENDAN,           sReflectionPaletteTags_Brendan},
-    {OBJ_EVENT_PAL_TAG_MAY,               sReflectionPaletteTags_May},
+    {OBJ_EVENT_PAL_TAG_PLAYER_RED,           sReflectionPaletteTags_Brendan},
+    {OBJ_EVENT_PAL_TAG_PLAYER_GREEN,               sReflectionPaletteTags_May},
     {OBJ_EVENT_PAL_TAG_PLAYER_UNDERWATER, sReflectionPaletteTags_PlayerUnderwater},
     {OBJ_EVENT_PAL_TAG_NONE,              NULL},
 };
@@ -692,7 +694,7 @@ static const u16 sObjectPaletteTags0[] = {
 
 static const u16 sObjectPaletteTags1[] = {
     [PALSLOT_PLAYER]            = OBJ_EVENT_PAL_TAG_PLAYER_RED,
-    [PALSLOT_PLAYER_REFLECTION] = OBJ_EVENT_PAL_TAG_PLAYER_RED_REFLECTION,
+    [PALSLOT_PLAYER_REFLECTION] = OBJ_EVENT_PAL_TAG_PLAYER_GREEN,
     [PALSLOT_NPC_1]             = OBJ_EVENT_PAL_TAG_NPC_1,
     [PALSLOT_NPC_2]             = OBJ_EVENT_PAL_TAG_NPC_2,
     [PALSLOT_NPC_3]             = OBJ_EVENT_PAL_TAG_NPC_3,
