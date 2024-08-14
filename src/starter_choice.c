@@ -320,7 +320,7 @@ static void Task_StarterChoice_HandleMainInput(u8 taskId)
         FreeAndDestroyMonPicSprite(sStarterChoice->spriteId);
         ClearToTransparentAndRemoveWindow(sStarterChoice->windowId);
         StringCopy(gStringVar1, GetSpeciesName(GetMonData(&sStarterChoice->mons[sStarterChoice->selectedMon], MON_DATA_SPECIES)));
-        CopyMon(&gPlayerParty[0], &sStarterChoice->mons[sStarterChoice->selectedMon], sizeof(struct Pokemon));
+        GiveMonToPlayer(&sStarterChoice->mons[sStarterChoice->selectedMon]);
         StarterChoice_Destroy();
         VarSet(VAR_0x8001, 1);
         DestroyTask(taskId);
