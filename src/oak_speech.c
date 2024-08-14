@@ -307,7 +307,7 @@ static const struct WindowTemplate sIntro_WindowTemplates[NUM_INTRO_WINDOWS + 1]
         .width = 9,
         .height = 4,
         .paletteNum = 15,
-        .baseBlock = 372
+        .baseBlock = 368
     },
     [WIN_INTRO_YESNO] =
     {
@@ -317,7 +317,7 @@ static const struct WindowTemplate sIntro_WindowTemplates[NUM_INTRO_WINDOWS + 1]
         .width = 6,
         .height = 4,
         .paletteNum = 15,
-        .baseBlock = 384
+        .baseBlock = 380
     },
     [WIN_INTRO_NAMES] =
     {
@@ -1470,7 +1470,7 @@ static void Task_OakSpeech_ConfirmName(u8 taskId)
             }
             else
             {
-                CreateYesNoMenu(&sIntro_WindowTemplates[WIN_INTRO_YESNO], GetStandardFrameBaseTileNum(), 14, 0);
+                CreateYesNoMenu_FRLG(&sIntro_WindowTemplates[WIN_INTRO_YESNO], FONT_SHORT, 0, 2, GetStandardFrameBaseTileNum(), 14, 0);
                 gTasks[taskId].func = Task_OakSpeech_HandleConfirmNameInput;
             }
         }
