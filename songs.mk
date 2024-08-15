@@ -9,7 +9,7 @@ $(MID_SUBDIR)/mus_aqua_magma_hideout.s: %.s: %.mid
 $(MID_SUBDIR)/mus_encounter_aqua.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G065 -V086
 
-$(MID_SUBDIR)/mus_route111.s: %.s: %.mid
+$(MID_SUBDIR)/mus_desert.s: %.s: %.mid
 	$(MID) $< $@ -E -R$(STD_REVERB) -G055 -V076
 
 $(MID_SUBDIR)/mus_encounter_suspicious.s: %.s: %.mid
