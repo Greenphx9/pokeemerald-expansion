@@ -1502,7 +1502,7 @@ static s16 ReallocSpriteTiles(struct Sprite *sprite, u32 byteSize)
     {
         i = -1;
     }
-    
+
     sprite->invisible = wasVisible;
     return i;
 }
@@ -1519,7 +1519,7 @@ u16 LoadSheetGraphicsInfo(const struct ObjectEventGraphicsInfo *info, u16 uuid, 
         bool32 oldInvisible;
         if (tag == TAG_NONE)
             tag = COMP_OW_TILE_TAG_BASE + uuid;
-        
+
         if (sprite)
         {
             oldInvisible = sprite->invisible;
@@ -1556,7 +1556,7 @@ u16 LoadSheetGraphicsInfo(const struct ObjectEventGraphicsInfo *info, u16 uuid, 
         {
             FieldEffectFreeTilesIfUnused(oldTiles);
         }
-        
+
         if (sprite)
         {
             sprite->sheetTileStart = tileStart;
@@ -1575,7 +1575,7 @@ u16 LoadSheetGraphicsInfo(const struct ObjectEventGraphicsInfo *info, u16 uuid, 
     {
         sprite->oam.tileNum = sprite->sheetTileStart;
         sprite->usingSheet = FALSE;
-    
+
     }
     else if (sprite && !sprite->sheetTileStart && sprite->oam.size != info->oam->size)
     {
@@ -1934,7 +1934,7 @@ static u8 LoadDynamicFollowerPalette(u16 species, u8 form, bool32 shiny)
             spritePalette.data = gSpeciesInfo[species].overworldShinyPalette;
         else
             spritePalette.data = gSpeciesInfo[species].overworldPalette;
-        
+
         // Check if pal data must be decompressed
         if (IsLZ77Data(spritePalette.data, PLTT_SIZE_4BPP, PLTT_SIZE_4BPP))
         {

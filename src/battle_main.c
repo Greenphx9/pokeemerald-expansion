@@ -4718,7 +4718,6 @@ void SwapTurnOrder(u8 id1, u8 id2)
 u32 GetBattlerTotalSpeedStatArgs(u32 battler, u32 ability, u32 holdEffect)
 {
     u32 speed = gBattleMons[battler].speed;
-    u32 highestStat = GetHighestStatId(battler);
 
     // weather abilities
     if (WEATHER_HAS_EFFECT)
@@ -4740,10 +4739,10 @@ u32 GetBattlerTotalSpeedStatArgs(u32 battler, u32 ability, u32 holdEffect)
         speed *= 2;
     else if (ability == ABILITY_SLOW_START && gBattleStruct->slowStartTimer[GetBattlerSide(battler)] != 0)
         speed /= 2;
-    else if (ability == ABILITY_PROTOSYNTHESIS && gBattleWeather & B_WEATHER_SUN && highestStat == STAT_SPEED)
-        speed = (speed * 150) / 100;
-    else if (ability == ABILITY_QUARK_DRIVE && gFieldStatuses & STATUS_FIELD_ELECTRIC_TERRAIN && highestStat == STAT_SPEED)
-        speed = (speed * 150) / 100;
+    else if (ability == ABILITY_PROTOSYNTHESIS && (gBattleWeather & B_WEATHER_SUN || gBattleStruct->boosterEnergyActivates & gBitTable[battler]))
+        speed = (GetHighestStatId(battler) == STAT_SPEED) ? (speed * 150) / 100 : speed;
+    else if (ability == ABILITY_QUARK_DRIVE && (gFieldStatuses & STATUS_FIELD_ELECTRIC_TERRAIN || gBattleStruct->boosterEnergyActivates & gBitTable[battler]))
+        speed = (GetHighestStatId(battler) == STAT_SPEED) ? (speed * 150) / 100 : speed;
 
     // stat stages
     speed *= gStatStageRatios[gBattleMons[battler].statStages[STAT_SPEED]][0];
@@ -5837,16 +5836,20 @@ void SetTypeBeforeUsingMove(u32 move, u32 battlerAtk)
     {
         gBattleStruct->dynamicMoveType = ItemId_GetSecondaryId(gBattleMons[battlerAtk].item) | F_DYNAMIC_TYPE_SET;
     }
-    else if (gMovesInfo[move].effect == EFFECT_REVELATION_DANCE)
+    else if (gMovesInfo[move].effect == EFFECT_REVELATION_DANCE && GetActiveGimmick(battlerAtk) != GIMMICK_Z_MOVE)
     {
         if (GetActiveGimmick(battlerAtk) == GIMMICK_TERA && GetBattlerTeraType(battlerAtk) != TYPE_STELLAR)
             gBattleStruct->dynamicMoveType = GetBattlerTeraType(battlerAtk);
-        else if (gBattleMons[battlerAtk].types[0] != TYPE_MYSTERY)
+        else if (gBattleMons[battlerAtk].types[0] != TYPE_MYSTERY && !(gBattleResources->flags->flags[battlerAtk] & RESOURCE_FLAG_ROOST && gBattleMons[battlerAtk].types[0] == TYPE_FLYING))
             gBattleStruct->dynamicMoveType = gBattleMons[battlerAtk].types[0] | F_DYNAMIC_TYPE_SET;
-        else if (gBattleMons[battlerAtk].types[1] != TYPE_MYSTERY)
+        else if (gBattleMons[battlerAtk].types[1] != TYPE_MYSTERY && !(gBattleResources->flags->flags[battlerAtk] & RESOURCE_FLAG_ROOST && gBattleMons[battlerAtk].types[1] == TYPE_FLYING))
             gBattleStruct->dynamicMoveType = gBattleMons[battlerAtk].types[1] | F_DYNAMIC_TYPE_SET;
+        else if (gBattleResources->flags->flags[battlerAtk] & RESOURCE_FLAG_ROOST)
+            gBattleStruct->dynamicMoveType = (B_ROOST_PURE_FLYING >= GEN_5 ? TYPE_NORMAL : TYPE_MYSTERY) | F_DYNAMIC_TYPE_SET;
         else if (gBattleMons[battlerAtk].types[2] != TYPE_MYSTERY)
             gBattleStruct->dynamicMoveType = gBattleMons[battlerAtk].types[2] | F_DYNAMIC_TYPE_SET;
+        else
+            gBattleStruct->dynamicMoveType = TYPE_MYSTERY | F_DYNAMIC_TYPE_SET;
     }
     else if (gMovesInfo[move].effect == EFFECT_RAGING_BULL
             && (gBattleMons[battlerAtk].species == SPECIES_TAUROS_PALDEAN_COMBAT_BREED

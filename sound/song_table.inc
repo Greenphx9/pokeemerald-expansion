@@ -410,7 +410,7 @@ gSongTable::
 	song mus_mt_chimney, 0, 0
 	song mus_encounter_female, 0, 0
 	song mus_lilycove, 0, 0
-	song mus_route111, 0, 0
+	song mus_desert, 0, 0
 	song mus_help, 0, 0
 	song mus_underwater, 0, 0
 	song mus_victory_trainer, 0, 0

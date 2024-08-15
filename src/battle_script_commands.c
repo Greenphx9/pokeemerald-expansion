@@ -1406,9 +1406,8 @@ static void Cmd_attackcanceler(void)
     }
 
     // Z-moves and Max Moves bypass protection, but deal reduced damage (factored in AccumulateOtherModifiers)
-    if ((IsZMove(gCurrentMove)
-        || IsMaxMove(gCurrentMove))
-         && IS_BATTLER_PROTECTED(gBattlerTarget))
+    if ((IsZMove(gCurrentMove) || IsMaxMove(gCurrentMove))
+     && IS_BATTLER_PROTECTED(gBattlerTarget))
     {
         BattleScriptPush(cmd->nextInstr);
         gBattlescriptCurrInstr = BattleScript_CouldntFullyProtect;
@@ -5867,7 +5866,9 @@ static void Cmd_moveend(void)
             gBattleScripting.moveendState++;
             break;
         case MOVEEND_UPDATE_LAST_MOVES:
-            if (gMoveResultFlags & (MOVE_RESULT_FAILED | MOVE_RESULT_DOESNT_AFFECT_FOE))
+            if ((gMoveResultFlags & (MOVE_RESULT_FAILED | MOVE_RESULT_DOESNT_AFFECT_FOE))
+             || (gBattleMons[gBattlerAttacker].status2 & (STATUS2_FLINCHED))
+             || gProtectStructs[gBattlerAttacker].prlzImmobility)
                 gBattleStruct->lastMoveFailed |= gBitTable[gBattlerAttacker];
             else
                 gBattleStruct->lastMoveFailed &= ~(gBitTable[gBattlerAttacker]);
@@ -6299,7 +6300,7 @@ static void Cmd_moveend(void)
                 u32 battler, nextDancer = 0;
                 bool32 turnOnHitmarker = FALSE;
 
-                for (battler = 0; battler < MAX_BATTLERS_COUNT; battler++)
+                for (battler = 0; battler < gBattlersCount; battler++)
                 {
                     if (gSpecialStatuses[battler].dancerUsedMove)
                     {
@@ -6309,9 +6310,8 @@ static void Cmd_moveend(void)
                     }
                 }
 
-                if (!(gBattleStruct->lastMoveFailed & gBitTable[gBattlerAttacker]
-                    || (!gSpecialStatuses[gBattlerAttacker].dancerUsedMove
-                        && gBattleStruct->bouncedMoveIsUsed)))
+                if (!(gMoveResultFlags & (MOVE_RESULT_FAILED | MOVE_RESULT_DOESNT_AFFECT_FOE)
+                 || (!gSpecialStatuses[gBattlerAttacker].dancerUsedMove && gBattleStruct->bouncedMoveIsUsed)))
                 {   // Dance move succeeds
                     // Set target for other Dancer mons; set bit so that mon cannot activate Dancer off of its own move
                     if (!gSpecialStatuses[gBattlerAttacker].dancerUsedMove)
@@ -6320,7 +6320,7 @@ static void Cmd_moveend(void)
                         gBattleScripting.savedBattler |= (gBattlerAttacker << 4);
                         gSpecialStatuses[gBattlerAttacker].dancerUsedMove = TRUE;
                     }
-                    for (battler = 0; battler < MAX_BATTLERS_COUNT; battler++)
+                    for (battler = 0; battler < gBattlersCount; battler++)
                     {
                         if (GetBattlerAbility(battler) == ABILITY_DANCER && !gSpecialStatuses[battler].dancerUsedMove)
                         {
@@ -6444,6 +6444,7 @@ static void Cmd_moveend(void)
             gBattleStruct->enduredDamage = 0;
             gBattleStruct->additionalEffectsCounter = 0;
             gBattleStruct->poisonPuppeteerConfusion = FALSE;
+            gBattleStruct->fickleBeamBoosted = FALSE;
             if (GetActiveGimmick(gBattlerAttacker) == GIMMICK_Z_MOVE)
                 SetActiveGimmick(gBattlerAttacker, GIMMICK_NONE);
             gBattleStruct->distortedTypeMatchups = 0;
@@ -12944,7 +12945,7 @@ static void Cmd_settypetorandomresistance(void)
     {
         gBattlescriptCurrInstr = cmd->failInstr;
     }
-    else if (gLastHitByType[gBattlerAttacker] == TYPE_STELLAR)
+    else if (gLastHitByType[gBattlerAttacker] == TYPE_STELLAR || gLastHitByType[gBattlerAttacker] == TYPE_MYSTERY)
     {
         gBattlescriptCurrInstr = cmd->failInstr;
     }
@@ -17177,4 +17178,20 @@ void BS_DamageToQuarterTargetHP(void)
         gBattleMoveDamage = 1;
 
     gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
+void BS_FickleBeamDamageCalculation(void)
+{
+    NATIVE_ARGS();
+    gBattleStruct->fickleBeamBoosted = FALSE;
+
+    if (RandomPercentage(RNG_FICKLE_BEAM, 30))
+    {
+        gBattleStruct->fickleBeamBoosted = TRUE;
+        gBattlescriptCurrInstr = BattleScript_FickleBeamDoubled;
+    }
+    else
+    {
+        gBattlescriptCurrInstr = cmd->nextInstr;
+    }
 }
