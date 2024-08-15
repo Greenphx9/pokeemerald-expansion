@@ -55,7 +55,6 @@
 #include "constants/layouts.h"
 #include "constants/moves.h"
 #include "constants/songs.h"
-#include "constants/species.h"
 #include "constants/trainers.h"
 #include "constants/union_room.h"
 #include "constants/weather.h"
@@ -5688,7 +5687,7 @@ u16 GetBattleBGM(void)
         case SPECIES_REGIELEKI:
         case SPECIES_REGIDRAGO:
             return MUS_VS_REGI;
-        case SPECIES_UXIE:
+        /*case SPECIES_UXIE:
         case SPECIES_MESPRIT:
         case SPECIES_AZELF:
             return MUS_DP_VS_UXIE_MESPRIT_AZELF;
@@ -5708,7 +5707,7 @@ u16 GetBattleBGM(void)
         case SPECIES_HO_OH:
             return MUS_HG_VS_HO_OH;
         case SPECIES_LUGIA:
-            return MUS_HG_VS_LUGIA;
+            return MUS_HG_VS_LUGIA;*/
         default:
             return MUS_RG_VS_LEGEND;
         }
