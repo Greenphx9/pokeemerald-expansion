@@ -535,7 +535,7 @@ struct SaveBlock2
 #endif //FREE_RECORD_MIXING_HALL_RECORDS
     /*0x624*/ u16 contestLinkResults[CONTEST_CATEGORIES_COUNT][CONTESTANT_COUNT];
     /*0x64C*/ struct BattleFrontier frontier;
-    /*0x???*/ u16 optionsWildMusic:1;
+    /*0x???*/ u16 optionsWildMusic:3;
               u16 optionsTrainerMusic:1;
               u16 optionsLeaderMusic:1;
               u16 optionsE4Music:1;

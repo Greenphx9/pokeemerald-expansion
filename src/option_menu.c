@@ -9,6 +9,7 @@
 #include "menu.h"
 #include "menu_helpers.h"
 #include "overworld.h"
+#include "option_plus_menu.h"
 #include "palette.h"
 #include "scanline_effect.h"
 #include "sound.h"
@@ -22,6 +23,8 @@
 #include "gba/m4a_internal.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
+
+#define useOptionPlusMenu TRUE
 
 // Menu items
 enum
@@ -333,6 +336,12 @@ static void VBlankCB_OptionMenu(void)
 void CB2_OptionsMenuFromStartMenu(void)
 {
     u8 i;
+
+    if (useOptionPlusMenu)
+    {
+        CB2_InitOptionPlusMenu();
+        return;
+    }
     
     if (gMain.savedCallback == NULL)
         gMain.savedCallback = CB2_ReturnToFieldWithOpenMenu;

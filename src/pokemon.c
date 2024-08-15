@@ -5770,6 +5770,10 @@ u16 GetBattleBGM(void)
     else
         if (gSaveBlock2Ptr->optionsWildMusic == OPTIONS_MUSIC_EMERALD)
             return MUS_VS_WILD;
+        else if (gSaveBlock2Ptr->optionsWildMusic == OPTIONS_MUSIC_DPPT)
+            return MUS_DP_VS_WILD;
+        else if (gSaveBlock2Ptr->optionsWildMusic == OPTIONS_MUSIC_HGSS)
+            return MUS_HG_VS_WILD;
         return MUS_RG_VS_WILD;
 }
 
