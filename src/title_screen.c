@@ -14,6 +14,7 @@
 #include "reset_rtc_screen.h"
 #include "berry_fix_program.h"
 #include "sound.h"
+#include "sound_check_menu.h"
 #include "sprite.h"
 #include "task.h"
 #include "scanline_effect.h"
@@ -48,6 +49,7 @@ static void Task_TitleScreenPhase3(u8);
 static void CB2_GoToMainMenu(void);
 static void CB2_GoToClearSaveDataScreen(void);
 static void CB2_GoToResetRtcScreen(void);
+static void CB2_GoToSoundCheckScreen(void);
 static void CB2_GoToBerryFixScreen(void);
 static void CB2_GoToCopyrightScreen(void);
 static void UpdateLegendaryMarkingColor(u8);
@@ -800,7 +802,7 @@ static void Task_TitleScreenPhase3(u8 taskId)
     {
         FadeOutBGM(4);
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
-        SetMainCallback2(CB2_GoToBerryFixScreen);
+        SetMainCallback2(CB2_GoToSoundCheckScreen);
     }
     else
     {
@@ -843,6 +845,14 @@ static void CB2_GoToResetRtcScreen(void)
 {
     if (!UpdatePaletteFade())
         SetMainCallback2(CB2_InitResetRtcScreen);
+}
+
+static void CB2_GoToSoundCheckScreen(void)
+{
+    if (!UpdatePaletteFade())
+        SetMainCallback2(CB2_StartSoundCheckMenu);
+    AnimateSprites();
+    BuildOamBuffer();
 }
 
 static void CB2_GoToBerryFixScreen(void)
