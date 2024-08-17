@@ -361,6 +361,7 @@ SECTIONS {
         src/pokemon_sprite_visualizer.o(.text);
         src/expansion_intro.o(.text);
         src/sound_check_menu.o(.text);
+        src/map_preview.o(.text);
     } > ROM =0
 
     script_data :
@@ -730,6 +731,7 @@ SECTIONS {
         src/pokemon_sprite_visualizer.o(.rodata);
         src/expansion_intro.o(.rodata);
         src/sound_check_menu.o(.rodata);
+        src/map_preview.o(.rodata);
     } > ROM =0
 
     song_data :

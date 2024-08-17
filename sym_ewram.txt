@@ -156,3 +156,4 @@
 	.include "src/ui_startmenu_full.o"
 	.include "src/sound_check_menu.o"
 	.include "src/option_plus_menu.o"
+    .include "src/map_preview.o"
