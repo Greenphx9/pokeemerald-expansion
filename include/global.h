@@ -514,8 +514,8 @@ struct SaveBlock2
              u16 optionsBattleStyle:1; // OPTIONS_BATTLE_STYLE_[SHIFT/SET]
              u16 optionsBattleSceneOff:1; // whether battle animations are disabled
              u16 regionMapZoom:1; // whether the map is zoomed in
-             //u16 padding1:4;
-             //u16 padding2;
+             u16 padding1:4;
+             u16 padding2;
     /*0x18*/ struct Pokedex pokedex;
     /*0x90*/ u8 filler_90[0x8];
     /*0x98*/ struct Time localTimeOffset;
@@ -535,15 +535,16 @@ struct SaveBlock2
 #endif //FREE_RECORD_MIXING_HALL_RECORDS
     /*0x624*/ u16 contestLinkResults[CONTEST_CATEGORIES_COUNT][CONTESTANT_COUNT];
     /*0x64C*/ struct BattleFrontier frontier;
-    /*0x???*/ u16 optionsWildMusic:3;
-              u16 optionsTrainerMusic:1;
-              u16 optionsLeaderMusic:1;
-              u16 optionsE4Music:1;
-              u16 optionsChampionMusic:1;
+    /*0x???*/ u8 optionsWildMusic:3;
+              u8 optionsTrainerMusic:3;
+              u8 optionsLeaderMusic:3;
+              u8 optionsE4Music:3;
+              u8 optionsChampionMusic:3;
               u16 optionsFastIntro:1;
               u16 optionsFastHP:1;
               u16 optionsFastEXP:1;
               u16 optionsWildScale:1;
+              u16 padding3:13;
 #define QUEST_FLAGS_COUNT ROUND_BITS_TO_BYTES(QUEST_COUNT)
 #define SUB_FLAGS_COUNT ROUND_BITS_TO_BYTES(SUB_QUEST_COUNT)
 #define QUEST_STATES 5 //Number of different quest states tracked in the saveblock

@@ -40,6 +40,10 @@ enum
 enum
 {
     MENUITEM_BATTLE_WILDMUSIC,
+    MENUITEM_BATTLE_TRAINERMUSIC,
+    MENUITEM_BATTLE_LEADERMUSIC,
+    MENUITEM_BATTLE_E4MUSIC,
+    MENUITEM_BATTLE_CHAMPIONMUSIC,
     MENUITEM_BATTLE_CANCEL,
     MENUITEM_BATTLE_COUNT,
 };
@@ -159,6 +163,10 @@ static void DrawChoices_ButtonMode(int selection, int y);
 static void DrawBgWindowFrames(void);
 static void DrawChoices_FrameType(int selection, int y);
 static void DrawChoices_WildMusic(int selection, int y);
+static void DrawChoices_TrainerMusic(int selection, int y);
+static void DrawChoices_LeaderMusic(int selection, int y);
+static void DrawChoices_E4Music(int selection, int y);
+static void DrawChoices_ChampionMusic(int selection, int y);
 
 // EWRAM vars
 EWRAM_DATA static struct OptionMenu *sOptions = NULL;
@@ -205,12 +213,20 @@ struct // MENU_BATTLE
     int (*processInput)(int selection);
 } static const sItemFunctionsBattle[MENUITEM_BATTLE_COUNT] =
 {
-    [MENUITEM_BATTLE_WILDMUSIC]    = {DrawChoices_WildMusic,   ProcessInput_Options_Four},
-    [MENUITEM_BATTLE_CANCEL]       = {NULL, NULL},
+    [MENUITEM_BATTLE_WILDMUSIC]     = {DrawChoices_WildMusic,     ProcessInput_Options_Four},
+    [MENUITEM_BATTLE_TRAINERMUSIC]  = {DrawChoices_TrainerMusic,  ProcessInput_Options_Four},
+    [MENUITEM_BATTLE_LEADERMUSIC]   = {DrawChoices_LeaderMusic,   ProcessInput_Options_Four},
+    [MENUITEM_BATTLE_E4MUSIC]       = {DrawChoices_E4Music,       ProcessInput_Options_Four},
+    [MENUITEM_BATTLE_CHAMPIONMUSIC] = {DrawChoices_ChampionMusic, ProcessInput_Options_Four},
+    [MENUITEM_BATTLE_CANCEL]        = {NULL, NULL},
 };
 
 const u8 sText_OptionMenuSave[] = _("Save");
 const u8 sText_OptionMenuWildMusic[] = _("Wild Music");
+const u8 sText_OptionMenuTrainerMusic[] = _("Trainer Music");
+const u8 sText_OptionMenuLeaderMusic[] = _("Leader Music");
+const u8 sText_OptionMenuE4Music[] = _("E4 Music");
+const u8 sText_OptionMenuChampionMusic[] = _("Champion Music");
 
 // Menu left side option names text
 static const u8 *const sOptionMenuItemsNamesMain[MENUITEM_MAIN_COUNT] =
@@ -226,8 +242,12 @@ static const u8 *const sOptionMenuItemsNamesMain[MENUITEM_MAIN_COUNT] =
 
 static const u8 *const sOptionMenuItemsNamesCustom[MENUITEM_BATTLE_COUNT] =
 {
-    [MENUITEM_BATTLE_WILDMUSIC]   = sText_OptionMenuWildMusic,
-    [MENUITEM_BATTLE_CANCEL]      = sText_OptionMenuSave,
+    [MENUITEM_BATTLE_WILDMUSIC]     = sText_OptionMenuWildMusic,
+    [MENUITEM_BATTLE_TRAINERMUSIC]  = sText_OptionMenuTrainerMusic,
+    [MENUITEM_BATTLE_LEADERMUSIC]   = sText_OptionMenuLeaderMusic,
+    [MENUITEM_BATTLE_E4MUSIC]       = sText_OptionMenuE4Music,
+    [MENUITEM_BATTLE_CHAMPIONMUSIC] = sText_OptionMenuChampionMusic,
+    [MENUITEM_BATTLE_CANCEL]        = sText_OptionMenuSave,
 };
 
 static const u8 *const OptionTextRight(u8 menuItem)
@@ -261,6 +281,10 @@ static bool8 CheckConditions(int selection)
         switch(selection)
         {
         case MENUITEM_BATTLE_WILDMUSIC:       return TRUE;
+        case MENUITEM_BATTLE_TRAINERMUSIC:    return TRUE;
+        case MENUITEM_BATTLE_LEADERMUSIC:     return TRUE;
+        case MENUITEM_BATTLE_E4MUSIC:         return TRUE;
+        case MENUITEM_BATTLE_CHAMPIONMUSIC:   return TRUE;
         case MENUITEM_BATTLE_CANCEL:          return TRUE;
         case MENUITEM_BATTLE_COUNT:           return TRUE;
         }
@@ -295,10 +319,18 @@ static const u8 *const sOptionMenuItemDescriptionsMain[MENUITEM_MAIN_COUNT][3] =
 
 // Custom
 static const u8 sText_Desc_WildMusic[] = _("Changes the music that plays in wild\nbattles.");
+static const u8 sText_Desc_TrainerMusic[] = _("Changes the music that plays in trainer\nbattles.");
+static const u8 sText_Desc_LeaderMusic[] = _("Changes the music that plays in gym\nleader battles.");
+static const u8 sText_Desc_E4Music[] = _("Changes the music that plays in Elite\nFour battles.");
+static const u8 sText_Desc_ChampionMusic[] = _("Changes the music that plays in the\nchampion battle.");
 static const u8 *const sOptionMenuItemDescriptionsBattle[MENUITEM_BATTLE_COUNT][2] =
 {
-    [MENUITEM_BATTLE_WILDMUSIC]   = {sText_Desc_WildMusic, sText_Empty},
-    [MENUITEM_BATTLE_CANCEL]      = {sText_Desc_Save,               sText_Empty},
+    [MENUITEM_BATTLE_WILDMUSIC]     = {sText_Desc_WildMusic,          sText_Empty},
+    [MENUITEM_BATTLE_TRAINERMUSIC]  = {sText_Desc_TrainerMusic,       sText_Empty},
+    [MENUITEM_BATTLE_LEADERMUSIC]   = {sText_Desc_LeaderMusic,        sText_Empty},
+    [MENUITEM_BATTLE_E4MUSIC]       = {sText_Desc_E4Music,            sText_Empty},
+    [MENUITEM_BATTLE_CHAMPIONMUSIC] = {sText_Desc_ChampionMusic,      sText_Empty},
+    [MENUITEM_BATTLE_CANCEL]        = {sText_Desc_Save,               sText_Empty},
 };
 
 // Disabled Descriptions
@@ -317,8 +349,12 @@ static const u8 *const sOptionMenuItemDescriptionsDisabledMain[MENUITEM_MAIN_COU
 // Disabled Custom
 static const u8 *const sOptionMenuItemDescriptionsDisabledCustom[MENUITEM_BATTLE_COUNT] =
 {
-    [MENUITEM_BATTLE_WILDMUSIC]   = sText_Empty,
-    [MENUITEM_BATTLE_CANCEL]      = sText_Empty,
+    [MENUITEM_BATTLE_WILDMUSIC]     = sText_Empty,
+    [MENUITEM_BATTLE_TRAINERMUSIC]  = sText_Empty,
+    [MENUITEM_BATTLE_LEADERMUSIC]   = sText_Empty,
+    [MENUITEM_BATTLE_E4MUSIC]       = sText_Empty,
+    [MENUITEM_BATTLE_CHAMPIONMUSIC] = sText_Empty,
+    [MENUITEM_BATTLE_CANCEL]        = sText_Empty,
 };
 
 static const u8 *const OptionTextDescription(void)
@@ -339,7 +375,11 @@ static const u8 *const OptionTextDescription(void)
         if (!CheckConditions(menuItem))
             return sOptionMenuItemDescriptionsDisabledMain[menuItem];
         selection = sOptions->sel_battle[menuItem];
-        if (menuItem == MENUITEM_BATTLE_WILDMUSIC)
+        if (menuItem == MENUITEM_BATTLE_WILDMUSIC
+        || menuItem == MENUITEM_BATTLE_TRAINERMUSIC
+        || menuItem == MENUITEM_BATTLE_LEADERMUSIC
+        || menuItem == MENUITEM_BATTLE_E4MUSIC
+        || menuItem == MENUITEM_BATTLE_CHAMPIONMUSIC)
             selection = 0;
         return sOptionMenuItemDescriptionsBattle[menuItem][selection];
     }
@@ -561,7 +601,11 @@ void CB2_InitOptionPlusMenu(void)
         sOptions->sel[MENUITEM_MAIN_BUTTONMODE]  = gSaveBlock2Ptr->optionsButtonMode;
         sOptions->sel[MENUITEM_MAIN_FRAMETYPE]   = gSaveBlock2Ptr->optionsWindowFrameType;
 
-        sOptions->sel_battle[MENUITEM_BATTLE_WILDMUSIC] = gSaveBlock2Ptr->optionsWildMusic;
+        sOptions->sel_battle[MENUITEM_BATTLE_WILDMUSIC]     = gSaveBlock2Ptr->optionsWildMusic;
+        sOptions->sel_battle[MENUITEM_BATTLE_TRAINERMUSIC]  = gSaveBlock2Ptr->optionsTrainerMusic;
+        sOptions->sel_battle[MENUITEM_BATTLE_LEADERMUSIC]   = gSaveBlock2Ptr->optionsLeaderMusic;
+        sOptions->sel_battle[MENUITEM_BATTLE_E4MUSIC]       = gSaveBlock2Ptr->optionsE4Music;
+        sOptions->sel_battle[MENUITEM_BATTLE_CHAMPIONMUSIC] = gSaveBlock2Ptr->optionsChampionMusic;
 
         sOptions->submenu = MENU_MAIN;
 
@@ -746,7 +790,11 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->optionsButtonMode       = sOptions->sel[MENUITEM_MAIN_BUTTONMODE];
     gSaveBlock2Ptr->optionsWindowFrameType  = sOptions->sel[MENUITEM_MAIN_FRAMETYPE];
 
-    gSaveBlock2Ptr->optionsWildMusic = sOptions->sel_battle[MENUITEM_BATTLE_WILDMUSIC]; 
+    gSaveBlock2Ptr->optionsWildMusic     = sOptions->sel_battle[MENUITEM_BATTLE_WILDMUSIC];
+    gSaveBlock2Ptr->optionsTrainerMusic  = sOptions->sel_battle[MENUITEM_BATTLE_TRAINERMUSIC];
+    gSaveBlock2Ptr->optionsLeaderMusic   = sOptions->sel_battle[MENUITEM_BATTLE_LEADERMUSIC];
+    gSaveBlock2Ptr->optionsE4Music       = sOptions->sel_battle[MENUITEM_BATTLE_E4MUSIC];
+    gSaveBlock2Ptr->optionsChampionMusic = sOptions->sel_battle[MENUITEM_BATTLE_CHAMPIONMUSIC];
 
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 0x10, RGB_BLACK);
     gTasks[taskId].func = Task_OptionMenuFadeOut;
@@ -1103,5 +1151,29 @@ static const u8 *const sMusicOptions[] = {sText_FRLG, sText_EM, sText_DPPT, sTex
 static void DrawChoices_WildMusic(int selection, int y)
 {
     bool8 active = CheckConditions(MENUITEM_BATTLE_WILDMUSIC);
+    DrawChoices_Options_Four(sMusicOptions, selection, y, active);
+}
+
+static void DrawChoices_TrainerMusic(int selection, int y)
+{
+    bool8 active = CheckConditions(MENUITEM_BATTLE_TRAINERMUSIC);
+    DrawChoices_Options_Four(sMusicOptions, selection, y, active);
+}
+
+static void DrawChoices_LeaderMusic(int selection, int y)
+{
+    bool8 active = CheckConditions(MENUITEM_BATTLE_LEADERMUSIC);
+    DrawChoices_Options_Four(sMusicOptions, selection, y, active);
+}
+
+static void DrawChoices_E4Music(int selection, int y)
+{
+    bool8 active = CheckConditions(MENUITEM_BATTLE_E4MUSIC);
+    DrawChoices_Options_Four(sMusicOptions, selection, y, active);
+}
+
+static void DrawChoices_ChampionMusic(int selection, int y)
+{
+    bool8 active = CheckConditions(MENUITEM_BATTLE_CHAMPIONMUSIC);
     DrawChoices_Options_Four(sMusicOptions, selection, y, active);
 }

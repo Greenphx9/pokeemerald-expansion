@@ -813,8 +813,7 @@ static void Task_DisplayMainMenu(u8 taskId)
                 DrawMainMenuWindowBorder(&sWindowTemplates_MainMenu[2], MAIN_MENU_BORDER_TILE);
                 DrawMainMenuWindowBorder(&sWindowTemplates_MainMenu[3], MAIN_MENU_BORDER_TILE);
                 DrawMainMenuWindowBorder(&sWindowTemplates_MainMenu[4], MAIN_MENU_BORDER_TILE);
-
-                DebugPrintf("gPlayerPartyCount: %d", gPlayerPartyCount);
+                
                 if (gPlayerPartyCount != 0)
                 {
                     LoadMonIconPalettes();

@@ -5669,6 +5669,54 @@ bool32 IsSpeciesInHoennDex(u16 species)
         return TRUE;
 }
 
+u16 GetOverrideMusic(u8 type)
+{
+    switch(type)
+    {
+        case 0: // wild
+            if (gSaveBlock2Ptr->optionsWildMusic == OPTIONS_MUSIC_EMERALD)
+                return MUS_VS_WILD;
+            else if (gSaveBlock2Ptr->optionsWildMusic == OPTIONS_MUSIC_DPPT)
+                return MUS_DP_VS_WILD;
+            else if (gSaveBlock2Ptr->optionsWildMusic == OPTIONS_MUSIC_HGSS)
+                return MUS_HG_VS_WILD;
+            return MUS_RG_VS_WILD;
+        case 1: // trainer
+            if (gSaveBlock2Ptr->optionsTrainerMusic == OPTIONS_MUSIC_EMERALD)
+                return MUS_VS_TRAINER;
+            else if (gSaveBlock2Ptr->optionsTrainerMusic == OPTIONS_MUSIC_DPPT)
+                return MUS_DP_VS_TRAINER;
+            else if (gSaveBlock2Ptr->optionsTrainerMusic == OPTIONS_MUSIC_HGSS)
+                return MUS_HG_VS_TRAINER;
+            return MUS_RG_VS_TRAINER;
+        case 2: // gym leader
+            if (gSaveBlock2Ptr->optionsLeaderMusic == OPTIONS_MUSIC_EMERALD)
+                return MUS_VS_GYM_LEADER;
+            else if (gSaveBlock2Ptr->optionsLeaderMusic == OPTIONS_MUSIC_DPPT)
+                return MUS_DP_VS_GYM_LEADER;
+            else if (gSaveBlock2Ptr->optionsLeaderMusic == OPTIONS_MUSIC_HGSS)
+                return MUS_HG_VS_GYM_LEADER;
+            return MUS_RG_VS_GYM_LEADER;
+        case 3: // elite 4
+            if (gSaveBlock2Ptr->optionsE4Music == OPTIONS_MUSIC_EMERALD)
+                return MUS_VS_ELITE_FOUR;
+            else if (gSaveBlock2Ptr->optionsE4Music == OPTIONS_MUSIC_DPPT)
+                return MUS_DP_VS_ELITE_FOUR;
+            else if (gSaveBlock2Ptr->optionsE4Music == OPTIONS_MUSIC_HGSS)
+                return MUS_HG_VS_GYM_LEADER;
+            return MUS_RG_VS_GYM_LEADER;
+        case 4: // champion
+            if (gSaveBlock2Ptr->optionsChampionMusic == OPTIONS_MUSIC_EMERALD)
+                return MUS_VS_CHAMPION;
+            else if (gSaveBlock2Ptr->optionsChampionMusic == OPTIONS_MUSIC_DPPT)
+                return MUS_DP_VS_CHAMPION;
+            else if (gSaveBlock2Ptr->optionsChampionMusic == OPTIONS_MUSIC_HGSS)
+                return MUS_HG_VS_CHAMPION;
+            return MUS_RG_VS_CHAMPION;
+    }
+    return MUS_RG_VS_WILD;
+}
+
 u16 GetBattleBGM(void)
 {
     if (gBattleTypeFlags & BATTLE_TYPE_LEGENDARY)
@@ -5736,13 +5784,9 @@ u16 GetBattleBGM(void)
         case TRAINER_CLASS_MAGMA_ADMIN:
             return MUS_VS_AQUA_MAGMA;
         case TRAINER_CLASS_LEADER:
-            if (gSaveBlock2Ptr->optionsLeaderMusic == OPTIONS_MUSIC_EMERALD)
-                return MUS_VS_GYM_LEADER;
-            return MUS_RG_VS_GYM_LEADER;
+            return GetOverrideMusic(2);
         case TRAINER_CLASS_CHAMPION:
-            if (gSaveBlock2Ptr->optionsChampionMusic == OPTIONS_MUSIC_EMERALD)
-                return MUS_RG_VS_CHAMPION;
-            return MUS_VS_CHAMPION;
+            return GetOverrideMusic(4);
         case TRAINER_CLASS_RIVAL:
             if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
                 return MUS_VS_RIVAL;
@@ -5750,9 +5794,7 @@ u16 GetBattleBGM(void)
                 return MUS_VS_TRAINER;
             return MUS_VS_RIVAL;
         case TRAINER_CLASS_ELITE_FOUR:
-            if (gSaveBlock2Ptr->optionsE4Music == OPTIONS_MUSIC_EMERALD)
-                return MUS_VS_ELITE_FOUR;
-            return MUS_RG_VS_GYM_LEADER;
+            return GetOverrideMusic(3);
         case TRAINER_CLASS_SALON_MAIDEN:
         case TRAINER_CLASS_DOME_ACE:
         case TRAINER_CLASS_PALACE_MAVEN:
@@ -5762,19 +5804,11 @@ u16 GetBattleBGM(void)
         case TRAINER_CLASS_PYRAMID_KING:
             return MUS_VS_FRONTIER_BRAIN;
         default:
-            if (gSaveBlock2Ptr->optionsTrainerMusic == OPTIONS_MUSIC_EMERALD)
-                return MUS_VS_TRAINER;
-            return MUS_RG_VS_TRAINER;
+            return GetOverrideMusic(1);
         }
     }
     else
-        if (gSaveBlock2Ptr->optionsWildMusic == OPTIONS_MUSIC_EMERALD)
-            return MUS_VS_WILD;
-        else if (gSaveBlock2Ptr->optionsWildMusic == OPTIONS_MUSIC_DPPT)
-            return MUS_DP_VS_WILD;
-        else if (gSaveBlock2Ptr->optionsWildMusic == OPTIONS_MUSIC_HGSS)
-            return MUS_HG_VS_WILD;
-        return MUS_RG_VS_WILD;
+        return GetOverrideMusic(0);
 }
 
 void PlayBattleBGM(void)
