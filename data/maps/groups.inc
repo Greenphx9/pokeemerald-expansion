@@ -5,6 +5,7 @@
 gMapGroup_TownsAndRoutes::
 	.4byte PalletTown
 	.4byte Route1
+	.4byte ViridianCity
 
 gMapGroup_IndoorPalletTown::
 	.4byte PalletTown_PlayersHouse_1F

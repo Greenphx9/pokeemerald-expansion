@@ -92,3 +92,22 @@ const u16 gTilesetPalettes_Lab_Kanto[][16] =
 };
 
 const u32 gTilesetTiles_Lab_Kanto[] = INCBIN_U32("data/tilesets/secondary/lab_kanto/tiles.4bpp.lz");
+
+const u16 gTilesetPalettes_ViridianCity[][16] =
+{
+    INCBIN_U16("data/tilesets/secondary/viridian_city/palettes/00.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/viridian_city/palettes/01.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/viridian_city/palettes/02.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/viridian_city/palettes/03.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/viridian_city/palettes/04.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/viridian_city/palettes/05.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/viridian_city/palettes/06.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/viridian_city/palettes/07.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/viridian_city/palettes/08.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/viridian_city/palettes/09.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/viridian_city/palettes/10.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/viridian_city/palettes/11.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/viridian_city/palettes/12.gbapal"),
+};
+
+const u32 gTilesetTiles_ViridianCity[] = INCBIN_U32("data/tilesets/secondary/viridian_city/tiles.4bpp.lz");

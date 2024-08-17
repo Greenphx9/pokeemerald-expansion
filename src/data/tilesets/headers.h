@@ -52,3 +52,14 @@ const struct Tileset gTileset_Lab_Kanto =
     .metatileAttributes = gMetatileAttributes_Lab_Kanto,
     .callback = NULL,
 };
+
+const struct Tileset gTileset_ViridianCity =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_ViridianCity,
+    .palettes = gTilesetPalettes_ViridianCity,
+    .metatiles = gMetatiles_ViridianCity,
+    .metatileAttributes = gMetatileAttributes_ViridianCity,
+    .callback = NULL,
+};

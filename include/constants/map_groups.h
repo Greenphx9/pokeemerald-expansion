@@ -6,8 +6,9 @@
 //
 
 // gMapGroup_TownsAndRoutes
-#define MAP_PALLET_TOWN (0 | (0 << 8))
-#define MAP_ROUTE1      (1 | (0 << 8))
+#define MAP_PALLET_TOWN   (0 | (0 << 8))
+#define MAP_ROUTE1        (1 | (0 << 8))
+#define MAP_VIRIDIAN_CITY (2 | (0 << 8))
 
 // gMapGroup_IndoorPalletTown
 #define MAP_PALLET_TOWN_PLAYERS_HOUSE_1F   (0 | (1 << 8))

@@ -9,6 +9,14 @@
       "height": 1
     },
     {
+      "map_section": "MAPSEC_VIRIDIAN_CITY",
+      "name": "VIRIDIAN CITY",
+      "x": 4,
+      "y": 8,
+      "width": 1,
+      "height": 1
+    },
+    {
       "map_section": "MAPSEC_ROUTE_1",
       "name": "ROUTE 1",
       "x": 4,

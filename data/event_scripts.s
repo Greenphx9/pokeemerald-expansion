@@ -666,3 +666,5 @@ EventScript_BufferPutAwayPocketPokeBalls::
 	.include "data/maps/PalletTown_RivalsHouse_1F/scripts.inc"
 
 	.include "data/maps/PalletTown_ProfessorOaksLab/scripts.inc"
+
+	.include "data/maps/ViridianCity/scripts.inc"

@@ -5,7 +5,8 @@
   ],
   "gMapGroup_TownsAndRoutes": [
     "PalletTown",
-    "Route1"
+    "Route1",
+    "ViridianCity"
   ],
   "gMapGroup_IndoorPalletTown": [
     "PalletTown_PlayersHouse_1F",

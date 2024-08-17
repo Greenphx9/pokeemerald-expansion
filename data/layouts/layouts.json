@@ -72,6 +72,18 @@
       "secondary_tileset": "gTileset_Lab_Kanto",
       "border_filepath": "data/layouts/PalletTown_ProfessorOaksLab/border.bin",
       "blockdata_filepath": "data/layouts/PalletTown_ProfessorOaksLab/map.bin"
+    },
+    {
+      "id": "LAYOUT_VIRIDIAN_CITY",
+      "name": "ViridianCity_Layout",
+      "width": 48,
+      "height": 40,
+      "border_width": 2,
+      "border_height": 2,
+      "primary_tileset": "gTileset_General_Kanto",
+      "secondary_tileset": "gTileset_ViridianCity",
+      "border_filepath": "data/layouts/ViridianCity/border.bin",
+      "blockdata_filepath": "data/layouts/ViridianCity/map.bin"
     }
   ]
 }
