@@ -3,9 +3,6 @@
 
 enum MapPreviewScreenId
 {
-    MPS_PETALBURG_WOODS = 0,
-    MPS_METEOR_FALLS,
-    // to do: other map previews
     MPS_COUNT
 };
 
