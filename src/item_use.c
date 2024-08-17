@@ -38,6 +38,7 @@
 #include "string_util.h"
 #include "task.h"
 #include "text.h"
+#include "tm_case.h"
 #include "vs_seeker.h"
 #include "constants/event_bg.h"
 #include "constants/event_objects.h"
@@ -79,6 +80,8 @@ static void SetDistanceOfClosestHiddenItem(u8, s16, s16);
 static void CB2_OpenPokeblockFromBag(void);
 static void ItemUseOnFieldCB_Honey(u8 taskId);
 static bool32 IsValidLocationForVsSeeker(void);
+static void InitTMCaseFromBag(void);
+static void Task_InitTMCaseFromField(u8 taskId);
 
 // EWRAM variables
 EWRAM_DATA static void(*sItemUseOnFieldCB)(u8 taskId) = NULL;
@@ -1503,3 +1506,33 @@ void Task_ItemUse_CloseMessageBoxAndReturnToField_VsSeeker(u8 taskId)
 }
 
 #undef tUsingRegisteredKeyItem
+
+void ItemUseOutOfBattle_TmCase(u8 taskId)
+{
+    if (gTasks[taskId].data[3] == 0)
+    {
+        gBagMenu->newScreenCallback = InitTMCaseFromBag;
+        Task_FadeAndCloseBagMenu(taskId);
+    }
+    else
+    {
+        FadeScreen(FADE_TO_BLACK, 0);
+        gTasks[taskId].func = Task_InitTMCaseFromField;
+    }
+}
+
+static void InitTMCaseFromBag(void)
+{
+    InitTMCase(TMCASE_FIELD, CB2_BagMenuFromStartMenu, FALSE);
+}
+
+static void Task_InitTMCaseFromField(u8 taskId)
+{
+    if (!gPaletteFade.active)
+    {
+        CleanupOverworldWindowsAndTilemaps();
+        SetUpItemUseOnFieldCallback(taskId);
+        InitTMCase(TMCASE_FIELD, CB2_ReturnToField, TRUE);
+        DestroyTask(taskId);
+    }
+}

@@ -303,7 +303,7 @@ bool8 MenuHelpers_IsLinkActive(void)
         return FALSE;
 }
 
-static bool8 IsActiveOverworldLinkBusy(void)
+bool8 IsActiveOverworldLinkBusy(void)
 {
     if (!MenuHelpers_IsLinkActive())
         return FALSE;

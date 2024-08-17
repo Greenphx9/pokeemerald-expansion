@@ -3046,4 +3046,12 @@ extern const u8 gText_PlantBerry[];
 extern const u8 gText_AM[];
 extern const u8 gText_PM[];
 
+// tm case
+extern const u8 gText_TMCase[];
+extern const u8 gText_Close[];
+extern const u8 gText_TMCaseWillBePutAway[];
+extern const u8 gText_FontSmall[];
+extern const u8 gText_FontNormal[];
+extern const u8 gText_ThereIsNoPokemon[];
+
 #endif // GUARD_STRINGS_H

@@ -1834,3 +1834,10 @@ const u8 gText_Fertilize[] = _("FERTILIZE");
 const u8 gText_PlantBerry[] = _("PLANT BERRY");
 const u8 gText_AM[] = _("AM");
 const u8 gText_PM[] = _("PM");
+
+const u8 gText_TMCase[] = _("TM CASE");
+const u8 gText_Close[] = _("CLOSE");
+const u8 gText_TMCaseWillBePutAway[] = _("The TM CASE will be\nput away.");
+const u8 gText_FontSmall[] = _("{FONT_SMALL}");
+const u8 gText_FontNormal[] = _("{FONT_NORMAL}");
+const u8 gText_ThereIsNoPokemon[] = _("There is no\nPOKéMON.");
