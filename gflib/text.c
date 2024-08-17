@@ -869,17 +869,6 @@ static u16 FontFunc_Narrower(struct TextPrinter *textPrinter)
     }
     return RenderText(textPrinter);
 }
-static u16 FontFunc_BW_Summary_Screen(struct TextPrinter *textPrinter)
-{
-    struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
-
-    if (subStruct->hasFontIdBeenSet == FALSE)
-    {
-        subStruct->fontId = FONT_BW_SUMMARY_SCREEN;
-        subStruct->hasFontIdBeenSet = TRUE;
-    }
-    return RenderText(textPrinter);
-}
 
 static u16 FontFunc_SmallNarrower(struct TextPrinter *textPrinter)
 {
@@ -900,6 +889,18 @@ static u16 FontFunc_ShortNarrow(struct TextPrinter *textPrinter)
     if (subStruct->hasFontIdBeenSet == FALSE)
     {
         subStruct->fontId = FONT_SHORT_NARROW;
+        subStruct->hasFontIdBeenSet = TRUE;
+    }
+    return RenderText(textPrinter);
+}
+
+static u16 FontFunc_BW_Summary_Screen(struct TextPrinter *textPrinter)
+{
+    struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
+
+    if (subStruct->hasFontIdBeenSet == FALSE)
+    {
+        subStruct->fontId = FONT_BW_SUMMARY_SCREEN;
         subStruct->hasFontIdBeenSet = TRUE;
     }
     return RenderText(textPrinter);
