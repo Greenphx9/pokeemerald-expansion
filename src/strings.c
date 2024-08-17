@@ -2050,3 +2050,10 @@ const u8 gText_UPDOWNPick_ABUTTONBBUTTONCancel[] = _("{DPAD_UPDOWN}PICK {A_BUTTO
 const u8 gText_ABUTTONExit[] = _("{A_BUTTON}EXIT");
 const u8 gText_Boy[] = _("BOY");
 const u8 gText_Girl[] = _("GIRL");
+
+const u8 gText_TMCase[] = _("TM CASE");
+const u8 gText_Close[] = _("CLOSE");
+const u8 gText_TMCaseWillBePutAway[] = _("The TM CASE will be\nput away.");
+const u8 gText_FontSmall[] = _("{FONT_SMALL}");
+const u8 gText_FontNormal[] = _("{FONT_NORMAL}");
+const u8 gText_ThereIsNoPokemon[] = _("There is no\nPOKéMON.");

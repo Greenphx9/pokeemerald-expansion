@@ -3468,4 +3468,15 @@ extern const u8 gMailTilemap_Retro[];
 extern const u8 gMonMarkingsMenu_Gfx[];
 extern const u16 gMonMarkingsMenu_Pal[];
 
+// tm case
+extern const u32 gTMCase_Gfx[];
+extern const u32 gTMCase_Tilemap[];
+extern const u32 gTMCaseMenu_Male_Pal[];
+extern const u32 gTMCaseMenu_Female_Pal[];
+extern const u32 gTMCaseDisc_Gfx[];
+extern const u32 gTMCaseDiscTypes1_Pal[];
+extern const u32 gTMCaseDiscTypes2_Pal[];
+extern const u8 gTMCaseHM_Gfx[];
+extern const u8 gTMCaseHM_Gfx[];
+
 #endif //GUARD_GRAPHICS_H

@@ -63,6 +63,7 @@
 #include "task.h"
 #include "text.h"
 #include "text_window.h"
+#include "tm_case.h"
 #include "trade.h"
 #include "union_room.h"
 #include "window.h"
@@ -358,7 +359,6 @@ static void Task_SlideSelectedSlotsOffscreen(u8);
 static void SwitchPartyMon(void);
 static void Task_SlideSelectedSlotsOnscreen(u8);
 static void CB2_SelectBagItemToGive(void);
-static void CB2_GiveHoldItem(void);
 static void CB2_WriteMailToGiveMon(void);
 static void Task_SwitchHoldItemsPrompt(u8);
 static void Task_GiveHoldItem(u8);
@@ -399,6 +399,7 @@ static void UpdatePartyMonAilmentGfx(u8, struct PartyMenuBox *);
 static u8 GetPartyLayoutFromBattleType(void);
 static void Task_SetSacredAshCB(u8);
 static void CB2_ReturnToBagMenu(void);
+static void CB2_ReturnToTMCaseMenu(void);
 static void Task_DisplayHPRestoredMessage(u8);
 static u16 ItemEffectToMonEv(struct Pokemon *, u8);
 static void ItemEffectToStatString(u8, u8 *);
@@ -3410,7 +3411,7 @@ static void CB2_SelectBagItemToGive(void)
         GoToBattlePyramidBagMenu(PYRAMIDBAG_LOC_PARTY, CB2_GiveHoldItem);
 }
 
-static void CB2_GiveHoldItem(void)
+void CB2_GiveHoldItem(void)
 {
     if (gSpecialVar_ItemId == ITEM_NONE)
     {
@@ -4580,7 +4581,10 @@ void CB2_ShowPartyMenuForItemUse(void)
     else
     {
         if (GetPocketByItemId(gSpecialVar_ItemId) == POCKET_TM_HM)
+        {
             msgId = PARTY_MSG_TEACH_WHICH_MON;
+            callback = CB2_ReturnToTMCaseMenu;
+        }
         else
             msgId = PARTY_MSG_USE_ON_WHICH_MON;
 
@@ -4596,6 +4600,11 @@ static void CB2_ReturnToBagMenu(void)
         GoToBagMenu(ITEMMENULOCATION_LAST, POCKETS_COUNT, NULL);
     else
         GoToBattlePyramidBagMenu(PYRAMIDBAG_LOC_PREV, gPyramidBagMenuState.exitCallback);
+}
+
+static void CB2_ReturnToTMCaseMenu(void)
+{
+    InitTMCase(TMCASE_REOPENING, NULL, TMCASE_KEEP_PREV);
 }
 
 static void Task_SetSacredAshCB(u8 taskId)
@@ -6824,6 +6833,8 @@ void CB2_PartyMenuFromStartMenu(void)
 void CB2_ChooseMonToGiveItem(void)
 {
     MainCallback callback = (InBattlePyramid() == FALSE) ? CB2_ReturnToBagMenu : CB2_ReturnToPyramidBagMenu;
+    if ((GetPocketByItemId(gSpecialVar_ItemId)) == POCKET_TM_HM)
+        callback = CB2_ReturnToTMCaseMenu;
     InitPartyMenu(PARTY_MENU_TYPE_FIELD, PARTY_LAYOUT_SINGLE, PARTY_ACTION_GIVE_ITEM, FALSE, PARTY_MSG_GIVE_TO_WHICH_MON, Task_HandleChooseMonInput, callback);
     gPartyMenu.bagItem = gSpecialVar_ItemId;
 }
