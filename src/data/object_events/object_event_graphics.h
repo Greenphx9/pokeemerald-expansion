@@ -479,3 +479,5 @@ const u16 gObjectEventPic_GreenItem[] = INCBIN_U16("graphics/object_events/pics/
 const u16 gObjectEventPic_GreenSurf[] = INCBIN_U16("graphics/object_events/pics/people/green_surf.4bpp");
 const u16 gObjectEventPic_GreenBike[] = INCBIN_U16("graphics/object_events/pics/people/green_bike.4bpp");
 const u16 gObjectEventPic_GreenFish[] = INCBIN_U16("graphics/object_events/pics/people/green_fish.4bpp");
+
+const u16 gObjectEventPal_Youngster[] = INCBIN_U16("graphics/object_events/palettes/youngster.gbapal");
