@@ -44,6 +44,7 @@ struct Tileset
     /*0x0C*/ const u16 *metatiles;
     /*0x10*/ const u16 *metatileAttributes;
     /*0x14*/ TilesetCB callback;
+    /*0x15*/ bool8 isFRLG; // so we know what tilesets use the FRLG format
 };
 
 struct MapLayout
