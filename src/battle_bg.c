@@ -15,6 +15,7 @@
 #include "menu.h"
 #include "overworld.h"
 #include "palette.h"
+#include "rtc.h"
 #include "sound.h"
 #include "sprite.h"
 #include "task.h"
@@ -614,11 +615,17 @@ const struct BattleBackground sBattleTerrainTable[] =
 {
     [BATTLE_TERRAIN_GRASS] =
     {
-        .tileset = gBattleTerrainTiles_TallGrass,
-        .tilemap = gBattleTerrainTilemap_TallGrass,
-        .entryTileset = gBattleTerrainAnimTiles_TallGrass,
-        .entryTilemap = gBattleTerrainAnimTilemap_TallGrass,
-        .palette = gBattleTerrainPalette_TallGrass,
+        .tileset = gBattleTerrainTiles_DPPTGrass_Day,
+        .tilemap = gBattleTerrainTilemap_DPPTGrass_Day,
+        .entryTileset = gBattleTerrainAnimTiles_DPPTGrass,
+        .entryTilemap = gBattleTerrainAnimTilemap_DPPTGrass,
+        .palette = gBattleTerrainPalette_DPPTGrass_Day,
+        .afternoonTileset = gBattleTerrainTiles_DPPTGrass_Afternoon,
+        .afternoonTilemap = gBattleTerrainTilemap_DPPTGrass_Afternoon,
+        .afternoonPal = gBattleTerrainPalette_DPPTGrass_Afternoon,
+        .nightTileset = gBattleTerrainTiles_DPPTGrass_Night,
+        .nightTilemap = gBattleTerrainTilemap_DPPTGrass_Night,
+        .nightPal = gBattleTerrainPalette_DPPTGrass_Night,
     },
 
     [BATTLE_TERRAIN_LONG_GRASS] =
@@ -703,24 +710,6 @@ const struct BattleBackground sBattleTerrainTable[] =
     },
 };
 
-static void UNUSED CB2_UnusedBattleInit(void);
-
-static void UNUSED UnusedBattleInit(void)
-{
-    u8 spriteId;
-
-    ResetSpriteData();
-    spriteId = CreateSprite(&gUnusedBattleInitSprite, 0, 0, 0);
-    gSprites[spriteId].invisible = TRUE;
-    SetMainCallback2(CB2_UnusedBattleInit);
-}
-
-static void UNUSED CB2_UnusedBattleInit(void)
-{
-    AnimateSprites();
-    BuildOamBuffer();
-}
-
 void BattleInitBgsAndWindows(void)
 {
     ResetBgsAndClearDma3BusyFlags(0);
@@ -768,8 +757,45 @@ void LoadBattleMenuWindowGfx(void)
     }
 }
 
+const void * GetBattleBGTileset(u8 time)
+{
+    if (time == TIME_EVENING
+    && sBattleTerrainTable[gBattleTerrain].afternoonTileset)
+        return sBattleTerrainTable[gBattleTerrain].afternoonTileset;
+    else if (time == TIME_NIGHT
+    && sBattleTerrainTable[gBattleTerrain].nightTileset)
+        return sBattleTerrainTable[gBattleTerrain].nightTileset;
+    else
+        return sBattleTerrainTable[gBattleTerrain].tileset;
+}
+
+const void * GetBattleBGTilemap(u8 time)
+{
+    if (time == TIME_EVENING
+    && sBattleTerrainTable[gBattleTerrain].afternoonTilemap)
+        return sBattleTerrainTable[gBattleTerrain].afternoonTilemap;
+    else if (time == TIME_NIGHT
+    && sBattleTerrainTable[gBattleTerrain].nightTilemap)
+        return sBattleTerrainTable[gBattleTerrain].nightTilemap;
+    else
+        return sBattleTerrainTable[gBattleTerrain].tilemap;
+}
+
+const void * GetBattleBGPal(u8 time)
+{
+    if (time == TIME_EVENING
+    && sBattleTerrainTable[gBattleTerrain].afternoonTilemap)
+        return sBattleTerrainTable[gBattleTerrain].afternoonPal;
+    else if (time == TIME_NIGHT
+    && sBattleTerrainTable[gBattleTerrain].nightTilemap)
+        return sBattleTerrainTable[gBattleTerrain].nightPal;
+    else
+        return sBattleTerrainTable[gBattleTerrain].palette;
+}
+
 void DrawMainBattleBackground(void)
 {
+    u8 time = TIME_DAY;
     if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_RECORDED_LINK))
     {
         LZDecompressVram(gBattleTerrainTiles_Building, (void *)(BG_CHAR_ADDR(2)));
@@ -796,9 +822,9 @@ void DrawMainBattleBackground(void)
             LoadCompressedPalette(gBattleTerrainPalette_Rayquaza, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
             break;
         default:
-            LZDecompressVram(sBattleTerrainTable[gBattleTerrain].tileset, (void *)(BG_CHAR_ADDR(2)));
-            LZDecompressVram(sBattleTerrainTable[gBattleTerrain].tilemap, (void *)(BG_SCREEN_ADDR(26)));
-            LoadCompressedPalette(sBattleTerrainTable[gBattleTerrain].palette, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
+            LZDecompressVram(GetBattleBGTileset(time), (void *)(BG_CHAR_ADDR(2)));
+            LZDecompressVram(GetBattleBGTilemap(time), (void *)(BG_SCREEN_ADDR(26)));
+            LoadCompressedPalette(GetBattleBGPal(time), BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
             break;
         }
     }
@@ -827,9 +853,9 @@ void DrawMainBattleBackground(void)
         {
         default:
         case MAP_BATTLE_SCENE_NORMAL:
-            LZDecompressVram(sBattleTerrainTable[gBattleTerrain].tileset, (void *)(BG_CHAR_ADDR(2)));
-            LZDecompressVram(sBattleTerrainTable[gBattleTerrain].tilemap, (void *)(BG_SCREEN_ADDR(26)));
-            LoadCompressedPalette(sBattleTerrainTable[gBattleTerrain].palette, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
+            LZDecompressVram(GetBattleBGTileset(time), (void *)(BG_CHAR_ADDR(2)));
+            LZDecompressVram(GetBattleBGTilemap(time), (void *)(BG_SCREEN_ADDR(26)));
+            LoadCompressedPalette(GetBattleBGPal(time), BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
             break;
         case MAP_BATTLE_SCENE_GYM:
             LZDecompressVram(gBattleTerrainTiles_Building, (void *)(BG_CHAR_ADDR(2)));
