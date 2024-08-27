@@ -663,11 +663,14 @@ const struct BattleBackground sBattleTerrainTable[] =
 
     [BATTLE_TERRAIN_WATER] =
     {
-        .tileset = gBattleTerrainTiles_Water,
-        .tilemap = gBattleTerrainTilemap_Water,
-        .entryTileset = gBattleTerrainAnimTiles_Water,
-        .entryTilemap = gBattleTerrainAnimTilemap_Water,
-        .palette = gBattleTerrainPalette_Water,
+        .tileset = gBattleTerrainTiles_DPPTWater_Day,
+        .tilemap = gBattleTerrainTilemap_DPPTWater_Day,
+        .entryTileset = gBattleTerrainAnimTiles_DPPTWater,
+        .entryTilemap = gBattleTerrainAnimTilemap_DPPTWater,
+        .palette = gBattleTerrainPalette_DPPTWater_Day,
+        .afternoonTileset = gBattleTerrainTiles_DPPTWater_Afternoon,
+        .afternoonTilemap = gBattleTerrainTilemap_DPPTWater_Afternoon,
+        .afternoonPal = gBattleTerrainPalette_DPPTWater_Afternoon,
     },
 
     [BATTLE_TERRAIN_POND] =
@@ -801,7 +804,7 @@ const void * GetBattleBGPal(u32 time, u32 terrain)
 
 void DrawMainBattleBackground(void)
 {
-    u32 time = TIME_NIGHT;
+    u32 time = TIME_EVENING;
     if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_RECORDED_LINK))
     {
         LZDecompressVram(gBattleTerrainTiles_Building, (void *)(BG_CHAR_ADDR(2)));
@@ -828,9 +831,9 @@ void DrawMainBattleBackground(void)
             LoadCompressedPalette(gBattleTerrainPalette_Rayquaza, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
             break;
         default:
-            LZDecompressVram(GetBattleBGTileset(time, BATTLE_TERRAIN_SAND), (void *)(BG_CHAR_ADDR(2)));
-            LZDecompressVram(GetBattleBGTilemap(time, BATTLE_TERRAIN_SAND), (void *)(BG_SCREEN_ADDR(26)));
-            LoadCompressedPalette(GetBattleBGPal(time, BATTLE_TERRAIN_SAND), BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
+            LZDecompressVram(GetBattleBGTileset(time, BATTLE_TERRAIN_WATER), (void *)(BG_CHAR_ADDR(2)));
+            LZDecompressVram(GetBattleBGTilemap(time, BATTLE_TERRAIN_WATER), (void *)(BG_SCREEN_ADDR(26)));
+            LoadCompressedPalette(GetBattleBGPal(time, BATTLE_TERRAIN_WATER), BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
             break;
         }
     }
@@ -859,9 +862,9 @@ void DrawMainBattleBackground(void)
         {
         default:
         case MAP_BATTLE_SCENE_NORMAL:
-            LZDecompressVram(GetBattleBGTileset(time, BATTLE_TERRAIN_SAND), (void *)(BG_CHAR_ADDR(2)));
-            LZDecompressVram(GetBattleBGTilemap(time, BATTLE_TERRAIN_SAND), (void *)(BG_SCREEN_ADDR(26)));
-            LoadCompressedPalette(GetBattleBGPal(time, BATTLE_TERRAIN_SAND), BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
+            LZDecompressVram(GetBattleBGTileset(time, BATTLE_TERRAIN_WATER), (void *)(BG_CHAR_ADDR(2)));
+            LZDecompressVram(GetBattleBGTilemap(time, BATTLE_TERRAIN_WATER), (void *)(BG_SCREEN_ADDR(26)));
+            LoadCompressedPalette(GetBattleBGPal(time, BATTLE_TERRAIN_WATER), BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
             break;
         case MAP_BATTLE_SCENE_GYM:
             LZDecompressVram(gBattleTerrainTiles_Building, (void *)(BG_CHAR_ADDR(2)));
@@ -1256,8 +1259,8 @@ void DrawBattleEntryBackground(void)
 
         if (GetCurrentMapBattleScene() == MAP_BATTLE_SCENE_NORMAL)
         {
-            LZDecompressVram(sBattleTerrainTable[BATTLE_TERRAIN_SAND].entryTileset, (void *)(BG_CHAR_ADDR(1)));
-            LZDecompressVram(sBattleTerrainTable[BATTLE_TERRAIN_SAND].entryTilemap, (void *)(BG_SCREEN_ADDR(28)));
+            LZDecompressVram(sBattleTerrainTable[BATTLE_TERRAIN_WATER].entryTileset, (void *)(BG_CHAR_ADDR(1)));
+            LZDecompressVram(sBattleTerrainTable[BATTLE_TERRAIN_WATER].entryTilemap, (void *)(BG_SCREEN_ADDR(28)));
         }
         else
         {
