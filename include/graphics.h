@@ -309,6 +309,9 @@ extern const u32 gBattleTerrainPalette_DPPTWater_Day[];
 extern const u32 gBattleTerrainTiles_DPPTWater_Afternoon[];
 extern const u32 gBattleTerrainTilemap_DPPTWater_Afternoon[];
 extern const u32 gBattleTerrainPalette_DPPTWater_Afternoon[];
+extern const u32 gBattleTerrainTiles_DPPTWater_Night[];
+extern const u32 gBattleTerrainTilemap_DPPTWater_Night[];
+extern const u32 gBattleTerrainPalette_DPPTWater_Night[];
 extern const u32 gBattleTerrainAnimTiles_DPPTWater[];
 extern const u32 gBattleTerrainAnimTilemap_DPPTWater[];
 

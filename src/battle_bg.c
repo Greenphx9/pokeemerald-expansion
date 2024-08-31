@@ -671,6 +671,9 @@ const struct BattleBackground sBattleTerrainTable[] =
         .afternoonTileset = gBattleTerrainTiles_DPPTWater_Afternoon,
         .afternoonTilemap = gBattleTerrainTilemap_DPPTWater_Afternoon,
         .afternoonPal = gBattleTerrainPalette_DPPTWater_Afternoon,
+        .nightTileset = gBattleTerrainTiles_DPPTWater_Night,
+        .nightTilemap = gBattleTerrainTilemap_DPPTWater_Night,
+        .nightPal = gBattleTerrainPalette_DPPTWater_Night,
     },
 
     [BATTLE_TERRAIN_POND] =
@@ -804,7 +807,7 @@ const void * GetBattleBGPal(u32 time, u32 terrain)
 
 void DrawMainBattleBackground(void)
 {
-    u32 time = TIME_EVENING;
+    u32 time = TIME_NIGHT;
     if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_RECORDED_LINK))
     {
         LZDecompressVram(gBattleTerrainTiles_Building, (void *)(BG_CHAR_ADDR(2)));
