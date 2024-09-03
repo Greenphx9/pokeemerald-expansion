@@ -327,6 +327,12 @@ extern const u32 gBattleTerrainPalette_DPPTMountain_Night[];
 extern const u32 gBattleTerrainAnimTiles_DPPTMountain[];
 extern const u32 gBattleTerrainAnimTilemap_DPPTMountain[];
 
+extern const u32 gBattleTerrainTiles_DPPTCave_1[];
+extern const u32 gBattleTerrainTilemap_DPPTCave_1[];
+extern const u32 gBattleTerrainPalette_DPPTCave_1[];
+extern const u32 gBattleTerrainAnimTiles_DPPTCave[];
+extern const u32 gBattleTerrainAnimTilemap_DPPTCave[];
+
 // Pokédex
 extern const u32 gPokedexInterface_Gfx[];
 extern const u16 gPokedexBgHoenn_Pal[];
