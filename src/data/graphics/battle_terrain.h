@@ -122,3 +122,15 @@ const u32 gBattleTerrainTilemap_DPPTWater_Night[] = INCBIN_U32("graphics/battle_
 const u32 gBattleTerrainPalette_DPPTWater_Night[] = INCBIN_U32("graphics/battle_terrain/dppt/water/night.gbapal.lz");
 const u32 gBattleTerrainAnimTiles_DPPTWater[] = INCBIN_U32("graphics/battle_terrain/dppt/water/anim.4bpp.lz");
 const u32 gBattleTerrainAnimTilemap_DPPTWater[] = INCBIN_U32("graphics/battle_terrain/dppt/water/anim.bin.lz");
+
+const u32 gBattleTerrainTiles_DPPTMountain_Day[] = INCBIN_U32("graphics/battle_terrain/dppt/mountain/day.4bpp.lz");
+const u32 gBattleTerrainTilemap_DPPTMountain_Day[] = INCBIN_U32("graphics/battle_terrain/dppt/mountain/day.bin.lz");
+const u32 gBattleTerrainPalette_DPPTMountain_Day[] = INCBIN_U32("graphics/battle_terrain/dppt/mountain/day.gbapal.lz");
+const u32 gBattleTerrainTiles_DPPTMountain_Afternoon[] = INCBIN_U32("graphics/battle_terrain/dppt/mountain/afternoon.4bpp.lz");
+const u32 gBattleTerrainTilemap_DPPTMountain_Afternoon[] = INCBIN_U32("graphics/battle_terrain/dppt/mountain/afternoon.bin.lz");
+const u32 gBattleTerrainPalette_DPPTMountain_Afternoon[] = INCBIN_U32("graphics/battle_terrain/dppt/mountain/afternoon.gbapal.lz");
+const u32 gBattleTerrainTiles_DPPTMountain_Night[] = INCBIN_U32("graphics/battle_terrain/dppt/mountain/night.4bpp.lz");
+const u32 gBattleTerrainTilemap_DPPTMountain_Night[] = INCBIN_U32("graphics/battle_terrain/dppt/mountain/night.bin.lz");
+const u32 gBattleTerrainPalette_DPPTMountain_Night[] = INCBIN_U32("graphics/battle_terrain/dppt/mountain/night.gbapal.lz");
+const u32 gBattleTerrainAnimTiles_DPPTMountain[] = INCBIN_U32("graphics/battle_terrain/dppt/mountain/anim.4bpp.lz");
+const u32 gBattleTerrainAnimTilemap_DPPTMountain[] = INCBIN_U32("graphics/battle_terrain/dppt/mountain/anim.bin.lz");
