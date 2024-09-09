@@ -712,7 +712,7 @@ static u16 GetMetatileForFloor(u8 floorId, u32 x, u32 y, u32 floorWidth) // floo
     u16 elevation;
 
     impassable = (sHillData->floors[floorId].map.collisionData[y] >> (15 - x) & 1);
-    metatile = sHillData->floors[floorId].map.metatileData[floorWidth * y + x] + NUM_METATILES_IN_PRIMARY;
+    metatile = sHillData->floors[floorId].map.metatileData[floorWidth * y + x] + NUM_METATILES_IN_PRIMARY_EM;
     elevation = 3 << MAPGRID_ELEVATION_SHIFT;
 
     return ((impassable << MAPGRID_COLLISION_SHIFT) & MAPGRID_COLLISION_MASK) | elevation | (metatile & MAPGRID_METATILE_ID_MASK);
