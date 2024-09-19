@@ -4410,6 +4410,16 @@
       "secondary_tileset": "gTileset_MysteryEventsHouse",
       "border_filepath": "data/layouts/SootopolisCity_MysteryEventsHouse_1F_StairsUnblocked/border.bin",
       "blockdata_filepath": "data/layouts/SootopolisCity_MysteryEventsHouse_1F_StairsUnblocked/map.bin"
+    },
+    {
+      "id": "LAYOUT_TILE_TEST",
+      "name": "TileTest_Layout",
+      "width": 35,
+      "height": 35,
+      "primary_tileset": "gTileset_Kanto_General",
+      "secondary_tileset": "gTileset_Kanto_PalletTown",
+      "border_filepath": "data/layouts/TileTest/border.bin",
+      "blockdata_filepath": "data/layouts/TileTest/map.bin"
     }
   ]
 }
