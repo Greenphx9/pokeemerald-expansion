@@ -812,7 +812,7 @@ static void BuyMenuDrawMapBg(void)
             else
                 metatileLayerType = METATILE_LAYER_TYPE_COVERED;
 
-            if (mapLayout->primaryTileset->isFRLG || mapLayout->secondaryTileset->isFRLG)
+            if (mapLayout->primaryTileset->tilesetType == TSTYPE_FR || mapLayout->secondaryTileset->tilesetType == TSTYPE_FR)
             {
                 if (metatile < NUM_METATILES_IN_PRIMARY)
                     BuyMenuDrawMapMetatile(i, j, mapLayout->primaryTileset->metatiles + metatile * NUM_TILES_PER_METATILE, metatileLayerType);

@@ -216,3 +216,6 @@ const u16 gMetatileAttributes_Kanto_PalletTown[] = INCBIN_U16("data/tilesets/sec
 
 const u16 gMetatiles_HGSS_PalletTown[] = INCBIN_U16("data/tilesets/secondary/hgss_pallet_town/metatiles.bin");
 const u16 gMetatileAttributes_HGSS_PalletTown[] = INCBIN_U16("data/tilesets/secondary/hgss_pallet_town/metatile_attributes.bin");
+
+const u16 gMetatiles_HGSS_General[] = INCBIN_U16("data/tilesets/primary/hgss_general/metatiles.bin");
+const u16 gMetatileAttributes_HGSS_General[] = INCBIN_U16("data/tilesets/primary/hgss_general/metatile_attributes.bin");

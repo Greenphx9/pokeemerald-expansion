@@ -835,6 +835,7 @@ const struct Tileset gTileset_Kanto_General =
     .metatiles = gMetatiles_Kanto_General,
     .metatileAttributes = gMetatileAttributes_Kanto_General,
     .callback = NULL,
+    .tilesetType = TSTYPE_FR,
 };
 
 const struct Tileset gTileset_Kanto_PalletTown =
@@ -846,6 +847,7 @@ const struct Tileset gTileset_Kanto_PalletTown =
     .metatiles = gMetatiles_Kanto_PalletTown,
     .metatileAttributes = gMetatileAttributes_Kanto_PalletTown,
     .callback = NULL,
+    .tilesetType = TSTYPE_FR,
 };
 
 const struct Tileset gTileset_HGSS_PalletTown =
@@ -857,4 +859,17 @@ const struct Tileset gTileset_HGSS_PalletTown =
     .metatiles = gMetatiles_HGSS_PalletTown,
     .metatileAttributes = gMetatileAttributes_HGSS_PalletTown,
     .callback = NULL,
+    .tilesetType = TSTYPE_EM_PALS,
+};
+
+const struct Tileset gTileset_HGSS_General =
+{
+    .isCompressed = TRUE,
+    .isSecondary = FALSE,
+    .tiles = gTilesetTiles_HGSS_General,
+    .palettes = gTilesetPalettes_HGSS_General,
+    .metatiles = gMetatiles_HGSS_General,
+    .metatileAttributes = gMetatileAttributes_HGSS_General,
+    .callback = NULL,
+    .tilesetType = TSTYPE_EM_PALS,
 };
