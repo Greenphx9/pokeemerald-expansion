@@ -17,7 +17,6 @@ bool8 MetatileBehavior_IsJumpNorth(u8);
 bool8 MetatileBehavior_IsJumpSouth(u8);
 bool8 MetatileBehavior_IsPokeGrass(u8);
 bool8 MetatileBehavior_IsSandOrDeepSand(u8);
-bool8 MetatileBehavior_IsDeepSand(u8);
 bool8 MetatileBehavior_IsReflective(u8);
 bool8 MetatileBehavior_IsIce(u8);
 bool8 MetatileBehavior_IsWarpDoor(u8);
@@ -135,7 +134,7 @@ bool8 MetatileBehavior_IsRunningDisallowed(u8);
 bool8 MetatileBehavior_IsCuttableGrass(u8);
 bool8 MetatileBehavior_IsRunningShoesManual(u8);
 bool8 MetatileBehavior_IsPictureBookShelf(u8);
-bool8 MetatileBehavior_IsBookShelf(u8);
+bool8 MetatileBehavior_IsBookshelf(u8);
 bool8 MetatileBehavior_IsPokeCenterBookShelf(u8);
 bool8 MetatileBehavior_IsVase(u8);
 bool8 MetatileBehavior_IsTrashCan(u8);
@@ -148,5 +147,10 @@ bool8 MetatileBehavior_IsQuestionnaire(u8);
 bool8 MetatileBehavior_IsLongGrass_Duplicate(u8);
 bool8 MetatileBehavior_IsLongGrassSouthEdge(u8);
 bool8 MetatileBehavior_IsTrainerHillTimer(u8);
+bool8 MetatileBehavior_IsDirectionalUpRightStairWarp(u8 metatileBehavior);
+bool8 MetatileBehavior_IsDirectionalUpLeftStairWarp(u8 metatileBehavior);
+bool8 MetatileBehavior_IsDirectionalDownRightStairWarp(u8 metatileBehavior);
+bool8 MetatileBehavior_IsDirectionalDownLeftStairWarp(u8 metatileBehavior);
+bool8 MetatileBehavior_IsDirectionalStairWarp(u8 metatileBehavior);
 
 #endif // GUARD_METATILE_BEHAVIOR_H

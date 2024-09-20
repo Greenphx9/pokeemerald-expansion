@@ -189,7 +189,7 @@ const struct FollowerMsgInfoExtended gFollowerConditionalMessages[COND_MSG_COUNT
         .emotion = FOLLOWER_EMOTION_MUSIC,
         .conditions =
         {
-            MATCH_ON_MB(MB_SAND, MB_DEEP_SAND),
+            MATCH_ON_MB(MB_SAND, MB_SAND),
         },
     },
     [COND_MSG_GRASS] =
@@ -198,7 +198,7 @@ const struct FollowerMsgInfoExtended gFollowerConditionalMessages[COND_MSG_COUNT
         .emotion = FOLLOWER_EMOTION_MUSIC,
         .conditions =
         {
-            MATCH_ON_MB(MB_TALL_GRASS, MB_LONG_GRASS),
+            MATCH_ON_MB(MB_TALL_GRASS, MB_TALL_GRASS),
         },
     },
     [COND_MSG_FOOTPRINTS] =
@@ -207,7 +207,7 @@ const struct FollowerMsgInfoExtended gFollowerConditionalMessages[COND_MSG_COUNT
         .emotion = FOLLOWER_EMOTION_MUSIC,
         .conditions =
         {
-            MATCH_ON_MB(MB_SAND, MB_FOOTPRINTS),
+            MATCH_ON_MB(MB_SAND, MB_SAND),
         },
     },
     [COND_MSG_ELEVATOR] =

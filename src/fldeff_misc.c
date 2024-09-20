@@ -669,11 +669,11 @@ bool8 FldEff_SecretPowerTree(void)
 {
     s16 mb = MapGridGetMetatileBehaviorAt(gPlayerFacingPosition.x, gPlayerFacingPosition.y) & 0xFFF;
 
-    if (mb == MB_SECRET_BASE_SPOT_TREE_LEFT)
+    /*if (mb == MB_SECRET_BASE_SPOT_TREE_LEFT)
         gFieldEffectArguments[7] = 0;
 
     if (mb == MB_SECRET_BASE_SPOT_TREE_RIGHT)
-        gFieldEffectArguments[7] = 2;
+        gFieldEffectArguments[7] = 2;*/
 
     AdjustSecretPowerSpritePixelOffsets();
 
