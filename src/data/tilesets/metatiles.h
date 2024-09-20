@@ -213,3 +213,6 @@ const u16 gMetatileAttributes_Kanto_General[] = INCBIN_U16("data/tilesets/primar
 
 const u16 gMetatiles_Kanto_PalletTown[] = INCBIN_U16("data/tilesets/secondary/kanto_pallet_town/metatiles.bin");
 const u16 gMetatileAttributes_Kanto_PalletTown[] = INCBIN_U16("data/tilesets/secondary/kanto_pallet_town/metatile_attributes.bin");
+
+const u16 gMetatiles_HGSS_PalletTown[] = INCBIN_U16("data/tilesets/secondary/hgss_pallet_town/metatiles.bin");
+const u16 gMetatileAttributes_HGSS_PalletTown[] = INCBIN_U16("data/tilesets/secondary/hgss_pallet_town/metatile_attributes.bin");

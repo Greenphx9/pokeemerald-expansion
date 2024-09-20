@@ -847,3 +847,14 @@ const struct Tileset gTileset_Kanto_PalletTown =
     .metatileAttributes = gMetatileAttributes_Kanto_PalletTown,
     .callback = NULL,
 };
+
+const struct Tileset gTileset_HGSS_PalletTown =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_HGSS_PalletTown,
+    .palettes = gTilesetPalettes_HGSS_PalletTown,
+    .metatiles = gMetatiles_HGSS_PalletTown,
+    .metatileAttributes = gMetatileAttributes_HGSS_PalletTown,
+    .callback = NULL,
+};

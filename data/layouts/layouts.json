@@ -4416,8 +4416,8 @@
       "name": "TileTest_Layout",
       "width": 35,
       "height": 35,
-      "primary_tileset": "gTileset_Kanto_General",
-      "secondary_tileset": "gTileset_Kanto_PalletTown",
+      "primary_tileset": "gTileset_General",
+      "secondary_tileset": "gTileset_HGSS_PalletTown",
       "border_filepath": "data/layouts/TileTest/border.bin",
       "blockdata_filepath": "data/layouts/TileTest/map.bin"
     }
