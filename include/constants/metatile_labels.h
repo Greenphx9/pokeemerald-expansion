@@ -250,7 +250,8 @@
 #define METATILE_GenericBuilding_TrickHouse_Stairs_Down  0x219
 
 // gTileset_HGSS_PalletTown
-#define METATILE_HGSS_PalletTown_OaksLabDoor  0x25B
+#define METATILE_HGSS_PalletTown_OaksLabDoor      0x25B
+#define METATILE_HGSS_PalletTown_PalletHouseDoor  0x229
 
 // gTileset_InsideOfTruck
 #define METATILE_InsideOfTruck_DoorClosedFloor_Bottom  0x21D
