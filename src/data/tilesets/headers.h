@@ -897,3 +897,15 @@ const struct Tileset gTileset_HGSS_Outdoor2 =
     .callback = NULL,
     .tilesetType = TSTYPE_EM_PALS,
 };
+
+const struct Tileset gTileset_HGSS_OutdoorForestTown =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_HGSS_OutdoorForestTown,
+    .palettes = gTilesetPalettes_HGSS_OutdoorForestTown,
+    .metatiles = gMetatiles_HGSS_OutdoorForestTown,
+    .metatileAttributes = gMetatileAttributes_HGSS_OutdoorForestTown,
+    .callback = NULL,
+    .tilesetType = TSTYPE_EM_PALS,
+};
