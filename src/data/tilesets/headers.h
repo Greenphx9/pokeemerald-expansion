@@ -873,3 +873,14 @@ const struct Tileset gTileset_HGSS_General =
     .callback = InitTilesetAnim_HGSS_General,
     .tilesetType = TSTYPE_EM_PALS,
 };
+
+const struct Tileset gTileset_HGSS_Outdoor1 =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_HGSS_Outdoor1,
+    .palettes = gTilesetPalettes_HGSS_Outdoor1,
+    .metatiles = gMetatiles_HGSS_Outdoor1,
+    .metatileAttributes = gMetatileAttributes_HGSS_Outdoor1,
+    .callback = NULL,
+};
