@@ -4417,7 +4417,7 @@
       "width": 35,
       "height": 35,
       "primary_tileset": "gTileset_HGSS_General",
-      "secondary_tileset": "gTileset_HGSS_Outdoor1",
+      "secondary_tileset": "gTileset_HGSS_Outdoor2",
       "border_filepath": "data/layouts/TileTest/border.bin",
       "blockdata_filepath": "data/layouts/TileTest/map.bin"
     }

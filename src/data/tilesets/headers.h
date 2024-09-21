@@ -883,4 +883,17 @@ const struct Tileset gTileset_HGSS_Outdoor1 =
     .metatiles = gMetatiles_HGSS_Outdoor1,
     .metatileAttributes = gMetatileAttributes_HGSS_Outdoor1,
     .callback = NULL,
+    .tilesetType = TSTYPE_EM_PALS,
+};
+
+const struct Tileset gTileset_HGSS_Outdoor2 =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_HGSS_Outdoor2,
+    .palettes = gTilesetPalettes_HGSS_Outdoor2,
+    .metatiles = gMetatiles_HGSS_Outdoor2,
+    .metatileAttributes = gMetatileAttributes_HGSS_Outdoor2,
+    .callback = NULL,
+    .tilesetType = TSTYPE_EM_PALS,
 };

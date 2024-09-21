@@ -222,3 +222,6 @@ const u16 gMetatileAttributes_HGSS_General[] = INCBIN_U16("data/tilesets/primary
 
 const u16 gMetatiles_HGSS_Outdoor1[] = INCBIN_U16("data/tilesets/secondary/hgss_outdoor_1/metatiles.bin");
 const u16 gMetatileAttributes_HGSS_Outdoor1[] = INCBIN_U16("data/tilesets/secondary/hgss_outdoor_1/metatile_attributes.bin");
+
+const u16 gMetatiles_HGSS_Outdoor2[] = INCBIN_U16("data/tilesets/secondary/hgss_outdoor_2/metatiles.bin");
+const u16 gMetatileAttributes_HGSS_Outdoor2[] = INCBIN_U16("data/tilesets/secondary/hgss_outdoor_2/metatile_attributes.bin");
