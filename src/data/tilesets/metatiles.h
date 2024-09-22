@@ -228,3 +228,6 @@ const u16 gMetatileAttributes_HGSS_Outdoor2[] = INCBIN_U16("data/tilesets/second
 
 const u16 gMetatiles_HGSS_OutdoorForestTown[] = INCBIN_U16("data/tilesets/secondary/hgss_outdoor_forest_town/metatiles.bin");
 const u16 gMetatileAttributes_HGSS_OutdoorForestTown[] = INCBIN_U16("data/tilesets/secondary/hgss_outdoor_forest_town/metatile_attributes.bin");
+
+const u16 gMetatiles_HGSS_ViridianCity[] = INCBIN_U16("data/tilesets/secondary/hgss_viridian_city/metatiles.bin");
+const u16 gMetatileAttributes_HGSS_ViridianCity[] = INCBIN_U16("data/tilesets/secondary/hgss_viridian_city/metatile_attributes.bin");

@@ -909,3 +909,14 @@ const struct Tileset gTileset_HGSS_OutdoorForestTown =
     .callback = NULL,
     .tilesetType = TSTYPE_EM_PALS,
 };
+
+const struct Tileset gTileset_HGSS_ViridianCity =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_HGSS_ViridianCity,
+    .palettes = gTilesetPalettes_HGSS_ViridianCity,
+    .metatiles = gMetatiles_HGSS_ViridianCity,
+    .metatileAttributes = gMetatileAttributes_HGSS_ViridianCity,
+    .callback = NULL,
+};
