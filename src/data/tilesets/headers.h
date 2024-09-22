@@ -919,4 +919,5 @@ const struct Tileset gTileset_HGSS_ViridianCity =
     .metatiles = gMetatiles_HGSS_ViridianCity,
     .metatileAttributes = gMetatileAttributes_HGSS_ViridianCity,
     .callback = NULL,
+    .tilesetType = TSTYPE_EM_PALS,
 };

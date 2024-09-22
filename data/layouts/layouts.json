@@ -4417,7 +4417,7 @@
       "width": 35,
       "height": 35,
       "primary_tileset": "gTileset_HGSS_General",
-      "secondary_tileset": "gTileset_HGSS_PalletTown",
+      "secondary_tileset": "gTileset_HGSS_ViridianCity",
       "border_filepath": "data/layouts/TileTest/border.bin",
       "blockdata_filepath": "data/layouts/TileTest/map.bin"
     }
