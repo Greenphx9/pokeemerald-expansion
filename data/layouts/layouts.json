@@ -4427,7 +4427,7 @@
       "width": 26,
       "height": 26,
       "primary_tileset": "gTileset_HGSS_Building",
-      "secondary_tileset": "gTileset_HGSS_Pokecentre",
+      "secondary_tileset": "gTileset_HGSS_Cave",
       "border_filepath": "data/layouts/TileTest2/border.bin",
       "blockdata_filepath": "data/layouts/TileTest2/map.bin"
     }

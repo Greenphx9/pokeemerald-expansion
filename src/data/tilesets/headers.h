@@ -944,3 +944,14 @@ const struct Tileset gTileset_HGSS_Pokecentre =
     .metatileAttributes = gMetatileAttributes_HGSS_Pokecentre,
     .callback = NULL,
 };
+
+const struct Tileset gTileset_HGSS_Cave =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_HGSS_Cave,
+    .palettes = gTilesetPalettes_HGSS_Cave,
+    .metatiles = gMetatiles_HGSS_Cave,
+    .metatileAttributes = gMetatileAttributes_HGSS_Cave,
+    .callback = NULL,
+};
