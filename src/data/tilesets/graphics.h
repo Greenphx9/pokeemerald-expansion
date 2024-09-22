@@ -1786,3 +1786,41 @@ const u16 gTilesetPalettes_HGSS_ViridianCity[][16] =
 };
 
 const u32 gTilesetTiles_HGSS_ViridianCity[] = INCBIN_U32("data/tilesets/secondary/hgss_viridian_city/tiles.4bpp.lz");
+
+const u16 gTilesetPalettes_HGSS_Building[][16] =
+{
+    INCBIN_U16("data/tilesets/primary/hgss_building/palettes/00.gbapal"),
+    INCBIN_U16("data/tilesets/primary/hgss_building/palettes/01.gbapal"),
+    INCBIN_U16("data/tilesets/primary/hgss_building/palettes/02.gbapal"),
+    INCBIN_U16("data/tilesets/primary/hgss_building/palettes/03.gbapal"),
+    INCBIN_U16("data/tilesets/primary/hgss_building/palettes/04.gbapal"),
+    INCBIN_U16("data/tilesets/primary/hgss_building/palettes/05.gbapal"),
+    INCBIN_U16("data/tilesets/primary/hgss_building/palettes/06.gbapal"),
+    INCBIN_U16("data/tilesets/primary/hgss_building/palettes/07.gbapal"),
+    INCBIN_U16("data/tilesets/primary/hgss_building/palettes/08.gbapal"),
+    INCBIN_U16("data/tilesets/primary/hgss_building/palettes/09.gbapal"),
+    INCBIN_U16("data/tilesets/primary/hgss_building/palettes/10.gbapal"),
+    INCBIN_U16("data/tilesets/primary/hgss_building/palettes/11.gbapal"),
+    INCBIN_U16("data/tilesets/primary/hgss_building/palettes/12.gbapal"),
+};
+
+const u32 gTilesetTiles_HGSS_Building[] = INCBIN_U32("data/tilesets/primary/hgss_building/tiles.4bpp.lz");
+
+const u16 gTilesetPalettes_HGSS_Pokecentre[][16] =
+{
+    INCBIN_U16("data/tilesets/secondary/hgss_pokecentre/palettes/00.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/hgss_pokecentre/palettes/01.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/hgss_pokecentre/palettes/02.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/hgss_pokecentre/palettes/03.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/hgss_pokecentre/palettes/04.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/hgss_pokecentre/palettes/05.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/hgss_pokecentre/palettes/06.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/hgss_pokecentre/palettes/07.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/hgss_pokecentre/palettes/08.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/hgss_pokecentre/palettes/09.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/hgss_pokecentre/palettes/10.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/hgss_pokecentre/palettes/11.gbapal"),
+    INCBIN_U16("data/tilesets/secondary/hgss_pokecentre/palettes/12.gbapal"),
+};
+
+const u32 gTilesetTiles_HGSS_Pokecentre[] = INCBIN_U32("data/tilesets/secondary/hgss_pokecentre/tiles.4bpp.lz");

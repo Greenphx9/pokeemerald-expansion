@@ -1076,3 +1076,5 @@ EventScript_VsSeekerChargingDone::
 	.include "data/text/birch_speech.inc"
 
 	.include "data/maps/TileTest/scripts.inc"
+
+	.include "data/maps/TileTest2/scripts.inc"

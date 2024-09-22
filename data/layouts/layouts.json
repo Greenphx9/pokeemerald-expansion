@@ -4420,6 +4420,16 @@
       "secondary_tileset": "gTileset_HGSS_ViridianCity",
       "border_filepath": "data/layouts/TileTest/border.bin",
       "blockdata_filepath": "data/layouts/TileTest/map.bin"
+    },
+    {
+      "id": "LAYOUT_TILE_TEST2",
+      "name": "TileTest2_Layout",
+      "width": 26,
+      "height": 26,
+      "primary_tileset": "gTileset_HGSS_Building",
+      "secondary_tileset": "gTileset_HGSS_Pokecentre",
+      "border_filepath": "data/layouts/TileTest2/border.bin",
+      "blockdata_filepath": "data/layouts/TileTest2/map.bin"
     }
   ]
 }

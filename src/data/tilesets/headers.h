@@ -921,3 +921,26 @@ const struct Tileset gTileset_HGSS_ViridianCity =
     .callback = NULL,
     .tilesetType = TSTYPE_EM_PALS,
 };
+
+const struct Tileset gTileset_HGSS_Building =
+{
+    .isCompressed = TRUE,
+    .isSecondary = FALSE,
+    .tiles = gTilesetTiles_HGSS_Building,
+    .palettes = gTilesetPalettes_HGSS_Building,
+    .metatiles = gMetatiles_HGSS_Building,
+    .metatileAttributes = gMetatileAttributes_HGSS_Building,
+    .callback = NULL,
+    .tilesetType = TSTYPE_EM_PALS,
+};
+
+const struct Tileset gTileset_HGSS_Pokecentre =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_HGSS_Pokecentre,
+    .palettes = gTilesetPalettes_HGSS_Pokecentre,
+    .metatiles = gMetatiles_HGSS_Pokecentre,
+    .metatileAttributes = gMetatileAttributes_HGSS_Pokecentre,
+    .callback = NULL,
+};

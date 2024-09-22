@@ -231,3 +231,9 @@ const u16 gMetatileAttributes_HGSS_OutdoorForestTown[] = INCBIN_U16("data/tilese
 
 const u16 gMetatiles_HGSS_ViridianCity[] = INCBIN_U16("data/tilesets/secondary/hgss_viridian_city/metatiles.bin");
 const u16 gMetatileAttributes_HGSS_ViridianCity[] = INCBIN_U16("data/tilesets/secondary/hgss_viridian_city/metatile_attributes.bin");
+
+const u16 gMetatiles_HGSS_Building[] = INCBIN_U16("data/tilesets/primary/hgss_building/metatiles.bin");
+const u16 gMetatileAttributes_HGSS_Building[] = INCBIN_U16("data/tilesets/primary/hgss_building/metatile_attributes.bin");
+
+const u16 gMetatiles_HGSS_Pokecentre[] = INCBIN_U16("data/tilesets/secondary/hgss_pokecentre/metatiles.bin");
+const u16 gMetatileAttributes_HGSS_Pokecentre[] = INCBIN_U16("data/tilesets/secondary/hgss_pokecentre/metatile_attributes.bin");
