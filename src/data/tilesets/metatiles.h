@@ -240,3 +240,6 @@ const u16 gMetatileAttributes_HGSS_Pokecentre[] = INCBIN_U16("data/tilesets/seco
 
 const u16 gMetatiles_HGSS_Cave[] = INCBIN_U16("data/tilesets/secondary/hgss_cave/metatiles.bin");
 const u16 gMetatileAttributes_HGSS_Cave[] = INCBIN_U16("data/tilesets/secondary/hgss_cave/metatile_attributes.bin");
+
+const u16 gMetatiles_HGSS_PewterCity[] = INCBIN_U16("data/tilesets/secondary/hgss_pewter_city/metatiles.bin");
+const u16 gMetatileAttributes_HGSS_PewterCity[] = INCBIN_U16("data/tilesets/secondary/hgss_pewter_city/metatile_attributes.bin");

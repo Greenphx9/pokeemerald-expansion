@@ -912,10 +912,10 @@ static void LoadTilesetPalette(struct Tileset const *tileset, u16 destOffset, u1
         }
         else if (tileset->isSecondary == TRUE)
         {
-            if (tileset->tilesetType > TSTYPE_EM)
-                LoadPalette(tileset->palettes[NUM_PALS_IN_PRIMARY], destOffset, size);
-            else
+            if (gMapHeader.mapLayout->primaryTileset->tilesetType == TSTYPE_EM || gMapHeader.mapLayout->secondaryTileset->tilesetType == TSTYPE_EM)
                 LoadPalette(tileset->palettes[NUM_PALS_IN_PRIMARY_EM], destOffset, size);
+            else
+                LoadPalette(tileset->palettes[NUM_PALS_IN_PRIMARY], destOffset, size);
             ApplyGlobalTintToPaletteEntries(destOffset, size >> 1);
         }
         else
@@ -952,10 +952,10 @@ void CopySecondaryTilesetToVramUsingHeap(struct MapLayout const *mapLayout)
 
 static void LoadPrimaryTilesetPalette(struct MapLayout const *mapLayout)
 {
-    if (mapLayout->primaryTileset->tilesetType > TSTYPE_EM)
-        LoadTilesetPalette(mapLayout->primaryTileset, BG_PLTT_ID(0), NUM_PALS_IN_PRIMARY * PLTT_SIZE_4BPP);
-    else
+    if (mapLayout->primaryTileset->tilesetType == TSTYPE_EM || mapLayout->secondaryTileset->tilesetType == TSTYPE_EM) // fix
         LoadTilesetPalette(mapLayout->primaryTileset, BG_PLTT_ID(0), NUM_PALS_IN_PRIMARY_EM * PLTT_SIZE_4BPP);
+    else
+        LoadTilesetPalette(mapLayout->primaryTileset, BG_PLTT_ID(0), NUM_PALS_IN_PRIMARY * PLTT_SIZE_4BPP);
 }
 
 void LoadSecondaryTilesetPalette(struct MapLayout const *mapLayout)

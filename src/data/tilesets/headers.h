@@ -943,6 +943,7 @@ const struct Tileset gTileset_HGSS_Pokecentre =
     .metatiles = gMetatiles_HGSS_Pokecentre,
     .metatileAttributes = gMetatileAttributes_HGSS_Pokecentre,
     .callback = NULL,
+    .tilesetType = TSTYPE_EM_PALS,
 };
 
 const struct Tileset gTileset_HGSS_Cave =
@@ -954,4 +955,17 @@ const struct Tileset gTileset_HGSS_Cave =
     .metatiles = gMetatiles_HGSS_Cave,
     .metatileAttributes = gMetatileAttributes_HGSS_Cave,
     .callback = NULL,
+    .tilesetType = TSTYPE_EM_PALS,
+};
+
+const struct Tileset gTileset_HGSS_PewterCity =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_HGSS_PewterCity,
+    .palettes = gTilesetPalettes_HGSS_PewterCity,
+    .metatiles = gMetatiles_HGSS_PewterCity,
+    .metatileAttributes = gMetatileAttributes_HGSS_PewterCity,
+    .callback = NULL,
+    .tilesetType = TSTYPE_EM,
 };
