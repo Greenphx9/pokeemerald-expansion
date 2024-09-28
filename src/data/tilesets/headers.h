@@ -969,3 +969,14 @@ const struct Tileset gTileset_HGSS_PewterCity =
     .callback = NULL,
     .tilesetType = TSTYPE_EM,
 };
+
+const struct Tileset gTileset_HGSS_Kanto_General =
+{
+    .isCompressed = TRUE,
+    .isSecondary = FALSE,
+    .tiles = gTilesetTiles_HGSS_Kanto_General,
+    .palettes = gTilesetPalettes_HGSS_Kanto_General,
+    .metatiles = gMetatiles_HGSS_Kanto_General,
+    .metatileAttributes = gMetatileAttributes_HGSS_Kanto_General,
+    .callback = NULL,
+};

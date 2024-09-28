@@ -1078,3 +1078,5 @@ EventScript_VsSeekerChargingDone::
 	.include "data/maps/TileTest/scripts.inc"
 
 	.include "data/maps/TileTest2/scripts.inc"
+
+	.include "data/maps/TileTest3/scripts.inc"

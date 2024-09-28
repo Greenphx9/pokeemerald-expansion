@@ -243,3 +243,6 @@ const u16 gMetatileAttributes_HGSS_Cave[] = INCBIN_U16("data/tilesets/secondary/
 
 const u16 gMetatiles_HGSS_PewterCity[] = INCBIN_U16("data/tilesets/secondary/hgss_pewter_city/metatiles.bin");
 const u16 gMetatileAttributes_HGSS_PewterCity[] = INCBIN_U16("data/tilesets/secondary/hgss_pewter_city/metatile_attributes.bin");
+
+const u16 gMetatiles_HGSS_Kanto_General[] = INCBIN_U16("data/tilesets/primary/hgss_kanto_general/metatiles.bin");
+const u16 gMetatileAttributes_HGSS_Kanto_General[] = INCBIN_U16("data/tilesets/primary/hgss_kanto_general/metatile_attributes.bin");
