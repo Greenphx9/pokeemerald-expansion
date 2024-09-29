@@ -4436,8 +4436,8 @@
       "name": "TileTest3_Layout",
       "width": 26,
       "height": 26,
-      "primary_tileset": "gTileset_General",
-      "secondary_tileset": "gTileset_Petalburg",
+      "primary_tileset": "gTileset_Kanto_General",
+      "secondary_tileset": "gTileset_Kanto_PalletTown",
       "border_filepath": "data/layouts/TileTest3/border.bin",
       "blockdata_filepath": "data/layouts/TileTest3/map.bin"
     }
