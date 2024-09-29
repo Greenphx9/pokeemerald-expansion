@@ -213,36 +213,3 @@ const u16 gMetatileAttributes_Kanto_General[] = INCBIN_U16("data/tilesets/primar
 
 const u16 gMetatiles_Kanto_PalletTown[] = INCBIN_U16("data/tilesets/secondary/kanto_pallet_town/metatiles.bin");
 const u16 gMetatileAttributes_Kanto_PalletTown[] = INCBIN_U16("data/tilesets/secondary/kanto_pallet_town/metatile_attributes.bin");
-
-const u16 gMetatiles_HGSS_PalletTown[] = INCBIN_U16("data/tilesets/secondary/hgss_pallet_town/metatiles.bin");
-const u16 gMetatileAttributes_HGSS_PalletTown[] = INCBIN_U16("data/tilesets/secondary/hgss_pallet_town/metatile_attributes.bin");
-
-const u16 gMetatiles_HGSS_General[] = INCBIN_U16("data/tilesets/primary/hgss_general/metatiles.bin");
-const u16 gMetatileAttributes_HGSS_General[] = INCBIN_U16("data/tilesets/primary/hgss_general/metatile_attributes.bin");
-
-const u16 gMetatiles_HGSS_Outdoor1[] = INCBIN_U16("data/tilesets/secondary/hgss_outdoor_1/metatiles.bin");
-const u16 gMetatileAttributes_HGSS_Outdoor1[] = INCBIN_U16("data/tilesets/secondary/hgss_outdoor_1/metatile_attributes.bin");
-
-const u16 gMetatiles_HGSS_Outdoor2[] = INCBIN_U16("data/tilesets/secondary/hgss_outdoor_2/metatiles.bin");
-const u16 gMetatileAttributes_HGSS_Outdoor2[] = INCBIN_U16("data/tilesets/secondary/hgss_outdoor_2/metatile_attributes.bin");
-
-const u16 gMetatiles_HGSS_OutdoorForestTown[] = INCBIN_U16("data/tilesets/secondary/hgss_outdoor_forest_town/metatiles.bin");
-const u16 gMetatileAttributes_HGSS_OutdoorForestTown[] = INCBIN_U16("data/tilesets/secondary/hgss_outdoor_forest_town/metatile_attributes.bin");
-
-const u16 gMetatiles_HGSS_ViridianCity[] = INCBIN_U16("data/tilesets/secondary/hgss_viridian_city/metatiles.bin");
-const u16 gMetatileAttributes_HGSS_ViridianCity[] = INCBIN_U16("data/tilesets/secondary/hgss_viridian_city/metatile_attributes.bin");
-
-const u16 gMetatiles_HGSS_Building[] = INCBIN_U16("data/tilesets/primary/hgss_building/metatiles.bin");
-const u16 gMetatileAttributes_HGSS_Building[] = INCBIN_U16("data/tilesets/primary/hgss_building/metatile_attributes.bin");
-
-const u16 gMetatiles_HGSS_Pokecentre[] = INCBIN_U16("data/tilesets/secondary/hgss_pokecentre/metatiles.bin");
-const u16 gMetatileAttributes_HGSS_Pokecentre[] = INCBIN_U16("data/tilesets/secondary/hgss_pokecentre/metatile_attributes.bin");
-
-const u16 gMetatiles_HGSS_Cave[] = INCBIN_U16("data/tilesets/secondary/hgss_cave/metatiles.bin");
-const u16 gMetatileAttributes_HGSS_Cave[] = INCBIN_U16("data/tilesets/secondary/hgss_cave/metatile_attributes.bin");
-
-const u16 gMetatiles_HGSS_PewterCity[] = INCBIN_U16("data/tilesets/secondary/hgss_pewter_city/metatiles.bin");
-const u16 gMetatileAttributes_HGSS_PewterCity[] = INCBIN_U16("data/tilesets/secondary/hgss_pewter_city/metatile_attributes.bin");
-
-const u16 gMetatiles_HGSS_Kanto_General[] = INCBIN_U16("data/tilesets/primary/hgss_kanto_general/metatiles.bin");
-const u16 gMetatileAttributes_HGSS_Kanto_General[] = INCBIN_U16("data/tilesets/primary/hgss_kanto_general/metatile_attributes.bin");
