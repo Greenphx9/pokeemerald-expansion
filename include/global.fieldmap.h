@@ -32,9 +32,6 @@ enum {
 // This constant is used for calculations for finding the next row of metatiles
 // for constructing large tiles, such as the Battle Pike's curtain tile.
 #define METATILE_ROW_WIDTH 8
-#define TSTYPE_EM         0
-#define TSTYPE_FR         1
-#define TSTYPE_EM_PALS    2 // 7 pals instead of default em 6
 
 typedef void (*TilesetCB)(void);
 
@@ -47,7 +44,6 @@ struct Tileset
     /*0x0C*/ const u16 *metatiles;
     /*0x10*/ const u16 *metatileAttributes;
     /*0x14*/ TilesetCB callback;
-             u8 tilesetType;
 };
 
 struct MapLayout

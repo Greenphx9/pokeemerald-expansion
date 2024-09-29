@@ -230,25 +230,12 @@ static void DrawMetatileAt(const struct MapLayout *mapLayout, u16 offset, int x,
 
     if (metatileId > NUM_METATILES_TOTAL)
         metatileId = 0;
-    if (mapLayout->primaryTileset->tilesetType == TSTYPE_FR || mapLayout->secondaryTileset->tilesetType == TSTYPE_FR)
-    {
-        if (metatileId < NUM_METATILES_IN_PRIMARY)
-            metatiles = mapLayout->primaryTileset->metatiles;
-        else
-        {
-            metatiles = mapLayout->secondaryTileset->metatiles;
-            metatileId -= NUM_METATILES_IN_PRIMARY;
-        }
-    }
+    if (metatileId < NUM_METATILES_IN_PRIMARY)
+        metatiles = mapLayout->primaryTileset->metatiles;
     else
     {
-        if (metatileId < NUM_METATILES_IN_PRIMARY_EM)
-            metatiles = mapLayout->primaryTileset->metatiles;
-        else
-        {
-            metatiles = mapLayout->secondaryTileset->metatiles;
-            metatileId -= NUM_METATILES_IN_PRIMARY_EM;
-        }
+        metatiles = mapLayout->secondaryTileset->metatiles;
+        metatileId -= NUM_METATILES_IN_PRIMARY;
     }
     DrawMetatile(MapGridGetMetatileLayerTypeAt(x, y), metatiles + metatileId * NUM_TILES_PER_METATILE, offset);
 }

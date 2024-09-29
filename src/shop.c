@@ -812,20 +812,10 @@ static void BuyMenuDrawMapBg(void)
             else
                 metatileLayerType = METATILE_LAYER_TYPE_COVERED;
 
-            if (mapLayout->primaryTileset->tilesetType == TSTYPE_FR || mapLayout->secondaryTileset->tilesetType == TSTYPE_FR)
-            {
-                if (metatile < NUM_METATILES_IN_PRIMARY)
-                    BuyMenuDrawMapMetatile(i, j, mapLayout->primaryTileset->metatiles + metatile * NUM_TILES_PER_METATILE, metatileLayerType);
-                else
-                    BuyMenuDrawMapMetatile(i, j, mapLayout->secondaryTileset->metatiles + ((metatile - NUM_METATILES_IN_PRIMARY) * NUM_TILES_PER_METATILE), metatileLayerType);
-            }
+            if (metatile < NUM_METATILES_IN_PRIMARY)
+                BuyMenuDrawMapMetatile(i, j, mapLayout->primaryTileset->metatiles + metatile * NUM_TILES_PER_METATILE, metatileLayerType);
             else
-            {
-                if (metatile < NUM_METATILES_IN_PRIMARY_EM)
-                    BuyMenuDrawMapMetatile(i, j, mapLayout->primaryTileset->metatiles + metatile * NUM_TILES_PER_METATILE, metatileLayerType);
-                else
-                    BuyMenuDrawMapMetatile(i, j, mapLayout->secondaryTileset->metatiles + ((metatile - NUM_METATILES_IN_PRIMARY_EM) * NUM_TILES_PER_METATILE), metatileLayerType);
-            }
+                BuyMenuDrawMapMetatile(i, j, mapLayout->secondaryTileset->metatiles + ((metatile - NUM_METATILES_IN_PRIMARY) * NUM_TILES_PER_METATILE), metatileLayerType);
         }
     }
 }

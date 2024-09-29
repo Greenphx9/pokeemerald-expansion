@@ -835,7 +835,6 @@ const struct Tileset gTileset_Kanto_General =
     .metatiles = gMetatiles_Kanto_General,
     .metatileAttributes = gMetatileAttributes_Kanto_General,
     .callback = NULL,
-    .tilesetType = TSTYPE_FR,
 };
 
 const struct Tileset gTileset_Kanto_PalletTown =
@@ -847,5 +846,4 @@ const struct Tileset gTileset_Kanto_PalletTown =
     .metatiles = gMetatiles_Kanto_PalletTown,
     .metatileAttributes = gMetatileAttributes_Kanto_PalletTown,
     .callback = NULL,
-    .tilesetType = TSTYPE_FR,
 };

@@ -404,39 +404,19 @@ void MapGridSetMetatileEntryAt(int x, int y, u16 metatile)
 u16 GetMetatileAttributesById(u16 metatile)
 {
     const u16 *attributes;
-    if (gMapHeader.mapLayout->primaryTileset->tilesetType == TSTYPE_FR || gMapHeader.mapLayout->secondaryTileset->tilesetType == TSTYPE_FR)
+    if (metatile < NUM_METATILES_IN_PRIMARY)
     {
-        if (metatile < NUM_METATILES_IN_PRIMARY)
-        {
-            attributes = gMapHeader.mapLayout->primaryTileset->metatileAttributes;
-            return attributes[metatile];
-        }
-        else if (metatile < NUM_METATILES_TOTAL)
-        {
-            attributes = gMapHeader.mapLayout->secondaryTileset->metatileAttributes;
-            return attributes[metatile - NUM_METATILES_IN_PRIMARY];
-        }
-        else
-        {
-            return MB_INVALID;
-        }
+        attributes = gMapHeader.mapLayout->primaryTileset->metatileAttributes;
+        return attributes[metatile];
+    }
+    else if (metatile < NUM_METATILES_TOTAL)
+    {
+        attributes = gMapHeader.mapLayout->secondaryTileset->metatileAttributes;
+        return attributes[metatile - NUM_METATILES_IN_PRIMARY];
     }
     else
     {
-        if (metatile < NUM_METATILES_IN_PRIMARY_EM)
-        {
-            attributes = gMapHeader.mapLayout->primaryTileset->metatileAttributes;
-            return attributes[metatile];
-        }
-        else if (metatile < NUM_METATILES_TOTAL)
-        {
-            attributes = gMapHeader.mapLayout->secondaryTileset->metatileAttributes;
-            return attributes[metatile - NUM_METATILES_IN_PRIMARY_EM];
-        }
-        else
-        {
-            return MB_INVALID;
-        }
+        return MB_INVALID;
     }
 }
 
@@ -912,10 +892,7 @@ static void LoadTilesetPalette(struct Tileset const *tileset, u16 destOffset, u1
         }
         else if (tileset->isSecondary == TRUE)
         {
-            if (gMapHeader.mapLayout->primaryTileset->tilesetType == TSTYPE_EM || gMapHeader.mapLayout->secondaryTileset->tilesetType == TSTYPE_EM)
-                LoadPalette(tileset->palettes[NUM_PALS_IN_PRIMARY_EM], destOffset, size);
-            else
-                LoadPalette(tileset->palettes[NUM_PALS_IN_PRIMARY], destOffset, size);
+            LoadPalette(tileset->palettes[NUM_PALS_IN_PRIMARY], destOffset, size);
             ApplyGlobalTintToPaletteEntries(destOffset, size >> 1);
         }
         else
@@ -928,58 +905,35 @@ static void LoadTilesetPalette(struct Tileset const *tileset, u16 destOffset, u1
 
 void CopyPrimaryTilesetToVram(struct MapLayout const *mapLayout)
 {
-    if (mapLayout->primaryTileset->tilesetType == TSTYPE_FR)
-        CopyTilesetToVram(mapLayout->primaryTileset, NUM_TILES_IN_PRIMARY, 0);
-    else
-        CopyTilesetToVram(mapLayout->primaryTileset, NUM_TILES_IN_PRIMARY_EM, 0);
+    CopyTilesetToVram(mapLayout->primaryTileset, NUM_TILES_IN_PRIMARY, 0);
 }       
 
 void CopySecondaryTilesetToVram(struct MapLayout const *mapLayout)
 {
-    if (mapLayout->secondaryTileset->tilesetType == TSTYPE_FR)
-        CopyTilesetToVram(mapLayout->secondaryTileset, NUM_TILES_TOTAL - NUM_TILES_IN_PRIMARY, NUM_TILES_IN_PRIMARY);
-    else
-        CopyTilesetToVram(mapLayout->secondaryTileset, NUM_TILES_TOTAL - NUM_TILES_IN_PRIMARY_EM, NUM_TILES_IN_PRIMARY_EM);
+    CopyTilesetToVram(mapLayout->secondaryTileset, NUM_TILES_TOTAL - NUM_TILES_IN_PRIMARY, NUM_TILES_IN_PRIMARY);
 }
 
 void CopySecondaryTilesetToVramUsingHeap(struct MapLayout const *mapLayout)
 {
-    if (mapLayout->secondaryTileset->tilesetType == TSTYPE_FR)
-        CopyTilesetToVramUsingHeap(mapLayout->secondaryTileset, NUM_TILES_TOTAL - NUM_TILES_IN_PRIMARY, NUM_TILES_IN_PRIMARY);
-    else    
-        CopyTilesetToVramUsingHeap(mapLayout->secondaryTileset, NUM_TILES_TOTAL - NUM_TILES_IN_PRIMARY_EM, NUM_TILES_IN_PRIMARY_EM);
+    CopyTilesetToVramUsingHeap(mapLayout->secondaryTileset, NUM_TILES_TOTAL - NUM_TILES_IN_PRIMARY, NUM_TILES_IN_PRIMARY);
 }
 
 static void LoadPrimaryTilesetPalette(struct MapLayout const *mapLayout)
 {
-    if (mapLayout->primaryTileset->tilesetType == TSTYPE_EM || mapLayout->secondaryTileset->tilesetType == TSTYPE_EM) // fix
-        LoadTilesetPalette(mapLayout->primaryTileset, BG_PLTT_ID(0), NUM_PALS_IN_PRIMARY_EM * PLTT_SIZE_4BPP);
-    else
-        LoadTilesetPalette(mapLayout->primaryTileset, BG_PLTT_ID(0), NUM_PALS_IN_PRIMARY * PLTT_SIZE_4BPP);
+    LoadTilesetPalette(mapLayout->primaryTileset, BG_PLTT_ID(0), NUM_PALS_IN_PRIMARY * PLTT_SIZE_4BPP);  
 }
 
 void LoadSecondaryTilesetPalette(struct MapLayout const *mapLayout)
 {
-    if (mapLayout->secondaryTileset->tilesetType > TSTYPE_EM)
-        LoadTilesetPalette(mapLayout->secondaryTileset, BG_PLTT_ID(NUM_PALS_IN_PRIMARY), (NUM_PALS_TOTAL - NUM_PALS_IN_PRIMARY) * PLTT_SIZE_4BPP);
-    else
-        LoadTilesetPalette(mapLayout->secondaryTileset, BG_PLTT_ID(NUM_PALS_IN_PRIMARY_EM), (NUM_PALS_TOTAL - NUM_PALS_IN_PRIMARY_EM) * PLTT_SIZE_4BPP);
+    LoadTilesetPalette(mapLayout->secondaryTileset, BG_PLTT_ID(NUM_PALS_IN_PRIMARY), (NUM_PALS_TOTAL - NUM_PALS_IN_PRIMARY) * PLTT_SIZE_4BPP);
 }
 
 void CopyMapTilesetsToVram(struct MapLayout const *mapLayout)
 {
     if (mapLayout)
     {
-        if (mapLayout->primaryTileset->tilesetType == TSTYPE_FR || mapLayout->secondaryTileset->tilesetType == TSTYPE_FR)
-        {
-            CopyTilesetToVramUsingHeap(mapLayout->primaryTileset, NUM_TILES_IN_PRIMARY, 0);
-            CopyTilesetToVramUsingHeap(mapLayout->secondaryTileset, NUM_TILES_TOTAL - NUM_TILES_IN_PRIMARY, NUM_TILES_IN_PRIMARY);
-        }
-        else
-        {
-            CopyTilesetToVramUsingHeap(mapLayout->primaryTileset, NUM_TILES_IN_PRIMARY_EM, 0);
-            CopyTilesetToVramUsingHeap(mapLayout->secondaryTileset, NUM_TILES_TOTAL - NUM_TILES_IN_PRIMARY_EM, NUM_TILES_IN_PRIMARY_EM);
-        }
+        CopyTilesetToVramUsingHeap(mapLayout->primaryTileset, NUM_TILES_IN_PRIMARY, 0);
+        CopyTilesetToVramUsingHeap(mapLayout->secondaryTileset, NUM_TILES_TOTAL - NUM_TILES_IN_PRIMARY, NUM_TILES_IN_PRIMARY);
     }
 }
 

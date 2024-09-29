@@ -842,16 +842,8 @@ if (I_VS_SEEKER_CHARGING != 0)
     CopySecondaryTilesetToVramUsingHeap(gMapHeader.mapLayout);
     LoadSecondaryTilesetPalette(gMapHeader.mapLayout);
 
-    if (gMapHeader.mapLayout->primaryTileset->tilesetType == TSTYPE_EM || gMapHeader.mapLayout->secondaryTileset->tilesetType == TSTYPE_EM)
-    {
-        for (paletteIndex = NUM_PALS_IN_PRIMARY_EM; paletteIndex < NUM_PALS_TOTAL; paletteIndex++)
-            ApplyWeatherColorMapToPal(paletteIndex);
-    }
-    else
-    {
-        for (paletteIndex = NUM_PALS_IN_PRIMARY; paletteIndex < NUM_PALS_TOTAL; paletteIndex++)
-            ApplyWeatherColorMapToPal(paletteIndex);
-    }
+    for (paletteIndex = NUM_PALS_IN_PRIMARY; paletteIndex < NUM_PALS_TOTAL; paletteIndex++)
+        ApplyWeatherColorMapToPal(paletteIndex);
 
     InitSecondaryTilesetAnimation();
     UpdateLocationHistoryForRoamer();
