@@ -454,3 +454,13 @@ const u16 gObjectEventPal_BeastBall[] = INCBIN_U16("graphics/object_events/pics/
 const u16 gObjectEventPal_StrangeBall[] = INCBIN_U16("graphics/object_events/pics/misc/ball_strange.gbapal");
 #endif //ITEM_STRANGE_BALL
 #endif //OW_FOLLOWERS_POKEBALLS
+
+// new
+
+const u16 gObjectEventPal_Red[] = INCBIN_U16("graphics/object_events/pics/people/player/red/red.gbapal");
+const u16 gObjectEventPic_RedNormal[] = INCBIN_U16("graphics/object_events/pics/people/player/red/red_normal.4bpp");
+const u16 gObjectEventPic_RedSurfRun[] = INCBIN_U16("graphics/object_events/pics/people/player/red/red_surf_run.4bpp");
+const u16 gObjectEventPic_RedItem[] = INCBIN_U16("graphics/object_events/pics/people/player/red/red_item.4bpp");
+const u16 gObjectEventPic_RedSurf[] = INCBIN_U16("graphics/object_events/pics/people/player/red/red_surf.4bpp");
+const u16 gObjectEventPic_RedBike[] = INCBIN_U16("graphics/object_events/pics/people/player/red/red_bike.4bpp");
+const u16 gObjectEventPic_RedFish[] = INCBIN_U16("graphics/object_events/pics/people/player/red/red_fish.4bpp");
