@@ -462,3 +462,12 @@ const u16 gObjectEventPal_StrangeBall[] = INCBIN_U16("graphics/object_events/pic
 
 const u32 gFieldEffectObjectPic_CaveDust[] = INCBIN_U32("graphics/field_effects/pics/cave_dust.4bpp");
 const u16 gFieldEffectObjectPalette_CaveDust[] = INCBIN_U16("graphics/field_effects/palettes/cave_dust.gbapal");
+
+// RG
+const u16 gObjectEventPal_Red[] = INCBIN_U16("graphics/object_events/pics/people/player/red/red.gbapal");
+const u16 gObjectEventPic_RedNormal[] = INCBIN_U16("graphics/object_events/pics/people/player/red/red_normal.4bpp");
+const u16 gObjectEventPic_RedSurfRun[] = INCBIN_U16("graphics/object_events/pics/people/player/red/red_surf_run.4bpp");
+const u16 gObjectEventPic_RedItem[] = INCBIN_U16("graphics/object_events/pics/people/player/red/red_item.4bpp");
+const u16 gObjectEventPic_RedSurf[] = INCBIN_U16("graphics/object_events/pics/people/player/red/red_surf.4bpp");
+const u16 gObjectEventPic_RedBike[] = INCBIN_U16("graphics/object_events/pics/people/player/red/red_bike.4bpp");
+const u16 gObjectEventPic_RedFish[] = INCBIN_U16("graphics/object_events/pics/people/player/red/red_fish.4bpp");

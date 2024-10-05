@@ -642,39 +642,39 @@ static const union AnimCmd sAnim_GoFastestEast[] =
     ANIMCMD_JUMP(0),
 };
 
-static const union AnimCmd sAnim_RunSouth[] =
+static const union AnimCmd sAnim_RunSouth[] = 
+{
+    ANIMCMD_FRAME(9, 5),
+    ANIMCMD_FRAME(10, 3),
+    ANIMCMD_FRAME(9, 5),
+    ANIMCMD_FRAME(11, 3),
+    ANIMCMD_JUMP(0),
+};
+
+static const union AnimCmd sAnim_RunNorth[] = 
 {
     ANIMCMD_FRAME(12, 5),
-    ANIMCMD_FRAME(9, 3),
-    ANIMCMD_FRAME(13, 5),
-    ANIMCMD_FRAME(9, 3),
+    ANIMCMD_FRAME(13, 3),
+    ANIMCMD_FRAME(12, 5),
+    ANIMCMD_FRAME(14, 3),
     ANIMCMD_JUMP(0),
 };
 
-static const union AnimCmd sAnim_RunNorth[] =
+static const union AnimCmd sAnim_RunWest[] = 
 {
-    ANIMCMD_FRAME(14, 5),
-    ANIMCMD_FRAME(10, 3),
     ANIMCMD_FRAME(15, 5),
-    ANIMCMD_FRAME(10, 3),
+    ANIMCMD_FRAME(16, 3),
+    ANIMCMD_FRAME(15, 5),
+    ANIMCMD_FRAME(17, 3),
     ANIMCMD_JUMP(0),
 };
 
-static const union AnimCmd sAnim_RunWest[] =
+static const union AnimCmd sAnim_RunEast[] = 
 {
-    ANIMCMD_FRAME(16, 5),
-    ANIMCMD_FRAME(11, 3),
-    ANIMCMD_FRAME(17, 5),
-    ANIMCMD_FRAME(11, 3),
-    ANIMCMD_JUMP(0),
-};
-
-static const union AnimCmd sAnim_RunEast[] =
-{
-    ANIMCMD_FRAME(16, 5, .hFlip = TRUE),
-    ANIMCMD_FRAME(11, 3, .hFlip = TRUE),
-    ANIMCMD_FRAME(17, 5, .hFlip = TRUE),
-    ANIMCMD_FRAME(11, 3, .hFlip = TRUE),
+    ANIMCMD_FRAME(15, 5, .hFlip = TRUE),
+    ANIMCMD_FRAME(16, 3, .hFlip = TRUE),
+    ANIMCMD_FRAME(15, 5, .hFlip = TRUE),
+    ANIMCMD_FRAME(17, 3, .hFlip = TRUE),
     ANIMCMD_JUMP(0),
 };
 
@@ -1535,4 +1535,150 @@ static const struct StepAnimTable sStepAnimTables[] = {
         .animPos = {1, 3, 0, 2},
     },
     {},
+};
+
+// new
+
+static const union AnimCmd sAnim_SpinSouth[] = {
+    ANIMCMD_FRAME(0, 2),
+    ANIMCMD_FRAME(2, 2, .hFlip = TRUE),
+    ANIMCMD_FRAME(1, 2),
+    ANIMCMD_FRAME(2, 2),
+    ANIMCMD_LOOP(1),
+    ANIMCMD_END,
+};
+
+static const union AnimCmd sAnim_SpinNorth[] = {
+    ANIMCMD_FRAME(1, 2),
+    ANIMCMD_FRAME(2, 2),
+    ANIMCMD_FRAME(0, 2),
+    ANIMCMD_FRAME(2, 2, .hFlip = TRUE),
+    ANIMCMD_LOOP(1),
+    ANIMCMD_END,
+};
+
+static const union AnimCmd sAnim_SpinWest[] = {
+    ANIMCMD_FRAME(2, 2, .hFlip = TRUE), // Starts by facing East?
+    ANIMCMD_FRAME(1, 2),
+    ANIMCMD_FRAME(2, 2),
+    ANIMCMD_FRAME(0, 2),
+    ANIMCMD_LOOP(1),
+    ANIMCMD_END,
+};
+
+static const union AnimCmd sAnim_SpinEast[] = {
+    ANIMCMD_FRAME(2, 2), // Starts by facing West?
+    ANIMCMD_FRAME(0, 2),
+    ANIMCMD_FRAME(2, 2, .hFlip = TRUE),
+    ANIMCMD_FRAME(1, 2),
+    ANIMCMD_LOOP(1),
+    ANIMCMD_END,
+};
+
+static const union AnimCmd sAnim_ShakeHeadOrWalkInPlace[] = {
+    ANIMCMD_FRAME(18, 16),
+    ANIMCMD_FRAME(0, 16),
+    ANIMCMD_FRAME(19, 16),
+    ANIMCMD_FRAME(0, 32),
+    ANIMCMD_LOOP(1),
+    ANIMCMD_END,
+};
+
+static const union AnimCmd *const sAnimTable_RedGreenNormal[] = {
+    [ANIM_STD_FACE_SOUTH] = sAnim_FaceSouth,
+    [ANIM_STD_FACE_NORTH] = sAnim_FaceNorth,
+    [ANIM_STD_FACE_WEST] = sAnim_FaceWest,
+    [ANIM_STD_FACE_EAST] = sAnim_FaceEast,
+    [ANIM_STD_GO_SOUTH] = sAnim_GoSouth,
+    [ANIM_STD_GO_NORTH] = sAnim_GoNorth,
+    [ANIM_STD_GO_WEST] = sAnim_GoWest,
+    [ANIM_STD_GO_EAST] = sAnim_GoEast,
+    [ANIM_STD_GO_FAST_SOUTH] = sAnim_GoFastSouth,
+    [ANIM_STD_GO_FAST_NORTH] = sAnim_GoFastNorth,
+    [ANIM_STD_GO_FAST_WEST] = sAnim_GoFastWest,
+    [ANIM_STD_GO_FAST_EAST] = sAnim_GoFastEast,
+    [ANIM_STD_GO_FASTER_SOUTH] = sAnim_GoFasterSouth,
+    [ANIM_STD_GO_FASTER_NORTH] = sAnim_GoFasterNorth,
+    [ANIM_STD_GO_FASTER_WEST] = sAnim_GoFasterWest,
+    [ANIM_STD_GO_FASTER_EAST] = sAnim_GoFasterEast,
+    [ANIM_STD_GO_FASTEST_SOUTH] = sAnim_GoFastestSouth,
+    [ANIM_STD_GO_FASTEST_NORTH] = sAnim_GoFastestNorth,
+    [ANIM_STD_GO_FASTEST_WEST] = sAnim_GoFastestWest,
+    [ANIM_STD_GO_FASTEST_EAST] = sAnim_GoFastestEast,
+    [ANIM_RUN_SOUTH] = sAnim_RunSouth,
+    [ANIM_RUN_NORTH] = sAnim_RunNorth,
+    [ANIM_RUN_WEST] = sAnim_RunWest,
+    [ANIM_RUN_EAST] = sAnim_RunEast,
+    [ANIM_SPIN_SOUTH] = sAnim_SpinSouth,
+    [ANIM_SPIN_NORTH] = sAnim_SpinNorth,
+    [ANIM_SPIN_WEST] = sAnim_SpinWest,
+    [ANIM_SPIN_EAST] = sAnim_SpinEast,
+    [ANIM_SHAKE_HEAD_OR_WALK_IN_PLACE] = sAnim_ShakeHeadOrWalkInPlace,
+};
+
+static const union AnimCmd sAnim_SurfFaceSouth[] = {
+    ANIMCMD_FRAME(0, 60),
+    ANIMCMD_JUMP(0),
+};
+
+static const union AnimCmd sAnim_SurfFaceNorth[] = {
+    ANIMCMD_FRAME(1, 60),
+    ANIMCMD_JUMP(0),
+};
+
+static const union AnimCmd sAnim_SurfFaceWest[] = {
+    ANIMCMD_FRAME(2, 60),
+    ANIMCMD_JUMP(0),
+};
+
+static const union AnimCmd sAnim_SurfFaceEast[] = {
+    ANIMCMD_FRAME(2, 60, .hFlip = TRUE),
+    ANIMCMD_JUMP(0),
+};
+
+static const union AnimCmd sAnim_GetOnOffSurfSouth[] = {
+    ANIMCMD_FRAME(9, 32),
+    ANIMCMD_JUMP(0),
+};
+
+static const union AnimCmd sAnim_GetOnOffSurfNorth[] = {
+    ANIMCMD_FRAME(10, 32),
+    ANIMCMD_JUMP(0),
+};
+
+static const union AnimCmd sAnim_GetOnOffSurfWest[] = {
+    ANIMCMD_FRAME(11, 32),
+    ANIMCMD_JUMP(0),
+};
+
+static const union AnimCmd sAnim_GetOnOffSurfEast[] = {
+    ANIMCMD_FRAME(11, 32, .hFlip = TRUE),
+    ANIMCMD_JUMP(0),
+};
+
+static const union AnimCmd *const sAnimTable_RedGreenSurf[] = {
+    [ANIM_STD_FACE_SOUTH] = sAnim_SurfFaceSouth,
+    [ANIM_STD_FACE_NORTH] = sAnim_SurfFaceNorth,
+    [ANIM_STD_FACE_WEST] = sAnim_SurfFaceWest,
+    [ANIM_STD_FACE_EAST] = sAnim_SurfFaceEast,
+    [ANIM_STD_GO_SOUTH] = sAnim_SurfFaceSouth,
+    [ANIM_STD_GO_NORTH] = sAnim_SurfFaceNorth,
+    [ANIM_STD_GO_WEST] = sAnim_SurfFaceWest,
+    [ANIM_STD_GO_EAST] = sAnim_SurfFaceEast,
+    [ANIM_STD_GO_FAST_SOUTH] = sAnim_SurfFaceSouth,
+    [ANIM_STD_GO_FAST_NORTH] = sAnim_SurfFaceNorth,
+    [ANIM_STD_GO_FAST_WEST] = sAnim_SurfFaceWest,
+    [ANIM_STD_GO_FAST_EAST] = sAnim_SurfFaceEast,
+    [ANIM_STD_GO_FASTER_SOUTH] = sAnim_SurfFaceSouth,
+    [ANIM_STD_GO_FASTER_NORTH] = sAnim_SurfFaceNorth,
+    [ANIM_STD_GO_FASTER_WEST] = sAnim_SurfFaceWest,
+    [ANIM_STD_GO_FASTER_EAST] = sAnim_SurfFaceEast,
+    [ANIM_STD_GO_FASTEST_SOUTH] = sAnim_SurfFaceSouth,
+    [ANIM_STD_GO_FASTEST_NORTH] = sAnim_SurfFaceNorth,
+    [ANIM_STD_GO_FASTEST_WEST] = sAnim_SurfFaceWest,
+    [ANIM_STD_GO_FASTEST_EAST] = sAnim_SurfFaceEast,
+    [ANIM_GET_ON_OFF_POKEMON_SOUTH] = sAnim_GetOnOffSurfSouth,
+    [ANIM_GET_ON_OFF_POKEMON_NORTH] = sAnim_GetOnOffSurfNorth,
+    [ANIM_GET_ON_OFF_POKEMON_WEST] = sAnim_GetOnOffSurfWest,
+    [ANIM_GET_ON_OFF_POKEMON_EAST] = sAnim_GetOnOffSurfEast,
 };
