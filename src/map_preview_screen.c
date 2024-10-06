@@ -631,30 +631,30 @@ u16 MapPreview_GetDuration(u8 mapsec)
     flagId = sMapPreviewScreenData[idx].flagId;
 
     if (flagId == FLAG_NULL) {
-        if (DURATION_ALWAYS != 0) {
-            return DURATION_ALWAYS;
+        if (MPS_DURATION_ALWAYS != 0) {
+            return MPS_DURATION_ALWAYS;
         }
         else
         {
-            return DURATION_NO_FLAG;
+            return MPS_DURATION_NO_FLAG;
         }
     }
-    else if (DURATION_ALWAYS != 0) {
+    else if (MPS_DURATION_ALWAYS != 0) {
         if (!FlagGet(flagId))
         {
             FlagSet(flagId);
         }
-        return DURATION_ALWAYS;
+        return MPS_DURATION_ALWAYS;
     }
     else {
         if (!FlagGet(flagId))
         {
             FlagSet(flagId);
-            return DURATION_LONG;
+            return MPS_DURATION_LONG;
         }
         else
         {
-            return DURATION_SHORT;
+            return MPS_DURATION_SHORT;
         }
     }
 }
