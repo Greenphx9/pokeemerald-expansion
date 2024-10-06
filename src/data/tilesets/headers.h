@@ -845,5 +845,5 @@ const struct Tileset gTileset_Kanto_PalletTown =
     .palettes = gTilesetPalettes_Kanto_PalletTown,
     .metatiles = gMetatiles_Kanto_PalletTown,
     .metatileAttributes = gMetatileAttributes_Kanto_PalletTown,
-    .callback = NULL,
+    .callback = InitTilesetAnim_Kanto_General,
 };
