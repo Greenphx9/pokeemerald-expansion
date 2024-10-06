@@ -76,8 +76,8 @@ enum PreviewImageId
                                     // Numbers greater than 1 will have a longer fade time.
 
 
-#define MPS_TYPE_CAVE       0
-#define MPS_TYPE_NON_CAVE   1
+#define MPS_TYPE_BASIC      0
+#define MPS_TYPE_CAVE       1
 #define MPS_TYPE_WEATHER    2
 #define MPS_TYPE_ANY        3
 

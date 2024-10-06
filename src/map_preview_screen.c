@@ -87,7 +87,7 @@ static const u8 sAlteringCaveMapPreviewTilemap[] = INCBIN_U8("graphics/map_previ
 static const struct MapPreviewScreen sMapPreviewScreenData[MPS_COUNT] = {
     [MPS_VIRIDIAN_FOREST] = {
         .mapsec = MAPSEC_VIRIDIAN_FOREST,
-        .type = MPS_TYPE_NON_CAVE,
+        .type = MPS_TYPE_BASIC,
         .flagId = FLAG_WORLD_MAP_VIRIDIAN_FOREST,
         .image = IMG_VIRIDIAN_FOREST
     },
@@ -117,7 +117,7 @@ static const struct MapPreviewScreen sMapPreviewScreenData[MPS_COUNT] = {
     },
     [MPS_SAFARI_ZONE] = {
         .mapsec = MAPSEC_KANTO_SAFARI_ZONE,
-        .type = MPS_TYPE_NON_CAVE,
+        .type = MPS_TYPE_BASIC,
         .flagId = FLAG_WORLD_MAP_SAFARI_ZONE_CENTER,
         .image = IMG_SAFARI_ZONE
     },
@@ -129,13 +129,13 @@ static const struct MapPreviewScreen sMapPreviewScreenData[MPS_COUNT] = {
     },
     [MPS_POKEMON_MANSION] = {
         .mapsec = MAPSEC_POKEMON_MANSION,
-        .type = MPS_TYPE_NON_CAVE,
+        .type = MPS_TYPE_BASIC,
         .flagId = FLAG_WORLD_MAP_POKEMON_MANSION_1F,
         .image = IMG_POKEMON_MANSION
     },
     [MPS_ROCKET_HIDEOUT] = {
         .mapsec = MAPSEC_ROCKET_HIDEOUT,
-        .type = MPS_TYPE_NON_CAVE,
+        .type = MPS_TYPE_BASIC,
         .flagId = FLAG_WORLD_MAP_ROCKET_HIDEOUT_B1F,
         .image = IMG_ROCKET_HIDEOUT
     },
@@ -159,7 +159,7 @@ static const struct MapPreviewScreen sMapPreviewScreenData[MPS_COUNT] = {
     },
     [MPS_POWER_PLANT] = {
         .mapsec = MAPSEC_POWER_PLANT,
-        .type = MPS_TYPE_NON_CAVE,
+        .type = MPS_TYPE_BASIC,
         .flagId = FLAG_WORLD_MAP_POWER_PLANT,
         .image = IMG_POWER_PLANT
     },
@@ -171,7 +171,7 @@ static const struct MapPreviewScreen sMapPreviewScreenData[MPS_COUNT] = {
     },
     [MPS_ROCKET_WAREHOUSE] = {
         .mapsec = MAPSEC_ROCKET_WAREHOUSE,
-        .type = MPS_TYPE_NON_CAVE,
+        .type = MPS_TYPE_BASIC,
         .flagId = FLAG_WORLD_MAP_THREE_ISLAND_BERRY_FOREST,
         .image = IMG_ROCKET_WAREHOUSE
     },
@@ -189,7 +189,7 @@ static const struct MapPreviewScreen sMapPreviewScreenData[MPS_COUNT] = {
     },
     [MPS_BERRY_FOREST] = {
         .mapsec = MAPSEC_BERRY_FOREST,
-        .type = MPS_TYPE_NON_CAVE,
+        .type = MPS_TYPE_BASIC,
         .flagId = FLAG_WORLD_MAP_THREE_ISLAND_BERRY_FOREST,
         .image = IMG_BERRY_FOREST
     },
@@ -213,7 +213,7 @@ static const struct MapPreviewScreen sMapPreviewScreenData[MPS_COUNT] = {
     },
     [MPS_PATTERN_BUSH] = {
         .mapsec = MAPSEC_PATTERN_BUSH,
-        .type = MPS_TYPE_NON_CAVE,
+        .type = MPS_TYPE_BASIC,
         .flagId = FLAG_WORLD_MAP_SIX_ISLAND_PATTERN_BUSH,
         .image = IMG_VIRIDIAN_FOREST
     },
