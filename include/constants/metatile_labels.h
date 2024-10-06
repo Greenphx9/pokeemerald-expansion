@@ -264,6 +264,10 @@
 #define METATILE_InsideShip_IntactDoor_Bottom_Locked    0x233
 #define METATILE_InsideShip_IntactDoor_Bottom_Unlocked  0x22B
 
+// gTileset_Kanto_PalletTown
+#define METATILE_Kanto_PalletTown_Door         0x2A3
+#define METATILE_Kanto_PalletTown_OaksLabDoor  0x2AC
+
 // gTileset_Lavaridge
 #define METATILE_Lavaridge_AshGrass             0x207
 #define METATILE_Lavaridge_CaveEntrance_Bottom  0x25E
