@@ -82,8 +82,8 @@ static const u8 sAlteringCaveMapPreviewPalette[] = INCBIN_U8("graphics/map_previ
 static const u8 sAlteringCaveMapPreviewTiles[] = INCBIN_U8("graphics/map_preview/altering_cave/tiles.4bpp.lz");
 static const u8 sAlteringCaveMapPreviewTilemap[] = INCBIN_U8("graphics/map_preview/altering_cave/tilemap.bin.lz");
 
-// If you set flagId to FLAG_NULL, it will not set a flag when visiting the map for the first time
-// and the duration will always default to DURATION_SHORT.
+// If you set flagId to MPS_FLAG_NULL, it will not set a flag when visiting the map for the first time
+// and the duration will default to MPS_DURATION_NO_FLAG.
 static const struct MapPreviewScreen sMapPreviewScreenData[MPS_COUNT] = {
     [MPS_VIRIDIAN_FOREST] = {
         .mapsec = MAPSEC_VIRIDIAN_FOREST,
@@ -630,7 +630,7 @@ u16 MapPreview_GetDuration(u8 mapsec)
 
     flagId = sMapPreviewScreenData[idx].flagId;
 
-    if (flagId == FLAG_NULL) {
+    if (flagId == MPS_FLAG_NULL) {
         if (MPS_DURATION_ALWAYS != 0) {
             return MPS_DURATION_ALWAYS;
         }
