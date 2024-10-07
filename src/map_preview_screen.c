@@ -373,6 +373,16 @@ static const struct WindowTemplate sMapNameWindow = {
     .baseBlock = 0x1C2
 };
 
+static const struct WindowTemplate sMapNameWindowLarge = {
+    .bg = 0,
+    .tilemapLeft = 0,
+    .tilemapTop = 0,
+    .width = 22,
+    .height = 2,
+    .paletteNum = 14,
+    .baseBlock = 0x1C2
+};
+
 static const struct BgTemplate sMapPreviewBgTemplate[1] = {
     {
         .mapBaseIndex = 31
@@ -498,14 +508,22 @@ u16 MapPreview_CreateMapNameWindow(u8 mapsec)
     u8 color[0];
     #endif
 
-    windowId = AddWindow(&sMapNameWindow);
+    GetMapName(gStringVar4, mapsec, 0);
+    if (GetStringWidth(FONT_NORMAL, gStringVar4, 0) > 104)
+    {
+        windowId = AddWindow(&sMapNameWindowLarge);
+        xctr = 177 - GetStringWidth(FONT_NORMAL, gStringVar4, 0);
+    }
+    else
+    {
+        xctr = 104 - GetStringWidth(FONT_NORMAL, gStringVar4, 0);
+        windowId = AddWindow(&sMapNameWindow);
+    }
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
     PutWindowTilemap(windowId);
     color[0] = TEXT_COLOR_WHITE; // Access violation
     color[1] = TEXT_COLOR_RED; // Access violation
     color[2] = TEXT_COLOR_LIGHT_GRAY; // Access violation
-    GetMapName(gStringVar4, mapsec, 0);
-    xctr = 104 - GetStringWidth(FONT_NORMAL, gStringVar4, 0);
     AddTextPrinterParameterized4(windowId, FONT_NORMAL, xctr / 2, 2, 0, 0, color/* Access violation */, -1, gStringVar4);
     return windowId;
 }
