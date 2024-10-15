@@ -63,9 +63,6 @@
 #define MAP_UNDERWATER_ROUTE129 (54 | (0 << 8))
 #define MAP_UNDERWATER_ROUTE105 (55 | (0 << 8))
 #define MAP_UNDERWATER_ROUTE125 (56 | (0 << 8))
-#define MAP_TILE_TEST           (57 | (0 << 8))
-#define MAP_TILE_TEST2          (58 | (0 << 8))
-#define MAP_TILE_TEST3          (59 | (0 << 8))
 
 // gMapGroup_IndoorLittleroot
 #define MAP_LITTLEROOT_TOWN_BRENDANS_HOUSE_1F    (0 | (1 << 8))
@@ -594,6 +591,11 @@
 // gMapGroup_IndoorRoute124
 #define MAP_ROUTE124_DIVING_TREASURE_HUNTERS_HOUSE (0 | (33 << 8))
 
-#define MAP_GROUPS_COUNT 34
+// gMapGroup_Debug
+#define MAP_TILE_TEST  (0 | (34 << 8))
+#define MAP_TILE_TEST2 (1 | (34 << 8))
+#define MAP_TILE_TEST3 (2 | (34 << 8))
+
+#define MAP_GROUPS_COUNT 35
 
 #endif // GUARD_CONSTANTS_MAP_GROUPS_H
