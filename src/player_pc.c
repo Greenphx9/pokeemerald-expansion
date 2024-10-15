@@ -34,7 +34,7 @@
 enum {
     MENU_ITEMSTORAGE,
     MENU_MAILBOX,
-    MENU_DECORATION,
+    //MENU_DECORATION,
     MENU_TURNOFF
 };
 
@@ -193,7 +193,7 @@ static const struct MenuAction sPlayerPCMenuActions[] =
 {
     [MENU_ITEMSTORAGE] = { gText_ItemStorage, {PlayerPC_ItemStorage} },
     [MENU_MAILBOX]     = { gText_Mailbox,     {PlayerPC_Mailbox} },
-    [MENU_DECORATION]  = { gText_Decoration,  {PlayerPC_Decoration} },
+    //[MENU_DECORATION]  = { gText_Decoration,  {PlayerPC_Decoration} },
     [MENU_TURNOFF]     = { gText_TurnOff,     {PlayerPC_TurnOff} }
 };
 
@@ -201,7 +201,7 @@ static const u8 sBedroomPC_OptionOrder[] =
 {
     MENU_ITEMSTORAGE,
     MENU_MAILBOX,
-    MENU_DECORATION,
+    //MENU_DECORATION,
     MENU_TURNOFF
 };
 #define NUM_BEDROOM_PC_OPTIONS ARRAY_COUNT(sBedroomPC_OptionOrder)
@@ -494,10 +494,7 @@ static void PlayerPC_TurnOff(u8 taskId)
 {
     if (sTopMenuNumOptions == NUM_BEDROOM_PC_OPTIONS) // Flimsy way to determine if Bedroom PC is in use
     {
-        if (gSaveBlock2Ptr->playerGender == MALE)
-            ScriptContext_SetupScript(LittlerootTown_BrendansHouse_2F_EventScript_TurnOffPlayerPC);
-        else
-            ScriptContext_SetupScript(LittlerootTown_MaysHouse_2F_EventScript_TurnOffPlayerPC);
+        ScriptContext_SetupScript(EventScript_PalletTown_PlayersHouse_2F_ShutDownPC);
     }
     else
     {

@@ -34,7 +34,8 @@
     "gMapGroup_IndoorRoute123",
     "gMapGroup_IndoorRoute119",
     "gMapGroup_IndoorRoute124",
-    "gMapGroup_Debug"
+    "gMapGroup_Debug",
+    "gMapGroup_IndoorPallet"
   ],
   "gMapGroup_TownsAndRoutes": [
     "PetalburgCity",
@@ -626,5 +627,8 @@
     "TileTest",
     "TileTest2",
     "TileTest3"
+  ],
+  "gMapGroup_IndoorPallet": [
+    "PalletTown_PlayersHouse_2F"
   ]
 }

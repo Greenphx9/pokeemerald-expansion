@@ -264,6 +264,10 @@
 #define METATILE_InsideShip_IntactDoor_Bottom_Locked    0x233
 #define METATILE_InsideShip_IntactDoor_Bottom_Unlocked  0x22B
 
+// gTileset_Kanto_GenericBuilding1
+#define METATILE_Kanto_GenericBuilding1_PC_Off  0x28F
+#define METATILE_Kanto_GenericBuilding1_PC_On   0x28A
+
 // gTileset_Kanto_PalletTown
 #define METATILE_Kanto_PalletTown_Door         0x2A3
 #define METATILE_Kanto_PalletTown_OaksLabDoor  0x2AC

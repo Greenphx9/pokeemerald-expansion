@@ -596,6 +596,9 @@
 #define MAP_TILE_TEST2 (1 | (34 << 8))
 #define MAP_TILE_TEST3 (2 | (34 << 8))
 
-#define MAP_GROUPS_COUNT 35
+// gMapGroup_IndoorPallet
+#define MAP_PALLET_TOWN_PLAYERS_HOUSE_2F (0 | (35 << 8))
+
+#define MAP_GROUPS_COUNT 36
 
 #endif // GUARD_CONSTANTS_MAP_GROUPS_H
