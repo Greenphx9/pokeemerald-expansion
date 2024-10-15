@@ -847,3 +847,25 @@ const struct Tileset gTileset_Kanto_PalletTown =
     .metatileAttributes = gMetatileAttributes_Kanto_PalletTown,
     .callback = InitTilesetAnim_Kanto_General,
 };
+
+const struct Tileset gTileset_Kanto_Building =
+{
+    .isCompressed = TRUE,
+    .isSecondary = FALSE,
+    .tiles = gTilesetTiles_Kanto_Building,
+    .palettes = gTilesetPalettes_Kanto_Building,
+    .metatiles = gMetatiles_Kanto_Building,
+    .metatileAttributes = gMetatileAttributes_Kanto_Building,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_Kanto_GenericBuilding1 =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_Kanto_GenericBuilding1,
+    .palettes = gTilesetPalettes_Kanto_GenericBuilding1,
+    .metatiles = gMetatiles_Kanto_GenericBuilding1,
+    .metatileAttributes = gMetatileAttributes_Kanto_GenericBuilding1,
+    .callback = NULL,
+};
