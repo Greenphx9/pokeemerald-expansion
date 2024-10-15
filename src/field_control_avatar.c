@@ -384,6 +384,9 @@ static const u8 *GetInteractedBackgroundEventScript(struct MapPosition *position
         return NULL;
     }
 
+    if (MetatileBehavior_IsSignpost(metatileBehavior))
+        MsgSetSignpost();
+
     return bgEvent->bgUnion.script;
 }
 

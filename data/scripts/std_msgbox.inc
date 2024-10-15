@@ -9,9 +9,11 @@ Std_MsgboxNPC:
 
 Std_MsgboxSign:
 	lockall
+	callnative MsgSetSignpost
 	message NULL
 	waitmessage
 	waitbuttonpress
+	callnative MsgSetNotSignpost
 	releaseall
 	return
 

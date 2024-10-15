@@ -26,6 +26,7 @@ static u8 sGlobalScriptContextStatus;
 static struct ScriptContext sGlobalScriptContext;
 static struct ScriptContext sImmediateScriptContext;
 static bool8 sLockFieldControls;
+static u8 sMsgIsSignpost;
 
 extern ScrCmdFunc gScriptCmdTable[];
 extern ScrCmdFunc gScriptCmdTableEnd[];
@@ -500,4 +501,22 @@ void InitRamScript_NoObjectEvent(u8 *script, u16 scriptSize)
         scriptSize = sizeof(gSaveBlock1Ptr->ramScript.data.script);
     InitRamScript(script, scriptSize, MAP_GROUP(UNDEFINED), MAP_NUM(UNDEFINED), NO_OBJECT);
 #endif //FREE_MYSTERY_EVENT_BUFFERS
+}
+
+void MsgSetSignpost(void)
+{
+    sMsgIsSignpost = TRUE;
+}
+
+void MsgSetNotSignpost(void)
+{
+    sMsgIsSignpost = FALSE;
+}
+
+bool8 IsMsgSignpost(void)
+{
+    if(sMsgIsSignpost == TRUE)
+        return TRUE;
+    else
+        return FALSE;
 }
