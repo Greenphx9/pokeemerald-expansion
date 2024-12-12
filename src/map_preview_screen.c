@@ -682,6 +682,7 @@ u16 MapPreview_GetDuration(u8 mapsec)
 #define taskStep        data[0]
 #define frameCounter    data[1]
 #define MPWindowId      data[2]
+#define MPMapsec        data[3]
 
 static void MapPreview_Script_Start(u8 mapsec)
 {
@@ -689,7 +690,7 @@ static void MapPreview_Script_Start(u8 mapsec)
 
     BlendPalettes(PALETTES_ALL, 0x10, RGB_BLACK);
     taskId = CreateTask(Task_RunMapPreview_Script, 0);
-    gTasks[taskId].MPWindowId = MapPreview_CreateMapNameWindow(mapsec);
+    gTasks[taskId].MPMapsec = mapsec;
 }
 
 static void Task_RunMapPreview_Script(u8 taskId)
@@ -702,6 +703,7 @@ static void Task_RunMapPreview_Script(u8 taskId)
     case 0:
         if (!MapPreview_IsGfxLoadFinished() && !IsDma3ManagerBusyWithBgCopy())
         {
+            MPWindowId = MapPreview_CreateMapNameWindow(MPMapsec);
             CopyWindowToVram(MPWindowId, COPYWIN_FULL);
             taskStep++;
         }
@@ -709,7 +711,7 @@ static void Task_RunMapPreview_Script(u8 taskId)
     case 1:
         if (!IsDma3ManagerBusyWithBgCopy())
         {
-            BeginNormalPaletteFade(PALETTES_ALL, -1, 16, 0, RGB_BLACK);
+            FadeInFromBlack();
             taskStep++;
         }
         break;
