@@ -1939,3 +1939,15 @@
 	setvar VAR_0x8006, \item
 	special CreateEnemyEventMon
 	.endm
+
+	@ Show a map preview for the current map with the WEATHER type.
+	.macro mappreview
+	fadescreen FADE_TO_BLACK
+	callnative Script_MapPreview
+	waitstate
+	.endm
+
+	@ Show the current map's name popup.
+	.macro mappopup
+	callnative Script_MapPopUp
+	.endm

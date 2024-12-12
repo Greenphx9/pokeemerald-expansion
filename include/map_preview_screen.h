@@ -71,6 +71,10 @@ enum PreviewImageId
                                     // For example, if you set MPS_DURATION_ALWAYS to 100, the map preview will always
                                     // have a duration of 100 frames every time, regardless of the flag state.
 
+#define MPS_DURATION_SCRIPT     120 // This is the number of frames the map preview will last when it is called
+                                    // with the mappreview scripting macro.
+                                    // It is unaffected by MPS_DURATION_ALWAYS.
+
 #define MPS_WEATHER_FADE_SPEED  1   // This sets the speed that the map preview fades out when MPS_TYPE_WEATHER is used.
                                     // Numbers less than 1 will have a shorter fade time (negative numbers can be used).
                                     // Numbers greater than 1 will have a longer fade time.

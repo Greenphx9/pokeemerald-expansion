@@ -13,10 +13,12 @@
 #include "event_data.h"
 #include "map_preview_screen.h"
 #include "constants/region_map_sections.h"
+#include "constants/rgb.h"
 
 static EWRAM_DATA bool8 sAllocedBg0TilemapBuffer = FALSE;
 
 static void Task_RunMapPreviewScreenForest(u8 taskId);
+static void Task_RunMapPreview_Script(u8 taskId);
 
 static const u8 sViridianForestMapPreviewPalette[] = INCBIN_U8("graphics/map_preview/viridian_forest/tiles.gbapal");
 static const u8 sViridianForestMapPreviewTiles[] = INCBIN_U8("graphics/map_preview/viridian_forest/tiles.4bpp.lz");
@@ -675,4 +677,70 @@ u16 MapPreview_GetDuration(u8 mapsec)
             return MPS_DURATION_SHORT;
         }
     }
+}
+
+#define taskStep        data[0]
+#define frameCounter    data[1]
+#define MPWindowId      data[2]
+
+static void MapPreview_Script_Start(u8 mapsec)
+{
+    u8 taskId;
+
+    BlendPalettes(PALETTES_ALL, 0x10, RGB_BLACK);
+    taskId = CreateTask(Task_RunMapPreview_Script, 0);
+    gTasks[taskId].MPWindowId = MapPreview_CreateMapNameWindow(mapsec);
+}
+
+static void Task_RunMapPreview_Script(u8 taskId)
+{
+    s16 * data;
+
+    data = gTasks[taskId].data;
+    switch (taskStep)
+    {
+    case 0:
+        if (!MapPreview_IsGfxLoadFinished() && !IsDma3ManagerBusyWithBgCopy())
+        {
+            CopyWindowToVram(MPWindowId, COPYWIN_FULL);
+            taskStep++;
+        }
+        break;
+    case 1:
+        if (!IsDma3ManagerBusyWithBgCopy())
+        {
+            BeginNormalPaletteFade(PALETTES_ALL, -1, 16, 0, RGB_BLACK);
+            taskStep++;
+        }
+        break;
+    case 2:
+        frameCounter++;
+        if (frameCounter > MPS_DURATION_SCRIPT || JOY_HELD(B_BUTTON))
+        {
+            BeginNormalPaletteFade(PALETTES_ALL, MPS_WEATHER_FADE_SPEED, 0, 16, RGB_BLACK);
+            frameCounter = 0;
+            taskStep++;
+        }
+        break;
+    case 3:
+        if (!UpdatePaletteFade())
+        {
+            MapPreview_Unload(MPWindowId);
+            DestroyTask(taskId);
+            SetMainCallback2(gMain.savedCallback);
+        }
+        break;
+    }
+}
+
+#undef taskStep
+#undef frameCounter
+#undef MPDuration
+#undef MPWindowId
+
+void Script_MapPreview(void)
+{
+    gMain.savedCallback = CB2_ReturnToFieldContinueScript;
+    MapPreview_LoadGfx(gMapHeader.regionMapSectionId);
+    MapPreview_Script_Start(gMapHeader.regionMapSectionId);
 }
