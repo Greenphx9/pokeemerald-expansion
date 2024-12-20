@@ -418,3 +418,24 @@ void FormatDecimalTimeWithoutSeconds(u8 *txtPtr, s8 hour, s8 minute, bool32 is24
     *txtPtr++ = EOS;
     *txtPtr = EOS;
 }
+
+u32 RtcGetDayOfWeek(void)
+{
+    RtcGetInfo(&sRtc);
+    return sRtc.dayOfWeek;
+}
+
+u32 RtcGetHour(void)
+{
+    return sRtc.hour;
+}
+
+u32 RtcGetDay(void)
+{
+    return sRtc.day;
+}
+
+u32 RtcGetMonth(void)
+{
+    return sRtc.month;
+}
