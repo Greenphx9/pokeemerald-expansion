@@ -39,6 +39,7 @@
 #include "string_util.h"
 #include "strings.h"
 #include "task.h"
+#include "tera_raid_screen.h"
 #include "text.h"
 #include "trainer_hill.h"
 #include "util.h"
@@ -6049,7 +6050,11 @@ bool8 IsMonShiny(struct Pokemon *mon)
 
 const u8 *GetTrainerPartnerName(void)
 {
-    if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
+    if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID)
+    {
+        return gTeraRaidPartners[gTeraRaidSelectedPartner].trainerName;
+    }
+    else if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
     {
         if (gPartnerTrainerId == TRAINER_PARTNER(PARTNER_STEVEN))
         {

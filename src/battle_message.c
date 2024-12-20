@@ -18,6 +18,7 @@
 #include "recorded_battle.h"
 #include "string_util.h"
 #include "strings.h"
+#include "tera_raid_screen.h"
 #include "test_runner.h"
 #include "text.h"
 #include "trainer_hill.h"
@@ -2531,7 +2532,11 @@ static const u8 *BattleStringGetPlayerName(u8 *text, u8 battler)
             toCpy = gSaveBlock2Ptr->playerName;
         break;
     case B_POSITION_PLAYER_RIGHT:
-        if (((gBattleTypeFlags & BATTLE_TYPE_RECORDED) && !(gBattleTypeFlags & (BATTLE_TYPE_MULTI | BATTLE_TYPE_INGAME_PARTNER)))
+        if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID)
+        {
+            toCpy = gTeraRaidPartners[gTeraRaidSelectedPartner].trainerName;
+        }
+        else if (((gBattleTypeFlags & BATTLE_TYPE_RECORDED) && !(gBattleTypeFlags & (BATTLE_TYPE_MULTI | BATTLE_TYPE_INGAME_PARTNER)))
             || gTestRunnerEnabled)
         {
             toCpy = gLinkPlayers[0].name;
@@ -2622,6 +2627,7 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst, u32 dstSize)
             u32 nameLength = 0;
             const u8 *classString;
             const u8 *nameString;
+            DebugPrintf("src: %d", *src);
             switch (*src)
             {
             case B_TXT_BUFF1:
@@ -2985,14 +2991,20 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst, u32 dstSize)
                 }
                 break;
             case B_TXT_PARTNER_CLASS:
-                toCpy = gTrainerClasses[GetFrontierOpponentClass(gPartnerTrainerId)].name;
+                if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID)
+                    toCpy = gTrainerClasses[gTeraRaidPartners[gTeraRaidSelectedPartner].trainerClass].name;
+                else
+                    toCpy = gTrainerClasses[GetFrontierOpponentClass(gPartnerTrainerId)].name;
                 break;
             case B_TXT_PARTNER_NAME:
                 toCpy = BattleStringGetPlayerName(text, GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT));
                 break;
             case B_TXT_PARTNER_NAME_WITH_CLASS:
                 toCpy = textStart;
-                classString = gTrainerClasses[GetFrontierOpponentClass(gPartnerTrainerId)].name;
+                if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID)
+                    classString = gTrainerClasses[gTeraRaidPartners[gTeraRaidSelectedPartner].trainerClass].name;
+                else
+                    classString = gTrainerClasses[GetFrontierOpponentClass(gPartnerTrainerId)].name;
                 while (classString[classLength] != EOS)
                 {
                     textStart[classLength] = classString[classLength];

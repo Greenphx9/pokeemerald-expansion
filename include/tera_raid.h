@@ -17,6 +17,7 @@
 struct TeraRaidPartner
 {
     u8 trainerName[TRAINER_NAME_LENGTH + 1];
+    u8 gender;
     u32 otId;
     u16 objectEventGfx;
     u8 trainerClass;

@@ -1,5 +1,4 @@
 #include "tera_raid_screen.h"
-#include "tera_raid.h"
 
 #include "gba/types.h"
 #include "gba/defines.h"
@@ -38,6 +37,11 @@
 #include "trainer_pokemon_sprites.h"
 #include "pokemon_summary_screen.h"
 #include "battle_main.h"
+#include "util.h"
+#include "battle.h"
+#include "constants/trainers.h"
+#include "constants/pokemon.h"
+#include "constants/abilities.h"
 
 #include "data/tera_raids/tera_raid_partners.h"
 #include "data/tera_raids/tera_raid_encounters.h"
@@ -158,11 +162,9 @@ struct TeraRaidScreenState
     u8 partnerMonSpriteId[3][3];
     u8 arrowSpriteId;
     u8 arrowPos;
-    struct TeraRaidMon encounter;
     u8 encounterSpriteId;
     bool8 outlinedSprite;
     u8 typeIconSpriteIds[2];
-    u8 stars;
 };
 
 /*
@@ -173,6 +175,9 @@ struct TeraRaidScreenState
  */
 static EWRAM_DATA struct TeraRaidScreenState *sTeraRaidScreenState = NULL;
 static EWRAM_DATA u8 *sBg1TilemapBuffer = NULL;
+EWRAM_DATA struct TeraRaidMon gTeraRaidEncounter;
+EWRAM_DATA u8 gTeraRaidStars;
+EWRAM_DATA u8 gTeraRaidSelectedPartner;
 
 /*
  * Defines and read-only data for on-screen dex.
@@ -434,7 +439,7 @@ static const u8 sTeraRaidScreenWindowFontColors[][3] =
     [FONT_BLUE]   = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_BLUE,       TEXT_COLOR_LIGHT_GRAY},
 };
 
-static const u8 sTeraRaidStarToLevel[][2] = // fight & catch level
+const u8 gTeraRaidStarToLevel[][2] = // fight & catch level
 {
     [ONE_STAR]    = {12,  12},
     [TWO_STARS]   = {20,  20},
@@ -473,7 +478,6 @@ static void TeraRaidScreen_LoadStarGfx(void);
 
 static u32 GetRaidStars(void);
 static void DetermineRaidEncounter(void);
-static void OutlineMonSprite(u8 spriteId);
 
 // Declared in sample_ui.h
 void Task_OpenSampleUi_StartHere(u8 taskId)
@@ -581,7 +585,9 @@ static void TeraRaidScreen_SetupCB(void)
          * Reset all graphics registers and clear VRAM / OAM. There may be garbage values from previous screens that
          * could screw up your UI. It's safer to just reset everything so you have a blank slate.
          */
-        TeraRaidScreen_ResetGpuRegsAndBgs();
+        //TeraRaidScreen_ResetGpuRegsAndBgs();
+        // Use DMA to completely clear VRAM
+        DmaClearLarge16(3, (void *)VRAM, VRAM_SIZE, 0x1000);
         // Null out V/H blanking callbacks since we are not drawing anything atm
         SetVBlankHBlankCallbacksToNull();
         /*
@@ -665,7 +671,7 @@ static void TeraRaidScreen_SetupCB(void)
          */
         LoadMonIconPalettes();
         DetermineRaidEncounter();
-        sTeraRaidScreenState->stars = GetRaidStars();
+        gTeraRaidStars = GetRaidStars();
         TeraRaidScreen_PrintWindowText();
         TeraRaidscreen_LoadArrowGfx();
         TeraRaidScreen_LoadPartnerGfx();
@@ -736,9 +742,6 @@ static void TeraRaidScreen_VBlankCB(void)
 
 static void Task_TeraRaidScreenWaitFadeIn(u8 taskId)
 {
-	if (sTeraRaidScreenState->outlinedSprite < 2)
-		OutlineMonSprite(sTeraRaidScreenState->encounterSpriteId);
-
      // Do nothing until the palette fade finishes, then replace ourself with the main menu task.
     if (!gPaletteFade.active)
     {
@@ -748,6 +751,13 @@ static void Task_TeraRaidScreenWaitFadeIn(u8 taskId)
 
 static void Task_TeraRaidScreenMainInput(u8 taskId)
 {
+    if (JOY_NEW(A_BUTTON))
+    {
+        PlaySE(SE_PC_ON);
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
+        gTeraRaidSelectedPartner = sTeraRaidScreenState->partnerIndexes[sTeraRaidScreenState->arrowPos];
+        gTasks[taskId].func = Task_TeraRaidScreenWaitFadeAndExitGracefully;
+    }
     // Exit the menu when the player presses B
     if (JOY_NEW(B_BUTTON))
     {
@@ -772,6 +782,14 @@ static void Task_TeraRaidScreenMainInput(u8 taskId)
             sTeraRaidScreenState->arrowPos = 2;
         else
             sTeraRaidScreenState->arrowPos--;
+    }
+    if (JOY_NEW(START_BUTTON))
+    {
+        PlaySE(SE_PC_ON);
+        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
+        sTeraRaidScreenState->arrowPos = Random() % 3;
+        gTeraRaidSelectedPartner = sTeraRaidScreenState->partnerIndexes[sTeraRaidScreenState->arrowPos];
+        gTasks[taskId].func = Task_TeraRaidScreenWaitFadeAndExitGracefully;
     }
 }
 
@@ -1055,7 +1073,7 @@ static const u8 sText_AvailablePartners[] = _("Available Partners");
 static void TeraRaidScreen_PrintWindowText(void)
 {
 	StringCopy(gStringVar1, sText_RecommendedLevel);
-	ConvertIntToDecimalStringN(gStringVar2, sTeraRaidStarToLevel[sTeraRaidScreenState->stars][0], 0, 3);
+	ConvertIntToDecimalStringN(gStringVar2, gTeraRaidStarToLevel[gTeraRaidStars][0], 0, 3);
 	StringAppend(gStringVar1, gStringVar2);
     AddTextPrinterParameterized4(WIN_UI_RECOMMENDED_LEVEL, FONT_SMALL, 2, 0, 0, 0, sTeraRaidScreenWindowFontColors[FONT_WHITE], TEXT_SKIP_DRAW, gStringVar1);
     AddTextPrinterParameterized4(WIN_UI_BATTLE_ENDS, FONT_SMALL, 0, 2, 2, 1, sTeraRaidScreenWindowFontColors[FONT_WHITE], TEXT_SKIP_DRAW, sText_BattleEnds);
@@ -1147,9 +1165,8 @@ static u32 GetRaidStars(void)
 void DetermineRaidPartners(u32* goodIndexes, u8 maxPartners)
 {
     u32 i, j, k, foundPartners = 0;
-    u32 raidStars = sTeraRaidScreenState->stars;
     u32 randNum = GetRaidRandomNumber();
-    bool8 checkedPartners[ARRAY_COUNT(sTeraRaidPartners)];
+    bool8 checkedPartners[ARRAY_COUNT(gTeraRaidPartners)];
     for (k = 0; k < ARRAY_COUNT(checkedPartners); k++)
         checkedPartners[k] = FALSE;
     for (i = 0; i < 0xFFFF; i++)
@@ -1157,10 +1174,10 @@ void DetermineRaidPartners(u32* goodIndexes, u8 maxPartners)
         if (randNum == 0)
             randNum = 0xFFFF;
         randNum ^= i;
-        j = randNum % ARRAY_COUNT(sTeraRaidPartners);
+        j = randNum % ARRAY_COUNT(gTeraRaidPartners);
         if (!checkedPartners[j])
         {
-            if (sTeraRaidPartners[j].parties[raidStars] != NULL)
+            if (gTeraRaidPartners[j].parties[gTeraRaidStars] != NULL)
             {
                 checkedPartners[j] = TRUE;
                 goodIndexes[foundPartners] = j;
@@ -1184,10 +1201,10 @@ static void TeraRaidScreen_LoadPartnerGfx(void)
     {
         u32 index = indexes[i];
         sTeraRaidScreenState->partnerIndexes[i] = index;
-        sTeraRaidScreenState->partnerSpriteId[i] = CreateObjectGraphicsSprite(sTeraRaidPartners[index].objectEventGfx, SpriteCallbackDummy, 126, 59 + (i * 33), 0);
+        sTeraRaidScreenState->partnerSpriteId[i] = CreateObjectGraphicsSprite(gTeraRaidPartners[index].objectEventGfx, SpriteCallbackDummy, 126, 59 + (i * 33), 0);
         for (j = 0; j < 3; j++)
         {
-            sTeraRaidScreenState->partnerMonSpriteId[i][j] = CreateMonIconNoPersonality(sTeraRaidPartners[index].parties[0][j].species, SpriteCB_MonIcon, 158 + (32 * j), 59 + (i * 33), 1);
+            sTeraRaidScreenState->partnerMonSpriteId[i][j] = CreateMonIconNoPersonality(gTeraRaidPartners[index].parties[0][j].species, SpriteCB_MonIcon, 158 + (32 * j), 59 + (i * 33), 1);
         }
     }
 }
@@ -1202,121 +1219,34 @@ static void TeraRaidscreen_LoadArrowGfx(void)
 static void DetermineRaidEncounter(void)
 {
     u32 playerMapSec = gMapHeader.regionMapSectionId;
-    const struct TeraRaid* teraRaid = &sTeraRaidsByMapSec[playerMapSec][sTeraRaidScreenState->stars];
-    sTeraRaidScreenState->encounter = teraRaid->mons[GetRaidRandomNumber() % (teraRaid->amount-1)];
+    const struct TeraRaid* teraRaid = &sTeraRaidsByMapSec[playerMapSec][gTeraRaidStars];
+    gTeraRaidEncounter = teraRaid->mons[GetRaidRandomNumber() % (teraRaid->amount-1)];
 }
 
-// taken from Skeli... i have no clue how this works
-static void OutlineMonSprite(u8 spriteId)
-{
-	u32 i = 0;
-	u8 buffer[(64 * 64) / 2] __attribute__((aligned(4))) = {0};
-	u8* offset = (void*)(OBJ_VRAM0) + (gSprites[spriteId].oam.tileNum * 32);
-	u8* originalOffset = offset;
-
-	for (i = 0; i < (64 * 64) / 2; ++i)
-	{
-		/*Pixel Map - Bits
-		6	7
-
-		1	2	3
-
-		4	5
-		*/
-
-		/*Pixel map - Bytes
-		67
-		12 3
-		45
-		*/
-
-		u8 nextByteColumn = 1;
-		if (i % 4 == 3)
-			nextByteColumn = 0x1D;
-
-		u8 nextByteRow = 4;
-		if (i % 0x20 >= 0x1C)
-			nextByteRow = 0xE4;
-
-		u8 previousByteRow = 4;
-		if (i % 0x20 < 4)
-			previousByteRow = 0xE4;
-
-		//Next column
-		u8 pixel1 = offset[i] & 0xF;
-		u8 pixel2 = (offset[i] >> 4) & 0xF;
-
-		u8 pixel3 = offset[i + nextByteColumn] & 0xF;
-
-		//Next row
-		u8 pixel4 = offset[i + nextByteRow] & 0xF;
-		u8 pixel5 = (offset[i + nextByteRow] >> 4) & 0xF;
-
-		//Row Above
-		u8 pixel6 = offset[i - previousByteRow] & 0xF;
-		u8 pixel7 = (offset[i - previousByteRow] >> 4) & 0xF;
-
-		bool8 isTopBorder = (i < 0xE4) && ((i % 0x20) < 4);
-		bool8 isBottomBorder = (i >= 0x71C) && ((i % 0x20) >= 0x1C);
-		bool8 isLeftBorder = ((i % 0x100) < 0x20) && ((i % 4) == 0);
-		bool8 isRightBorder = ((i % 0x100) >= 0xE0) && ((i % 4) == 3);
-
-		if (pixel1 != 0)
-		{
-			if (isTopBorder || isBottomBorder || isLeftBorder)
-				buffer[i + 0] |= 0xF; //Set lower bit to white
-			else
-				buffer[i + 0] |= 0x1; //Set lower bit to black
-
-			if (pixel2 == 0)
-				buffer[i + 0] |= 0xF0; //Set upper bit
-
-			if (pixel4 == 0)
-				buffer[i + nextByteRow] |= 0xF; //Set lower bit
-
-			if (i >= previousByteRow && pixel6 == 0)
-				buffer[i - previousByteRow] |= 0xF; //Set lower bit*/
-		}
-
-		if (pixel2 != 0)
-		{
-			if (isTopBorder || isBottomBorder || isRightBorder) //Right border
-				buffer[i + 0] |= 0xF0; //Set upper bit to white
-			else
-				buffer[i + 0] |= 0x10; //Set upper bit to black
-
-			if (pixel1 == 0)
-				buffer[i + 0] |= 0xF; //Set lower bit
-
-			if (pixel3 == 0 && (i % 0x100 < 0xE0 || i % 4 != 3))
-				buffer[i + nextByteColumn] |= 0xF; //Set lower bit
-
-			if (pixel5 == 0)
-				buffer[i + nextByteRow] |= 0xF0; //Set upper bit
-
-			if (i >= previousByteRow && pixel7 == 0)
-				buffer[i - previousByteRow] |= 0xF0; //Set upper bit
-		}
-
-		if (pixel3 != 0 && !isRightBorder)
-		{
-			if (pixel2 == 0)
-				buffer[i + 0] |= 0xF0; //Set upper bit
-		}
-	}
-
-	CpuCopy32(buffer, originalOffset, (64 * 64) / 2);
-	++sTeraRaidScreenState->outlinedSprite;
-}
-
+// credits to AgustinGDLV
 static void TeraRaidScreen_LoadEncounterGfx(void)
 {
-    sTeraRaidScreenState->encounterSpriteId = CreateMonPicSprite(sTeraRaidScreenState->encounter.species, FALSE, 0xFFFFFFFF, TRUE, 45, 57, 14, TAG_NONE);
-	u16* palette = &gPlttBufferUnfaded[(16 * 16) + (14 * 16)];
-	for (int i = 0; i < 16; i++)
-		*palette++ = RGB(4, 4, 4);
+    u32 i, j, paletteOffset, spriteId;
+	sTeraRaidScreenState->encounterSpriteId  = CreateMonPicSprite(gTeraRaidEncounter.species, FALSE, 0xFFFFFFFF, TRUE, 45, 57, 14, TAG_NONE);
+    gSprites[sTeraRaidScreenState->encounterSpriteId].oam.priority = 0;
 
-    *(palette - 1) = RGB(31, 31, 31);
+	paletteOffset = 14 * 16 + 0x100;
+    BlendPalette(paletteOffset, 16, 16, RGB(4, 4, 4));
+    CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
+
+	// Create white outline.
+    // TODO: Nicer looking way to do this with fancy VRAM trick, see CFRU.
+    for (i = 0; i < 2; i++)
+    {
+        for (j = 0; j < 2; j++)
+        {
+            spriteId = CreateMonPicSprite(gTeraRaidEncounter.species, FALSE, 0xFFFFFFFF, TRUE, 44 + i*2, 56 + j*2, gSprites[sTeraRaidScreenState->encounterSpriteId].oam.paletteNum + 1, TAG_NONE);
+            gSprites[spriteId].oam.priority = 1;
+        }
+    }
+    paletteOffset += 16;
+    FillPalette(RGB_WHITE, paletteOffset, 32);
+    CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
 }
 
 //Type Icon
@@ -1340,7 +1270,7 @@ static void SetTypeIconPosAndPal(u8 typeId, u8 x, u8 y, u8 spriteArrayId)
 static void TeraRaidScreen_LoadTypesGfx(void)
 {
     u32 i;
-    u16 species = sTeraRaidScreenState->encounter.species;
+    u16 species = gTeraRaidEncounter.species;
     u8 type1 = gSpeciesInfo[species].types[0], type2 = gSpeciesInfo[species].types[1];
     sTeraRaidScreenState->typeIconSpriteIds[0] = 0xFF;
     sTeraRaidScreenState->typeIconSpriteIds[1] = 0xFF;
@@ -1362,7 +1292,7 @@ static void TeraRaidScreen_LoadStarGfx(void)
 {
     LoadCompressedSpriteSheet(&sSpriteSheet_Star);
     LoadSpritePalette(&sSpritePal_Star); 
-    for (int i = 0; i < sTeraRaidScreenState->stars + 1; ++i)
+    for (int i = 0; i < gTeraRaidStars + 1; ++i)
 		CreateSprite(&sSpriteTemplate_Star, 6 + (9 * i), 8, 0);
 }
 

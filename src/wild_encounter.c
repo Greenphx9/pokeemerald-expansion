@@ -11,6 +11,8 @@
 #include "pokeblock.h"
 #include "battle_setup.h"
 #include "roamer.h"
+#include "tera_raid.h"
+#include "tera_raid_screen.h"
 #include "tv.h"
 #include "link.h"
 #include "script.h"
@@ -1133,4 +1135,21 @@ bool8 StandardWildEncounter_Debug(void)
 
     DoStandardWildBattle_Debug();
     return TRUE;
+}
+
+// tera raid
+void CreateTeraRaidMon(void)
+{
+    struct Pokemon *mon = &gEnemyParty[0];
+    u32 i;
+    CreateWildMon(gTeraRaidEncounter.species, gTeraRaidStarToLevel[gTeraRaidStars][0]);
+    for (i = 0; i < 4; i++)
+        GiveMoveToMon(mon, gTeraRaidEncounter.moves[i]);
+    SetMonData(mon, MON_DATA_ABILITY_NUM, &gTeraRaidEncounter.abilityNum); 
+    SetMonData(mon, MON_DATA_HP_EV, &gTeraRaidEncounter.evs[0]);
+    SetMonData(mon, MON_DATA_ATK_EV, &gTeraRaidEncounter.evs[1]);
+    SetMonData(mon, MON_DATA_DEF_EV, &gTeraRaidEncounter.evs[2]);
+    SetMonData(mon, MON_DATA_SPATK_EV, &gTeraRaidEncounter.evs[3]);
+    SetMonData(mon, MON_DATA_SPDEF_EV, &gTeraRaidEncounter.evs[4]);
+    SetMonData(mon, MON_DATA_SPEED_EV, &gTeraRaidEncounter.evs[5]);
 }

@@ -556,3 +556,4 @@ gSpecials::
 	def_special UseBlankMessageToCancelPokemonPic
 	def_special IsRaidAvailable
 	def_special InitTeraRaidScreen
+	def_special CreateTeraRaidMon

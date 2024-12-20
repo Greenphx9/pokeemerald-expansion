@@ -23,6 +23,7 @@
 #include "field_message_box.h"
 #include "tv.h"
 #include "battle_factory.h"
+#include "tera_raid_screen.h"
 #include "constants/abilities.h"
 #include "constants/apprentice.h"
 #include "constants/battle_dome.h"
@@ -2120,9 +2121,13 @@ void DoSpecialTrainerBattle(void)
             gTrainerBattleOpponent_B = 0xFFFF;
             gBattleTypeFlags = BATTLE_TYPE_TRAINER | BATTLE_TYPE_DOUBLE | BATTLE_TYPE_MULTI | BATTLE_TYPE_INGAME_PARTNER;
         }
-        else // MULTI_BATTLE_2_VS_2
+        else if (gSpecialVar_0x8005 & MULTI_BATTLE_2_VS_2)
         {
             gBattleTypeFlags = BATTLE_TYPE_TRAINER | BATTLE_TYPE_DOUBLE | BATTLE_TYPE_TWO_OPPONENTS | BATTLE_TYPE_MULTI | BATTLE_TYPE_INGAME_PARTNER;
+        }
+        else // MULTI_BATTLE_TERA_RAID
+        {
+            gBattleTypeFlags = BATTLE_TYPE_DOUBLE | BATTLE_TYPE_MULTI | BATTLE_TYPE_INGAME_PARTNER | BATTLE_TYPE_TERA_RAID;
         }
 
         gPartnerTrainerId = VarGet(gSpecialVar_0x8006) + TRAINER_PARTNER(PARTNER_NONE);
@@ -3131,6 +3136,88 @@ static void FillPartnerParty(u16 trainerId)
             SetMonData(&gPlayerParty[MULTI_PARTY_SIZE + i], MON_DATA_OT_NAME, trainerName);
             j = IsFrontierTrainerFemale(trainerId + TRAINER_RECORD_MIXING_FRIEND);
             SetMonData(&gPlayerParty[MULTI_PARTY_SIZE + i], MON_DATA_OT_GENDER, &j);
+        }
+    }
+    else if (gSpecialVar_0x8005 & MULTI_BATTLE_TERA_RAID)
+    {
+        for (i = 0; i < 3; i++)
+                ZeroMonData(&gPlayerParty[i + 3]);
+
+        for (i = 0; i < 3 && i < gTeraRaidPartners[gTeraRaidSelectedPartner].partySizes[gTeraRaidStars]; i++)
+        {
+            const struct TrainerMon *partyData = gTeraRaidPartners[gTeraRaidSelectedPartner].parties[gTeraRaidStars];
+            const u8 *partnerName = gTeraRaidPartners[gTeraRaidSelectedPartner].trainerName;
+
+            for (k = 0; partnerName[k] != EOS && k < 3; k++)
+            {
+                if (k == 0)
+                {
+                    firstIdPart = partnerName[k];
+                    secondIdPart = partnerName[k];
+                    thirdIdPart = partnerName[k];
+                }
+                else if (k == 1)
+                {
+                    secondIdPart = partnerName[k];
+                    thirdIdPart = partnerName[k];
+                }
+                else if (k == 2)
+                {
+                    thirdIdPart = partnerName[k];
+                }
+            }
+            otID = ((firstIdPart % 72) * 1000) + ((secondIdPart % 23) * 10) + (thirdIdPart % 37) % 65536;
+
+            personality = Random32();
+            if (partyData[i].gender == TRAINER_MON_MALE)
+                personality = (personality & 0xFFFFFF00) | GeneratePersonalityForGender(MON_MALE, partyData[i].species);
+            else if (partyData[i].gender == TRAINER_MON_FEMALE)
+                personality = (personality & 0xFFFFFF00) | GeneratePersonalityForGender(MON_FEMALE, partyData[i].species);
+            ModifyPersonalityForNature(&personality, partyData[i].nature);
+            CreateMon(&gPlayerParty[i + 3], partyData[i].species, partyData[i].lvl, 0, TRUE, personality, OT_ID_PRESET, otID);
+            j = partyData[i].isShiny;
+            SetMonData(&gPlayerParty[i + 3], MON_DATA_IS_SHINY, &j);
+            SetMonData(&gPlayerParty[i + 3], MON_DATA_HELD_ITEM, &partyData[i].heldItem);
+            CustomTrainerPartyAssignMoves(&gPlayerParty[i + 3], &partyData[i]);
+
+            SetMonData(&gPlayerParty[i + 3], MON_DATA_IVS, &(partyData[i].iv));
+            if (partyData[i].ev != NULL)
+            {
+                SetMonData(&gPlayerParty[i + 3], MON_DATA_HP_EV, &(partyData[i].ev[0]));
+                SetMonData(&gPlayerParty[i + 3], MON_DATA_ATK_EV, &(partyData[i].ev[1]));
+                SetMonData(&gPlayerParty[i + 3], MON_DATA_DEF_EV, &(partyData[i].ev[2]));
+                SetMonData(&gPlayerParty[i + 3], MON_DATA_SPATK_EV, &(partyData[i].ev[3]));
+                SetMonData(&gPlayerParty[i + 3], MON_DATA_SPDEF_EV, &(partyData[i].ev[4]));
+                SetMonData(&gPlayerParty[i + 3], MON_DATA_SPEED_EV, &(partyData[i].ev[5]));
+            }
+            if (partyData[i].ability != ABILITY_NONE)
+            {
+                const struct SpeciesInfo *speciesInfo = &gSpeciesInfo[partyData[i].species];
+                u32 maxAbilities = ARRAY_COUNT(speciesInfo->abilities);
+                for (j = 0; j < maxAbilities; j++)
+                {
+                    if (speciesInfo->abilities[j] == partyData[i].ability)
+                        break;
+                }
+                if (j < maxAbilities)
+                    SetMonData(&gPlayerParty[i + 3], MON_DATA_ABILITY_NUM, &j);
+            }
+            SetMonData(&gPlayerParty[i + 3], MON_DATA_FRIENDSHIP, &(partyData[i].friendship));
+            if (partyData[i].ball != ITEM_NONE)
+            {
+                ball = partyData[i].ball;
+                SetMonData(&gPlayerParty[i + 3], MON_DATA_POKEBALL, &ball);
+            }
+            if (partyData[i].nickname != NULL)
+            {
+                SetMonData(&gPlayerParty[i + 3], MON_DATA_NICKNAME, partyData[i].nickname);
+            }
+            CalculateMonStats(&gPlayerParty[i + 3]);
+
+            StringCopy(trainerName, gTeraRaidPartners[gTeraRaidSelectedPartner].trainerName);
+            SetMonData(&gPlayerParty[i + 3], MON_DATA_OT_NAME, trainerName);
+            j = gTeraRaidPartners[gTeraRaidSelectedPartner].gender >> 7;
+            SetMonData(&gPlayerParty[i + 3], MON_DATA_OT_GENDER, &j);
         }
     }
     else

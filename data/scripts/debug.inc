@@ -139,6 +139,24 @@ Debug_EventScript_Text_DefensiveIVs:
 Debug_EventScript_Script_1::
 	special IsRaidAvailable
 	special InitTeraRaidScreen
+	special SavePlayerParty
+	fadescreen FADE_TO_BLACK
+	special ChooseHalfPartyForBattle
+	waitstate
+	special CreateTeraRaidMon
+	special ReducePlayerPartyToSelectedMons
+	setvar VAR_0x8004, FRONTIER_UTIL_FUNC_SET_DATA
+	setvar VAR_0x8005, FRONTIER_DATA_SELECTED_MON_ORDER
+	special CallFrontierUtilFunc @ saves the mon order, so the non-selected mons get restored afterwards
+	setvar VAR_0x8004, SPECIAL_BATTLE_MULTI
+	setvar VAR_0x8005, MULTI_BATTLE_TERA_RAID | MULTI_BATTLE_CHOOSE_MONS
+	setvar VAR_0x8006, 0
+	special DoSpecialTrainerBattle
+	waitstate
+	setvar VAR_0x8004, FRONTIER_UTIL_FUNC_SAVE_PARTY
+	special CallFrontierUtilFunc
+	special LoadPlayerParty
+
 	release
 	end
 
