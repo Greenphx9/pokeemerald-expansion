@@ -27,6 +27,7 @@
 #include "sound.h"
 #include "string_util.h"
 #include "task.h"
+#include "tera_raid.h"
 #include "test_runner.h"
 #include "text.h"
 #include "util.h"
@@ -321,20 +322,35 @@ static void HandleInputChooseAction(u32 battler)
         PlaySE(SE_SELECT);
         TryHideLastUsedBall();
 
-        switch (gActionSelectionCursor[battler])
+        if (IsTeraRaidOver())
         {
-        case 0: // Top left
-            BtlController_EmitTwoReturnValues(battler, BUFFER_B, B_ACTION_USE_MOVE, 0);
-            break;
-        case 1: // Top right
-            BtlController_EmitTwoReturnValues(battler, BUFFER_B, B_ACTION_USE_ITEM, 0);
-            break;
-        case 2: // Bottom left
-            BtlController_EmitTwoReturnValues(battler, BUFFER_B, B_ACTION_SWITCH, 0);
-            break;
-        case 3: // Bottom right
-            BtlController_EmitTwoReturnValues(battler, BUFFER_B, B_ACTION_RUN, 0);
-            break;
+            switch (gActionSelectionCursor[battler])
+            {
+            case 0: // Top left
+                BtlController_EmitTwoReturnValues(battler, BUFFER_B, B_ACTION_USE_ITEM, 0);
+                break;
+            case 1: // Top right
+                BtlController_EmitTwoReturnValues(battler, BUFFER_B, B_ACTION_RUN, 0);
+                break;
+            }
+        }
+        else
+        {
+            switch (gActionSelectionCursor[battler])
+            {
+            case 0: // Top left
+                BtlController_EmitTwoReturnValues(battler, BUFFER_B, B_ACTION_USE_MOVE, 0);
+                break;
+            case 1: // Top right
+                BtlController_EmitTwoReturnValues(battler, BUFFER_B, B_ACTION_USE_ITEM, 0);
+                break;
+            case 2: // Bottom left
+                BtlController_EmitTwoReturnValues(battler, BUFFER_B, B_ACTION_SWITCH, 0);
+                break;
+            case 3: // Bottom right
+                BtlController_EmitTwoReturnValues(battler, BUFFER_B, B_ACTION_RUN, 0);
+                break;
+            }
         }
         PlayerBufferExecCompleted(battler);
     }

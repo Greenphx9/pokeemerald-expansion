@@ -3167,6 +3167,10 @@ bool32 HandleFaintedMonActions(void)
                 if (gBattleMons[gBattleStruct->faintedActionsBattlerId].hp == 0
                  && !(gAbsentBattlerFlags & (1u << gBattleStruct->faintedActionsBattlerId)))
                 {
+                    if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID && 
+                    (GetBattlerSide(gBattleStruct->faintedActionsBattlerId) == B_SIDE_OPPONENT))
+                        continue;
+                    
                     BattleScriptExecute(BattleScript_HandleFaintedMon);
                     gBattleStruct->faintedActionsState = 5;
                     return TRUE;

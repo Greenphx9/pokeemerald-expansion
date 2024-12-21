@@ -14,9 +14,9 @@ const struct TrainerMon sTeraRaidParty_Red[] =
 #line 13
             .iv = TRAINER_PARTY_IVS(25, 26, 27, 28, 29, 30),
 #line 12
-            .ability = ABILITY_TELEPATHY,
+            .ability = ABILITY_SHADOW_TAG,
 #line 11
-            .lvl = 67,
+            .lvl = 1,
 #line 17
             .ball = ITEM_MASTER_BALL,
 #line 15
@@ -30,10 +30,10 @@ const struct TrainerMon sTeraRaidParty_Red[] =
             .shouldUseDynamax = TRUE,
             .moves = {
 #line 19
-                MOVE_AIR_SLASH,
-                MOVE_BARRIER,
-                MOVE_SOLAR_BEAM,
-                MOVE_EXPLOSION,
+                MOVE_PSYCHIC,
+                MOVE_PSYCHIC,
+                MOVE_PSYCHIC,
+                MOVE_PSYCHIC,
             },
             },
             {

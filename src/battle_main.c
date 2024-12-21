@@ -50,6 +50,7 @@
 #include "string_util.h"
 #include "strings.h"
 #include "task.h"
+#include "tera_raid.h"
 #include "test_runner.h"
 #include "text.h"
 #include "trig.h"
@@ -5497,6 +5498,11 @@ static void HandleEndTurn_RanFromBattle(void)
         gBattlescriptCurrInstr = BattleScript_PrintPlayerForfeited;
         gBattleOutcome = B_OUTCOME_FORFEITED;
         gSaveBlock2Ptr->frontier.disableRecordBattle = TRUE;
+    }
+    else if (IsTeraRaidOver())
+    {
+        gBattlescriptCurrInstr = BattleScript_PrintPlayerForfeited;
+        gBattleOutcome = B_OUTCOME_WON;
     }
     else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_HILL)
     {

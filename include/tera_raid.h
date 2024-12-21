@@ -43,4 +43,6 @@ struct TeraRaid
     u16 amount;
 };
 
+bool8 IsTeraRaidOver(void);
+
 #endif

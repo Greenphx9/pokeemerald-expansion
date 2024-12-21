@@ -23,6 +23,7 @@
 #include "sound.h"
 #include "string_util.h"
 #include "task.h"
+#include "tera_raid.h"
 #include "text.h"
 #include "util.h"
 #include "window.h"
@@ -367,11 +368,17 @@ static void PlayerPartnerHandleChooseMove(u32 battler)
         && !(gBattleStruct->gimmick.usableGimmick[battler] == GIMMICK_Z_MOVE
         && !ShouldUseZMove(battler, gBattlerTarget, moveInfo->moves[chosenMoveId])))
     {
-        BtlController_EmitTwoReturnValues(battler, BUFFER_B, 10, (chosenMoveId) | (RET_GIMMICK) | (gBattlerTarget << 8));
+        if (IsTeraRaidOver())
+            BtlController_EmitTwoReturnValues(battler, BUFFER_B, B_ACTION_CANCEL_PARTNER, 0);
+        else
+            BtlController_EmitTwoReturnValues(battler, BUFFER_B, 10, (chosenMoveId) | (RET_GIMMICK) | (gBattlerTarget << 8));
     }
     else
     {
-        BtlController_EmitTwoReturnValues(battler, BUFFER_B, 10, (chosenMoveId) | (gBattlerTarget << 8));
+        if (IsTeraRaidOver())
+            BtlController_EmitTwoReturnValues(battler, BUFFER_B, B_ACTION_CANCEL_PARTNER, 0);
+        else
+            BtlController_EmitTwoReturnValues(battler, BUFFER_B, 10, (chosenMoveId) | (gBattlerTarget << 8));
     }
 
     PlayerPartnerBufferExecCompleted(battler);
