@@ -4136,12 +4136,18 @@ static void Cmd_tryfaintmon(void)
         if (cmd->battler == BS_ATTACKER)
         {
             destinyBondBattler = gBattlerTarget;
-            faintScript = BattleScript_FaintAttacker;
+            if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID && gBattlerAttacker == GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT))
+                faintScript = BattleScript_FaintRaidAttacker;
+            else
+                faintScript = BattleScript_FaintAttacker;
         }
         else
         {
             destinyBondBattler = gBattlerAttacker;
-            faintScript = BattleScript_FaintTarget;
+            if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID && gBattlerTarget == GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT))
+                faintScript = BattleScript_FaintRaidTarget;
+            else
+                faintScript = BattleScript_FaintTarget;
         }
         if (!(gAbsentBattlerFlags & (1u << battler))
          && !IsBattlerAlive(battler))
@@ -15107,7 +15113,7 @@ static void Cmd_removelightscreenreflect(void)
 
 u8 GetCatchingBattler(void)
 {
-    if (IsBattlerAlive(GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)))
+    if (IsBattlerAlive(GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)) || gBattleTypeFlags & BATTLE_TYPE_TERA_RAID)
         return GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT);
     else
         return GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT);
@@ -15373,7 +15379,7 @@ static void Cmd_handleballthrow(void)
                 maxShakes = BALL_3_SHAKES_SUCCESS;
             }
 
-            if (ballId == BALL_MASTER)
+            if (ballId == BALL_MASTER || gBattleTypeFlags & BATTLE_TYPE_TERA_RAID)
             {
                 shakes = maxShakes;
             }
@@ -15393,6 +15399,7 @@ static void Cmd_handleballthrow(void)
                     gBattleSpritesDataPtr->animationData->criticalCaptureSuccess = TRUE;
 
                 TryBattleFormChange(gBattlerTarget, FORM_CHANGE_END_BATTLE);
+                DebugPrintf("sucess!");
                 gBattlescriptCurrInstr = BattleScript_SuccessBallThrow;
                 SetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]], MON_DATA_POKEBALL, &ballId);
 
@@ -15436,6 +15443,7 @@ static void Cmd_givecaughtmon(void)
             SetMonData(&gEnemyParty[gBattlerPartyIndexes[GetCatchingBattler()]], MON_DATA_HELD_ITEM, &lostItem);  // Restore non-berry items
     }
 
+    DebugPrintf("hi2");
     if (GiveMonToPlayer(&gEnemyParty[gBattlerPartyIndexes[GetCatchingBattler()]]) != MON_GIVEN_TO_PARTY)
     {
         if (!ShouldShowBoxWasFullMessage())
@@ -15605,6 +15613,8 @@ void BattleDestroyYesNoCursorAt(u8 cursorPosition)
 static void Cmd_trygivecaughtmonnick(void)
 {
     CMD_ARGS(const u8 *successInstr);
+
+    DebugPrintf("hi");
 
     switch (gBattleCommunication[MULTIUSE_STATE])
     {
@@ -16003,7 +16013,7 @@ static bool32 CriticalCapture(u32 odds)
 {
     u32 numCaught;
 
-    if (B_CRITICAL_CAPTURE == FALSE)
+    if (B_CRITICAL_CAPTURE == FALSE || gBattleTypeFlags & BATTLE_TYPE_TERA_RAID)
         return FALSE;
 
     numCaught = GetNationalPokedexCount(FLAG_GET_CAUGHT);

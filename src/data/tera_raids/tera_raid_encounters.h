@@ -1,7 +1,7 @@
 static const struct TeraRaidMon sTeraRaidMons_InsideOfTruck[] =
 {
     {
-        .species = SPECIES_PIKACHU,
+        .species = SPECIES_IRON_BOULDER,
         .moves = { MOVE_TACKLE, MOVE_TAIL_WHIP, MOVE_NONE, MOVE_NONE },
         .abilityNum = 0,
         .evs = { 0, 0, 0, 0, 0, 0 },

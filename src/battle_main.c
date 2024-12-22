@@ -3834,6 +3834,14 @@ static void TryDoEventsBeforeFirstTurn(void)
         }
         gBattleStruct->eventsBeforeFirstTurnState++;
         break;
+    case FIRST_TURN_EVENTS_TERA_RAID:
+        if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID)
+        {
+            gBattlerAttacker = GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT);
+            gGimmicksInfo[GIMMICK_TERA].ActivateGimmick(GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT));
+        }
+        gBattleStruct->eventsBeforeFirstTurnState++;
+        break;
     case FIRST_TURN_EVENTS_OVERWORLD_WEATHER:
         if (!gBattleStruct->overworldWeatherDone
          && AbilityBattleEffects(ABILITYEFFECT_SWITCH_IN_WEATHER, 0, 0, ABILITYEFFECT_SWITCH_IN_WEATHER, 0) != 0)
@@ -5501,7 +5509,8 @@ static void HandleEndTurn_RanFromBattle(void)
     }
     else if (IsTeraRaidOver())
     {
-        gBattlescriptCurrInstr = BattleScript_PrintPlayerForfeited;
+        StringCopy(gBattleTextBuff1, GetSpeciesName(gBattleMons[GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)].species));
+        gBattlescriptCurrInstr = BattleScript_PrintTeraRaidRan;
         gBattleOutcome = B_OUTCOME_WON;
     }
     else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_HILL)

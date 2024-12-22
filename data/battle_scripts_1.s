@@ -10095,3 +10095,21 @@ BattleScript_EffectSnow::
 	call BattleScript_CheckPrimalWeather
 	setfieldweather ENUM_WEATHER_SNOW
 	goto BattleScript_MoveWeatherChange
+
+BattleScript_PrintTeraRaidRan::
+	printstring STRINGID_TERARAIDRAN
+	waitmessage B_WAIT_TIME_LONG
+	end2
+
+BattleScript_FaintRaidAttacker::
+	playfaintcry BS_ATTACKER
+	cleareffectsonfaint BS_ATTACKER
+BattleScript_FinishFaintRaidBoss:
+	callnative HideTeraRaidHPBar
+	finishturn
+	return
+
+BattleScript_FaintRaidTarget::
+	playfaintcry BS_TARGET
+	cleareffectsonfaint BS_TARGET
+	goto BattleScript_FinishFaintRaidBoss

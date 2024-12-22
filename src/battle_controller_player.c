@@ -376,7 +376,7 @@ static void HandleInputChooseAction(u32 battler)
     }
     else if (JOY_NEW(DPAD_UP))
     {
-        if (gActionSelectionCursor[battler] & 2) // if is B_ACTION_SWITCH or B_ACTION_RUN
+        if (gActionSelectionCursor[battler] & 2 && !(gBattleTypeFlags & BATTLE_TYPE_TERA_RAID)) // if is B_ACTION_SWITCH or B_ACTION_RUN
         {
             PlaySE(SE_SELECT);
             ActionSelectionDestroyCursorAt(gActionSelectionCursor[battler]);
@@ -386,7 +386,7 @@ static void HandleInputChooseAction(u32 battler)
     }
     else if (JOY_NEW(DPAD_DOWN))
     {
-        if (!(gActionSelectionCursor[battler] & 2)) // if is B_ACTION_USE_MOVE or B_ACTION_USE_ITEM
+        if (!(gActionSelectionCursor[battler] & 2) && !(gBattleTypeFlags & BATTLE_TYPE_TERA_RAID)) // if is B_ACTION_USE_MOVE or B_ACTION_USE_ITEM
         {
             PlaySE(SE_SELECT);
             ActionSelectionDestroyCursorAt(gActionSelectionCursor[battler]);
@@ -2052,15 +2052,26 @@ static void PlayerHandleChooseAction(u32 battler)
 
     gBattlerControllerFuncs[battler] = HandleChooseActionAfterDma3;
     BattleTv_ClearExplosionFaintCause();
-    BattlePutTextOnWindow(gText_BattleMenu, B_WIN_ACTION_MENU);
+    if (IsTeraRaidOver())
+        BattlePutTextOnWindow(gText_TeraRaidFinishMenu, B_WIN_ACTION_MENU);
+    else
+        BattlePutTextOnWindow(gText_BattleMenu, B_WIN_ACTION_MENU);
 
     for (i = 0; i < 4; i++)
         ActionSelectionDestroyCursorAt(i);
 
     TryRestoreLastUsedBall();
     ActionSelectionCreateCursorAt(gActionSelectionCursor[battler], 0);
-    PREPARE_MON_NICK_BUFFER(gBattleTextBuff1, battler, gBattlerPartyIndexes[battler]);
-    BattleStringExpandPlaceholdersToDisplayedString(gText_WhatWillPkmnDo);
+    if (IsTeraRaidOver())
+    {
+        StringCopy(gBattleTextBuff1, GetSpeciesName(gBattleMons[GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)].species));
+        BattleStringExpandPlaceholdersToDisplayedString(gText_TeraRaidFinish);
+    }
+    else
+    {
+        PREPARE_MON_NICK_BUFFER(gBattleTextBuff1, battler, gBattlerPartyIndexes[battler]);
+        BattleStringExpandPlaceholdersToDisplayedString(gText_WhatWillPkmnDo);
+    }
     BreakStringAutomatic(gDisplayedStringBattle, WindowWidthPx(B_WIN_ACTION_PROMPT), 2, FONT_NORMAL);
 
     if (B_SHOW_PARTNER_TARGET && gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && IsBattlerAlive(B_POSITION_PLAYER_RIGHT))

@@ -139,11 +139,15 @@ Debug_EventScript_Text_DefensiveIVs:
 Debug_EventScript_Script_1::
 	special IsRaidAvailable
 	special InitTeraRaidScreen
+	waitstate
+	goto_if_eq VAR_RESULT, 0, EventScript_Raid_End
 	special SavePlayerParty
 	fadescreen FADE_TO_BLACK
 	special ChooseHalfPartyForBattle
 	waitstate
+	goto_if_eq VAR_RESULT, 0, EventScript_Raid_End
 	special CreateTeraRaidMon
+	special SavePlayerParty
 	special ReducePlayerPartyToSelectedMons
 	setvar VAR_0x8004, FRONTIER_UTIL_FUNC_SET_DATA
 	setvar VAR_0x8005, FRONTIER_DATA_SELECTED_MON_ORDER
@@ -156,7 +160,10 @@ Debug_EventScript_Script_1::
 	setvar VAR_0x8004, FRONTIER_UTIL_FUNC_SAVE_PARTY
 	special CallFrontierUtilFunc
 	special LoadPlayerParty
+	release
+	end
 
+EventScript_Raid_End:
 	release
 	end
 

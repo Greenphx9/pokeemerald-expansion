@@ -871,6 +871,27 @@ void UpdateOamPriorityInAllHealthboxes(u8 priority, bool32 hideHPBoxes)
     }
 }
 
+void HideTeraRaidHPBar(void)
+{
+    u32 battler = GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT);
+    NATIVE_ARGS();
+
+    u8 healthboxLeftSpriteId = gHealthboxSpriteIds[battler];
+    u8 healthboxRightSpriteId = gSprites[gHealthboxSpriteIds[battler]].oam.affineParam;
+    u8 healthbarSpriteId = gSprites[gHealthboxSpriteIds[battler]].hMain_HealthBarSpriteId;
+
+    gSprites[healthboxLeftSpriteId].oam.priority = 0;
+    gSprites[healthboxRightSpriteId].oam.priority = 0;
+    gSprites[healthbarSpriteId].oam.priority = 0;
+
+    UpdateIndicatorOamPriority(healthboxLeftSpriteId, 0);
+    TryToggleHealboxVisibility(0, healthboxLeftSpriteId, healthboxRightSpriteId, healthbarSpriteId);
+
+    PlayBGM(MUS_VICTORY_WILD);
+
+    gBattlescriptCurrInstr = cmd->nextInstr;
+}
+
 void GetBattlerHealthboxCoords(u8 battler, s16 *x, s16 *y)
 {
     *x = 0, *y = 0;

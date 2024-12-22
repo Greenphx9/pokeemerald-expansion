@@ -754,6 +754,7 @@ static void Task_TeraRaidScreenMainInput(u8 taskId)
     if (JOY_NEW(A_BUTTON))
     {
         PlaySE(SE_PC_ON);
+        gSpecialVar_Result = 1;
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
         gTeraRaidSelectedPartner = sTeraRaidScreenState->partnerIndexes[sTeraRaidScreenState->arrowPos];
         gTasks[taskId].func = Task_TeraRaidScreenWaitFadeAndExitGracefully;
@@ -762,6 +763,7 @@ static void Task_TeraRaidScreenMainInput(u8 taskId)
     if (JOY_NEW(B_BUTTON))
     {
         PlaySE(SE_PC_OFF);
+        gSpecialVar_Result = 0;
         // Fade screen to black
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
         // Replace ourself with the "exit gracefully" task function
@@ -786,6 +788,7 @@ static void Task_TeraRaidScreenMainInput(u8 taskId)
     if (JOY_NEW(START_BUTTON))
     {
         PlaySE(SE_PC_ON);
+        gSpecialVar_Result = 1;
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
         sTeraRaidScreenState->arrowPos = Random() % 3;
         gTeraRaidSelectedPartner = sTeraRaidScreenState->partnerIndexes[sTeraRaidScreenState->arrowPos];

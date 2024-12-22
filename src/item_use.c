@@ -37,6 +37,7 @@
 #include "strings.h"
 #include "string_util.h"
 #include "task.h"
+#include "tera_raid.h"
 #include "text.h"
 #include "vs_seeker.h"
 #include "constants/event_bg.h"
@@ -1082,7 +1083,7 @@ static u32 GetBallThrowableState(void)
         return BALL_THROW_UNABLE_NO_ROOM;
     else if (B_SEMI_INVULNERABLE_CATCH >= GEN_4 && (gStatuses3[GetCatchingBattler()] & STATUS3_SEMI_INVULNERABLE))
         return BALL_THROW_UNABLE_SEMI_INVULNERABLE;
-    else if (FlagGet(B_FLAG_NO_CATCHING))
+    else if (FlagGet(B_FLAG_NO_CATCHING) || (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID && !IsTeraRaidOver()))
         return BALL_THROW_UNABLE_DISABLED_FLAG;
 
     return BALL_THROW_ABLE;

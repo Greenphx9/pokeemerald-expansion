@@ -11,6 +11,7 @@
 #include "battle_controllers.h"
 #include "link.h"
 #include "sprite.h"
+#include "tera_raid.h"
 #include "constants/trainers.h"
 #include "battle_interface.h"
 #include "battle_anim.h"
@@ -217,7 +218,7 @@ void CreateBattlerSprite(u32 battler)
 
         if (GetBattlerSide(battler) != B_SIDE_PLAYER)
         {
-            if (GetMonData(&gEnemyParty[gBattlerPartyIndexes[battler]], MON_DATA_HP) == 0)
+            if (GetMonData(&gEnemyParty[gBattlerPartyIndexes[battler]], MON_DATA_HP) == 0 && !(gBattleTypeFlags & BATTLE_TYPE_TERA_RAID))
                 return;
             if (gBattleScripting.monCaught) // Don't create opponent sprite if it has been caught.
                 return;
