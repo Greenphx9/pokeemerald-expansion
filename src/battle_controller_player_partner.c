@@ -24,6 +24,7 @@
 #include "string_util.h"
 #include "task.h"
 #include "tera_raid.h"
+#include "tera_raid_screen.h"
 #include "text.h"
 #include "util.h"
 #include "window.h"
@@ -304,6 +305,12 @@ static void PlayerPartnerHandleDrawTrainerPic(u32 battler)
         xPos = 90;
         yPos = (8 - gTrainerBacksprites[trainerPicId].coordinates.size) * 4 + 80;
     }
+    else if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID)
+    {
+        trainerPicId = gTeraRaidPartners[gTeraRaidSelectedPartner].trainerBackPic;
+        xPos = 90;
+        yPos = (8 - gTrainerBacksprites[trainerPicId].coordinates.size) * 4 + 80;
+    }
     else if (IsAiVsAiBattle())
     {
         trainerPicId = GetTrainerPicFromId(gPartnerTrainerId);
@@ -318,7 +325,7 @@ static void PlayerPartnerHandleDrawTrainerPic(u32 battler)
     }
 
     // Use back pic only if the partner Steven or is custom.
-    if (gPartnerTrainerId > TRAINER_PARTNER(PARTNER_NONE))
+    if (gPartnerTrainerId > TRAINER_PARTNER(PARTNER_NONE) || gBattleTypeFlags & BATTLE_TYPE_TERA_RAID)
         isFrontPic = FALSE;
     else
         isFrontPic = TRUE;
@@ -436,6 +443,8 @@ static void PlayerPartnerHandleIntroTrainerBallThrow(u32 battler)
 
     if (gPartnerTrainerId > TRAINER_PARTNER(PARTNER_NONE))
         trainerPal = gTrainerBacksprites[gBattlePartners[gPartnerTrainerId - TRAINER_PARTNER(PARTNER_NONE)].trainerPic].palette.data;
+    else if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID)
+        trainerPal = gTrainerBacksprites[gTeraRaidPartners[gTeraRaidSelectedPartner].trainerBackPic].palette.data;
     else if (IsAiVsAiBattle())
         trainerPal = gTrainerSprites[GetTrainerPicFromId(gPartnerTrainerId)].palette.data;
     else
