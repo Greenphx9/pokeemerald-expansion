@@ -2327,6 +2327,13 @@ u8 DoBattlerEndTurnEffects(void)
         }
 
         ability = GetBattlerAbility(battler);
+
+        if (IsTeraRaidOver()) // from CFRU
+        {
+			gBattleStruct->turnEffectsTracker = ENDTURN_BATTLER_COUNT;
+			goto END_TURN_SKIP;
+        }
+
         switch (gBattleStruct->turnEffectsTracker)
         {
         case ENDTURN_WEATHER_DAMAGE:
@@ -2984,6 +2991,7 @@ u8 DoBattlerEndTurnEffects(void)
             gBattleStruct->turnEffectsTracker++;
             break;
         case ENDTURN_BATTLER_COUNT:  // done
+        END_TURN_SKIP:
             gBattleStruct->turnEffectsTracker = 0;
             gBattleStruct->turnEffectsBattlerId++;
             break;

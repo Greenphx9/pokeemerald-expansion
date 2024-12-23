@@ -129,6 +129,9 @@ static u32 GetWildAiFlags(void)
     u32 avgLevel = GetMonData(&gEnemyParty[0], MON_DATA_LEVEL);
     u32 flags = 0;
 
+    if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID)
+        return AI_FLAG_SMART_TRAINER; // tera raid bosses should not be dumb
+
     if (IsDoubleBattle())
         avgLevel = (GetMonData(&gEnemyParty[0], MON_DATA_LEVEL) + GetMonData(&gEnemyParty[1], MON_DATA_LEVEL)) / 2;
 
