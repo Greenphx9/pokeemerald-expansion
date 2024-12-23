@@ -1135,10 +1135,14 @@ void ItemUseInBattle_PokeBall(u8 taskId)
         break;
     }
 }
-
+static const u8 sText_ItemDisabled_TeraRaid[] = _("This item cannot be used\nright now!\p");
 static void ItemUseInBattle_ShowPartyMenu(u8 taskId)
 {
-    if (!InBattlePyramid())
+    if (IsTeraRaidOver())
+    {
+        DisplayItemMessage(taskId, FONT_NORMAL, sText_ItemDisabled_TeraRaid, CloseItemMessage);
+    }
+    else if (!InBattlePyramid())
     {
         gBagMenu->newScreenCallback = ChooseMonForInBattleItem;
         Task_FadeAndCloseBagMenu(taskId);
@@ -1152,14 +1156,28 @@ static void ItemUseInBattle_ShowPartyMenu(u8 taskId)
 
 void ItemUseInBattle_PartyMenu(u8 taskId)
 {
-    gItemUseCB = ItemUseCB_BattleScript;
-    ItemUseInBattle_ShowPartyMenu(taskId);
+    if (IsTeraRaidOver())
+    {
+        DisplayItemMessage(taskId, FONT_NORMAL, sText_ItemDisabled_TeraRaid, CloseItemMessage);
+    }
+    else
+    {
+        gItemUseCB = ItemUseCB_BattleScript;
+        ItemUseInBattle_ShowPartyMenu(taskId);
+    }
 }
 
 void ItemUseInBattle_PartyMenuChooseMove(u8 taskId)
 {
-    gItemUseCB = ItemUseCB_BattleChooseMove;
-    ItemUseInBattle_ShowPartyMenu(taskId);
+    if (IsTeraRaidOver())
+    {
+        DisplayItemMessage(taskId, FONT_NORMAL, sText_ItemDisabled_TeraRaid, CloseItemMessage);
+    }
+    else
+    {
+        gItemUseCB = ItemUseCB_BattleChooseMove;
+        ItemUseInBattle_ShowPartyMenu(taskId);
+    }
 }
 
 // Returns whether an item can be used in battle and sets the fail text.
@@ -1263,6 +1281,12 @@ bool32 CannotUseItemsInBattle(u16 itemId, struct Pokemon *mon)
             cannotUse = TRUE;
         }
         break;
+    }
+
+    if (IsTeraRaidOver() && battleUsage != EFFECT_ITEM_THROW_BALL)
+    {
+        cannotUse = TRUE;
+        failStr = sText_ItemDisabled_TeraRaid;
     }
 
     if (failStr != NULL)

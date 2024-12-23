@@ -3333,10 +3333,18 @@ u8 GiveMonToPlayer(struct Pokemon *mon)
 u8 CopyMonToPC(struct Pokemon *mon)
 {
     s32 boxNo, boxPos;
+    
 
     SetPCBoxToSendMon(VarGet(VAR_PC_BOX_TO_SEND_MON));
 
     boxNo = StorageGetCurrentBox();
+
+    if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID) // fix bug where raid boss would have glitched HP
+    {
+        u32 zeroHp = 0;
+        SetMonData(mon, MON_DATA_HP, &zeroHp);
+        CalculateMonStats(mon);
+    }
 
     do
     {
