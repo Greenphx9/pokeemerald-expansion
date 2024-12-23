@@ -1,65 +1,99 @@
-const struct TrainerMon sTeraRaidParty_Red[] =
+#include "tera_raid.h"
+
+const struct TrainerMon sTeraRaidParty_Red1[] =
 {
-            {
-#line 9
-            .nickname = COMPOUND_STRING("Bubbles"),
-#line 9
-            .species = SPECIES_WOBBUFFET,
-#line 9
-            .gender = TRAINER_MON_FEMALE,
-#line 9
-            .heldItem = ITEM_ASSAULT_VEST,
-#line 14
-            .ev = TRAINER_PARTY_EVS(252, 0, 0, 252, 4, 0),
-#line 13
-            .iv = TRAINER_PARTY_IVS(25, 26, 27, 28, 29, 30),
-#line 12
-            .ability = ABILITY_SHADOW_TAG,
-#line 11
-            .lvl = 35,
-#line 17
-            .ball = ITEM_MASTER_BALL,
-#line 15
-            .friendship = 42,
-#line 10
-            .nature = NATURE_HASTY,
-#line 16
-            .isShiny = TRUE,
-#line 18
-            .dynamaxLevel = 5,
-            .shouldUseDynamax = TRUE,
-            .moves = {
-#line 19
-                MOVE_PSYCHIC,
-                MOVE_PSYCHIC,
-                MOVE_PSYCHIC,
-                MOVE_PSYCHIC,
-            },
-            },
-            {
-#line 24
-            .species = SPECIES_WOBBUFFET,
-            .gender = TRAINER_MON_RANDOM_GENDER,
-#line 27
-            .iv = TRAINER_PARTY_IVS(0, 0, 0, 0, 0, 0),
-#line 26
-            .ability = ABILITY_SHADOW_TAG,
-#line 25
-            .lvl = 35,
-            .nature = NATURE_HARDY,
-            .dynamaxLevel = MAX_DYNAMAX_LEVEL,
-            },
-            {
-#line 29
-            .species = SPECIES_WYNAUT,
-            .gender = TRAINER_MON_RANDOM_GENDER,
-#line 31
-            .iv = TRAINER_PARTY_IVS(0, 0, 0, 0, 0, 0),
-#line 30
-            .lvl = 35,
-            .nature = NATURE_HARDY,
-            .dynamaxLevel = MAX_DYNAMAX_LEVEL,
-            },
+    {
+        .species = SPECIES_BULBASAUR,
+        .heldItem = ITEM_MIRACLE_SEED,
+        .moves = { MOVE_MAGICAL_LEAF, MOVE_ACID_SPRAY, MOVE_GROWTH, MOVE_INGRAIN },
+        .ev = TRAINER_PARTY_EVS(75, 0, 0, 4, 75, 0),
+        .iv = TRAINER_PARTY_IVS(15, 15, 15, 15, 15, 15),
+        .ability = ABILITY_OVERGROW,
+    },
+    {
+        .species = SPECIES_CHARMANDER,
+        .heldItem = ITEM_CHARCOAL,
+        .moves = { MOVE_FIRE_FANG, MOVE_SLASH, MOVE_METAL_CLAW, MOVE_BITE },
+        .ev = TRAINER_PARTY_EVS(4, 75, 0, 75, 0, 0),
+        .iv = TRAINER_PARTY_IVS(15, 15, 15, 15, 15, 15),
+        .ability = ABILITY_BLAZE,
+    },
+    {
+        .species = SPECIES_SQUIRTLE,
+        .heldItem = ITEM_MYSTIC_WATER,
+        .moves = { MOVE_CHILLING_WATER, MOVE_ICY_WIND, MOVE_LIFE_DEW, MOVE_RAPID_SPIN },
+        .ev = TRAINER_PARTY_EVS(75, 0, 0, 75, 0, 0),
+        .iv = TRAINER_PARTY_IVS(15, 15, 15, 15, 15, 15),
+        .ability = ABILITY_TORRENT,
+    }
+};
+
+const struct TrainerMon sTeraRaidParty_Red23[] =
+{
+    {
+        .species = SPECIES_IVYSAUR,
+        .heldItem = ITEM_MIRACLE_SEED,
+        .ev = TRAINER_PARTY_EVS(150, 0, 0, 4, 150, 0),
+        .iv = TRAINER_PARTY_IVS(31, 0, 31, 31, 31, 31),
+        .moves = { MOVE_GIGA_DRAIN, MOVE_SLUDGE, MOVE_GROWTH, MOVE_INGRAIN },
+        .ability = ABILITY_CHLOROPHYLL,
+        .teraType = TYPE_GRASS,
+        .nature = NATURE_MODEST,
+    },
+    {
+        .species = SPECIES_CHARMELEON,
+        .heldItem = ITEM_CHARCOAL,
+        .ev = TRAINER_PARTY_EVS(4, 150, 0, 150, 0, 0),
+        .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
+        .moves = { MOVE_FIRE_PUNCH, MOVE_THUNDER_PUNCH, MOVE_BITE, MOVE_BODY_SLAM },
+        .ability = ABILITY_BLAZE,
+        .teraType = TYPE_FIRE,
+        .nature = NATURE_ADAMANT,
+    },
+    {
+        .species = SPECIES_WARTORTLE,
+        .heldItem = ITEM_MYSTIC_WATER,
+        .ev = TRAINER_PARTY_EVS(4, 0, 0, 150, 150, 0),
+        .iv = TRAINER_PARTY_IVS(31, 0, 31, 31, 31, 31),
+        .moves = { MOVE_CHILLING_WATER, MOVE_ICY_WIND, MOVE_MUD_SHOT, MOVE_LIFE_DEW },
+        .ability = ABILITY_TORRENT,
+        .teraType = TYPE_WATER,
+        .nature = NATURE_MODEST,
+    },
+};
+
+const struct TrainerMon sTeraRaidParty_Red4567[] =
+{
+    {
+        .species = SPECIES_VENUSAUR,
+        .heldItem = ITEM_LEFTOVERS,
+        .ev = TRAINER_PARTY_EVS(0, 0, 0, 252, 252, 4),
+        .iv = TRAINER_PARTY_IVS(31, 0, 31, 31, 31, 31),
+        .moves = { MOVE_ENERGY_BALL, MOVE_SLUDGE_BOMB, MOVE_EARTH_POWER, MOVE_SYNTHESIS },
+        .ability = ABILITY_OVERGROW,
+        .teraType = TYPE_GRASS,
+        .nature = NATURE_TIMID,
+    },
+    {
+        .species = SPECIES_CHARIZARD,
+        .heldItem = ITEM_CHOICE_SPECS,
+        .ev = TRAINER_PARTY_EVS(0, 0, 0, 252, 252, 4),
+        .iv = TRAINER_PARTY_IVS(31, 0, 31, 31, 31, 31),
+        .moves = { MOVE_FLAMETHROWER, MOVE_SCORCHING_SANDS, MOVE_HURRICANE, MOVE_FOCUS_BLAST },
+        .ability = ABILITY_BLAZE,
+        .teraType = TYPE_FIRE,
+        .nature = NATURE_TIMID,
+    },
+    {
+        .species = SPECIES_BLASTOISE,
+        .heldItem = ITEM_WHITE_HERB,
+        .ev = TRAINER_PARTY_EVS(0, 0, 0, 252, 252, 4),
+        .iv = TRAINER_PARTY_IVS(31, 0, 31, 31, 31, 31),
+        .moves = { MOVE_HYDRO_PUMP, MOVE_BLIZZARD, MOVE_DRAGON_PULSE, MOVE_SHELL_SMASH },
+        .ability = ABILITY_TORRENT,
+        .teraType = TYPE_WATER,
+        .nature = NATURE_MODEST,
+    },
 };
 
 const struct TeraRaidPartner gTeraRaidPartners[] = 
@@ -73,75 +107,55 @@ const struct TeraRaidPartner gTeraRaidPartners[] =
         .trainerBackPic = TRAINER_BACK_PIC_RED,
         .parties = 
         {
-            [0 ... 6] = sTeraRaidParty_Red,
+            [ONE_STAR]                   = sTeraRaidParty_Red1,
+            [TWO_STARS  ... THREE_STARS] = sTeraRaidParty_Red23,
+            [FOUR_STARS ... SEVEN_STARS] = sTeraRaidParty_Red4567,
         },
         .partySizes = 
         {
-            [0 ... 6] = ARRAY_COUNT(sTeraRaidParty_Red),
+            [ONE_STAR]                   = ARRAY_COUNT(sTeraRaidParty_Red1),
+            [TWO_STARS  ... THREE_STARS] = ARRAY_COUNT(sTeraRaidParty_Red23),
+            [FOUR_STARS ... SEVEN_STARS] = ARRAY_COUNT(sTeraRaidParty_Red4567),
         },
     },
     {
-        .trainerName = _("Red2"),
+        .trainerName = _("Green"),
         .gender = TRAINER_MON_FEMALE,
         .otId = 0x0,
         .objectEventGfx = OBJ_EVENT_GFX_LEAF,
         .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
-        .trainerBackPic = TRAINER_BACK_PIC_RED,
+        .trainerBackPic = TRAINER_BACK_PIC_LEAF,
         .parties = 
         {
-            [0 ... 6] = sTeraRaidParty_Red,
+            [ONE_STAR]                   = sTeraRaidParty_Red1,
+            [TWO_STARS  ... THREE_STARS] = sTeraRaidParty_Red23,
+            [FOUR_STARS ... SEVEN_STARS] = sTeraRaidParty_Red4567,
         },
         .partySizes = 
         {
-            [0 ... 6] = ARRAY_COUNT(sTeraRaidParty_Red),
+            [ONE_STAR]                   = ARRAY_COUNT(sTeraRaidParty_Red1),
+            [TWO_STARS  ... THREE_STARS] = ARRAY_COUNT(sTeraRaidParty_Red23),
+            [FOUR_STARS ... SEVEN_STARS] = ARRAY_COUNT(sTeraRaidParty_Red4567),
         },
     },
     {
-        .trainerName = _("Red3"),
+        .trainerName = _("Wally"),
         .gender = TRAINER_MON_MALE,
         .otId = 0x0,
-        .objectEventGfx = OBJ_EVENT_GFX_AQUA_MEMBER_M,
+        .objectEventGfx = OBJ_EVENT_GFX_WALLY,
         .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
-        .trainerBackPic = TRAINER_BACK_PIC_RED,
+        .trainerBackPic = TRAINER_BACK_PIC_WALLY,
         .parties = 
         {
-            [0 ... 6] = sTeraRaidParty_Red,
+            [ONE_STAR]                   = sTeraRaidParty_Red1,
+            [TWO_STARS  ... THREE_STARS] = sTeraRaidParty_Red23,
+            [FOUR_STARS ... SEVEN_STARS] = sTeraRaidParty_Red4567,
         },
         .partySizes = 
         {
-            [0 ... 6] = ARRAY_COUNT(sTeraRaidParty_Red),
+            [ONE_STAR]                   = ARRAY_COUNT(sTeraRaidParty_Red1),
+            [TWO_STARS  ... THREE_STARS] = ARRAY_COUNT(sTeraRaidParty_Red23),
+            [FOUR_STARS ... SEVEN_STARS] = ARRAY_COUNT(sTeraRaidParty_Red4567),
         },
     },
-    {
-        .trainerName = _("Red4"),
-        .gender = TRAINER_MON_FEMALE,
-        .otId = 0x0,
-        .objectEventGfx = OBJ_EVENT_GFX_AQUA_MEMBER_F,
-        .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
-        .trainerBackPic = TRAINER_BACK_PIC_RED,
-        .parties = 
-        {
-            [0 ... 6] = sTeraRaidParty_Red,
-        },
-        .partySizes = 
-        {
-            [0 ... 6] = ARRAY_COUNT(sTeraRaidParty_Red),
-        },
-    },
-    {
-        .trainerName = _("Red5"),
-        .gender = TRAINER_MON_MALE,
-        .otId = 0x0,
-        .objectEventGfx = OBJ_EVENT_GFX_BRENDAN_NORMAL,
-        .trainerClass = TRAINER_CLASS_PKMN_TRAINER_1,
-        .trainerBackPic = TRAINER_BACK_PIC_RED,
-        .parties = 
-        {
-            [0 ... 6] = sTeraRaidParty_Red,
-        },
-        .partySizes = 
-        {
-            [0 ... 6] = ARRAY_COUNT(sTeraRaidParty_Red),
-        },
-    }
 };

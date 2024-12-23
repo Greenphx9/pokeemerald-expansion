@@ -3147,6 +3147,7 @@ static void FillPartnerParty(u16 trainerId)
         {
             const struct TrainerMon *partyData = gTeraRaidPartners[gTeraRaidSelectedPartner].parties[gTeraRaidStars];
             const u8 *partnerName = gTeraRaidPartners[gTeraRaidSelectedPartner].trainerName;
+            u8 level = (partyData[i].lvl == 0) ? gTeraRaidStarToLevel[gTeraRaidStars][0] : partyData[i].lvl; // default to tera raid level if custom level not set
 
             for (k = 0; partnerName[k] != EOS && k < 3; k++)
             {
@@ -3174,7 +3175,7 @@ static void FillPartnerParty(u16 trainerId)
             else if (partyData[i].gender == TRAINER_MON_FEMALE)
                 personality = (personality & 0xFFFFFF00) | GeneratePersonalityForGender(MON_FEMALE, partyData[i].species);
             ModifyPersonalityForNature(&personality, partyData[i].nature);
-            CreateMon(&gPlayerParty[i + 3], partyData[i].species, partyData[i].lvl, 0, TRUE, personality, OT_ID_PRESET, otID);
+            CreateMon(&gPlayerParty[i + 3], partyData[i].species, level, 0, TRUE, personality, OT_ID_PRESET, otID);
             j = partyData[i].isShiny;
             SetMonData(&gPlayerParty[i + 3], MON_DATA_IS_SHINY, &j);
             SetMonData(&gPlayerParty[i + 3], MON_DATA_HELD_ITEM, &partyData[i].heldItem);

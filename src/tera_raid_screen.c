@@ -1207,7 +1207,7 @@ static void TeraRaidScreen_LoadPartnerGfx(void)
         sTeraRaidScreenState->partnerSpriteId[i] = CreateObjectGraphicsSprite(gTeraRaidPartners[index].objectEventGfx, SpriteCallbackDummy, 126, 59 + (i * 33), 0);
         for (j = 0; j < 3; j++)
         {
-            sTeraRaidScreenState->partnerMonSpriteId[i][j] = CreateMonIconNoPersonality(gTeraRaidPartners[index].parties[0][j].species, SpriteCB_MonIcon, 158 + (32 * j), 59 + (i * 33), 1);
+            sTeraRaidScreenState->partnerMonSpriteId[i][j] = CreateMonIconNoPersonality(gTeraRaidPartners[index].parties[gTeraRaidStars][j].species, SpriteCB_MonIcon, 158 + (32 * j), 59 + (i * 33), 1);
         }
     }
 }
