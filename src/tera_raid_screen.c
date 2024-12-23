@@ -1239,11 +1239,13 @@ static void TeraRaidScreen_LoadEncounterGfx(void)
 
 	// Create white outline.
     // TODO: Nicer looking way to do this with fancy VRAM trick, see CFRU.
-    for (i = 0; i < 2; i++)
+    for (i = 0; i < 3; i++)
     {
-        for (j = 0; j < 2; j++)
+        for (j = 0; j < 3; j++)
         {
-            spriteId = CreateMonPicSprite(gTeraRaidEncounter.species, FALSE, 0xFFFFFFFF, TRUE, 44 + i*2, 56 + j*2, gSprites[sTeraRaidScreenState->encounterSpriteId].oam.paletteNum + 1, TAG_NONE);
+            if (i == 1 && j == 1)
+                continue;
+            spriteId = CreateMonPicSprite(gTeraRaidEncounter.species, FALSE, 0xFFFFFFFF, TRUE, 44 + i, 56 + j, gSprites[sTeraRaidScreenState->encounterSpriteId].oam.paletteNum + 1, TAG_NONE);
             gSprites[spriteId].oam.priority = 1;
         }
     }
