@@ -1695,6 +1695,12 @@ u8 DoFieldEndTurnEffects(void)
                 }
             }
 
+            if (IsTeraRaidOver()) // from CFRU
+            {
+				gBattleStruct->turnCountersTracker = ENDTURN_FIELD_COUNT;
+				goto END_TURN_SKIP;
+            }
+
             gBattleStruct->turnCountersTracker++;
             gBattleStruct->turnSideTracker = 0;
             // fall through
@@ -2229,6 +2235,7 @@ u8 DoFieldEndTurnEffects(void)
             }
             break;
         case ENDTURN_FIELD_COUNT:
+        END_TURN_SKIP:
             effect++;
             break;
         }
