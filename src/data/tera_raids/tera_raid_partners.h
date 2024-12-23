@@ -5,27 +5,33 @@ const struct TrainerMon sTeraRaidParty_Red1[] =
     {
         .species = SPECIES_BULBASAUR,
         .heldItem = ITEM_MIRACLE_SEED,
-        .moves = { MOVE_MAGICAL_LEAF, MOVE_ACID_SPRAY, MOVE_GROWTH, MOVE_INGRAIN },
-        .ev = TRAINER_PARTY_EVS(75, 0, 0, 4, 75, 0),
-        .iv = TRAINER_PARTY_IVS(15, 15, 15, 15, 15, 15),
+        .ev = TRAINER_PARTY_EVS(75, 75, 0, 0, 0, 0),
+        .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
+        .moves = { MOVE_RAZOR_LEAF, MOVE_TACKLE, MOVE_GROWTH, MOVE_GROWL },
         .ability = ABILITY_OVERGROW,
+        .teraType = TYPE_GRASS,
+        .nature = NATURE_ADAMANT,
     },
     {
         .species = SPECIES_CHARMANDER,
         .heldItem = ITEM_CHARCOAL,
-        .moves = { MOVE_FIRE_FANG, MOVE_SLASH, MOVE_METAL_CLAW, MOVE_BITE },
-        .ev = TRAINER_PARTY_EVS(4, 75, 0, 75, 0, 0),
-        .iv = TRAINER_PARTY_IVS(15, 15, 15, 15, 15, 15),
+        .ev = TRAINER_PARTY_EVS(4, 0, 0, 75, 75, 0),
+        .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
+        .moves = { MOVE_EMBER, MOVE_DRAGON_BREATH, MOVE_SCRATCH, MOVE_SUNNY_DAY },
         .ability = ABILITY_BLAZE,
+        .teraType = TYPE_FIRE,
+        .nature = NATURE_MODEST,
     },
     {
         .species = SPECIES_SQUIRTLE,
         .heldItem = ITEM_MYSTIC_WATER,
-        .moves = { MOVE_CHILLING_WATER, MOVE_ICY_WIND, MOVE_LIFE_DEW, MOVE_RAPID_SPIN },
-        .ev = TRAINER_PARTY_EVS(75, 0, 0, 75, 0, 0),
-        .iv = TRAINER_PARTY_IVS(15, 15, 15, 15, 15, 15),
+        .ev = TRAINER_PARTY_EVS(75, 36, 0, 0, 36, 0),
+        .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
+        .moves = { MOVE_WATER_GUN, MOVE_ICY_WIND, MOVE_RAPID_SPIN, MOVE_WITHDRAW },
         .ability = ABILITY_TORRENT,
-    }
+        .teraType = TYPE_WATER,
+        .nature = NATURE_RELAXED,
+    },
 };
 
 const struct TrainerMon sTeraRaidParty_Red23[] =
