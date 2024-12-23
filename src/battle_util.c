@@ -11689,6 +11689,8 @@ void RecalcBattlerStats(u32 battler, struct Pokemon *mon)
     CalculateMonStats(mon);
     if (GetActiveGimmick(battler) == GIMMICK_DYNAMAX && gChosenActionByBattler[battler] != B_ACTION_SWITCH)
         ApplyDynamaxHPMultiplier(battler, mon);
+    if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID && battler == GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT))
+        ApplyTeraRaidHPMultiplier(battler, mon);
     CopyMonLevelAndBaseStatsToBattleMon(battler, mon);
     CopyMonAbilityAndTypesToBattleMon(battler, mon);
 }

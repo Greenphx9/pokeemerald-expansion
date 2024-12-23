@@ -41,6 +41,13 @@ void ActivateTera(u32 battler)
         BattleScriptExecute(BattleScript_TeraFormChange);
     else
         BattleScriptExecute(BattleScript_Terastallization);
+
+    if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID && battler == GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT))
+    {
+        struct Pokemon *mon = &GetSideParty(GetBattlerSide(battler))[gBattlerPartyIndexes[battler]];
+        RecalcBattlerStats(battler, mon);
+    }
+        
 }
 
 // Applies palette blend and enables UI indicator after animation has played

@@ -3,6 +3,7 @@
 
 #include "gba/types.h"
 #include "main.h"
+#include "global.h"
 #include "constants/global.h"
 
 #define ONE_STAR    0
@@ -44,5 +45,6 @@ struct TeraRaid
 };
 
 bool8 IsTeraRaidOver(void);
+void ApplyTeraRaidHPMultiplier(u32 battler, struct Pokemon* mon);
 
 #endif
