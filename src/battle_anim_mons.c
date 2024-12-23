@@ -15,6 +15,7 @@
 #include "task.h"
 #include "trig.h"
 #include "util.h"
+#include "tera_raid.h"
 #include "constants/battle_anim.h"
 
 extern const struct OamData gOamData_AffineNormal_ObjNormal_64x64;
@@ -318,7 +319,7 @@ u8 GetAnimBattlerSpriteId(u8 animBattler)
         }
         break;
     case ANIM_TARGET:
-        if (IsBattlerSpritePresent(gBattleAnimTarget))
+        if (IsBattlerSpritePresent(gBattleAnimTarget) || IsTeraRaidOver()) // fixes mon not shaking during tera break anim
         {
             return gBattlerSpriteIds[gBattleAnimTarget];
         }

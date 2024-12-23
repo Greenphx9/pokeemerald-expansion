@@ -10108,9 +10108,6 @@ BattleScript_FaintRaidAttacker::
 	callnative HideTeraRaidHPBar
 	playanimation BS_ATTACKER, B_ANIM_TERA_BREAK
 	waitanimation
-	applyterastallization
-	playanimation BS_ATTACKER, B_ANIM_TERA_BREAK_FINISH
-	waitanimation
 BattleScript_FinishFaintRaidBoss:
 	finishturn
 	return
@@ -10121,8 +10118,5 @@ BattleScript_FaintRaidTarget::
 	cleareffectsonfaint BS_TARGET
 	callnative HideTeraRaidHPBar
 	playanimation BS_TARGET, B_ANIM_TERA_BREAK
-	waitanimation
-	applyterastallization
-	playanimation BS_TARGET, B_ANIM_TERA_BREAK_FINISH
 	waitanimation
 	goto BattleScript_FinishFaintRaidBoss
