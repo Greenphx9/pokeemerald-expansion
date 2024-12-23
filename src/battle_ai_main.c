@@ -170,6 +170,8 @@ static u32 GetAiFlags(u16 trainerId)
             flags = GetAiScriptsInBattleFactory();
         else if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_SECRET_BASE))
             flags = AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT;
+        else if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID) // partner will be smart
+            flags = AI_FLAG_SMART_TRAINER | AI_FLAG_DOUBLE_BATTLE;
         else
             flags = GetTrainerAIFlagsFromId(trainerId);
     }

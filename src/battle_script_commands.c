@@ -15400,7 +15400,6 @@ static void Cmd_handleballthrow(void)
                     gBattleSpritesDataPtr->animationData->criticalCaptureSuccess = TRUE;
 
                 TryBattleFormChange(gBattlerTarget, FORM_CHANGE_END_BATTLE);
-                DebugPrintf("sucess!");
                 gBattlescriptCurrInstr = BattleScript_SuccessBallThrow;
                 SetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]], MON_DATA_POKEBALL, &ballId);
 
@@ -15444,7 +15443,6 @@ static void Cmd_givecaughtmon(void)
             SetMonData(&gEnemyParty[gBattlerPartyIndexes[GetCatchingBattler()]], MON_DATA_HELD_ITEM, &lostItem);  // Restore non-berry items
     }
 
-    DebugPrintf("hi2");
     if (GiveMonToPlayer(&gEnemyParty[gBattlerPartyIndexes[GetCatchingBattler()]]) != MON_GIVEN_TO_PARTY)
     {
         if (!ShouldShowBoxWasFullMessage())
@@ -15614,8 +15612,6 @@ void BattleDestroyYesNoCursorAt(u8 cursorPosition)
 static void Cmd_trygivecaughtmonnick(void)
 {
     CMD_ARGS(const u8 *successInstr);
-
-    DebugPrintf("hi");
 
     switch (gBattleCommunication[MULTIUSE_STATE])
     {

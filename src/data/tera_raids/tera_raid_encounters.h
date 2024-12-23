@@ -1,41 +1,14 @@
 static const struct TeraRaidMon sTeraRaidMons_InsideOfTruck[] =
 {
     {
-        .species = SPECIES_IRON_BOULDER,
-        .moves = { MOVE_TACKLE, MOVE_TAIL_WHIP, MOVE_NONE, MOVE_NONE },
+        .species = SPECIES_VENONAT,
+        .moves = { MOVE_PSYBEAM, MOVE_STRUGGLE_BUG, MOVE_DISABLE, MOVE_BUG_BITE },
         .abilityNum = 0,
         .evs = { 0, 0, 0, 0, 0, 0 },
         .extraActions = { 0, 0, 0, 0, 0 },
         .fixedDrops = { 0, 0, 0, 0, 0, 0, 0 },
         .randomDrops = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     },
-    {
-        .species = SPECIES_IRON_VALIANT,
-        .moves = { MOVE_TACKLE, MOVE_TAIL_WHIP, MOVE_NONE, MOVE_NONE },
-        .abilityNum = 0,
-        .evs = { 0, 0, 0, 0, 0, 0 },
-        .extraActions = { 0, 0, 0, 0, 0 },
-        .fixedDrops = { 0, 0, 0, 0, 0, 0, 0 },
-        .randomDrops = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    },
-    {
-        .species = SPECIES_CHARMANDER,
-        .moves = { MOVE_TACKLE, MOVE_TAIL_WHIP, MOVE_NONE, MOVE_NONE },
-        .abilityNum = 0,
-        .evs = { 0, 0, 0, 0, 0, 0 },
-        .extraActions = { 0, 0, 0, 0, 0 },
-        .fixedDrops = { 0, 0, 0, 0, 0, 0, 0 },
-        .randomDrops = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    },
-    {
-        .species = SPECIES_CHARIZARD,
-        .moves = { MOVE_TACKLE, MOVE_TAIL_WHIP, MOVE_NONE, MOVE_NONE },
-        .abilityNum = 0,
-        .evs = { 0, 0, 0, 0, 0, 0 },
-        .extraActions = { 0, 0, 0, 0, 0 },
-        .fixedDrops = { 0, 0, 0, 0, 0, 0, 0 },
-        .randomDrops = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    }
 };
 
 const struct TeraRaid sTeraRaidsByMapSec[0xFF][STAR_COUNT] =

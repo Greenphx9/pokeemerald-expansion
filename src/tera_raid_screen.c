@@ -757,6 +757,7 @@ static void Task_TeraRaidScreenMainInput(u8 taskId)
         gSpecialVar_Result = 1;
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
         gTeraRaidSelectedPartner = sTeraRaidScreenState->partnerIndexes[sTeraRaidScreenState->arrowPos];
+        FlagSet(B_SMART_WILD_AI_FLAG);
         gTasks[taskId].func = Task_TeraRaidScreenWaitFadeAndExitGracefully;
     }
     // Exit the menu when the player presses B
@@ -792,6 +793,7 @@ static void Task_TeraRaidScreenMainInput(u8 taskId)
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
         sTeraRaidScreenState->arrowPos = Random() % 3;
         gTeraRaidSelectedPartner = sTeraRaidScreenState->partnerIndexes[sTeraRaidScreenState->arrowPos];
+        FlagSet(B_SMART_WILD_AI_FLAG);
         gTasks[taskId].func = Task_TeraRaidScreenWaitFadeAndExitGracefully;
     }
 }
@@ -1121,6 +1123,8 @@ static u32 GetRaidStars(void)
     u32 i;
     u32 rand = GetRaidRandomNumber() % 100;
 
+    return ONE_STAR;
+
     for (i = FLAG_BADGE01_GET; i < FLAG_BADGE01_GET + NUM_BADGES; i++)
     {
         if (FlagGet(i))
@@ -1223,7 +1227,8 @@ static void DetermineRaidEncounter(void)
 {
     u32 playerMapSec = gMapHeader.regionMapSectionId;
     const struct TeraRaid* teraRaid = &sTeraRaidsByMapSec[playerMapSec][gTeraRaidStars];
-    gTeraRaidEncounter = teraRaid->mons[GetRaidRandomNumber() % (teraRaid->amount-1)];
+    u32 rand = (teraRaid->amount > 1) ? GetRaidRandomNumber() % teraRaid->amount : 0;
+    gTeraRaidEncounter = teraRaid->mons[rand];
 }
 
 // credits to AgustinGDLV

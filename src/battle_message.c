@@ -2630,7 +2630,6 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst, u32 dstSize)
             u32 nameLength = 0;
             const u8 *classString;
             const u8 *nameString;
-            DebugPrintf("src: %d", *src);
             switch (*src)
             {
             case B_TXT_BUFF1:
