@@ -4080,6 +4080,9 @@ void BattleTurnPassed(void)
         BattleScriptExecute(i == 1 ? BattleScript_TrainerASlideMsgEnd2 : BattleScript_TrainerBSlideMsgEnd2);
     else if ((i = ShouldDoTrainerSlide(GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT), TRAINER_SLIDE_PLAYER_MON_UNAFFECTED)))
         BattleScriptExecute(i == 1 ? BattleScript_TrainerASlideMsgEnd2 : BattleScript_TrainerBSlideMsgEnd2);
+
+    if (IsTeraRaidOver() && !IsBattlerAlive(GetBattlerAtPosition(B_POSITION_PLAYER_LEFT))) // from CFRU
+		gBattleStruct->absentBattlerFlags &= ~(1u << GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)); //So the player can still catch even if they have no Pokemon left
 }
 
 u8 IsRunningFromBattleImpossible(u32 battler)

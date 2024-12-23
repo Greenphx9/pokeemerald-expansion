@@ -10103,13 +10103,26 @@ BattleScript_PrintTeraRaidRan::
 
 BattleScript_FaintRaidAttacker::
 	playfaintcry BS_ATTACKER
+	waitcry BS_ATTACKER
 	cleareffectsonfaint BS_ATTACKER
-BattleScript_FinishFaintRaidBoss:
 	callnative HideTeraRaidHPBar
+	playanimation BS_ATTACKER, B_ANIM_TERA_BREAK
+	waitanimation
+	applyterastallization
+	playanimation BS_ATTACKER, B_ANIM_TERA_BREAK_FINISH
+	waitanimation
+BattleScript_FinishFaintRaidBoss:
 	finishturn
 	return
 
 BattleScript_FaintRaidTarget::
 	playfaintcry BS_TARGET
+	waitcry BS_TARGET
 	cleareffectsonfaint BS_TARGET
+	callnative HideTeraRaidHPBar
+	playanimation BS_TARGET, B_ANIM_TERA_BREAK
+	waitanimation
+	applyterastallization
+	playanimation BS_TARGET, B_ANIM_TERA_BREAK_FINISH
+	waitanimation
 	goto BattleScript_FinishFaintRaidBoss

@@ -11,5 +11,5 @@
 
 bool8 IsTeraRaidOver(void)
 {
-    return gBattleMons[GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)].hp <= 0;
+    return (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID) && (gBattleMons[GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)].hp <= 0);
 }

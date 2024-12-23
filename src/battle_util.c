@@ -35,6 +35,7 @@
 #include "pokedex.h"
 #include "mail.h"
 #include "field_weather.h"
+#include "tera_raid.h"
 #include "constants/abilities.h"
 #include "constants/battle_anim.h"
 #include "constants/battle_move_effects.h"
@@ -3096,6 +3097,21 @@ bool32 HandleWishPerishSongOnTurnEnd(void)
     return FALSE;
 }
 
+u8 ViableMonCount(struct Pokemon* party)
+{
+	u8 count = 0;
+
+	for (u32 i = 0; i < PARTY_SIZE; ++i)
+	{
+		if (GetMonData(&party[i], MON_DATA_SPECIES) != SPECIES_NONE
+		&&  GetMonData(&party[i], MON_DATA_HP) > 0
+		&& !GetMonData(&party[i], MON_DATA_IS_EGG))
+			++count;
+	}
+
+	return count;
+}
+
 #define FAINTED_ACTIONS_MAX_CASE 7
 
 bool32 HandleFaintedMonActions(void)
@@ -3171,6 +3187,11 @@ bool32 HandleFaintedMonActions(void)
                     (GetBattlerSide(gBattleStruct->faintedActionsBattlerId) == B_SIDE_OPPONENT))
                         continue;
                     
+                    if (IsTeraRaidOver() &&
+                    GetBattlerSide(gBattleStruct->faintedActionsBattlerId) == B_SIDE_PLAYER &&
+                    ViableMonCount(gPlayerParty) >= 1)
+                        continue;
+
                     BattleScriptExecute(BattleScript_HandleFaintedMon);
                     gBattleStruct->faintedActionsState = 5;
                     return TRUE;
