@@ -1145,6 +1145,7 @@ void CreateTeraRaidMon(void)
     CreateWildMon(gTeraRaidEncounter.species, gTeraRaidStarToLevel[gTeraRaidStars][0]);
     for (i = 0; i < 4; i++)
         SetMonData(mon, MON_DATA_MOVE1 + i, &gTeraRaidEncounter.moves[i]);
+    SetMonData(mon, MON_DATA_TERA_TYPE, &gTeraRaidType);
     SetMonData(mon, MON_DATA_ABILITY_NUM, &gTeraRaidEncounter.abilityNum); 
     SetMonData(mon, MON_DATA_HP_EV, &gTeraRaidEncounter.evs[0]);
     SetMonData(mon, MON_DATA_ATK_EV, &gTeraRaidEncounter.evs[1]);

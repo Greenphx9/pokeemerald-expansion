@@ -164,7 +164,7 @@ struct TeraRaidScreenState
     u8 arrowPos;
     u8 encounterSpriteId;
     bool8 outlinedSprite;
-    u8 typeIconSpriteIds[2];
+    u8 typeIconSpriteId;
 };
 
 /*
@@ -178,6 +178,7 @@ static EWRAM_DATA u8 *sBg1TilemapBuffer = NULL;
 EWRAM_DATA struct TeraRaidMon gTeraRaidEncounter;
 EWRAM_DATA u8 gTeraRaidStars;
 EWRAM_DATA u8 gTeraRaidSelectedPartner;
+EWRAM_DATA u8 gTeraRaidType;
 
 /*
  * Defines and read-only data for on-screen dex.
@@ -1123,8 +1124,6 @@ static u32 GetRaidStars(void)
     u32 i;
     u32 rand = GetRaidRandomNumber() % 100;
 
-    return ONE_STAR;
-
     for (i = FLAG_BADGE01_GET; i < FLAG_BADGE01_GET + NUM_BADGES; i++)
     {
         if (FlagGet(i))
@@ -1262,14 +1261,14 @@ static void TeraRaidScreen_LoadEncounterGfx(void)
 //Type Icon
 static void SetSpriteInvisibility(u8 spriteArrayId, bool8 invisible)
 {
-    gSprites[sTeraRaidScreenState->typeIconSpriteIds[spriteArrayId]].invisible = invisible;
+    gSprites[sTeraRaidScreenState->typeIconSpriteId].invisible = invisible;
 }
 
 static void SetTypeIconPosAndPal(u8 typeId, u8 x, u8 y, u8 spriteArrayId)
 {
     struct Sprite *sprite;
 
-    sprite = &gSprites[sTeraRaidScreenState->typeIconSpriteIds[spriteArrayId]];
+    sprite = &gSprites[sTeraRaidScreenState->typeIconSpriteId];
     StartSpriteAnim(sprite, typeId);
     sprite->oam.paletteNum = gTypesInfo[typeId].palette - 2;
     sprite->x = x + 16;
@@ -1277,25 +1276,26 @@ static void SetTypeIconPosAndPal(u8 typeId, u8 x, u8 y, u8 spriteArrayId)
     SetSpriteInvisibility(spriteArrayId, FALSE);
 }
 
+u8 DetermineRaidType(void)
+{
+    u8 type;
+    do
+    {
+        type = GetRaidRandomNumber() % NUMBER_OF_MON_TYPES;
+    }while(type == TYPE_NONE || type == TYPE_MYSTERY);
+    return type;
+}
+
 static void TeraRaidScreen_LoadTypesGfx(void)
 {
     u32 i;
     u16 species = gTeraRaidEncounter.species;
-    u8 type1 = gSpeciesInfo[species].types[0], type2 = gSpeciesInfo[species].types[1];
-    sTeraRaidScreenState->typeIconSpriteIds[0] = 0xFF;
-    sTeraRaidScreenState->typeIconSpriteIds[1] = 0xFF;
+    gTeraRaidType = (gTeraRaidEncounter.teraType != TYPE_NONE) ? gTeraRaidEncounter.teraType : DetermineRaidType();
+    sTeraRaidScreenState->typeIconSpriteId = 0xFF;
     LoadCompressedPalette(gMoveTypes_Pal, OBJ_PLTT_ID(11), 3 * PLTT_SIZE_4BPP);
     LoadCompressedSpriteSheet(&gSpriteSheet_MoveTypes);
-    for (i = 0; i < 2; i++)
-    {
-        if (sTeraRaidScreenState->typeIconSpriteIds[i] == 0xFF)
-            sTeraRaidScreenState->typeIconSpriteIds[i] = CreateSprite(&gSpriteTemplate_MoveTypes, 10, 10, 2);
-
-        SetSpriteInvisibility(i, TRUE);
-    }
-    SetTypeIconPosAndPal(type1, 64, 0, 0);
-    if (type2 != type1)
-        SetTypeIconPosAndPal(type2, 97, 0, 1);
+    sTeraRaidScreenState->typeIconSpriteId = CreateSprite(&gSpriteTemplate_MoveTypes, 10, 10, 2);
+    SetTypeIconPosAndPal(gTeraRaidType, 64, 0, 0);
 }
 
 static void TeraRaidScreen_LoadStarGfx(void)

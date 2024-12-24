@@ -14,6 +14,7 @@ extern struct TeraRaidMon gTeraRaidEncounter;
 extern u8 gTeraRaidStars;
 extern const u8 gTeraRaidStarToLevel[][2];
 extern u8 gTeraRaidSelectedPartner;
+extern u8 gTeraRaidType;
 
 extern const struct TeraRaidPartner gTeraRaidPartners[];
 

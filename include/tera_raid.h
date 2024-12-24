@@ -63,6 +63,7 @@ struct TeraRaidMon
     u16 moves[4];
     u8 abilityNum;
     u8 evs[6];
+    u8 teraType;
 
     // this is an unefficient way to do this, but
     // imo its cleaner than other flexible array solutions.
