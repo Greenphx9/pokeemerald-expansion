@@ -9,10 +9,10 @@ This is my implementation of Tera Raids in pokeemerald-expansion. Huge credits t
 - [x] Silhouette Pokemon with outline
 - [x] 2v1 Battle with partner
 - [x] Tera Raid extra actions:
- - [x] Use additional move
- - [x] Steal Tera Raid charge
- - [x] Reset negative stat changes & status
- - [x] Reset player's positive stat changes & nullify abillity
+    - [x] Use additional move
+    - [x] Steal Tera Raid charge
+    - [x] Reset negative stat changes & status
+    - [x] Reset player's positive stat changes & nullify abillity
 - [x] 100% catch rate
 - [ ] Tera Raid Rewards UI
 - [ ] Tera Raid Reward system
