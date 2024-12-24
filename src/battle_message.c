@@ -895,6 +895,7 @@ const u8 *const gBattleStringsTable[BATTLESTRINGS_COUNT] =
     [STRINGID_PREPARINGPOWERFULATTACK]              = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} is preparing a\npowerful move!"),
     [STRINGID_REMOVEDNEGATIVEEFFECTS]               = COMPOUND_STRING("{B_BUFF1} removed negative effects\nfrom itself!"),
     [STRINGID_NULLIFIEDPLAYER]                      = COMPOUND_STRING("{B_BUFF1} nullified the stat changes\nand Abilities affecting your side!"),
+    [STRINGID_STOLETERAORBCHARGE]                   = COMPOUND_STRING("{B_BUFF1} stole some of your Tera\nOrb's charge!"),
 };
 
 const u16 gTrainerUsedItemStringIds[] =

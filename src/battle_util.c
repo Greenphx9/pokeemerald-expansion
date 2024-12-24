@@ -3050,6 +3050,18 @@ u8 DoBattlerEndTurnEffects(void)
                             gBattleStruct->teraRaidExtraActionHappenedThisTurn = TRUE;
                             BattleScriptExecute(BattleScript_TeraRaidBossNullifiedPlayer);
                         }
+                        if (extraAction.id == EXTRA_ACTION_STEAL_TERA_ORB_CHARGE && !gBattleStruct->teraRaidExtraActionHappenedThisTurn)
+                        {
+                            u8 left = GetBattlerAtPosition(B_POSITION_PLAYER_LEFT);
+                            u8 right = GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT);
+                            StringCopy(gBattleTextBuff1, GetSpeciesName(gBattleMons[battler].species));
+                            if (!HasTrainerUsedGimmick(left, GIMMICK_TERA) && gBattleStruct->teraOrbCharges[left] > 0)
+                                gBattleStruct->teraOrbCharges[left]--;
+                            if (!HasTrainerUsedGimmick(right, GIMMICK_TERA) && gBattleStruct->teraOrbCharges[right] > 0)
+                                gBattleStruct->teraOrbCharges[right]--;
+                            gBattleStruct->teraRaidExtraActionHappenedThisTurn = TRUE;
+                            BattleScriptExecute(BattleScript_TeraRaidBossStoleCharges);
+                        }
                         gBattleStruct->teraRaidExtraActionCount++;
                         effect++;
                     }

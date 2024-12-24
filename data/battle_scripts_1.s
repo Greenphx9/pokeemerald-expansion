@@ -10147,3 +10147,10 @@ BattleScript_TeraRaidBossNullifiedPlayer::
 	printstring STRINGID_NULLIFIEDPLAYER
 	waitmessage B_WAIT_TIME_LONG
 	end
+
+BattleScript_TeraRaidBossStoleCharges::
+	playanimation BS_ATTACKER, B_ANIM_TERA_RAID_EXTRA_ACTION
+	waitanimation
+	printstring STRINGID_STOLETERAORBCHARGE
+	waitmessage B_WAIT_TIME_LONG
+	end

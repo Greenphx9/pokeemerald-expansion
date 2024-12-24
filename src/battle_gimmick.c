@@ -79,7 +79,8 @@ bool32 ShouldTrainerBattlerUseGimmick(u32 battler, enum Gimmick gimmick)
     // basic should tera impl
     else if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID
     && battler == GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT)
-    && gimmick == GIMMICK_TERA) // will dynamax without this
+    && gimmick == GIMMICK_TERA // will dynamax without this
+    && gBattleStruct->teraOrbCharges[battler] >= 3) 
     {
         u32 i;
         if (((gBattleMons[battler].hp * 100) / gBattleMons[battler].maxHP) > 50) // more than 50% HP?
@@ -126,7 +127,6 @@ bool32 HasTrainerUsedGimmick(u32 battler, enum Gimmick gimmick)
     // Otherwise, return whether current battler has used gimmick.
     else
     {
-        DebugPrintf("has teraed: %d", gBattleStruct->gimmick.activated[battler][gimmick]);
         return gBattleStruct->gimmick.activated[battler][gimmick];
     }
 }
