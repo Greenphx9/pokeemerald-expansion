@@ -252,6 +252,7 @@ static const u8* const sBattleAnims_General[NUM_B_ANIMS_GENERAL] =
     [B_ANIM_TERA_ACTIVATE]          = gBattleAnimGeneral_TeraActivate,
     [B_ANIM_SIMPLE_HEAL]            = gBattleAnimGeneral_SimpleHeal,
     [B_ANIM_TERA_BREAK]             = gBattleAnimGeneral_TeraBreak,
+    [B_ANIM_TERA_RAID_EXTRA_ACTION] = gBattleAnimGeneral_TeraRaidExtraAction,
 };
 
 static const u8* const sBattleAnims_Special[NUM_B_ANIMS_SPECIAL] =

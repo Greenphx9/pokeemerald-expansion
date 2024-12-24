@@ -28601,6 +28601,29 @@ gBattleAnimGeneral_TeraBreak::
 	blendoff
 	end
 
+gBattleAnimGeneral_TeraRaidExtraAction::
+	loadspritegfx ANIM_TAG_TERA_CRYSTAL
+	loadspritegfx ANIM_TAG_TERA_SHATTER
+	loadspritegfx ANIM_TAG_FOCUS_ENERGY
+	loadspritegfx ANIM_TAG_WHIP_HIT @green color
+	loadspritegfx ANIM_TAG_SWEAT_BEAD @blue color
+	loadspritegfx ANIM_TAG_PAW_PRINT @yellow color
+	monbg ANIM_ATTACKER
+	setalpha 12, 8
+	playsewithpan SE_M_DRAGON_RAGE, SOUND_PAN_ATTACKER
+	createvisualtask AnimTask_BlendColorCycle, 2, F_PAL_ATTACKER, 0, 6, 0, 11, RGB_RED
+	call RainbowEndureEffect
+	call RainbowEndureEffect
+	call RainbowEndureEffect
+	call RainbowEndureEffect
+	call RainbowEndureEffect
+	waitforvisualfinish
+	call TeraChargeParticles
+	playsewithpan SE_M_BRICK_BREAK, SOUND_PAN_ATTACKER
+	clearmonbg ANIM_ATK_PARTNER
+	blendoff
+	end
+
 gBattleAnimGeneral_RestoreBg::
 	restorebg
 	waitbgfadein
