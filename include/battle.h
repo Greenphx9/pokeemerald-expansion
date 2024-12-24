@@ -830,7 +830,9 @@ struct BattleStruct
     u32 stellarBoostFlags[NUM_BATTLE_SIDES]; // stored as a bitfield of flags for all types for each side
     u8 redCardActivates:1;
     u8 teraRaidExtraActionCount:3;
-    u8 padding:4;
+    u8 teraRaidExtraActionHappenedThisTurn:1;
+    u8 teraRaidAbilitiesNullified:1;
+    u8 padding:2;
     u8 usedEjectItem;
     u8 usedMicleBerry;
 };

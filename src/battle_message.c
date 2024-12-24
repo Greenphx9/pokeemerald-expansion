@@ -893,6 +893,8 @@ const u8 *const gBattleStringsTable[BATTLESTRINGS_COUNT] =
     [STRINGID_WAGGLINGAFINGER]                      = COMPOUND_STRING("Waggling a finger let it use {B_CURRENT_MOVE}!"),
     [STRINGID_TERARAIDRAN]                          = COMPOUND_STRING("{PLAY_SE SE_FLEE}{B_BUFF1} disappeared\nsomewhere…"),
     [STRINGID_PREPARINGPOWERFULATTACK]              = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} is preparing a\npowerful move!"),
+    [STRINGID_REMOVEDNEGATIVEEFFECTS]               = COMPOUND_STRING("{B_BUFF1} removed negative effects\nfrom itself!"),
+    [STRINGID_NULLIFIEDPLAYER]                      = COMPOUND_STRING("{B_BUFF1} nullified the stat changes\nand Abilities affecting your side!"),
 };
 
 const u16 gTrainerUsedItemStringIds[] =

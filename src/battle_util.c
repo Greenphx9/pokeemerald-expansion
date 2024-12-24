@@ -3002,7 +3002,7 @@ u8 DoBattlerEndTurnEffects(void)
                     struct TeraRaidExtraAction extraAction = gTeraRaidEncounter.extraActions.actions[i];
                     if (extraAction.hpPercentage >= hpPercent && gBattleStruct->teraRaidExtraActionCount == i)
                     {
-                        if (extraAction.id == EXTRA_ACTION_USE_MOVE)
+                        if (extraAction.id == EXTRA_ACTION_USE_MOVE && !gBattleStruct->teraRaidExtraActionHappenedThisTurn)
                         {
                             u16 move = extraAction.moveId;
                             u32 moveTarget = gMovesInfo[move].target;
@@ -3016,7 +3016,39 @@ u8 DoBattlerEndTurnEffects(void)
                             gHitMarker &= ~HITMARKER_NO_ATTACKSTRING;
                             SetTypeBeforeUsingMove(gCalledMove, battler);
                             gHitMarker &= ~HITMARKER_ATTACKSTRING_PRINTED;
+                            gBattleStruct->teraRaidExtraActionHappenedThisTurn = TRUE;
                             BattleScriptExecute(BattleScript_TeraRaidUseMove);
+                        }
+                        if (extraAction.id == EXTRA_ACTION_REMOVE_NEGATIVE_EFFECTS && !gBattleStruct->teraRaidExtraActionHappenedThisTurn) // TODO: is this only negative stat changes or all stat changes?
+                        {
+                            StringCopy(gBattleTextBuff1, GetSpeciesName(gBattleMons[battler].species));
+                            for (i = 0; i < NUM_BATTLE_STATS; i++)
+                            {
+                                if (gBattleMons[battler].statStages[i] < DEFAULT_STAT_STAGE)
+                                    gBattleMons[battler].statStages[i] = DEFAULT_STAT_STAGE;   
+                            }
+                            gBattleMons[battler].status1 = 0;
+                            gBattleMons[battler].status2 &= ~STATUS2_NIGHTMARE;
+                            gBattleScripting.battler = battler;
+                            gBattlerAttacker = battler;
+                            gBattleStruct->teraRaidExtraActionHappenedThisTurn = TRUE;
+                            BattleScriptExecute(BattleScript_TeraRaidBossResetChanges);
+                            BtlController_EmitSetMonData(battler, BUFFER_A, REQUEST_STATUS_BATTLE, 0, 4, &gBattleMons[battler].status1);
+                            MarkBattlerForControllerExec(battler);
+                        }
+                        if (extraAction.id == EXTRA_ACTION_NULLIFY_PLAYER && !gBattleStruct->teraRaidExtraActionHappenedThisTurn)
+                        {
+                            StringCopy(gBattleTextBuff1, GetSpeciesName(gBattleMons[battler].species));
+                            for (i = 0; i < NUM_BATTLE_STATS; i++)
+                            {
+                                if (gBattleMons[GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)].statStages[i] > DEFAULT_STAT_STAGE)
+                                    gBattleMons[GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)].statStages[i] = DEFAULT_STAT_STAGE;   
+                                if (gBattleMons[GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT)].statStages[i] > DEFAULT_STAT_STAGE)
+                                    gBattleMons[GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT)].statStages[i] = DEFAULT_STAT_STAGE;   
+                            }
+                            gBattleStruct->teraRaidAbilitiesNullified = TRUE;
+                            gBattleStruct->teraRaidExtraActionHappenedThisTurn = TRUE;
+                            BattleScriptExecute(BattleScript_TeraRaidBossNullifiedPlayer);
                         }
                         gBattleStruct->teraRaidExtraActionCount++;
                         effect++;
@@ -6631,6 +6663,12 @@ u32 GetBattlerAbility(u32 battler)
         return ABILITY_NONE;
 
     if (noAbilityShield && CanBreakThroughAbility(gBattlerAttacker, battler, gBattleMons[gBattlerAttacker].ability))
+        return ABILITY_NONE;
+
+    if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID 
+    && gBattleStruct->teraRaidAbilitiesNullified 
+    && battler != GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)
+    && noAbilityShield)
         return ABILITY_NONE;
 
     return gBattleMons[battler].ability;

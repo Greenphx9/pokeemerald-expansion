@@ -10130,3 +10130,14 @@ BattleScript_TeraRaidUseMove::
 	setbyte sB_ANIM_TARGETS_HIT, 0
 	orword gHitMarker, HITMARKER_ALLOW_NO_PP
 	jumptocalledmove TRUE
+
+BattleScript_TeraRaidBossResetChanges::
+	updatestatusicon BS_ATTACKER
+	printstring STRINGID_REMOVEDNEGATIVEEFFECTS
+	waitmessage B_WAIT_TIME_LONG
+	end
+
+BattleScript_TeraRaidBossNullifiedPlayer::
+	printstring STRINGID_NULLIFIEDPLAYER
+	waitmessage B_WAIT_TIME_LONG
+	end

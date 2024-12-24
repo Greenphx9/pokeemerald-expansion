@@ -856,5 +856,7 @@ extern const u8 BattleScript_PrintTeraRaidRan[];
 extern const u8 BattleScript_FaintRaidAttacker[];
 extern const u8 BattleScript_FaintRaidTarget[];
 extern const u8 BattleScript_TeraRaidUseMove[];
+extern const u8 BattleScript_TeraRaidBossResetChanges[];
+extern const u8 BattleScript_TeraRaidBossNullifiedPlayer[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

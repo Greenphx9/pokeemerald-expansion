@@ -4017,8 +4017,12 @@ void BattleTurnPassed(void)
     gBattleStruct->faintedActionsState = 0;
 
     TurnValuesCleanUp(FALSE);
-    if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID) // fixes bug where after extra move is called next attack wont print
-        gHitMarker &= ~HITMARKER_ATTACKSTRING_PRINTED;
+    if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID) 
+    {
+        gHitMarker &= ~HITMARKER_ATTACKSTRING_PRINTED; // fixes bug where after extra move is called next attack wont print
+        gBattleStruct->teraRaidExtraActionHappenedThisTurn = FALSE;
+    }
+        
     gHitMarker &= ~HITMARKER_NO_ATTACKSTRING;
     gHitMarker &= ~HITMARKER_UNABLE_TO_USE_MOVE;
     gHitMarker &= ~HITMARKER_PLAYER_FAINTED;
