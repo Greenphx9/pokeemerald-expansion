@@ -596,6 +596,7 @@ struct BattleGimmickData
     u8 usableGimmick[MAX_BATTLERS_COUNT];                // first usable gimmick that can be selected for each battler
     bool8 playerSelect;                                  // used to toggle trigger and update battle UI
     u8 triggerSpriteId;
+    u8 triggerPartnerSpriteId;
     u8 indicatorSpriteId[MAX_BATTLERS_COUNT];
     u8 toActivate;                                       // stores whether a battler should transform at start of turn as bitfield
     u8 activeGimmick[NUM_BATTLE_SIDES][PARTY_SIZE];      // stores the active gimmick for each party member
@@ -835,6 +836,7 @@ struct BattleStruct
     u8 padding:2;
     u8 usedEjectItem;
     u8 usedMicleBerry;
+    u8 teraOrbCharges[MAX_BATTLERS_COUNT];
 };
 
 // The palaceFlags member of struct BattleStruct contains 1 flag per move to indicate which moves the AI should consider,

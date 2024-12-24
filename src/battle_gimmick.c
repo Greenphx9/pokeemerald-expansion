@@ -76,6 +76,24 @@ bool32 ShouldTrainerBattlerUseGimmick(u32 battler, enum Gimmick gimmick)
     {
         return TRUE;
     }
+    // basic should tera impl
+    else if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID
+    && battler == GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT)
+    && gimmick == GIMMICK_TERA) // will dynamax without this
+    {
+        u32 i;
+        if (((gBattleMons[battler].hp * 100) / gBattleMons[battler].maxHP) > 50) // more than 50% HP?
+            return TRUE;
+        else if (((gBattleMons[battler].hp * 100) / gBattleMons[battler].maxHP) > 25) // more than 25% HP? and
+        {
+            for (i = 0; i < NUM_BATTLE_STATS; i++)
+            {
+                if (gBattleMons[battler].statStages[i] > DEFAULT_STAT_STAGE + 2) // stat boost more than +2?
+                    return TRUE;
+            }
+        }
+        return FALSE; // dont tera
+    }
     // Check the trainer party data to see if a gimmick is intended.
     else
     {
@@ -97,6 +115,7 @@ bool32 HasTrainerUsedGimmick(u32 battler, enum Gimmick gimmick)
 {
     // Check whether partner battler has used gimmick or plans to during turn.
     if (IsDoubleBattle()
+        && !(gBattleTypeFlags & BATTLE_TYPE_TERA_RAID) // both can tera
         && IsPartnerMonFromSameTrainer(battler)
         && (gBattleStruct->gimmick.activated[BATTLE_PARTNER(battler)][gimmick]
         || ((gBattleStruct->gimmick.toActivate & (1u << BATTLE_PARTNER(battler))
@@ -107,6 +126,7 @@ bool32 HasTrainerUsedGimmick(u32 battler, enum Gimmick gimmick)
     // Otherwise, return whether current battler has used gimmick.
     else
     {
+        DebugPrintf("has teraed: %d", gBattleStruct->gimmick.activated[battler][gimmick]);
         return gBattleStruct->gimmick.activated[battler][gimmick];
     }
 }
@@ -115,7 +135,7 @@ bool32 HasTrainerUsedGimmick(u32 battler, enum Gimmick gimmick)
 void SetGimmickAsActivated(u32 battler, enum Gimmick gimmick)
 {
     gBattleStruct->gimmick.activated[battler][gimmick] = TRUE;
-    if (IsDoubleBattle() && IsPartnerMonFromSameTrainer(battler))
+    if (IsDoubleBattle() && IsPartnerMonFromSameTrainer(battler) && !(gBattleTypeFlags & BATTLE_TYPE_TERA_RAID))
         gBattleStruct->gimmick.activated[BATTLE_PARTNER(battler)][gimmick] = TRUE;
 }
 
@@ -172,6 +192,50 @@ void CreateGimmickTriggerSprite(u32 battler)
     ChangeGimmickTriggerSprite(gBattleStruct->gimmick.triggerSpriteId, 0);
 }
 
+void CreateTeraRaidGimmickTriggerSprite(u32 battler)
+{
+    const struct GimmickInfo * gimmick = &gGimmicksInfo[GIMMICK_TERA];
+    u8 anim = (gBattleStruct->teraOrbCharges[battler] >= 3) ? (GetActiveGimmick(battler) == GIMMICK_TERA ? 1 : 0) : gBattleStruct->teraOrbCharges[battler] + 2;
+    u8 spriteId;
+
+    // Exit if there shouldn't be a sprite produced.
+    if (GetBattlerSide(battler) == B_SIDE_OPPONENT
+     || gimmick->triggerSheet == NULL
+     || HasTrainerUsedGimmick(battler, gBattleStruct->gimmick.usableGimmick[battler]))
+    {
+        return;
+    }
+
+    if (battler != GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT)) // everything should already be loaded
+    {
+        LoadSpritePalette(gimmick->triggerPal);
+        if (GetSpriteTileStartByTag(TAG_GIMMICK_TRIGGER_TILE) == 0xFFFF)
+            LoadSpriteSheet(gimmick->triggerSheet);
+    }
+    if (gBattleStruct->gimmick.triggerSpriteId == 0xFF && battler == GetBattlerAtPosition(B_POSITION_PLAYER_LEFT))
+    {
+        gBattleStruct->gimmick.triggerSpriteId = CreateSprite(gimmick->triggerTemplate,
+                                                                gSprites[gHealthboxSpriteIds[battler]].x - DOUBLES_GIMMICK_TRIGGER_POS_X_SLIDE,
+                                                                gSprites[gHealthboxSpriteIds[battler]].y - DOUBLES_GIMMICK_TRIGGER_POS_Y_DIFF, 0);
+
+        gSprites[gBattleStruct->gimmick.triggerSpriteId].tBattler = battler;
+        gSprites[gBattleStruct->gimmick.triggerSpriteId].tHide = FALSE;
+
+        ChangeGimmickTriggerSprite(gBattleStruct->gimmick.triggerSpriteId, anim);
+    }
+    else if (gBattleStruct->gimmick.triggerPartnerSpriteId == 0xFF && battler == GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT)) 
+    {
+            gBattleStruct->gimmick.triggerPartnerSpriteId = CreateSprite(gimmick->triggerTemplate,
+                                                                gSprites[gHealthboxSpriteIds[battler]].x - DOUBLES_GIMMICK_TRIGGER_POS_X_SLIDE,
+                                                                gSprites[gHealthboxSpriteIds[battler]].y - DOUBLES_GIMMICK_TRIGGER_POS_Y_DIFF, 0);
+
+        gSprites[gBattleStruct->gimmick.triggerPartnerSpriteId].tBattler = battler;
+        gSprites[gBattleStruct->gimmick.triggerPartnerSpriteId].tHide = FALSE;
+
+        ChangeGimmickTriggerSprite(gBattleStruct->gimmick.triggerPartnerSpriteId, anim);
+    }
+}
+
 bool32 IsGimmickTriggerSpriteActive(void)
 {
     if (GetSpriteTileStartByTag(TAG_GIMMICK_TRIGGER_TILE) == 0xFFFF)
@@ -182,22 +246,54 @@ bool32 IsGimmickTriggerSpriteActive(void)
         return FALSE;
 }
 
-void HideGimmickTriggerSprite(void)
+void HideGimmickTriggerSprite(u32 battler)
 {
     if (gBattleStruct->gimmick.triggerSpriteId != 0xFF)
     {
-        ChangeGimmickTriggerSprite(gBattleStruct->gimmick.triggerSpriteId, 0);
-        gSprites[gBattleStruct->gimmick.triggerSpriteId].tHide = TRUE;
+        if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID)
+        {
+            if (battler == GetBattlerAtPosition(B_POSITION_PLAYER_LEFT))
+            {
+                if (gBattleStruct->teraOrbCharges[battler] < 3)
+                    ChangeGimmickTriggerSprite(gBattleStruct->gimmick.triggerSpriteId, gBattleStruct->teraOrbCharges[battler] + 2);
+                else
+                    ChangeGimmickTriggerSprite(gBattleStruct->gimmick.triggerSpriteId, GetActiveGimmick(battler) == GIMMICK_TERA);  
+                gSprites[gBattleStruct->gimmick.triggerSpriteId].tHide = TRUE; 
+            }
+            else
+            {
+                if (gBattleStruct->teraOrbCharges[battler] < 3)
+                    ChangeGimmickTriggerSprite(gBattleStruct->gimmick.triggerPartnerSpriteId, gBattleStruct->teraOrbCharges[battler] + 2);
+                else
+                    ChangeGimmickTriggerSprite(gBattleStruct->gimmick.triggerPartnerSpriteId, GetActiveGimmick(battler) == GIMMICK_TERA);  
+                gSprites[gBattleStruct->gimmick.triggerPartnerSpriteId].tHide = TRUE; 
+            }
+            
+        }
+        else
+        {
+            ChangeGimmickTriggerSprite(gBattleStruct->gimmick.triggerSpriteId, 0);   
+            gSprites[gBattleStruct->gimmick.triggerSpriteId].tHide = TRUE;
+        }
     }
 }
 
-void DestroyGimmickTriggerSprite(void)
+void DestroyGimmickTriggerSprite(u32 battler)
 {
     FreeSpritePaletteByTag(TAG_GIMMICK_TRIGGER_PAL);
     FreeSpriteTilesByTag(TAG_GIMMICK_TRIGGER_TILE);
-    if (gBattleStruct->gimmick.triggerSpriteId != 0xFF)
-        DestroySprite(&gSprites[gBattleStruct->gimmick.triggerSpriteId]);
-    gBattleStruct->gimmick.triggerSpriteId = 0xFF;
+    if (battler == GetBattlerAtPosition(B_POSITION_PLAYER_LEFT))
+    {
+        if (gBattleStruct->gimmick.triggerSpriteId != 0xFF)
+            DestroySprite(&gSprites[gBattleStruct->gimmick.triggerSpriteId]);
+        gBattleStruct->gimmick.triggerSpriteId = 0xFF;
+    }
+    if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID && battler == GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT))
+    {
+        if (gBattleStruct->gimmick.triggerPartnerSpriteId != 0xFF)
+            DestroySprite(&gSprites[gBattleStruct->gimmick.triggerPartnerSpriteId]);
+        gBattleStruct->gimmick.triggerPartnerSpriteId = 0xFF;
+    }
 }
 
 static void SpriteCb_GimmickTrigger(struct Sprite *sprite)
@@ -225,6 +321,8 @@ static void SpriteCb_GimmickTrigger(struct Sprite *sprite)
         if (sprite->x != gSprites[gHealthboxSpriteIds[sprite->tBattler]].x - xSlide)
             sprite->x++;
 
+        DebugPrintf("left: %d, x: %d", GetBattlerAtPosition(B_POSITION_PLAYER_LEFT) == sprite->tBattler, sprite->x);
+
         if (sprite->x >= gSprites[gHealthboxSpriteIds[sprite->tBattler]].x - xPriority)
             sprite->oam.priority = 2;
         else
@@ -233,7 +331,10 @@ static void SpriteCb_GimmickTrigger(struct Sprite *sprite)
         sprite->y = gSprites[gHealthboxSpriteIds[sprite->tBattler]].y - yDiff;
         sprite->y2 = gSprites[gHealthboxSpriteIds[sprite->tBattler]].y2 - yDiff;
         if (sprite->x == gSprites[gHealthboxSpriteIds[sprite->tBattler]].x - xSlide)
-            DestroyGimmickTriggerSprite();
+        {
+            DestroyGimmickTriggerSprite(sprite->tBattler);
+        }
+            
     }
     else
     {

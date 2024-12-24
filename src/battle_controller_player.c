@@ -469,7 +469,9 @@ void HandleInputChooseTarget(u32 battler)
             BtlController_EmitTwoReturnValues(battler, BUFFER_B, 10, gMoveSelectionCursor[battler] | (gMultiUsePlayerCursor << 8));
         EndBounceEffect(gMultiUsePlayerCursor, BOUNCE_HEALTHBOX);
         TryHideLastUsedBall();
-        HideGimmickTriggerSprite();
+        HideGimmickTriggerSprite(battler);
+        if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID)
+            HideGimmickTriggerSprite(GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT));
         PlayerBufferExecCompleted(battler);
     }
     else if (JOY_NEW(B_BUTTON) || gPlayerDpadHoldFrames > 59)
@@ -625,7 +627,9 @@ void HandleInputShowEntireFieldTargets(u32 battler)
             BtlController_EmitTwoReturnValues(battler, BUFFER_B, 10, gMoveSelectionCursor[battler] | RET_GIMMICK | (gMultiUsePlayerCursor << 8));
         else
             BtlController_EmitTwoReturnValues(battler, BUFFER_B, 10, gMoveSelectionCursor[battler] | (gMultiUsePlayerCursor << 8));
-        HideGimmickTriggerSprite();
+        HideGimmickTriggerSprite(battler);
+        if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID)
+            HideGimmickTriggerSprite(GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT));
         PlayerBufferExecCompleted(battler);
     }
     else if (JOY_NEW(B_BUTTON) || gPlayerDpadHoldFrames > 59)
@@ -653,7 +657,9 @@ void HandleInputShowTargets(u32 battler)
             BtlController_EmitTwoReturnValues(battler, BUFFER_B, 10, gMoveSelectionCursor[battler] | RET_GIMMICK | (gMultiUsePlayerCursor << 8));
         else
             BtlController_EmitTwoReturnValues(battler, BUFFER_B, 10, gMoveSelectionCursor[battler] | (gMultiUsePlayerCursor << 8));
-        HideGimmickTriggerSprite();
+        HideGimmickTriggerSprite(battler);
+        if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID)
+            HideGimmickTriggerSprite(GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT));
         TryHideLastUsedBall();
         PlayerBufferExecCompleted(battler);
     }
@@ -761,7 +767,9 @@ void HandleInputChooseMove(u32 battler)
                 BtlController_EmitTwoReturnValues(battler, BUFFER_B, 10, gMoveSelectionCursor[battler] | RET_GIMMICK | (gMultiUsePlayerCursor << 8));
             else
                 BtlController_EmitTwoReturnValues(battler, BUFFER_B, 10, gMoveSelectionCursor[battler] | (gMultiUsePlayerCursor << 8));
-            HideGimmickTriggerSprite();
+            HideGimmickTriggerSprite(battler);
+            if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID)
+                HideGimmickTriggerSprite(GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT));
             TryHideLastUsedBall();
             PlayerBufferExecCompleted(battler);
             break;
@@ -796,7 +804,9 @@ void HandleInputChooseMove(u32 battler)
         else
         {
             BtlController_EmitTwoReturnValues(battler, BUFFER_B, 10, 0xFFFF);
-            HideGimmickTriggerSprite();
+            HideGimmickTriggerSprite(battler);
+            if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID)
+                HideGimmickTriggerSprite(GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT));
             PlayerBufferExecCompleted(battler);
         }
     }
@@ -2166,8 +2176,16 @@ void PlayerHandleChooseMove(u32 battler)
         gBattleStruct->zmove.viable = (gBattleStruct->zmove.possibleZMoves[battler] & (1u << gMoveSelectionCursor[battler])) != 0;
 
         if (!IsGimmickTriggerSpriteActive())
+        {
             gBattleStruct->gimmick.triggerSpriteId = 0xFF;
-        if (!(gBattleStruct->gimmick.usableGimmick[battler] == GIMMICK_Z_MOVE && !gBattleStruct->zmove.viable))
+            gBattleStruct->gimmick.triggerPartnerSpriteId = 0xFF;
+        }
+        if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID)
+        {
+            CreateTeraRaidGimmickTriggerSprite(battler);
+            CreateTeraRaidGimmickTriggerSprite(GetBattlerAtPosition(B_POSITION_PLAYER_RIGHT));
+        }
+        else if (!(gBattleStruct->gimmick.usableGimmick[battler] == GIMMICK_Z_MOVE && !gBattleStruct->zmove.viable))
             CreateGimmickTriggerSprite(battler);
 
         gBattlerControllerFuncs[battler] = HandleChooseMoveAfterDma3;

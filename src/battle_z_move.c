@@ -218,7 +218,7 @@ bool32 TryChangeZTrigger(u32 battler, u32 moveIndex)
     bool32 viableZMove = (gBattleStruct->zmove.possibleZMoves[battler] & (1u << moveIndex)) != 0;
 
     if (gBattleStruct->zmove.viable && !viableZMove)
-        HideGimmickTriggerSprite();   // Was a viable z move, now is not -> slide out
+        HideGimmickTriggerSprite(battler);   // Was a viable z move, now is not -> slide out
     else if (!gBattleStruct->zmove.viable && viableZMove)
         CreateGimmickTriggerSprite(battler);   // Was not a viable z move, now is -> slide back in
 

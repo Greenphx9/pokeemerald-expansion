@@ -2096,6 +2096,7 @@ static void Cmd_damagecalc(void)
     damageCalcData.updateFlags = TRUE;
 
     gBattleMoveDamage = CalculateMoveDamage(&damageCalcData, 0);
+
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
 
@@ -6612,6 +6613,19 @@ static void Cmd_moveend(void)
             // If the Pokémon needs to keep track of move usage for its evolutions, do it
             if (originallyUsedMove != MOVE_NONE)
                 TryUpdateEvolutionTracker(EVO_USE_MOVE_TWENTY_TIMES, 1, originallyUsedMove);
+            gBattleScripting.moveendState++;
+            break;
+        case MOVEEND_CHARGE_TERA_ORB:
+            if (GetBattlerSide(gBattlerAttacker) == B_SIDE_PLAYER
+            && TARGET_TURN_DAMAGED
+            && gBattleStruct->teraOrbCharges[gBattlerAttacker] < 3)
+            {
+                DebugPrintf("Charges before for %S: %d", GetSpeciesName(gBattleMons[gBattlerAttacker].species), gBattleStruct->teraOrbCharges[gBattlerAttacker]);
+                gBattleStruct->teraOrbCharges[gBattlerAttacker]++;
+                DebugPrintf("Charges before for %S: %d", GetSpeciesName(gBattleMons[gBattlerAttacker].species), gBattleStruct->teraOrbCharges[gBattlerAttacker]);
+
+            }
+            
             gBattleScripting.moveendState++;
             break;
         case MOVEEND_CLEAR_BITS: // Clear/Set bits for things like using a move for all targets and all hits.

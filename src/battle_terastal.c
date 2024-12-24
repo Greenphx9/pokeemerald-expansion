@@ -74,6 +74,15 @@ bool32 CanTerastallize(u32 battler)
     if (gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE && GetBattlerSide(battler) == B_SIDE_OPPONENT)
         return FALSE;
 
+    if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID
+    && gBattleStruct->teraOrbCharges[battler] >= 3
+    && GetActiveGimmick(battler) == GIMMICK_NONE
+    && holdEffect != HOLD_EFFECT_Z_CRYSTAL
+    && holdEffect != HOLD_EFFECT_MEGA_STONE
+    && !HasTrainerUsedGimmick(battler, GIMMICK_TERA)
+    && ShouldTrainerBattlerUseGimmick(battler, GIMMICK_TERA))
+        return TRUE;
+
     if (TESTING || GetBattlerSide(battler) == B_SIDE_OPPONENT)
     {
         // Skip all other checks in this block, go to HasTrainerUsedGimmick

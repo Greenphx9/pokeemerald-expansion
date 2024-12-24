@@ -34,9 +34,10 @@ void SetGimmickAsActivated(u32 battler, enum Gimmick gimmick);
 
 void ChangeGimmickTriggerSprite(u32 spriteId, u32 animId);
 void CreateGimmickTriggerSprite(u32 battler);
+void CreateTeraRaidGimmickTriggerSprite(u32 battler);
 bool32 IsGimmickTriggerSpriteActive(void);
-void HideGimmickTriggerSprite(void);
-void DestroyGimmickTriggerSprite(void);
+void HideGimmickTriggerSprite(u32 battler);
+void DestroyGimmickTriggerSprite(u32 battler);
 
 void LoadIndicatorSpritesGfx(void);
 u32 GetIndicatorTileTag(u32 battler);

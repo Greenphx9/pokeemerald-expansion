@@ -301,6 +301,7 @@ enum MoveEndEffects
     MOVEEND_OPPORTUNIST, // Occurs after other stat change items/abilities to try and copy the boosts
     MOVEEND_SAME_MOVE_TURNS,
     MOVEEND_SET_EVOLUTION_TRACKER,
+    MOVEEND_CHARGE_TERA_ORB,
     MOVEEND_CLEAR_BITS,
     MOVEEND_COUNT,
 };

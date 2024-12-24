@@ -52,10 +52,31 @@ static const union AnimCmd sSpriteAnim_GimmickTriggerOn[] =
     ANIMCMD_END
 };
 
+static const union AnimCmd sSpriteAnim_GimmickTriggerCharge0[] =
+{
+    ANIMCMD_FRAME(32, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd sSpriteAnim_GimmickTriggerCharge1[] =
+{
+    ANIMCMD_FRAME(48, 0),
+    ANIMCMD_END
+};
+
+static const union AnimCmd sSpriteAnim_GimmickTriggerCharge2[] =
+{
+    ANIMCMD_FRAME(64, 0),
+    ANIMCMD_END
+};
+
 static const union AnimCmd *const sSpriteAnimTable_GimmickTrigger[] =
 {
     sSpriteAnim_GimmickTriggerOff,
     sSpriteAnim_GimmickTriggerOn,
+    sSpriteAnim_GimmickTriggerCharge0,
+    sSpriteAnim_GimmickTriggerCharge1,
+    sSpriteAnim_GimmickTriggerCharge2,
 };
 
 static void SpriteCb_GimmickTrigger(struct Sprite *sprite);
