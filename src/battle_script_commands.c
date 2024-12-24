@@ -47,6 +47,7 @@
 #include "pokenav.h"
 #include "menu_specialized.h"
 #include "data.h"
+#include "tera_raid.h"
 #include "constants/abilities.h"
 #include "constants/battle_anim.h"
 #include "constants/battle_move_effects.h"
@@ -4561,7 +4562,8 @@ static void Cmd_getexp(void)
                     && !gBattleStruct->wildVictorySong)
                 {
                     BattleStopLowHpSound();
-                    PlayBGM(MUS_VICTORY_WILD);
+                    if (!IsTeraRaidOver()) // mus already played in raid faint script
+                        PlayBGM(MUS_VICTORY_WILD);
                     gBattleStruct->wildVictorySong++;
                 }
 
@@ -12029,6 +12031,12 @@ static void Cmd_forcerandomswitch(void)
 
     bool32 redCardForcedSwitch = FALSE;
 
+    if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID && GetBattlerSide(gBattlerTarget) == B_SIDE_OPPONENT)
+    {
+        gBattlescriptCurrInstr = cmd->failInstr;
+        return;
+    }
+
     // Red card checks against wild pokemon. If we have reached here, the player has a mon to switch into
     // Red card swaps attacker with target to get the animation correct, so here we check attacker which is really the target. Thanks GF...
     if (gBattleScripting.switchCase == B_SWITCH_RED_CARD
@@ -15434,6 +15442,7 @@ static void Cmd_handleballthrow(void)
 
 static void Cmd_givecaughtmon(void)
 {
+    u8 result;
     CMD_ARGS();
 
     if (B_RESTORE_HELD_BATTLE_ITEMS >= GEN_9)
@@ -15443,7 +15452,11 @@ static void Cmd_givecaughtmon(void)
             SetMonData(&gEnemyParty[gBattlerPartyIndexes[GetCatchingBattler()]], MON_DATA_HELD_ITEM, &lostItem);  // Restore non-berry items
     }
 
-    if (GiveMonToPlayer(&gEnemyParty[gBattlerPartyIndexes[GetCatchingBattler()]]) != MON_GIVEN_TO_PARTY)
+    if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
+        result = GiveMonToPlayerSave(&gEnemyParty[gBattlerPartyIndexes[GetCatchingBattler()]]);
+    else
+        result = GiveMonToPlayer(&gEnemyParty[gBattlerPartyIndexes[GetCatchingBattler()]]);
+    if (result != MON_GIVEN_TO_PARTY)
     {
         if (!ShouldShowBoxWasFullMessage())
         {
@@ -15679,7 +15692,8 @@ static void Cmd_trygivecaughtmonnick(void)
         }
         break;
     case 4:
-        if (CalculatePlayerPartyCount() == PARTY_SIZE)
+        if ((gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && CalculateSavedPlayerPartyCount() == PARTY_SIZE) 
+        || (!(gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER) && CalculatePlayerPartyCount() == PARTY_SIZE))
             gBattlescriptCurrInstr = cmd->nextInstr;
         else
             gBattlescriptCurrInstr = cmd->successInstr;

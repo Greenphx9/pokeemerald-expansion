@@ -3299,34 +3299,48 @@ void CopyMon(void *dest, void *src, size_t size)
     memcpy(dest, src, size);
 }
 
-static u8 GetFreeSlotInPartyForMon(void) // From CFRU 
-{
-	u32 i = 0;
-
-	while (i < PARTY_SIZE && GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL) != SPECIES_NONE)
-		++i;
-
-	if (i >= PARTY_SIZE
-	|| (gMain.inBattle && gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)) //Always send Pokemon in multi battles to the PC because of overwritten team
-		return PARTY_SIZE;
-
-	return i;
-}
-
 u8 GiveMonToPlayer(struct Pokemon *mon)
 {
     s32 i;
-    u8 freeSlot = GetFreeSlotInPartyForMon();
 
     SetMonData(mon, MON_DATA_OT_NAME, gSaveBlock2Ptr->playerName);
     SetMonData(mon, MON_DATA_OT_GENDER, &gSaveBlock2Ptr->playerGender);
     SetMonData(mon, MON_DATA_OT_ID, gSaveBlock2Ptr->playerTrainerId);
 
-    if (freeSlot >= PARTY_SIZE)
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL) == SPECIES_NONE)
+            break;
+    }
+
+    if (i >= PARTY_SIZE)
         return CopyMonToPC(mon);
 
-    CopyMon(&gPlayerParty[freeSlot], mon, sizeof(*mon));
-    gPlayerPartyCount = freeSlot + 1;
+    CopyMon(&gPlayerParty[i], mon, sizeof(*mon));
+    gPlayerPartyCount = i + 1;
+    return MON_GIVEN_TO_PARTY;
+}
+
+u8 GiveMonToPlayerSave(struct Pokemon *mon) // for multi-battles, if given to party normally will get overriden when LoadPlayerParty is called
+{
+    s32 i;
+
+    SetMonData(mon, MON_DATA_OT_NAME, gSaveBlock2Ptr->playerName);
+    SetMonData(mon, MON_DATA_OT_GENDER, &gSaveBlock2Ptr->playerGender);
+    SetMonData(mon, MON_DATA_OT_ID, gSaveBlock2Ptr->playerTrainerId);
+    CalculateMonStats(mon);
+
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        if (GetMonData(&gSaveBlock1Ptr->playerParty[i], MON_DATA_SPECIES, NULL) == SPECIES_NONE)
+            break;
+    }
+
+    if (i >= PARTY_SIZE)
+        return CopyMonToPC(mon);
+
+    CopyMon(&gSaveBlock1Ptr->playerParty[i], mon, sizeof(*mon));
+    gSaveBlock1Ptr->playerPartyCount = i + 1;
     return MON_GIVEN_TO_PARTY;
 }
 
@@ -3409,6 +3423,12 @@ u8 CalculateEnemyPartyCount(void)
 {
     gEnemyPartyCount = CalculatePartyCount(gEnemyParty);
     return gEnemyPartyCount;
+}
+
+u8 CalculateSavedPlayerPartyCount(void) // for multi battles
+{
+    gSaveBlock1Ptr->playerPartyCount = CalculatePartyCount(gSaveBlock1Ptr->playerParty);
+    return gSaveBlock1Ptr->playerPartyCount;
 }
 
 u8 CalculateEnemyPartyCountInSide(u32 battler)

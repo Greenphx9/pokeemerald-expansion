@@ -10104,6 +10104,7 @@ BattleScript_PrintTeraRaidRan::
 BattleScript_FaintRaidAttacker::
 	playfaintcry BS_ATTACKER
 	waitcry BS_ATTACKER
+	printstring STRINGID_ATTACKERFAINTED
 	cleareffectsonfaint BS_ATTACKER
 	callnative HideTeraRaidHPBar
 	playanimation BS_ATTACKER, B_ANIM_TERA_BREAK
@@ -10115,6 +10116,7 @@ BattleScript_FinishFaintRaidBoss:
 BattleScript_FaintRaidTarget::
 	playfaintcry BS_TARGET
 	waitcry BS_TARGET
+	printstring STRINGID_TARGETFAINTED
 	cleareffectsonfaint BS_TARGET
 	callnative HideTeraRaidHPBar
 	playanimation BS_TARGET, B_ANIM_TERA_BREAK
