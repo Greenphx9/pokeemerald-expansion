@@ -36,6 +36,7 @@
 #include "mail.h"
 #include "field_weather.h"
 #include "tera_raid.h"
+#include "tera_raid_screen.h"
 #include "constants/abilities.h"
 #include "constants/battle_anim.h"
 #include "constants/battle_move_effects.h"
@@ -2289,6 +2290,7 @@ enum
     ENDTURN_GMAX_MOVE_RESIDUAL_DAMAGE,
     ENDTURN_SEA_OF_FIRE_DAMAGE,
     ENDTURN_ITEMS3,
+    ENDTURN_TERA_RAID_EFFECT,
     ENDTURN_BATTLER_COUNT
 };
 
@@ -2987,6 +2989,39 @@ u8 DoBattlerEndTurnEffects(void)
                 MarkBattlerForControllerExec(battler);
                 BattleScriptExecute(BattleScript_HurtByTheSeaOfFire);
                 effect++;
+            }
+            gBattleStruct->turnEffectsTracker++;
+            break;
+        case ENDTURN_TERA_RAID_EFFECT:
+            if (battler == GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT))
+            {
+                u32 hpPercent = (gBattleMons[battler].hp * 100) / gBattleMons[battler].maxHP;
+                
+                for (i = 0; i < gTeraRaidEncounter.extraActions.count; i++)
+                {
+                    struct TeraRaidExtraAction extraAction = gTeraRaidEncounter.extraActions.actions[i];
+                    if (extraAction.hpPercentage >= hpPercent && gBattleStruct->teraRaidExtraActionCount == i)
+                    {
+                        if (extraAction.id == EXTRA_ACTION_USE_MOVE)
+                        {
+                            u16 move = extraAction.moveId;
+                            u32 moveTarget = gMovesInfo[move].target;
+                            gBattleStruct->atkCancellerTracker = 0;
+                            gBattlerAttacker = battler;
+                            gCalledMove = move;
+
+                            // todo
+                            gBattlerTarget = GetMoveTarget(move, NO_TARGET_OVERRIDE);
+
+                            gHitMarker &= ~HITMARKER_NO_ATTACKSTRING;
+                            SetTypeBeforeUsingMove(gCalledMove, battler);
+                            gHitMarker &= ~HITMARKER_ATTACKSTRING_PRINTED;
+                            BattleScriptExecute(BattleScript_TeraRaidUseMove);
+                        }
+                        gBattleStruct->teraRaidExtraActionCount++;
+                        effect++;
+                    }
+                }
             }
             gBattleStruct->turnEffectsTracker++;
             break;

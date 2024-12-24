@@ -892,6 +892,7 @@ const u8 *const gBattleStringsTable[BATTLESTRINGS_COUNT] =
     [STRINGID_SEEMSWEIRD]                           = COMPOUND_STRING("The battlefield seems weird!"),
     [STRINGID_WAGGLINGAFINGER]                      = COMPOUND_STRING("Waggling a finger let it use {B_CURRENT_MOVE}!"),
     [STRINGID_TERARAIDRAN]                          = COMPOUND_STRING("{PLAY_SE SE_FLEE}{B_BUFF1} disappeared\nsomewhere…"),
+    [STRINGID_PREPARINGPOWERFULATTACK]              = COMPOUND_STRING("{B_ATK_NAME_WITH_PREFIX} is preparing a\npowerful move!"),
 };
 
 const u16 gTrainerUsedItemStringIds[] =

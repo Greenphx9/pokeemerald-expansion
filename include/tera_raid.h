@@ -27,15 +27,64 @@ struct TeraRaidPartner
     u8 partySizes[7];
 };
 
+enum TeraRaidExtraActions
+{
+    EXTRA_ACTION_USE_MOVE,
+    EXTRA_ACTION_STEAL_TERA_ORB_CHARGE,
+    EXTRA_ACTION_RESET_BOSS_CHANGES,
+    EXTRA_ACTION_RESET_PLAYER_CHANGES,
+    EXTRA_ACTION_COUNT,
+};
+
+
+struct TeraRaidExtraAction
+{
+    enum TeraRaidExtraActions id;
+    u16 moveId; // only set if extra action is EXTRA_ACTION_USE_MOVE
+    u8 hpPercentage;
+};
+
+struct TeraRaidFixedDrop
+{
+    u16 itemId;
+    u8 count;
+};
+
+struct TeraRaidRandomDrop
+{
+    u16 itemId;
+    u8 chance;
+    u8 count;
+};
+
 struct TeraRaidMon
 {
     u16 species;
     u16 moves[4];
     u8 abilityNum;
     u8 evs[6];
-    u8 extraActions[5];
-    u16 fixedDrops[7];
-    u16 randomDrops[19];
+
+    // this is an unefficient way to do this, but
+    // imo its cleaner than other flexible array solutions.
+    // if you want, you can reduce the number of actions, drops
+    // or completely rewrite how these are read to save space.
+    struct 
+    {
+        struct TeraRaidExtraAction actions[5];
+        u8 count;
+    } extraActions;
+
+    struct
+    {
+        struct TeraRaidFixedDrop drops[7];
+        u8 count;
+    } fixedDrops;
+
+    struct 
+    {
+        struct TeraRaidRandomDrop drops[19];
+        u8 count;
+    } randomDrops;
 };
 
 struct TeraRaid
@@ -43,6 +92,8 @@ struct TeraRaid
     const struct TeraRaidMon* mons;
     u16 amount;
 };
+
+#define EXTRA_ACTION_DUMMY { .id = EXTRA_ACTION_COUNT, .hpPercentage = 255 }
 
 bool8 IsTeraRaidOver(void);
 void ApplyTeraRaidHPMultiplier(u32 battler, struct Pokemon* mon);

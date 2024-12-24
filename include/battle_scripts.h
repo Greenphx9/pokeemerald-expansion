@@ -855,5 +855,6 @@ extern const u8 BattleScript_FickleBeamDoubled[];
 extern const u8 BattleScript_PrintTeraRaidRan[];
 extern const u8 BattleScript_FaintRaidAttacker[];
 extern const u8 BattleScript_FaintRaidTarget[];
+extern const u8 BattleScript_TeraRaidUseMove[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

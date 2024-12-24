@@ -10122,3 +10122,11 @@ BattleScript_FaintRaidTarget::
 	playanimation BS_TARGET, B_ANIM_TERA_BREAK
 	waitanimation
 	goto BattleScript_FinishFaintRaidBoss
+
+BattleScript_TeraRaidUseMove::
+	printstring STRINGID_PREPARINGPOWERFULATTACK
+	waitmessage B_WAIT_TIME_LONG
+	setbyte sB_ANIM_TURN, 0
+	setbyte sB_ANIM_TARGETS_HIT, 0
+	orword gHitMarker, HITMARKER_ALLOW_NO_PP
+	jumptocalledmove TRUE
