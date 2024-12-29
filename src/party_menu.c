@@ -294,7 +294,7 @@ static void DisplayPartyPokemonGender(u8, u16, u8 *, struct PartyMenuBox *);
 static void DisplayPartyPokemonHP(u16 hp, u16 maxHp, struct PartyMenuBox *menuBox);
 static void DisplayPartyPokemonMaxHP(u16, struct PartyMenuBox *);
 static void DisplayPartyPokemonHPBar(u16, u16, struct PartyMenuBox *);
-static void CreatePartyMonIconSpriteParameterized(u16, u32, struct PartyMenuBox *, u8);
+static void CreatePartyMonIconSpriteParameterized(u16, bool32, u32, struct PartyMenuBox *, u8);
 static void CreatePartyMonHeldItemSpriteParameterized(u16, u16, struct PartyMenuBox *);
 static void CreatePartyMonPokeballSpriteParameterized(u16, struct PartyMenuBox *);
 static void CreatePartyMonStatusSpriteParameterized(u16, u8, struct PartyMenuBox *);
@@ -1209,19 +1209,20 @@ static void CreatePartyMonSprites(u8 slot)
 
     if (gPartyMenu.menuType == PARTY_MENU_TYPE_MULTI_SHOWCASE && slot >= MULTI_PARTY_SIZE)
     {
-        u8 status;
+        u32 multi;
         actualSlot = slot - MULTI_PARTY_SIZE;
 
         if (gMultiPartnerParty[actualSlot].species != SPECIES_NONE)
         {
-            CreatePartyMonIconSpriteParameterized(gMultiPartnerParty[actualSlot].species, gMultiPartnerParty[actualSlot].personality, &sPartyMenuBoxes[slot], 0);
+            multi = gMultiPartnerParty[actualSlot].personality;
+            CreatePartyMonIconSpriteParameterized(gMultiPartnerParty[actualSlot].species, FALSE, multi, &sPartyMenuBoxes[slot], 0);
             CreatePartyMonHeldItemSpriteParameterized(gMultiPartnerParty[actualSlot].species, gMultiPartnerParty[actualSlot].heldItem, &sPartyMenuBoxes[slot]);
             CreatePartyMonPokeballSpriteParameterized(gMultiPartnerParty[actualSlot].species, &sPartyMenuBoxes[slot]);
             if (gMultiPartnerParty[actualSlot].hp == 0)
-                status = AILMENT_FNT;
+                multi = AILMENT_FNT;
             else
-                status = GetAilmentFromStatus(gMultiPartnerParty[actualSlot].status);
-            CreatePartyMonStatusSpriteParameterized(gMultiPartnerParty[actualSlot].species, status, &sPartyMenuBoxes[slot]);
+                multi = GetAilmentFromStatus(gMultiPartnerParty[actualSlot].status);
+            CreatePartyMonStatusSpriteParameterized(gMultiPartnerParty[actualSlot].species, multi, &sPartyMenuBoxes[slot]);
         }
     }
     else if (GetMonData(&gPlayerParty[slot], MON_DATA_SPECIES) != SPECIES_NONE)
@@ -4134,15 +4135,15 @@ static void CreatePartyMonIconSprite(struct Pokemon *mon, struct PartyMenuBox *m
     u16 species2;
 
     species2 = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
-    CreatePartyMonIconSpriteParameterized(species2, GetMonData(mon, MON_DATA_PERSONALITY), menuBox, 1);
+    CreatePartyMonIconSpriteParameterized(species2, GetMonData(mon, MON_DATA_IS_SHINY), GetMonData(mon, MON_DATA_PERSONALITY), menuBox, 1);
     UpdatePartyMonHPBar(menuBox->monSpriteId, mon);
 }
 
-static void CreatePartyMonIconSpriteParameterized(u16 species, u32 pid, struct PartyMenuBox *menuBox, u8 priority)
+static void CreatePartyMonIconSpriteParameterized(u16 species, bool32 isShiny, u32 pid, struct PartyMenuBox *menuBox, u8 priority)
 {
     if (species != SPECIES_NONE)
     {
-        menuBox->monSpriteId = CreateMonIcon(species, SpriteCB_MonIcon, menuBox->spriteCoords[0], menuBox->spriteCoords[1], 4, pid);
+        menuBox->monSpriteId = CreateMonIcon2(species, SpriteCB_MonIcon, menuBox->spriteCoords[0], menuBox->spriteCoords[1], 4, isShiny, pid);
         gSprites[menuBox->monSpriteId].oam.priority = priority;
     }
 }
@@ -6381,7 +6382,7 @@ static void Task_TryItemUseFormChange(u8 taskId)
         if (gTasks[taskId].tAnimWait == 0)
         {
             FreeAndDestroyMonIconSprite(icon);
-            CreatePartyMonIconSpriteParameterized(targetSpecies, GetMonData(mon, MON_DATA_PERSONALITY, NULL), &sPartyMenuBoxes[gPartyMenu.slotId], 1);
+            CreatePartyMonIconSpriteParameterized(targetSpecies, GetMonData(mon, MON_DATA_IS_SHINY, NULL), GetMonData(mon, MON_DATA_PERSONALITY, NULL), &sPartyMenuBoxes[gPartyMenu.slotId], 1);
             icon->oam.mosaic = TRUE;
             icon->data[0] = 10;
             icon->data[1] = 1;
@@ -6586,7 +6587,7 @@ void TryItemHoldFormChange(struct Pokemon *mon)
         PlayCry_NormalNoDucking(targetSpecies, 0, CRY_VOLUME_RS, CRY_VOLUME_RS);
         SetMonData(mon, MON_DATA_SPECIES, &targetSpecies);
         FreeAndDestroyMonIconSprite(&gSprites[sPartyMenuBoxes[gPartyMenu.slotId].monSpriteId]);
-        CreatePartyMonIconSpriteParameterized(targetSpecies, GetMonData(mon, MON_DATA_PERSONALITY, NULL), &sPartyMenuBoxes[gPartyMenu.slotId], 1);
+        CreatePartyMonIconSpriteParameterized(targetSpecies, GetMonData(mon, MON_DATA_IS_SHINY, NULL), GetMonData(mon, MON_DATA_PERSONALITY, NULL), &sPartyMenuBoxes[gPartyMenu.slotId], 1);
         CalculateMonStats(mon);
         UpdatePartyMonHeldItemSprite(mon, &sPartyMenuBoxes[gPartyMenu.slotId]);
     }
