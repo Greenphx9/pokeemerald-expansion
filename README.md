@@ -3,7 +3,7 @@ This is a fork of [aarant's icons branch](https://github.com/aarant/pokeemerald/
 
 ## Progress
 Main:
--  Kanto: 1.99% (3/151)
+-  Kanto: 5.96% (9/151)
 -  Johto: 0.00% (0/100)
 -  Hoenn: 0.00% (0/135)
 -  Sinnoh: 0.00% (0/107)
