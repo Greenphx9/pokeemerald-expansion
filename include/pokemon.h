@@ -428,6 +428,8 @@ struct SpeciesInfo /*0xC4*/
     u8 paddingF:3;
 #endif //P_GENDER_DIFFERENCES
     u8 padding3:2;
+    const u32 *iconPalette;
+    const u32 *iconShinyPalette;
     u8 enemyMonElevation; // This determines how much higher above the usual position the enemy Pokémon is during battle. Species that float or fly have nonzero values.
     // Flags
     u32 isLegendary:1;

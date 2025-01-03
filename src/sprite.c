@@ -1617,8 +1617,11 @@ u8 IndexOfSpritePaletteTag(u16 tag)
 {
     u32 i;
     for (i = gReservedSpritePaletteCount; i < 16; i++)
+    {
+        //DebugPrintf("test: %d", sSpritePaletteTags[i]);
         if (sSpritePaletteTags[i] == tag)
             return i;
+    }
 
     return 0xFF;
 }
