@@ -6630,7 +6630,6 @@ static void MoveMon(void)
             SetMovingMonData(StorageGetCurrentBox(), sCursorPosition);
             SetMovingMonSprite(MODE_BOX, sCursorPosition);
 
-            FreeSpritePaletteByTag(PALTAG_MOVING_MON);
             LoadCompressedSpritePaletteWithTag(GetIconPalette(GetMonData(&sStorage->movingMon, MON_DATA_SPECIES), GetMonData(&sStorage->movingMon, MON_DATA_IS_SHINY)), PALTAG_MOVING_MON);
             sStorage->movingMonPalOffset = OBJ_PLTT_ID(IndexOfSpritePaletteTag(PALTAG_MOVING_MON));
 
@@ -6657,11 +6656,13 @@ static void PlaceMon(void)
     case CURSOR_AREA_IN_PARTY:
         SetPlacedMonData(TOTAL_BOXES_COUNT, sCursorPosition);
         SetPlacedMonSprite(TOTAL_BOXES_COUNT, sCursorPosition);
+        FreeSpritePaletteByTag(PALTAG_MOVING_MON);
         break;
     case CURSOR_AREA_IN_BOX:
         boxId = StorageGetCurrentBox();
         SetPlacedMonData(boxId, sCursorPosition);
         SetPlacedMonSprite(boxId, sCursorPosition);
+        FreeSpritePaletteByTag(PALTAG_MOVING_MON);
         break;
     default:
         return;
