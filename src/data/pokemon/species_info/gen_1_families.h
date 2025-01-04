@@ -1078,6 +1078,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_Caterpie,
         .iconSprite = gMonIcon_Caterpie,
         .iconPalIndex = 1,
+        .iconPalette = gMonIconPalette_Caterpie,
+        .shinyIconPalette = gMonShinyIconPalette_Caterpie,
         SHADOW(4, 1, SHADOW_SIZE_S)
         FOOTPRINT(Caterpie)
         OVERWORLD(
@@ -1141,6 +1143,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_Metapod,
         .iconSprite = gMonIcon_Metapod,
         .iconPalIndex = 1,
+        .iconPalette = gMonIconPalette_Metapod,
+        .shinyIconPalette = gMonShinyIconPalette_Metapod,
         SHADOW(3, 0, SHADOW_SIZE_S)
         FOOTPRINT(Metapod)
         OVERWORLD(
@@ -1217,6 +1221,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_Butterfree,
         .iconSprite = gMonIcon_Butterfree,
         .iconPalIndex = 0,
+        .iconPalette = gMonIconPalette_Butterfree,
+        .shinyIconPalette = gMonShinyIconPalette_Butterfree,
 #if P_GENDER_DIFFERENCES
         .frontPicFemale = gMonFrontPic_ButterfreeF,
         .frontPicSizeFemale = MON_COORDS_SIZE(64, 56),
@@ -1356,6 +1362,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_Weedle,
         .iconSprite = gMonIcon_Weedle,
         .iconPalIndex = P_GBA_STYLE_SPECIES_ICONS ? 1 : 2,
+        .iconPalette = gMonIconPalette_Weedle,
+        .shinyIconPalette = gMonShinyIconPalette_Weedle,
         SHADOW(0, 0, SHADOW_SIZE_S)
         FOOTPRINT(Weedle)
         OVERWORLD(
@@ -1420,6 +1428,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_Kakuna,
         .iconSprite = gMonIcon_Kakuna,
         .iconPalIndex = 2,
+        .iconPalette = gMonIconPalette_Kakuna,
+        .shinyIconPalette = gMonShinyIconPalette_Kakuna,
         SHADOW(0, 2, SHADOW_SIZE_S)
         FOOTPRINT(Kakuna)
         OVERWORLD(
@@ -1496,6 +1506,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_Beedrill,
         .iconSprite = gMonIcon_Beedrill,
         .iconPalIndex = 2,
+        .iconPalette = gMonIconPalette_Beedrill,
+        .shinyIconPalette = gMonShinyIconPalette_Beedrill,
         SHADOW(4, 15, SHADOW_SIZE_M)
         FOOTPRINT(Beedrill)
         OVERWORLD(
@@ -1627,6 +1639,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_Pidgey,
         .iconSprite = gMonIcon_Pidgey,
         .iconPalIndex = 0,
+        .iconPalette = gMonIconPalette_Pidgey,
+        .shinyIconPalette = gMonShinyIconPalette_Pidgey,
         SHADOW(-1, -1, SHADOW_SIZE_S)
         FOOTPRINT(Pidgey)
         OVERWORLD(
@@ -1695,6 +1709,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_Pidgeotto,
         .iconSprite = gMonIcon_Pidgeotto,
         .iconPalIndex = 0,
+        .iconPalette = gMonIconPalette_Pidgeotto,
+        .shinyIconPalette = gMonShinyIconPalette_Pidgeotto,
         SHADOW(-4, 6, SHADOW_SIZE_M)
         FOOTPRINT(Pidgeotto)
         OVERWORLD(
@@ -1772,6 +1788,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_Pidgeot,
         .iconSprite = gMonIcon_Pidgeot,
         .iconPalIndex = 0,
+        .iconPalette = gMonIconPalette_Pidgeot,
+        .shinyIconPalette = gMonShinyIconPalette_Pidgeot,
         SHADOW(-7, 14, SHADOW_SIZE_M)
         FOOTPRINT(Pidgeot)
         OVERWORLD(
@@ -1895,6 +1913,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_Rattata,
         .iconSprite = gMonIcon_Rattata,
         .iconPalIndex = 2,
+        .iconPalette = gMonIconPalette_Rattata,
+        .shinyIconPalette = gMonShinyIconPalette_Rattata,
 #if P_GENDER_DIFFERENCES
         .frontPicFemale = gMonFrontPic_RattataF,
         .frontPicSizeFemale = MON_COORDS_SIZE(40, 40),
@@ -1971,6 +1991,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_Raticate,
         .iconSprite = gMonIcon_Raticate,
         .iconPalIndex = P_GBA_STYLE_SPECIES_ICONS ? 1 : 2,
+        .iconPalette = gMonIconPalette_Raticate,
+        .shinyIconPalette = gMonShinyIconPalette_Raticate,
 #if P_GENDER_DIFFERENCES
         .frontPicFemale = gMonFrontPic_RaticateF,
         .frontPicSizeFemale = MON_COORDS_SIZE(64, 56),
@@ -2239,6 +2261,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_Spearow,
         .iconSprite = gMonIcon_Spearow,
         .iconPalIndex = 0,
+        .iconPalette = gMonIconPalette_Spearow,
+        .shinyIconPalette = gMonShinyIconPalette_Spearow,
         SHADOW(0, 1, SHADOW_SIZE_S)
         FOOTPRINT(Spearow)
         OVERWORLD(
@@ -2305,6 +2329,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_Fearow,
         .iconSprite = gMonIcon_Fearow,
         .iconPalIndex = 0,
+        .iconPalette = gMonIconPalette_Fearow,
+        .shinyIconPalette = gMonShinyIconPalette_Fearow,
         SHADOW(0, 17, SHADOW_SIZE_M)
         FOOTPRINT(Fearow)
         OVERWORLD(
@@ -2369,6 +2395,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_Ekans,
         .iconSprite = gMonIcon_Ekans,
         .iconPalIndex = 2,
+        .iconPalette = gMonIconPalette_Ekans,
+        .shinyIconPalette = gMonShinyIconPalette_Ekans,
         SHADOW(0, 2, SHADOW_SIZE_M)
         FOOTPRINT(Ekans)
         OVERWORLD(
@@ -2438,6 +2466,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_Arbok,
         .iconSprite = gMonIcon_Arbok,
         .iconPalIndex = 2,
+        .iconPalette = gMonIconPalette_Arbok,
+        .shinyIconPalette = gMonShinyIconPalette_Arbok,
         SHADOW(1, 11, SHADOW_SIZE_L)
         FOOTPRINT(Arbok)
         OVERWORLD(
@@ -2630,6 +2660,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_Pikachu,
         .iconSprite = gMonIcon_Pikachu,
         .iconPalIndex = 2,
+        .iconPalette = gMonIconPalette_Pikachu,
+        .shinyIconPalette = gMonShinyIconPalette_Pikachu,
 #if P_GENDER_DIFFERENCES
         .frontPicFemale = gMonFrontPic_PikachuF,
         .frontPicSizeFemale = MON_COORDS_SIZE(48, 48),
@@ -3610,6 +3642,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_Raichu,
         .iconSprite = gMonIcon_Raichu,
         .iconPalIndex = 0,
+        .iconPalette = gMonIconPalette_Raichu,
+        .shinyIconPalette = gMonShinyIconPalette_Raichu,
 #if P_GENDER_DIFFERENCES
         .frontPicFemale = gMonFrontPic_RaichuF,
         .frontPicSizeFemale = MON_COORDS_SIZE(64, 64),
@@ -3751,6 +3785,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_Sandshrew,
         .iconSprite = gMonIcon_Sandshrew,
         .iconPalIndex = 2,
+        .iconPalette = gMonIconPalette_Sandshrew,
+        .shinyIconPalette = gMonShinyIconPalette_Sandshrew,
         SHADOW(0, 1, SHADOW_SIZE_M)
         FOOTPRINT(Sandshrew)
         OVERWORLD(
@@ -3816,6 +3852,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_Sandslash,
         .iconSprite = gMonIcon_Sandslash,
         .iconPalIndex = 2,
+        .iconPalette = gMonIconPalette_Sandslash,
+        .shinyIconPalette = gMonShinyIconPalette_Sandslash,
         SHADOW(4, 4, SHADOW_SIZE_L)
         FOOTPRINT(Sandslash)
         OVERWORLD(
@@ -4017,6 +4055,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_NidoranF,
         .iconSprite = gMonIcon_NidoranF,
         .iconPalIndex = P_GBA_STYLE_SPECIES_ICONS ? 2 : 0,
+        .iconPalette = gMonIconPalette_NidoranF,
+        .shinyIconPalette = gMonShinyIconPalette_NidoranF,
         SHADOW(1, 0, SHADOW_SIZE_S)
         FOOTPRINT(NidoranF)
         OVERWORLD(
@@ -4084,6 +4124,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_Nidorina,
         .iconSprite = gMonIcon_Nidorina,
         .iconPalIndex = P_GBA_STYLE_SPECIES_ICONS ? 2 : 0,
+        .iconPalette = gMonIconPalette_Nidorina,
+        .shinyIconPalette = gMonShinyIconPalette_Nidorina,
         SHADOW(3, 5, SHADOW_SIZE_M)
         FOOTPRINT(Nidorina)
         OVERWORLD(
