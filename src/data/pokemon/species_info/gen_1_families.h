@@ -2069,6 +2069,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_RattataAlola,
         .iconSprite = gMonIcon_RattataAlola,
         .iconPalIndex = 2,
+        .iconPalette = gMonIconPalette_RattataAlola,
+        .shinyIconPalette = gMonShinyIconPalette_RattataAlola,
         SHADOW(-3, 2, SHADOW_SIZE_S)
         FOOTPRINT(Rattata)
         OVERWORLD(
@@ -2132,6 +2134,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_RaticateAlola,
         .iconSprite = gMonIcon_RaticateAlola,
         .iconPalIndex = 2,
+        .iconPalette = gMonIconPalette_RaticateAlola,
+        .shinyIconPalette = gMonShinyIconPalette_RaticateAlola,
         SHADOW(-4, 3, SHADOW_SIZE_L)
         FOOTPRINT(Raticate)
         OVERWORLD(
@@ -3718,6 +3722,8 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .shinyPalette = gMonShinyPalette_RaichuAlola,
         .iconSprite = gMonIcon_RaichuAlola,
         .iconPalIndex = 2,
+        .iconPalette = gMonIconPalette_RaichuAlola,
+        .shinyIconPalette = gMonShinyIconPalette_RaichuAlola,
         SHADOW(3, 15, SHADOW_SIZE_M)
         FOOTPRINT(Raichu)
         OVERWORLD(
