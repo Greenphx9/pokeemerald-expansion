@@ -21,7 +21,7 @@ Forms:
 - Alolan: 100.00% (18/18)
 - Galarian: 0.00% (0/18)
 - Hisuian: 0.00% (0/15)
-- Paldean: 0.00% (0/4)
+- Paldean: 100.00% (4/4)
 
 ## Credits
 - [aarant/merrp:](https://github.com/aarant) [icons branch](https://github.com/aarant/pokeemerald/tree/icons)

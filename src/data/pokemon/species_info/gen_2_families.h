@@ -3121,6 +3121,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .shinyPalette = gMonShinyPalette_WooperPaldea,
         .iconSprite = gMonIcon_WooperPaldea,
         .iconPalIndex = 2,
+        .iconPalette = gMonIconPalette_WooperPaldea,
+        .shinyIconPalette = gMonShinyIconPalette_WooperPaldea,
         SHADOW(-1, -2, SHADOW_SIZE_S)
         FOOTPRINT(Wooper)
         OVERWORLD(
