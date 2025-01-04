@@ -18,7 +18,7 @@ Main:
 
 Forms:
 - Megas / Primals: 0.00% (0/48)
-- Alolan: 0.00% (0/18)
+- Alolan: 100.00% (18/18)
 - Galarian: 0.00% (0/18)
 - Hisuian: 0.00% (0/15)
 - Paldean: 0.00% (0/4)
