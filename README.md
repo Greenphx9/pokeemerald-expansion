@@ -4,8 +4,11 @@ This is a fork of [aarant's icons branch](https://github.com/aarant/pokeemerald/
 I am currently looking for a set of Generation 8 regular + shiny icons. I have regular icons but no shiny atm.
 
 ## Progress
+Overall:
+- Roughly **7.26%** complete (84 / around 1153)
+
 Main:
--  Kanto: 19.88% (30/151)
+-  Kanto: 41.06% (62/151)
 -  Johto: 0.00% (0/100)
 -  Hoenn: 0.00% (0/135)
 -  Sinnoh: 0.00% (0/107)
