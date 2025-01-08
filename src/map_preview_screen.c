@@ -696,15 +696,13 @@ static void VblankCB_MapPreviewScript(void)
 
 void Script_MapPreview(void)
 {
-    u8 taskId;
-    
     SetVBlankCallback(NULL);
     gMain.savedCallback = CB2_ReturnToFieldContinueScript;
     MapPreview_LoadGfx(gMapHeader.regionMapSectionId);
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0x10, 0, RGB_BLACK);
     SetVBlankCallback(VblankCB_MapPreviewScript);
     SetMainCallback2(CB2_MapPreviewScript);
-    taskId = CreateTask(Task_RunMapPreview_Script, 0);
+    CreateTask(Task_RunMapPreview_Script, 0);
 }
 
 static void CB2_MapPreviewScript(void)
