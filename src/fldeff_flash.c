@@ -163,7 +163,7 @@ static bool8 TryDoMapTransition(void)
     u8 fromType = GetLastUsedWarpMapType();
     u8 toType = GetCurrentMapType();
 
-    if (GetLastUsedWarpMapSectionId() != gMapHeader.regionMapSectionId && (MapHasPreviewScreen_HandleQLState2(gMapHeader.regionMapSectionId, MPS_TYPE_CAVE) == TRUE || MapHasPreviewScreen_HandleQLState2(gMapHeader.regionMapSectionId, MPS_TYPE_WEATHER) == TRUE))
+    if (GetLastUsedWarpMapSectionId() != gMapHeader.regionMapSectionId && (MapHasPreviewScreen_HandleQLState2(gMapHeader.regionMapSectionId, MPS_TYPE_CAVE) == TRUE || MapHasPreviewScreen_HandleQLState2(gMapHeader.regionMapSectionId, MPS_TYPE_BASIC) == TRUE))
     {
         RunMapPreviewScreen(gMapHeader.regionMapSectionId);
         return TRUE;
@@ -421,7 +421,7 @@ static void Task_MapPreviewScreen_0(u8 taskId)
         data[1]++;
         if (data[1] > data[2] || JOY_HELD(B_BUTTON))
         {
-            if (MapHasPreviewScreen_HandleQLState2(gMapHeader.regionMapSectionId, MPS_TYPE_WEATHER) == TRUE)
+            if (MapHasPreviewScreen_HandleQLState2(gMapHeader.regionMapSectionId, MPS_TYPE_BASIC) == TRUE)
             {
                 BeginNormalPaletteFade(PALETTES_ALL, MPS_WEATHER_FADE_SPEED, 0, 16, RGB_BLACK);
             }
@@ -440,7 +440,7 @@ static void Task_MapPreviewScreen_0(u8 taskId)
                 data[i] = 0;
             }
             MapPreview_Unload(data[4]);
-            if (MapHasPreviewScreen_HandleQLState2(gMapHeader.regionMapSectionId, MPS_TYPE_WEATHER) == TRUE)
+            if (MapHasPreviewScreen_HandleQLState2(gMapHeader.regionMapSectionId, MPS_TYPE_BASIC) == TRUE)
             {
                 SetMainCallback2(gMain.savedCallback);
             }

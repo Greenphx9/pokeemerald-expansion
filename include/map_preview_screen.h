@@ -75,15 +75,15 @@ enum PreviewImageId
                                     // with the mappreview scripting macro.
                                     // It is unaffected by MPS_DURATION_ALWAYS.
 
-#define MPS_WEATHER_FADE_SPEED  1   // This sets the speed that the map preview fades out when MPS_TYPE_WEATHER is used.
+#define MPS_BASIC_FADE_SPEED    1   // This sets the speed that the map preview fades out when MPS_TYPE_BASIC is used.
                                     // Numbers less than 1 will have a shorter fade time (negative numbers can be used).
                                     // Numbers greater than 1 will have a longer fade time.
 
 
 // Constants
 #define MPS_TYPE_BASIC      0
-#define MPS_TYPE_CAVE       1
-#define MPS_TYPE_WEATHER    2
+#define MPS_TYPE_FADE_IN    1
+#define MPS_TYPE_CAVE       2
 #define MPS_TYPE_ANY        3
 
 #define MPS_FLAG_NULL       0
