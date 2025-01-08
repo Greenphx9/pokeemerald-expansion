@@ -538,11 +538,11 @@ bool32 ForestMapPreviewScreenIsRunning(void)
 {
     if (FuncIsActiveTask(Task_RunMapPreviewScreenForest) == TRUE)
     {
-        return FALSE;
+        return TRUE;
     }
     else
     {
-        return TRUE;
+        return FALSE;
     }
 }
 
@@ -723,7 +723,7 @@ static void Task_RunMapPreview_Script(u8 taskId)
         frameCounter++;
         if (frameCounter > MPS_DURATION_SCRIPT || JOY_HELD(B_BUTTON))
         {
-            BeginNormalPaletteFade(PALETTES_ALL, MPS_WEATHER_FADE_SPEED, 0, 16, RGB_BLACK);
+            BeginNormalPaletteFade(PALETTES_ALL, MPS_BASIC_FADE_SPEED, 0, 16, RGB_BLACK);
             frameCounter = 0;
             taskStep++;
         }

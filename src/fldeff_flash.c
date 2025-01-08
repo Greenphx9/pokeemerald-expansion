@@ -423,7 +423,7 @@ static void Task_MapPreviewScreen_0(u8 taskId)
         {
             if (MapHasPreviewScreen_HandleQLState2(gMapHeader.regionMapSectionId, MPS_TYPE_BASIC) == TRUE)
             {
-                BeginNormalPaletteFade(PALETTES_ALL, MPS_WEATHER_FADE_SPEED, 0, 16, RGB_BLACK);
+                BeginNormalPaletteFade(PALETTES_ALL, MPS_BASIC_FADE_SPEED, 0, 16, RGB_BLACK);
             }
             else {
                 BeginNormalPaletteFade(PALETTES_ALL, -2, 0, 16, RGB_WHITE);
