@@ -54,6 +54,8 @@
 #include "constants/union_room.h"
 #include "constants/weather.h"
 
+#include "character_customization.h"
+
 // this file was known as evobjmv.c in Game Freak's original source
 
 enum {
@@ -2764,7 +2766,13 @@ static u8 UpdateSpritePalette(const struct SpritePalette *spritePalette, struct 
     sprite->inUse = FALSE;
     FieldEffectFreePaletteIfUnused(sprite->oam.paletteNum);
     sprite->inUse = TRUE;
-    return sprite->oam.paletteNum = LoadSpritePalette(spritePalette);
+    sprite->oam.paletteNum = LoadSpritePalette(spritePalette);
+    if (IsPlayerPalTag(spritePalette->tag))
+    {
+        UpdateCharacterPalette(IndexOfSpritePaletteTag(spritePalette->tag));
+    }
+        
+    return sprite->oam.paletteNum;
 }
 
 // Find and update based on template's paletteTag
@@ -11054,5 +11062,12 @@ bool8 MovementActionFunc_RunSlow_Step1(struct ObjectEvent *objectEvent, struct S
         sprite->sActionFuncId = 2;
         return TRUE;
     }
+    return FALSE;
+}
+
+bool32 IsPlayerPalTag(u32 palTag)
+{
+    if (palTag == OBJ_EVENT_PAL_TAG_BRENDAN || palTag == OBJ_EVENT_PAL_TAG_MAY)
+        return TRUE;
     return FALSE;
 }
