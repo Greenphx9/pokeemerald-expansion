@@ -42,7 +42,7 @@ Huge credits to everyone involved!
 #define PARTY_MENU_STYLE_HGSS       1
 #define PARTY_MENU_STYLE_BW         2
 
-#define PARTY_MENU_STYLE                   PARTY_MENU_STYLE_DEFAULT                       
+#define PARTY_MENU_STYLE                   PARTY_MENU_STYLE_BW                       
 #define PARTY_MENU_ALPHA                   (PARTY_MENU_STYLE == PARTY_MENU_STYLE_BW) // If TRUE, the columns have a transparent BG. 
                                                                                      // Only designed for the BW style, so looks ugly on other styles.
 #define PARTY_MENU_HIGHLIGHT_ACTIVE_SINGLE FALSE // If TRUE, in single battles, changes the colour of the first party slot. Easier to see who is on the field, in my opinion.
