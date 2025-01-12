@@ -279,38 +279,38 @@ static const struct SpriteFrameImage sPicTable_Arrow[] = {
 
 static const union AnimCmd sArrowAnim_South[] =
 {
+    ANIMCMD_FRAME(2, 32),
     ANIMCMD_FRAME(3, 32),
-    ANIMCMD_FRAME(7, 32),
     ANIMCMD_JUMP(0),
 };
 
 static const union AnimCmd sArrowAnim_North[] =
 {
     ANIMCMD_FRAME(0, 32),
-    ANIMCMD_FRAME(4, 32),
+    ANIMCMD_FRAME(1, 32),
     ANIMCMD_JUMP(0),
 };
 
 static const union AnimCmd sArrowAnim_West[] =
 {
-    ANIMCMD_FRAME(1, 32),
+    ANIMCMD_FRAME(4, 32),
     ANIMCMD_FRAME(5, 32),
     ANIMCMD_JUMP(0),
 };
 
 static const union AnimCmd sArrowAnim_East[] =
 {
-    ANIMCMD_FRAME(2, 32),
     ANIMCMD_FRAME(6, 32),
+    ANIMCMD_FRAME(7, 32),
     ANIMCMD_JUMP(0),
 };
 
 static const union AnimCmd *const sAnimTable_Arrow[] =
 {
-    sArrowAnim_South,
-    sArrowAnim_North,
-    sArrowAnim_West,
-    sArrowAnim_East,
+    [DIR_SOUTH - 1] = sArrowAnim_South,
+    [DIR_NORTH - 1] = sArrowAnim_North,
+    [DIR_WEST  - 1] = sArrowAnim_West,
+    [DIR_EAST  - 1] = sArrowAnim_East,
 };
 
 const struct SpriteTemplate gFieldEffectObjectTemplate_Arrow = {
