@@ -13,6 +13,14 @@
 #include "dynamic_placeholder_text_util.h"
 #include "fonts.h"
 
+#define TAG_CURSOR 0x8000
+
+#define CURSOR_DELAY 8
+
+#define DARK_DOWN_ARROW_OFFSET 256
+
+extern const struct OamData gOamData_AffineOff_ObjNormal_16x16;
+
 static u16 RenderText(struct TextPrinter *);
 static u32 RenderFont(struct TextPrinter *);
 static u16 FontFunc_Small(struct TextPrinter *);
@@ -46,6 +54,7 @@ static u32 GetGlyphWidth_Narrower(u16, bool32);
 static u32 GetGlyphWidth_SmallNarrower(u16, bool32);
 static u32 GetGlyphWidth_ShortNarrow(u16, bool32);
 static u32 GetGlyphWidth_ShortNarrower(u16, bool32);
+static void SpriteCB_TextCursor(struct Sprite *sprite);
 
 static EWRAM_DATA struct TextPrinter sTempTextPrinter = {0};
 static EWRAM_DATA struct TextPrinter sTextPrinters[WINDOWS_MAX] = {0};
@@ -80,11 +89,10 @@ static const u8 sFontHalfRowOffsets[] =
     0x00, 0x01, 0x02, 0x00, 0x03, 0x04, 0x05, 0x03, 0x06, 0x07, 0x08, 0x06, 0x00, 0x01, 0x02, 0x00
 };
 
-static const u8 sDownArrowTiles[] = INCBIN_U8("graphics/fonts/down_arrow.4bpp");
-static const u8 sDarkDownArrowTiles[] = INCBIN_U8("graphics/fonts/down_arrow_alt.4bpp");
-static const u8 sUnusedFRLGBlankedDownArrow[] = INCBIN_U8("graphics/fonts/unused_frlg_blanked_down_arrow.4bpp");
-static const u8 sUnusedFRLGDownArrow[] = INCBIN_U8("graphics/fonts/unused_frlg_down_arrow.4bpp");
-static const u8 sDownArrowYCoords[] = { 0, 1, 2, 1 };
+static const u8 sDownArrowTiles[]          = INCBIN_U8("graphics/fonts/down_arrows.4bpp");
+static const u8 sDoubleArrowTiles1[]       = INCBIN_U8("graphics/fonts/down_arrow_3.4bpp");
+static const u8 sDoubleArrowTiles2[]       = INCBIN_U8("graphics/fonts/down_arrow_4.4bpp");
+static const u8 sDownArrowYCoords[] = { 0, 16, 32, 16 };
 static const u8 sWindowVerticalScrollSpeeds[] = {
     [OPTIONS_TEXT_SPEED_SLOW] = 1,
     [OPTIONS_TEXT_SPEED_MID] = 2,
@@ -106,6 +114,30 @@ static const struct GlyphWidthFunc sGlyphWidthFuncs[] =
     { FONT_SMALL_NARROWER, GetGlyphWidth_SmallNarrower },
     { FONT_SHORT_NARROW,   GetGlyphWidth_ShortNarrow },
     { FONT_SHORT_NARROWER, GetGlyphWidth_ShortNarrower },
+};
+
+static const struct SpriteSheet sSpriteSheets_TextCursor[] =
+{
+    {sDoubleArrowTiles1, sizeof(sDoubleArrowTiles1), TAG_CURSOR},
+    {sDoubleArrowTiles2, sizeof(sDoubleArrowTiles2), TAG_CURSOR},
+    {NULL}
+};
+
+static const struct SpritePalette sSpritePalettes_TextCursor[] =
+{
+    {gStandardMenuPalette, TAG_CURSOR},
+    {NULL}
+};
+
+static const struct SpriteTemplate sSpriteTemplate_TextCursor =
+{
+    .tileTag = TAG_CURSOR,
+    .paletteTag = TAG_CURSOR,
+    .oam = &gOamData_AffineOff_ObjNormal_16x16,
+    .anims = gDummySpriteAnimTable,
+    .images = NULL,
+    .affineAnims = gDummySpriteAffineAnimTable,
+    .callback = SpriteCB_TextCursor,
 };
 
 struct
@@ -910,8 +942,8 @@ void TextPrinterDrawDownArrow(struct TextPrinter *textPrinter)
                 textPrinter->printerTemplate.bgColor << 4 | textPrinter->printerTemplate.bgColor,
                 textPrinter->printerTemplate.currentX,
                 textPrinter->printerTemplate.currentY,
-                8,
-                16);
+                10,
+                12);
 
             switch (gTextFlags.useAlternateDownArrow)
             {
@@ -920,21 +952,21 @@ void TextPrinterDrawDownArrow(struct TextPrinter *textPrinter)
                 arrowTiles = sDownArrowTiles;
                 break;
             case TRUE:
-                arrowTiles = sDarkDownArrowTiles;
+                arrowTiles = &sDownArrowTiles[DARK_DOWN_ARROW_OFFSET];
                 break;
             }
 
             BlitBitmapRectToWindow(
                 textPrinter->printerTemplate.windowId,
                 arrowTiles,
-                0,
                 sDownArrowYCoords[subStruct->downArrowYPosIdx],
-                8,
-                16,
+                0,
+                0x80,
+                0x10,
                 textPrinter->printerTemplate.currentX,
                 textPrinter->printerTemplate.currentY,
-                8,
-                16);
+                10,
+                12);
             CopyWindowToVram(textPrinter->printerTemplate.windowId, COPYWIN_GFX);
 
             subStruct->downArrowDelay = 8;
@@ -1025,7 +1057,7 @@ void DrawDownArrow(u8 windowId, u16 x, u16 y, u8 bgColor, bool32 drawArrow, u8 *
     }
     else
     {
-        FillWindowPixelRect(windowId, (bgColor << 4) | bgColor, x, y, 0x8, 0x10);
+        FillWindowPixelRect(windowId, (bgColor << 4) | bgColor, x, y, 10, 12);
         if (drawArrow == 0)
         {
             switch (gTextFlags.useAlternateDownArrow)
@@ -1035,13 +1067,23 @@ void DrawDownArrow(u8 windowId, u16 x, u16 y, u8 bgColor, bool32 drawArrow, u8 *
                 arrowTiles = sDownArrowTiles;
                 break;
             case TRUE:
-                arrowTiles = sDarkDownArrowTiles;
+                arrowTiles = &sDownArrowTiles[DARK_DOWN_ARROW_OFFSET];
                 break;
             }
 
-            BlitBitmapRectToWindow(windowId, arrowTiles, 0, sDownArrowYCoords[*yCoordIndex & 3], 8, 16, x, y - 2, 8, 16);
-            CopyWindowToVram(windowId, COPYWIN_GFX);
-            *counter = 8;
+            BlitBitmapRectToWindow(
+                windowId,
+                arrowTiles,
+                sDownArrowYCoords[*yCoordIndex & 3],
+                0,
+                0x80,
+                0x10,
+                x,
+                y,
+                10,
+                12);
+            CopyWindowToVram(windowId, 0x2);
+            *counter = CURSOR_DELAY;
             ++*yCoordIndex;
         }
     }
@@ -2304,3 +2346,57 @@ u8 *WrapFontIdToFit(u8 *start, u8 *end, u32 fontId, u32 width)
         return end;
     }
 }
+
+#define sDelay data[0]
+#define sState data[1]
+
+static void SpriteCB_TextCursor(struct Sprite *sprite)
+{
+    if (sprite->sDelay)
+    {
+        sprite->sDelay--;
+    }
+    else
+    {
+        sprite->sDelay = CURSOR_DELAY;
+        switch(sprite->sState)
+        {
+        case 0:
+            sprite->y2 = 0;
+            break;
+        case 1:
+            sprite->y2 = 1;
+            break;
+        case 2:
+            sprite->y2 = 2;
+            break;
+        case 3:
+            sprite->y2 = 1;
+            sprite->sState = 0;
+            return;
+        }
+        sprite->sState++;
+    }
+}
+
+u8 CreateTextCursorSprite(u8 sheetId, u16 x, u16 y, u8 priority, u8 subpriority)
+{
+    u8 spriteId;
+    LoadSpriteSheet(&sSpriteSheets_TextCursor[sheetId & 1]);
+    LoadSpritePalette(&sSpritePalettes_TextCursor[0]);
+    spriteId = CreateSprite(&sSpriteTemplate_TextCursor, x + 3, y + 4, subpriority);
+    gSprites[spriteId].oam.priority = (priority & 3);
+    gSprites[spriteId].oam.matrixNum = 0;
+    gSprites[spriteId].sDelay = CURSOR_DELAY;
+    return spriteId;
+}
+
+void DestroyTextCursorSprite(u8 spriteId)
+{
+    DestroySprite(&gSprites[spriteId]);
+    FreeSpriteTilesByTag(TAG_CURSOR);
+    FreeSpritePaletteByTag(TAG_CURSOR);
+}
+
+#undef sDelay
+#undef sState
