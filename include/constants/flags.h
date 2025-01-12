@@ -1638,7 +1638,12 @@
 #define DAILY_FLAGS_END                             (FLAG_UNUSED_0x95F + (7 - FLAG_UNUSED_0x95F % 8))
 #define NUM_DAILY_FLAGS                             (DAILY_FLAGS_END - DAILY_FLAGS_START + 1)
 
-#define FLAGS_COUNT (DAILY_FLAGS_END + 1)
+#define EXTRA_FLAGS_START                           (DAILY_FLAGS_END + 1)
+
+#define FLAG_UNUSED_0x1600                          0x1600
+#define EXTRA_FLAGS_END                             (FLAG_UNUSED_0x1600)                          
+
+#define FLAGS_COUNT (EXTRA_FLAGS_END + 1)
 
 // Special Flags (Stored in EWRAM (sSpecialFlags), not in the SaveBlock)
 #define SPECIAL_FLAGS_START                     0x4000

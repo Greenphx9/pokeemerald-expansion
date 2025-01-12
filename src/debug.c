@@ -2437,7 +2437,7 @@ static void DebugAction_FlagsVars_Flags(u8 taskId)
 
     // Display initial flag
     ConvertIntToDecimalStringN(gStringVar1, 1, STR_CONV_MODE_LEADING_ZEROS, DEBUG_NUMBER_DIGITS_FLAGS);
-    ConvertIntToHexStringN(gStringVar2, 1, STR_CONV_MODE_LEFT_ALIGN, 3);
+    ConvertIntToHexStringN(gStringVar2, 1, STR_CONV_MODE_LEFT_ALIGN, 4);
     StringExpandPlaceholders(gStringVar1, sDebugText_FlagsVars_FlagHex);
     if (FlagGet(FLAG_TEMP_1))
         StringCopyPadded(gStringVar2, sDebugText_True, CHAR_SPACE, 15);
@@ -2498,7 +2498,7 @@ static void DebugAction_FlagsVars_FlagsSelect(u8 taskId)
     if (JOY_NEW(DPAD_ANY) || JOY_NEW(A_BUTTON))
     {
         ConvertIntToDecimalStringN(gStringVar1, gTasks[taskId].tInput, STR_CONV_MODE_LEADING_ZEROS, DEBUG_NUMBER_DIGITS_FLAGS);
-        ConvertIntToHexStringN(gStringVar2, gTasks[taskId].tInput, STR_CONV_MODE_LEFT_ALIGN, 3);
+        ConvertIntToHexStringN(gStringVar2, gTasks[taskId].tInput, STR_CONV_MODE_LEFT_ALIGN, 4);
         StringExpandPlaceholders(gStringVar1, sDebugText_FlagsVars_FlagHex);
         if (FlagGet(gTasks[taskId].tInput) == TRUE)
             StringCopyPadded(gStringVar2, sDebugText_True, CHAR_SPACE, 15);
