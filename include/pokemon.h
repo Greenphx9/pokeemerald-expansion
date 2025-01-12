@@ -116,6 +116,12 @@ enum {
     MON_DATA_GIGANTAMAX_FACTOR,
     MON_DATA_TERA_TYPE,
     MON_DATA_EVOLUTION_TRACKER,
+    MON_DATA_WANTED_HP_EV,
+    MON_DATA_WANTED_ATK_EV,
+    MON_DATA_WANTED_DEF_EV,
+    MON_DATA_WANTED_SPEED_EV,
+    MON_DATA_WANTED_SPATK_EV,
+    MON_DATA_WANTED_SPDEF_EV,
 };
 
 struct PokemonSubstruct0
@@ -164,12 +170,12 @@ struct PokemonSubstruct2
     u8 speedEV;
     u8 spAttackEV;
     u8 spDefenseEV;
-    u8 cool;
-    u8 beauty;
-    u8 cute;
-    u8 smart;
-    u8 tough;
-    u8 sheen;
+    u8 wantedHpEV;
+    u8 wantedAttackEV;
+    u8 wantedDefenseEV;
+    u8 wantedSpeedEV;
+    u8 wantedSpAttackEV;
+    u8 wantedSpDefenseEV;
 };
 
 struct PokemonSubstruct3

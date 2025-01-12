@@ -108,11 +108,6 @@ static void CreateInitialRoamerMon(u8 index, u16 species, u8 level)
     ROAMER(index)->statusA = 0;
     ROAMER(index)->statusB = 0;
     ROAMER(index)->hp = GetMonData(&gEnemyParty[0], MON_DATA_MAX_HP);
-    ROAMER(index)->cool = GetMonData(&gEnemyParty[0], MON_DATA_COOL);
-    ROAMER(index)->beauty = GetMonData(&gEnemyParty[0], MON_DATA_BEAUTY);
-    ROAMER(index)->cute = GetMonData(&gEnemyParty[0], MON_DATA_CUTE);
-    ROAMER(index)->smart = GetMonData(&gEnemyParty[0], MON_DATA_SMART);
-    ROAMER(index)->tough = GetMonData(&gEnemyParty[0], MON_DATA_TOUGH);
     ROAMER(index)->active = TRUE;
     sRoamerLocation[index][MAP_GRP] = ROAMER_MAP_GROUP;
     sRoamerLocation[index][MAP_NUM] = sRoamerLocations[Random() % NUM_LOCATION_SETS][0];

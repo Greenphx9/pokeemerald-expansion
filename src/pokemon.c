@@ -1275,6 +1275,15 @@ void CreateBoxMon(struct BoxPokemon *boxMon, u16 species, u8 level, u8 fixedIV, 
         SetBoxMonData(boxMon, MON_DATA_ABILITY_NUM, &value);
     }
 
+    // Set wanted EVs to 252 so mons can gain EVs by default
+    value = 16;
+    SetBoxMonData(boxMon, MON_DATA_WANTED_HP_EV, &value);
+    SetBoxMonData(boxMon, MON_DATA_WANTED_ATK_EV, &value);
+    SetBoxMonData(boxMon, MON_DATA_WANTED_DEF_EV, &value);
+    SetBoxMonData(boxMon, MON_DATA_WANTED_SPEED_EV, &value);
+    SetBoxMonData(boxMon, MON_DATA_WANTED_SPATK_EV, &value);
+    SetBoxMonData(boxMon, MON_DATA_WANTED_SPDEF_EV, &value);
+
     GiveBoxMonInitialMoveset(boxMon);
 }
 
@@ -2542,22 +2551,40 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
             retVal = substruct2->spDefenseEV;
             break;
         case MON_DATA_COOL:
-            retVal = substruct2->cool;
+            retVal = 0;
             break;
         case MON_DATA_BEAUTY:
-            retVal = substruct2->beauty;
+            retVal = 0;
             break;
         case MON_DATA_CUTE:
-            retVal = substruct2->cute;
+            retVal = 0;
             break;
         case MON_DATA_SMART:
-            retVal = substruct2->smart;
+            retVal = 0;
             break;
         case MON_DATA_TOUGH:
-            retVal = substruct2->tough;
+            retVal = 0;
             break;
         case MON_DATA_SHEEN:
-            retVal = substruct2->sheen;
+            retVal = 0;
+            break;
+        case MON_DATA_WANTED_HP_EV:
+            retVal = substruct2->wantedHpEV;
+            break;
+        case MON_DATA_WANTED_ATK_EV:
+            retVal = substruct2->wantedAttackEV;
+            break;
+        case MON_DATA_WANTED_DEF_EV:
+            retVal = substruct2->wantedDefenseEV;
+            break;
+        case MON_DATA_WANTED_SPEED_EV:
+            retVal = substruct2->wantedSpeedEV;
+            break;
+        case MON_DATA_WANTED_SPATK_EV:
+            retVal = substruct2->wantedSpAttackEV;
+            break;
+        case MON_DATA_WANTED_SPDEF_EV:
+            retVal = substruct2->wantedSpDefenseEV;
             break;
         case MON_DATA_POKERUS:
             retVal = substruct3->pokerus;
@@ -3037,22 +3064,34 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
             SET8(substruct2->spDefenseEV);
             break;
         case MON_DATA_COOL:
-            SET8(substruct2->cool);
             break;
         case MON_DATA_BEAUTY:
-            SET8(substruct2->beauty);
             break;
         case MON_DATA_CUTE:
-            SET8(substruct2->cute);
             break;
         case MON_DATA_SMART:
-            SET8(substruct2->smart);
             break;
         case MON_DATA_TOUGH:
-            SET8(substruct2->tough);
             break;
         case MON_DATA_SHEEN:
-            SET8(substruct2->sheen);
+            break;
+        case MON_DATA_WANTED_HP_EV:
+            SET8(substruct2->wantedHpEV);
+            break;
+        case MON_DATA_WANTED_ATK_EV:
+            SET8(substruct2->wantedAttackEV);
+            break;
+        case MON_DATA_WANTED_DEF_EV:
+            SET8(substruct2->wantedDefenseEV);
+            break;
+        case MON_DATA_WANTED_SPEED_EV:
+            SET8(substruct2->wantedSpeedEV);
+            break;
+        case MON_DATA_WANTED_SPATK_EV:
+            SET8(substruct2->wantedSpAttackEV);
+            break;
+        case MON_DATA_WANTED_SPDEF_EV:
+            SET8(substruct2->wantedSpDefenseEV);
             break;
         case MON_DATA_POKERUS:
             SET8(substruct3->pokerus);
@@ -5309,6 +5348,13 @@ void MonGainEVs(struct Pokemon *mon, u16 defeatedSpecies)
         if (evs[i] + (s16)evIncrease > MAX_PER_STAT_EVS)
         {
             int val1 = (s16)evIncrease + MAX_PER_STAT_EVS;
+            int val2 = evs[i] + evIncrease;
+            evIncrease = val1 - val2;
+        }
+
+        if (evs[i] + (s16)evIncrease > GetMonData(mon, MON_DATA_WANTED_HP_EV + i))
+        {
+            int val1 = (s16)evIncrease + GetMonData(mon, MON_DATA_WANTED_HP_EV + i);
             int val2 = evs[i] + evIncrease;
             evIncrease = val1 - val2;
         }
