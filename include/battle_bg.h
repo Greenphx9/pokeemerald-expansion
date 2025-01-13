@@ -7,7 +7,23 @@ struct BattleBackground
     const void *tilemap;
     const void *entryTileset;
     const void *entryTilemap;
-    const void *palette;
+    const u8 *palette;
+};
+
+struct DNSBattleBackground
+{
+    const void *dayTileset;
+    const void *dayTilemap;
+    const u8 *dayPalette;
+    const void *afternoonTileset;
+    const void *afternoonTilemap;
+    const u8 *afternoonPalette;
+    const void *nightTileset;
+    const void *nightTilemap;
+    const u8 *nightPalette;
+    const void *entryTileset;
+    const void *entryTilemap;
+    
 };
 
 void BattleInitBgsAndWindows(void);

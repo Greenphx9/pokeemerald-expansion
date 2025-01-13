@@ -611,10 +611,10 @@ void AnimTask_BlendColorCycleExclude(u8 taskId)
     }
 
     if (gBattleAnimArgs[0] == 1)
-        selectedPalettes |= 0xE;
+        selectedPalettes |= 0xFC1C;
 
     gTasks[taskId].tPalSelectorHi = selectedPalettes >> 16;
-    gTasks[taskId].tPalSelectorLo = selectedPalettes & 0xFF;
+    gTasks[taskId].tPalSelectorLo = selectedPalettes & 0xFFFF;
     BlendColorCycleExclude(taskId, 0, gTasks[taskId].tTargetBlendY);
     gTasks[taskId].func = AnimTask_BlendColorCycleExcludeLoop;
 }
