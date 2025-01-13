@@ -1401,7 +1401,8 @@ static void ShowSaveInfoWindow(void)
     }
 
     sSaveInfoWindowId = AddWindow(&saveInfoWindow);
-    DrawStdWindowFrame(sSaveInfoWindowId, FALSE);
+    LoadStdWindowGfx(sSaveInfoWindowId, 0x21D, BG_PLTT_ID(13));
+    DrawStdFrameWithCustomTileAndPalette(sSaveInfoWindowId, FALSE, 0x21D, 13);
 
     gender = gSaveBlock2Ptr->playerGender;
     color = TEXT_COLOR_RED;  // Red when female, blue when male.
