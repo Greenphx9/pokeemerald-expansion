@@ -861,7 +861,7 @@ void CB2_DoHallOfFamePC(void)
 
 static void Task_HofPC_CopySaveData(u8 taskId)
 {
-    HofPCTopBar_AddWindow(0, 30, 0, 12, 0x226);
+    HofPCTopBar_AddWindow(0, 30, 0, 12, 0x226, FALSE);
     if (LoadGameSave(SAVE_HALL_OF_FAME) != SAVE_STATUS_OK)
     {
         gTasks[taskId].func = Task_HofPC_PrintDataIsCorrupted;
