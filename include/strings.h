@@ -1542,7 +1542,11 @@ extern const u8 gText_PkmnSentToPCAfterCatch[];
 
 // hall of fame
 extern const u8 gText_LeagueChamp[];
+extern const u8 gText_Controls[];
 extern const u8 gText_HOFNumber[];
+extern const u8 gText_PickOk[];
+extern const u8 gText_Next[];
+extern const u8 gText_NextBack[];
 extern const u8 gText_PickNextCancel[];
 extern const u8 gText_PickCancel[];
 extern const u8 gText_AButtonExit[];
@@ -2403,6 +2407,7 @@ extern const u8 gText_YourName[];
 extern const u8 gText_BoxName[];
 extern const u8 gText_PkmnsNickname[];
 extern const u8 gText_TellHimTheWords[];
+extern const u8 gText_RivalsName[];
 
 // Exp. Share
 extern const u8 gText_ExpShareOn[];

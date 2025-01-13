@@ -444,7 +444,7 @@ static u16 UNUSED GetDialogFrameBaseTileNum(void)
     return DLG_WINDOW_BASE_TILE_NUM;
 }
 
-static u16 UNUSED GetStandardFrameBaseTileNum(void)
+u16 GetStandardFrameBaseTileNum(void)
 {
     return STD_WINDOW_BASE_TILE_NUM;
 }
@@ -653,7 +653,7 @@ static void WindowFunc_ClearStdWindowAndFrameToTransparent(u8 bg, u8 tilemapLeft
 }
 
 // Creates the window used to display the info bar at the top of the HOF PC that shows the controls and team number.
-u8 HofPCTopBar_AddWindow(u8 bg, u8 xPos, u8 yPos, u8 palette, u16 baseTile)
+u8 HofPCTopBar_AddWindow(u8 bg, u8 xPos, u8 yPos, u8 palette, u16 baseTile, bool32 oak)
 {
     struct WindowTemplate window;
     memset(&window, 0, sizeof(window));
@@ -677,7 +677,10 @@ u8 HofPCTopBar_AddWindow(u8 bg, u8 xPos, u8 yPos, u8 palette, u16 baseTile)
     else
         palette = BG_PLTT_ID(palette);
 
-    LoadPalette(sHofPC_TopBar_Pal, palette, sizeof(sHofPC_TopBar_Pal));
+    if (!oak)
+        LoadPalette(sHofPC_TopBar_Pal, palette, sizeof(sHofPC_TopBar_Pal));
+    else
+        LoadPalette(GetTextWindowPalette(2), palette, PLTT_SIZE_4BPP);
     return sHofPCTopBarWindowId;
 }
 
@@ -749,7 +752,7 @@ static void UNUSED HofPCTopBar_CopyToVram(void)
         CopyWindowToVram(sHofPCTopBarWindowId, COPYWIN_FULL);
 }
 
-static void UNUSED HofPCTopBar_Clear(void)
+void HofPCTopBar_Clear(void)
 {
     if (sHofPCTopBarWindowId != WINDOW_NONE)
     {
@@ -939,6 +942,35 @@ s8 ProcessMenuInput_other(void)
     return MENU_NOTHING_CHOSEN;
 }
 
+s8 Menu_ProcessInputNoWrapAround(void)
+{
+    u8 oldPos = sMenu.cursorPos;
+
+    if (JOY_NEW(A_BUTTON))
+    {
+        if (!sMenu.APressMuted)
+            PlaySE(SE_SELECT);
+        return sMenu.cursorPos;
+    }
+    if (JOY_NEW(B_BUTTON))
+    {
+        return MENU_B_PRESSED;
+    }
+    if (JOY_NEW(DPAD_UP))
+    {
+        if (oldPos != Menu_MoveCursorNoWrapAround(-1))
+            PlaySE(SE_SELECT);
+        return MENU_NOTHING_CHOSEN;
+    }
+    if (JOY_NEW(DPAD_DOWN))
+    {
+        if (oldPos != Menu_MoveCursorNoWrapAround(1))
+            PlaySE(SE_SELECT);
+        return MENU_NOTHING_CHOSEN;
+    }
+    return MENU_NOTHING_CHOSEN;
+}
+
 s8 Menu_ProcessInputNoWrapAround_other(void)
 {
     u8 oldPos = sMenu.cursorPos;
@@ -1048,7 +1080,7 @@ u16 AddWindowParameterized(u8 bg, u8 left, u8 top, u8 width, u8 height, u8 palet
 }
 
 // As opposed to CreateYesNoMenu, which has a hard-coded position.
-static void CreateYesNoMenuAtPos(const struct WindowTemplate *window, u8 fontId, u8 left, u8 top, u16 baseTileNum, u8 paletteNum, u8 initialCursorPos)
+void CreateYesNoMenuAtPos(const struct WindowTemplate *window, u8 fontId, u8 left, u8 top, u16 baseTileNum, u8 paletteNum, u8 initialCursorPos)
 {
     struct TextPrinterTemplate printer;
 

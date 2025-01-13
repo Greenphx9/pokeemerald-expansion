@@ -47,6 +47,7 @@ struct MenuAction
 };
 
 extern const u16 gStandardMenuPalette[];
+extern const u16 gFRLGStandardMenuPalette[];
 extern EWRAM_DATA u8 gPopupTaskId;
 
 void FreeAllOverworldWindowBuffers(void);
@@ -83,6 +84,7 @@ bool8 FreeTempTileDataBuffersIfPossible(void);
 struct WindowTemplate CreateWindowTemplate(u8 bg, u8 left, u8 top, u8 width, u8 height, u8 paletteNum, u16 baseBlock);
 void CreateYesNoMenu(const struct WindowTemplate *window, u16 baseTileNum, u8 paletteNum, u8 initialCursorPos);
 void DecompressAndLoadBgGfxUsingHeap(u8 bgId, const void *src, u32 size, u16 offset, u8 mode);
+void CreateYesNoMenuAtPos(const struct WindowTemplate *window, u8 fontId, u8 left, u8 top, u16 baseTileNum, u8 paletteNum, u8 initialCursorPos);
 s8 Menu_ProcessInputNoWrapClearOnChoose(void);
 s8 ProcessMenuInput_other(void);
 void DoScheduledBgTilemapCopiesToVram(void);
@@ -112,6 +114,7 @@ void DisplayYesNoMenuWithDefault(u8 initialCursorPos);
 void BufferSaveMenuText(u8 textId, u8 *dest, u8 color);
 void RemoveMapNamePopUpWindow(void);
 u8 GetMapNamePopUpWindowId(void);
+u16 GetStandardFrameBaseTileNum(void);
 u8 AddMapNamePopUpWindow(void);
 void AddTextPrinterParameterized5(u8 windowId, u8 fontId, const u8 *str, u8 left, u8 top, u8 speed, void (*callback)(struct TextPrinterTemplate *, u16), u8 letterSpacing, u8 lineSpacing);
 void SetBgTilemapPalette(u8 bgId, u8 left, u8 top, u8 width, u8 height, u8 palette);
@@ -120,9 +123,11 @@ void EraseFieldMessageBox(bool8 copyToVram);
 void PrintMenuGridTable(u8 windowId, u8 optionWidth, u8 columns, u8 rows, const struct MenuAction *menuActions);
 s8 Menu_ProcessGridInput(void);
 u8 InitMenuInUpperLeftCorner(u8 windowId, u8 itemCount, u8 initialCursorPos, bool8 APressMuted);
+s8 Menu_ProcessInputNoWrapAround(void);
 s8 Menu_ProcessInputNoWrapAround_other(void);
 void CopyToBufferFromBgTilemap(u8 bgId, u16 *dest, u8 left, u8 top, u8 width, u8 height);
-u8 HofPCTopBar_AddWindow(u8 bg, u8 xPos, u8 yPos, u8 palette, u16 baseTile);
+u8 HofPCTopBar_AddWindow(u8 bg, u8 xPos, u8 yPos, u8 palette, u16 baseTile, bool32 oak);
+void HofPCTopBar_Clear(void);
 void HofPCTopBar_RemoveWindow(void);
 void HofPCTopBar_Print(const u8 *string, u8 left, bool8 copyToVram);
 void HofPCTopBar_PrintPair(const u8 *string, const u8 *string2, bool8 noBg, u8 left, bool8 copyToVram);
