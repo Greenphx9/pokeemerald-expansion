@@ -290,9 +290,14 @@ extern const u8 gBattleTerrainPalette_Gen4GrassAfternoon[];
 extern const u32 gBattleTerrainTiles_Gen4GrassNight[];
 extern const u32 gBattleTerrainTilemap_Gen4GrassNight[];
 extern const u8 gBattleTerrainPalette_Gen4GrassNight[];
-
 extern const u32 gBattleTerrainAnimTiles_Gen4GrassDay[];
 extern const u32 gBattleTerrainAnimTilemap_Gen4GrassDay[];
+
+extern const u32 gBattleTerrainTiles_Gen4WaterDay[];
+extern const u32 gBattleTerrainTilemap_Gen4WaterDay[];
+extern const u8 gBattleTerrainPalette_Gen4WaterDay[];
+extern const u32 gBattleTerrainAnimTiles_Gen4WaterDay[];
+extern const u32 gBattleTerrainAnimTilemap_Gen4WaterDay[];
 
 // Pokédex
 extern const u32 gPokedexInterface_Gfx[];

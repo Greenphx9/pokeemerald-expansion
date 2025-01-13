@@ -98,3 +98,9 @@ const u8 gBattleTerrainPalette_Gen4GrassNight[] = INCBIN_U8("graphics/battle_ter
 const u32 gBattleTerrainTilemap_Gen4GrassNight[] = INCBIN_U32("graphics/battle_terrain/gen4/grass/night/map.bin.lz");
 const u32 gBattleTerrainAnimTiles_Gen4GrassDay[] = INCBIN_U32("graphics/battle_terrain/gen4/grass/anim_tiles.4bpp.lz");
 const u32 gBattleTerrainAnimTilemap_Gen4GrassDay[] = INCBIN_U32("graphics/battle_terrain/gen4/grass/anim_map.bin.lz"); 
+
+const u32 gBattleTerrainTiles_Gen4WaterDay[] = INCBIN_U32("graphics/battle_terrain/gen4/water/day/tiles.4bpp.lz");
+const u8 gBattleTerrainPalette_Gen4WaterDay[] = INCBIN_U8("graphics/battle_terrain/gen4/water/day/palette.gbapal");
+const u32 gBattleTerrainTilemap_Gen4WaterDay[] = INCBIN_U32("graphics/battle_terrain/gen4/water/day/map.bin.lz");
+const u32 gBattleTerrainAnimTiles_Gen4WaterDay[] = INCBIN_U32("graphics/battle_terrain/gen4/water/anim_tiles.4bpp.lz");
+const u32 gBattleTerrainAnimTilemap_Gen4WaterDay[] = INCBIN_U32("graphics/battle_terrain/gen4/water/anim_map.bin.lz"); 

@@ -720,13 +720,21 @@ const struct DNSBattleBackground sDNSBattleTerrainTable[] =
         .entryTileset = gBattleTerrainAnimTiles_Gen4GrassDay,
         .entryTilemap = gBattleTerrainAnimTilemap_Gen4GrassDay,
     },
+    [BATTLE_TERRAIN_GEN4_WATER] =
+    {
+        .dayTileset = gBattleTerrainTiles_Gen4WaterDay,
+        .dayTilemap = gBattleTerrainTilemap_Gen4WaterDay,
+        .dayPalette = gBattleTerrainPalette_Gen4WaterDay,
+        .entryTileset = gBattleTerrainAnimTiles_Gen4WaterDay,
+        .entryTilemap = gBattleTerrainAnimTilemap_Gen4WaterDay,
+    },
 };
 
 // todo
 const u32 * GetDNSBattleTerrainTileset(u8 terrainId, u32 timeOfDay)
 {
     if (timeOfDay == TIME_NIGHT)
-        return sDNSBattleTerrainTable[terrainId].nightTileset;
+        return sDNSBattleTerrainTable[terrainId].dayTileset;
     else if (timeOfDay == TIME_EVENING)
         return sDNSBattleTerrainTable[terrainId].afternoonTileset;
     return sDNSBattleTerrainTable[terrainId].dayTileset;
@@ -735,7 +743,7 @@ const u32 * GetDNSBattleTerrainTileset(u8 terrainId, u32 timeOfDay)
 const u32 * GetDNSBattleTerrainTilemap(u8 terrainId, u32 timeOfDay)
 {
     if (timeOfDay == TIME_NIGHT)
-        return sDNSBattleTerrainTable[terrainId].nightTilemap;
+        return sDNSBattleTerrainTable[terrainId].dayTilemap;
     else if (timeOfDay == TIME_EVENING)
         return sDNSBattleTerrainTable[terrainId].afternoonTilemap;
     return sDNSBattleTerrainTable[terrainId].dayTilemap;
@@ -744,7 +752,7 @@ const u32 * GetDNSBattleTerrainTilemap(u8 terrainId, u32 timeOfDay)
 const u8 * GetDNSBattleTerrainPalette(u8 terrainId, u32 timeOfDay)
 {
     if (timeOfDay == TIME_NIGHT)
-        return sDNSBattleTerrainTable[terrainId].nightPalette;
+        return sDNSBattleTerrainTable[terrainId].dayPalette;
     else if (timeOfDay == TIME_EVENING)
         return sDNSBattleTerrainTable[terrainId].afternoonPalette;
     return sDNSBattleTerrainTable[terrainId].dayPalette;
@@ -874,12 +882,12 @@ void DrawMainBattleBackground(void)
         {
         default:
         case MAP_BATTLE_SCENE_NORMAL:
-            if (BATTLE_TERRAIN_SAND > BATTLE_TERRAIN_REGULAR_COUNT)
+            if (BATTLE_TERRAIN_GEN4_WATER > BATTLE_TERRAIN_REGULAR_COUNT)
             {
                 u32 timeOfDay = GetTimeOfDay();
-                const u32 * tileset = GetDNSBattleTerrainTileset(BATTLE_TERRAIN_GEN4_GRASS, timeOfDay);
-                const u32 * tilemap = GetDNSBattleTerrainTilemap(BATTLE_TERRAIN_GEN4_GRASS, timeOfDay);
-                const u8 * palette = GetDNSBattleTerrainPalette(BATTLE_TERRAIN_GEN4_GRASS, timeOfDay);
+                const u32 * tileset = GetDNSBattleTerrainTileset(BATTLE_TERRAIN_GEN4_WATER, timeOfDay);
+                const u32 * tilemap = GetDNSBattleTerrainTilemap(BATTLE_TERRAIN_GEN4_WATER, timeOfDay);
+                const u8 * palette = GetDNSBattleTerrainPalette(BATTLE_TERRAIN_GEN4_WATER, timeOfDay);
                 LZDecompressVram(tileset, (void *)(BG_CHAR_ADDR(2)));
                 LZDecompressVram(tilemap, (void *)(BG_SCREEN_ADDR(26)));
                 // load first 3 palettes at BG ID 2
@@ -889,9 +897,9 @@ void DrawMainBattleBackground(void)
             }
             else
             {
-                LZDecompressVram(sBattleTerrainTable[BATTLE_TERRAIN_SAND].tileset, (void *)(BG_CHAR_ADDR(2)));
-                LZDecompressVram(sBattleTerrainTable[BATTLE_TERRAIN_SAND].tilemap, (void *)(BG_SCREEN_ADDR(26)));
-                LoadPalette(sBattleTerrainTable[BATTLE_TERRAIN_SAND].palette, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
+                LZDecompressVram(sBattleTerrainTable[gBattleTerrain].tileset, (void *)(BG_CHAR_ADDR(2)));
+                LZDecompressVram(sBattleTerrainTable[gBattleTerrain].tilemap, (void *)(BG_SCREEN_ADDR(26)));
+                LoadPalette(sBattleTerrainTable[gBattleTerrain].palette, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
             }
             break;
         case MAP_BATTLE_SCENE_GYM:
@@ -1289,8 +1297,8 @@ void DrawBattleEntryBackground(void)
         {
             if (BATTLE_TERRAIN_GEN4_GRASS > BATTLE_TERRAIN_REGULAR_COUNT)
             {
-                LZDecompressVram(sDNSBattleTerrainTable[BATTLE_TERRAIN_GEN4_GRASS].entryTileset, (void *)(BG_CHAR_ADDR(1)));
-                LZDecompressVram(sDNSBattleTerrainTable[BATTLE_TERRAIN_GEN4_GRASS].entryTilemap, (void *)(BG_SCREEN_ADDR(28)));
+                LZDecompressVram(sDNSBattleTerrainTable[BATTLE_TERRAIN_GEN4_WATER].entryTileset, (void *)(BG_CHAR_ADDR(1)));
+                LZDecompressVram(sDNSBattleTerrainTable[BATTLE_TERRAIN_GEN4_WATER].entryTilemap, (void *)(BG_SCREEN_ADDR(28)));
             }
             else
             {
