@@ -31,6 +31,14 @@ enum {
     WALLPAPER_PIKAPIKA2,
     WALLPAPER_RENEGADE,
     WALLPAPER_GALACTIC2,
+    WALLPAPER_HEART,
+    WALLPAPER_SOUL,
+    WALLPAPER_BIGBROTHER,
+    WALLPAPER_POKEATHLON,
+    WALLPAPER_TRIO3,
+    WALLPAPER_SPIKYPIKA,
+    WALLPAPER_KIMONOGIRL,
+    WALLPAPER_REVIVAL,
     WALLPAPER_FRIENDS, // The one received as a gift from Walda's parents,
     WALLPAPER_COUNT
 };
@@ -291,6 +299,70 @@ static const u16 sWallpaperPalettes_Galactic2[][16] =
 static const u32 sWallpaperTiles_Galactic2[] = INCBIN_U32("graphics/pokemon_storage/wallpapers/galactic2/tiles.4bpp.lz");
 static const u32 sWallpaperTilemap_Galactic2[] = INCBIN_U32("graphics/pokemon_storage/wallpapers/galactic2/tilemap.bin.lz");
 
+static const u16 sWallpaperPalettes_Heart[][16] =
+{
+    INCBIN_U16("graphics/pokemon_storage/wallpapers/heart/tiles.gbapal"),
+    INCBIN_U16("graphics/pokemon_storage/wallpapers/heart/tiles.gbapal"),
+};
+static const u32 sWallpaperTiles_Heart[] = INCBIN_U32("graphics/pokemon_storage/wallpapers/heart/tiles.4bpp.lz");
+static const u32 sWallpaperTilemap_Heart[] = INCBIN_U32("graphics/pokemon_storage/wallpapers/heart/tilemap.bin.lz");
+
+static const u16 sWallpaperPalettes_Soul[][16] =
+{
+    INCBIN_U16("graphics/pokemon_storage/wallpapers/soul/tiles.gbapal"),
+    INCBIN_U16("graphics/pokemon_storage/wallpapers/soul/tiles.gbapal"),
+};
+static const u32 sWallpaperTiles_Soul[] = INCBIN_U32("graphics/pokemon_storage/wallpapers/soul/tiles.4bpp.lz");
+static const u32 sWallpaperTilemap_Soul[] = INCBIN_U32("graphics/pokemon_storage/wallpapers/soul/tilemap.bin.lz");
+
+static const u16 sWallpaperPalettes_BigBrother[][16] =
+{
+    INCBIN_U16("graphics/pokemon_storage/wallpapers/bigbrother/tiles.gbapal"),
+    INCBIN_U16("graphics/pokemon_storage/wallpapers/bigbrother/tiles.gbapal"),
+};
+static const u32 sWallpaperTiles_BigBrother[] = INCBIN_U32("graphics/pokemon_storage/wallpapers/bigbrother/tiles.4bpp.lz");
+static const u32 sWallpaperTilemap_BigBrother[] = INCBIN_U32("graphics/pokemon_storage/wallpapers/bigbrother/tilemap.bin.lz");
+
+static const u16 sWallpaperPalettes_Pokeathlon[][16] =
+{
+    INCBIN_U16("graphics/pokemon_storage/wallpapers/pokeathlon/tiles.gbapal"),
+    INCBIN_U16("graphics/pokemon_storage/wallpapers/pokeathlon/tiles.gbapal"),
+};
+static const u32 sWallpaperTiles_Pokeathlon[] = INCBIN_U32("graphics/pokemon_storage/wallpapers/pokeathlon/tiles.4bpp.lz");
+static const u32 sWallpaperTilemap_Pokeathlon[] = INCBIN_U32("graphics/pokemon_storage/wallpapers/pokeathlon/tilemap.bin.lz");
+
+static const u16 sWallpaperPalettes_Trio3[][16] =
+{
+    INCBIN_U16("graphics/pokemon_storage/wallpapers/trio3/tiles.gbapal"),
+    INCBIN_U16("graphics/pokemon_storage/wallpapers/trio3/tiles.gbapal"),
+};
+static const u32 sWallpaperTiles_Trio3[] = INCBIN_U32("graphics/pokemon_storage/wallpapers/trio3/tiles.4bpp.lz");
+static const u32 sWallpaperTilemap_Trio3[] = INCBIN_U32("graphics/pokemon_storage/wallpapers/trio3/tilemap.bin.lz");
+
+static const u16 sWallpaperPalettes_SpikyPika[][16] =
+{
+    INCBIN_U16("graphics/pokemon_storage/wallpapers/spikypika/tiles.gbapal"),
+    INCBIN_U16("graphics/pokemon_storage/wallpapers/spikypika/tiles.gbapal"),
+};
+static const u32 sWallpaperTiles_SpikyPika[] = INCBIN_U32("graphics/pokemon_storage/wallpapers/spikypika/tiles.4bpp.lz");
+static const u32 sWallpaperTilemap_SpikyPika[] = INCBIN_U32("graphics/pokemon_storage/wallpapers/spikypika/tilemap.bin.lz");
+
+static const u16 sWallpaperPalettes_KimonoGirl[][16] =
+{
+    INCBIN_U16("graphics/pokemon_storage/wallpapers/kimonogirl/tiles.gbapal"),
+    INCBIN_U16("graphics/pokemon_storage/wallpapers/kimonogirl/tiles.gbapal"),
+};
+static const u32 sWallpaperTiles_KimonoGirl[] = INCBIN_U32("graphics/pokemon_storage/wallpapers/kimonogirl/tiles.4bpp.lz");
+static const u32 sWallpaperTilemap_KimonoGirl[] = INCBIN_U32("graphics/pokemon_storage/wallpapers/kimonogirl/tilemap.bin.lz");
+
+static const u16 sWallpaperPalettes_Revival[][16] =
+{
+    INCBIN_U16("graphics/pokemon_storage/wallpapers/revival/tiles.gbapal"),
+    INCBIN_U16("graphics/pokemon_storage/wallpapers/revival/tiles.gbapal"),
+};
+static const u32 sWallpaperTiles_Revival[] = INCBIN_U32("graphics/pokemon_storage/wallpapers/revival/tiles.4bpp.lz");
+static const u32 sWallpaperTilemap_Revival[] = INCBIN_U32("graphics/pokemon_storage/wallpapers/revival/tilemap.bin.lz");
+
 // 12x18 tilemap
 static const u32 sWallpaperTilemap_Unused[] = INCBIN_U32("graphics/pokemon_storage/wallpapers/unused.bin");
 
@@ -330,6 +402,14 @@ static const u16 sBoxTitleColors[WALLPAPER_COUNT][2] =
     [WALLPAPER_PIKAPIKA2]  = {RGB(7, 7, 7), RGB_WHITE},
     [WALLPAPER_RENEGADE]   = {RGB(7, 7, 7), RGB_WHITE},
     [WALLPAPER_GALACTIC2]  = {RGB(7, 7, 7), RGB_WHITE},
+    [WALLPAPER_HEART]      = {RGB(7, 7, 7), RGB_WHITE},
+    [WALLPAPER_SOUL]       = {RGB(7, 7, 7), RGB_WHITE},
+    [WALLPAPER_BIGBROTHER] = {RGB(7, 7, 7), RGB_WHITE},
+    [WALLPAPER_POKEATHLON] = {RGB(7, 7, 7), RGB_WHITE},
+    [WALLPAPER_TRIO3]      = {RGB(7, 7, 7), RGB_WHITE},
+    [WALLPAPER_SPIKYPIKA]  = {RGB(7, 7, 7), RGB_WHITE},
+    [WALLPAPER_KIMONOGIRL] = {RGB(7, 7, 7), RGB_WHITE},
+    [WALLPAPER_REVIVAL]    = {RGB(7, 7, 7), RGB_WHITE},
 };
 
 #define WALLPAPER_ENTRY(name) {sWallpaperTiles_##name, sWallpaperTilemap_##name, sWallpaperPalettes_##name[0]}
@@ -370,6 +450,14 @@ static const struct Wallpaper sWallpapers[WALLPAPER_COUNT - 1] =
     [WALLPAPER_PIKAPIKA2]  = WALLPAPER_ENTRY(Pikapika2),
     [WALLPAPER_RENEGADE]   = WALLPAPER_ENTRY(Renegade),
     [WALLPAPER_GALACTIC2]  = WALLPAPER_ENTRY(Galactic2),
+    [WALLPAPER_HEART]      = WALLPAPER_ENTRY(Heart),
+    [WALLPAPER_SOUL]       = WALLPAPER_ENTRY(Soul),
+    [WALLPAPER_BIGBROTHER] = WALLPAPER_ENTRY(BigBrother),
+    [WALLPAPER_POKEATHLON] = WALLPAPER_ENTRY(Pokeathlon),
+    [WALLPAPER_TRIO3]      = WALLPAPER_ENTRY(Trio3),
+    [WALLPAPER_SPIKYPIKA]  = WALLPAPER_ENTRY(SpikyPika),
+    [WALLPAPER_KIMONOGIRL] = WALLPAPER_ENTRY(KimonoGirl),
+    [WALLPAPER_REVIVAL]    = WALLPAPER_ENTRY(Revival),
 };
 
 static const u8 sArrow_Gfx[] = INCBIN_U8("graphics/pokemon_storage/arrow.4bpp");

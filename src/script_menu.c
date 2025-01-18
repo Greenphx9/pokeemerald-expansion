@@ -371,7 +371,7 @@ static void CreatePCMultichoice(void)
 
     StringExpandPlaceholders(gStringVar4, gText_PlayersPC);
     PrintPlayerNameOnWindow(windowId, gStringVar4, x, 17);
-    InitMenuInUpperLeftCornerNormal(windowId, numChoices, 0);
+    (windowId, numChoices, 0);
     CopyWindowToVram(windowId, COPYWIN_FULL);
     InitMultichoiceCheckWrap(FALSE, numChoices, windowId, MULTI_PC);
 }

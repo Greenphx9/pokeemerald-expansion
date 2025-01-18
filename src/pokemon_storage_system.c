@@ -132,6 +132,7 @@ enum {
     MENU_ETCETERA_1,
     MENU_ETCETERA_2,
     MENU_ETCETERA_3,
+    MENU_ETCETERA_4,
     MENU_FRIENDS,
     MENU_FOREST,
     MENU_CITY,
@@ -165,6 +166,14 @@ enum {
     MENU_PIKAPIKA2,
     MENU_RENEGADE,
     MENU_GALACTIC2,
+    MENU_HEART,
+    MENU_SOUL,
+    MENU_BIGBROTHER,
+    MENU_POKEATHLON,
+    MENU_TRIO3,
+    MENU_SPIKYPIKA,
+    MENU_KIMONOGIRL,
+    MENU_REVIVAL,
 };
 #define MENU_WALLPAPER_SETS_START MENU_SCENERY_1
 #define MENU_WALLPAPERS_START MENU_FOREST
@@ -3460,6 +3469,7 @@ static void Task_HandleWallpapers(u8 taskId)
         case MENU_ETCETERA_1:
         case MENU_ETCETERA_2:
         case MENU_ETCETERA_3:
+        case MENU_ETCETERA_4:
             PlaySE(SE_SELECT);
             RemoveMenu();
             sStorage->wallpaperSetId -= MENU_WALLPAPER_SETS_START;
@@ -4350,6 +4360,7 @@ static void AddWallpaperSetsMenu(void)
     SetMenuText(MENU_ETCETERA_1);
     SetMenuText(MENU_ETCETERA_2);
     SetMenuText(MENU_ETCETERA_3);
+    SetMenuText(MENU_ETCETERA_4);
     if (IsWaldaWallpaperUnlocked())
         SetMenuText(MENU_FRIENDS);
     AddMenu();
@@ -4401,6 +4412,16 @@ static void AddWallpapersMenu(u8 wallpaperSet)
         SetMenuText(MENU_PIKAPIKA2);
         SetMenuText(MENU_RENEGADE);
         SetMenuText(MENU_GALACTIC2);
+        SetMenuText(MENU_HEART);
+        break;
+    case MENU_ETCETERA_4 - MENU_WALLPAPER_SETS_START:
+        SetMenuText(MENU_SOUL);
+        SetMenuText(MENU_BIGBROTHER);
+        SetMenuText(MENU_POKEATHLON);
+        SetMenuText(MENU_TRIO3);
+        SetMenuText(MENU_SPIKYPIKA);
+        SetMenuText(MENU_KIMONOGIRL);
+        SetMenuText(MENU_REVIVAL);
         break;
     }
     AddMenu();
@@ -7992,6 +8013,7 @@ static const u8 *const sMenuTexts[] =
     [MENU_ETCETERA_1] = gPCText_Etcetera1,
     [MENU_ETCETERA_2] = gPCText_Etcetera2,
     [MENU_ETCETERA_3] = gPCText_Etcetera3,
+    [MENU_ETCETERA_4] = gPCText_Etcetera4,
     [MENU_FRIENDS]    = gPCText_Friends,
     [MENU_FOREST]     = gPCText_Forest,
     [MENU_CITY]       = gPCText_City,
@@ -8025,6 +8047,14 @@ static const u8 *const sMenuTexts[] =
     [MENU_PIKAPIKA2]  = gPCText_PikaPika2,
     [MENU_RENEGADE]   = gPCText_Renegade,
     [MENU_GALACTIC2]  = gPCText_Galactic2,
+    [MENU_HEART]      = gPCText_Heart,
+    [MENU_SOUL]       = gPCText_Soul,
+    [MENU_BIGBROTHER] = gPCText_BigBrother,
+    [MENU_POKEATHLON] = gPCText_Pokeathlon,
+    [MENU_TRIO3]      = gPCText_Trio3,
+    [MENU_SPIKYPIKA]  = gPCText_SpikyPika,
+    [MENU_KIMONOGIRL] = gPCText_KimonoGirl,
+    [MENU_REVIVAL]    = gPCText_Revival,
 };
 
 static void SetMenuText(u8 textId)
