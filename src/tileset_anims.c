@@ -1186,3 +1186,94 @@ static void BlendAnimPalette_BattleDome_FloorLightsNoBlend(u16 timer)
             sSecondaryTilesetAnimCallback = NULL;
     }
 }
+
+// FRLG Tilesets
+
+// palette: general 00
+static const u16 sTilesetAnims_FRLG_General_Flower_Frame0[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/flower/0.4bpp");
+static const u16 sTilesetAnims_FRLG_General_Flower_Frame1[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/flower/1.4bpp");
+static const u16 sTilesetAnims_FRLG_General_Flower_Frame2[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/flower/2.4bpp");
+static const u16 sTilesetAnims_FRLG_General_Flower_Frame3[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/flower/3.4bpp");
+static const u16 sTilesetAnims_FRLG_General_Flower_Frame4[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/flower/4.4bpp");
+
+static const u16 *const sTilesetAnims_FRLG_General_Flower[] = {
+    sTilesetAnims_FRLG_General_Flower_Frame0,
+    sTilesetAnims_FRLG_General_Flower_Frame1,
+    sTilesetAnims_FRLG_General_Flower_Frame2,
+    sTilesetAnims_FRLG_General_Flower_Frame3,
+    sTilesetAnims_FRLG_General_Flower_Frame4
+};
+
+// palette: general 04
+static const u16 sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame0[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/water_current_landwatersedge/0.4bpp");
+static const u16 sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame1[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/water_current_landwatersedge/1.4bpp");
+static const u16 sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame2[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/water_current_landwatersedge/2.4bpp");
+static const u16 sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame3[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/water_current_landwatersedge/3.4bpp");
+static const u16 sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame4[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/water_current_landwatersedge/4.4bpp");
+static const u16 sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame5[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/water_current_landwatersedge/5.4bpp");
+static const u16 sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame6[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/water_current_landwatersedge/6.4bpp");
+static const u16 sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame7[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/water_current_landwatersedge/7.4bpp");
+
+static const u16 *const sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge[] = {
+    sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame0,
+    sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame1,
+    sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame2,
+    sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame3,
+    sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame4,
+    sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame5,
+    sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame6,
+    sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge_Frame7
+};
+
+// palette: general 04
+static const u16 sTilesetAnims_FRLG_General_SandWatersEdge_Frame0[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/sandwatersedge/0.4bpp");
+static const u16 sTilesetAnims_FRLG_General_SandWatersEdge_Frame1[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/sandwatersedge/1.4bpp");
+static const u16 sTilesetAnims_FRLG_General_SandWatersEdge_Frame2[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/sandwatersedge/2.4bpp");
+static const u16 sTilesetAnims_FRLG_General_SandWatersEdge_Frame3[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/sandwatersedge/3.4bpp");
+static const u16 sTilesetAnims_FRLG_General_SandWatersEdge_Frame4[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/sandwatersedge/4.4bpp");
+static const u16 sTilesetAnims_FRLG_General_SandWatersEdge_Frame5[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/sandwatersedge/5.4bpp");
+static const u16 sTilesetAnims_FRLG_General_SandWatersEdge_Frame6[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/sandwatersedge/6.4bpp");
+static const u16 sTilesetAnims_FRLG_General_SandWatersEdge_Frame7[] = INCBIN_U16("data/tilesets/primary/frlg_general/anim/sandwatersedge/7.4bpp");
+
+static const u16 *const sTilesetAnims_FRLG_General_SandWatersEdge[] = {
+    sTilesetAnims_FRLG_General_SandWatersEdge_Frame0,
+    sTilesetAnims_FRLG_General_SandWatersEdge_Frame1,
+    sTilesetAnims_FRLG_General_SandWatersEdge_Frame2,
+    sTilesetAnims_FRLG_General_SandWatersEdge_Frame3,
+    sTilesetAnims_FRLG_General_SandWatersEdge_Frame4,
+    sTilesetAnims_FRLG_General_SandWatersEdge_Frame5,
+    sTilesetAnims_FRLG_General_SandWatersEdge_Frame6,
+    sTilesetAnims_FRLG_General_SandWatersEdge_Frame7
+};
+
+static void QueueAnimTiles_FRLG_General_Flower(u16 timer)
+{
+    AppendTilesetAnimToBuffer(sTilesetAnims_FRLG_General_Flower[timer % ARRAY_COUNT(sTilesetAnims_FRLG_General_Flower)], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(508)), 4 * TILE_SIZE_4BPP);
+}
+
+static void QueueAnimTiles_FRLG_General_Water_Current_LandWatersEdge(u16 timer)
+{
+    AppendTilesetAnimToBuffer(sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge[timer % ARRAY_COUNT(sTilesetAnims_FRLG_General_Water_Current_LandWatersEdge)], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(416)), 48 * TILE_SIZE_4BPP);
+}
+
+static void QueueAnimTiles_FRLG_General_SandWatersEdge(u16 timer)
+{
+    AppendTilesetAnimToBuffer(sTilesetAnims_FRLG_General_SandWatersEdge[timer % ARRAY_COUNT(sTilesetAnims_FRLG_General_SandWatersEdge)], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(464)), 18 * TILE_SIZE_4BPP);
+}
+
+static void TilesetAnim_FRLG_General(u16 timer)
+{
+    if (timer % 8 == 0)
+        QueueAnimTiles_FRLG_General_SandWatersEdge(timer / 8);
+    if (timer % 16 == 1)
+        QueueAnimTiles_FRLG_General_Water_Current_LandWatersEdge(timer / 16);
+    if (timer % 16 == 2)
+        QueueAnimTiles_FRLG_General_Flower(timer / 16);
+}
+
+void InitTilesetAnim_FRLG_General(void)
+{
+    sPrimaryTilesetAnimCounter = 0;
+    sPrimaryTilesetAnimCounterMax = 256;
+    sPrimaryTilesetAnimCallback = TilesetAnim_FRLG_General;
+}

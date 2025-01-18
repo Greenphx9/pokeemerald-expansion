@@ -846,6 +846,6 @@ const struct Tileset gTileset_FRLG_PalletTown =
     .palettes = gTilesetPalettes_FRLG_PalletTown,
     .metatiles = gMetatiles_FRLG_PalletTown,
     .metatileAttributes = gMetatileAttributes_FRLG_PalletTown,
-    .callback = NULL,
+    .callback = InitTilesetAnim_FRLG_General,
     .isFRLG = TRUE,
 };
