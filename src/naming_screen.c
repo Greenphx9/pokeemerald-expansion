@@ -1435,7 +1435,7 @@ static void NamingScreen_CreateWaldaDadIcon(void)
 
 static void NamingScreen_CreateRivalIcon(void)
 {
-    u16 rivalGfxId = OBJ_EVENT_GFX_RED_NORMAL;
+    u16 rivalGfxId = OBJ_EVENT_GFX_BLUE;
     u8 spriteId;
 
     spriteId = CreateObjectGraphicsSprite(rivalGfxId, SpriteCallbackDummy, 56, 37, 0);
