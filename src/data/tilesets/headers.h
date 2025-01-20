@@ -849,3 +849,27 @@ const struct Tileset gTileset_FRLG_PalletTown =
     .callback = InitTilesetAnim_FRLG_General,
     .isFRLG = TRUE,
 };
+
+const struct Tileset gTileset_FRLG_Building =
+{
+    .isCompressed = TRUE,
+    .isSecondary = FALSE,
+    .tiles = gTilesetTiles_FRLG_Building,
+    .palettes = gTilesetPalettes_FRLG_Building,
+    .metatiles = gMetatiles_FRLG_Building,
+    .metatileAttributes = gMetatileAttributes_FRLG_Building,
+    .callback = NULL,
+    .isFRLG = TRUE,
+};
+
+const struct Tileset gTileset_FRLG_GenericBuilding1 =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_FRLG_GenericBuilding1,
+    .palettes = gTilesetPalettes_FRLG_GenericBuilding1,
+    .metatiles = gMetatiles_FRLG_GenericBuilding1,
+    .metatileAttributes = gMetatileAttributes_FRLG_GenericBuilding1,
+    .callback = NULL,
+    .isFRLG = TRUE,
+};

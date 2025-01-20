@@ -82,5 +82,7 @@ def process_border(file_path):
         write_map_bin(file_path, new_data)
 
 if __name__ == "__main__":
-    process_map("data/layouts/PalletTown/map.bin")
-    process_border("data/layouts/PalletTown/border.bin")
+    inp = input("Map Name: ")
+
+    process_map(f"data/layouts/{inp}/map.bin")
+    process_border(f"data/layouts/{inp}/border.bin")
