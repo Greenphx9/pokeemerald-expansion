@@ -7520,6 +7520,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .shinyPalette = gMonShinyPalette_Pupitar,
         .iconSprite = gMonIcon_Pupitar,
         .iconPalIndex = P_GBA_STYLE_SPECIES_ICONS ? 0 : 2,
+        .iconPalette = gMonIconPalette_Pupitar,
+        .shinyIconPalette = gMonShinyIconPalette_Pupitar,
         SHADOW(3, 3, SHADOW_SIZE_S)
         FOOTPRINT(Pupitar)
         OVERWORLD(
@@ -7589,6 +7591,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .shinyPalette = gMonShinyPalette_Tyranitar,
         .iconSprite = gMonIcon_Tyranitar,
         .iconPalIndex = P_GBA_STYLE_SPECIES_ICONS ? 1 : 4,
+        .iconPalette = gMonIconPalette_Tyranitar,
+        .shinyIconPalette = gMonShinyIconPalette_Tyranitar,
         SHADOW(-1, 11, SHADOW_SIZE_L)
         FOOTPRINT(Tyranitar)
         OVERWORLD(
@@ -7720,6 +7724,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .shinyPalette = gMonShinyPalette_Lugia,
         .iconSprite = gMonIcon_Lugia,
         .iconPalIndex = 0,
+        .iconPalette = gMonIconPalette_Lugia,
+        .shinyIconPalette = gMonShinyIconPalette_Lugia,
         SHADOW(2, 17, SHADOW_SIZE_L)
         FOOTPRINT(Lugia)
         OVERWORLD(
@@ -7795,6 +7801,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .shinyPalette = gMonShinyPalette_HoOh,
         .iconSprite = gMonIcon_HoOh,
         .iconPalIndex = 1,
+        .iconPalette = gMonIconPalette_HoOh,
+        .shinyIconPalette = gMonShinyIconPalette_HoOh,
         SHADOW(1, 17, SHADOW_SIZE_L)
         FOOTPRINT(HoOh)
         OVERWORLD(
@@ -7870,6 +7878,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .shinyPalette = gMonShinyPalette_Celebi,
         .iconSprite = gMonIcon_Celebi,
         .iconPalIndex = 1,
+        .iconPalette = gMonIconPalette_Celebi,
+        .shinyIconPalette = gMonShinyIconPalette_Celebi,
         SHADOW(0, 14, SHADOW_SIZE_S)
         FOOTPRINT(Celebi)
         OVERWORLD(
