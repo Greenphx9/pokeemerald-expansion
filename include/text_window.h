@@ -27,5 +27,6 @@ const u16 *GetOverworldTextboxPalettePtr(void);
 void LoadSignPostWindowFrameGfx(void);
 void LoadStdWindowGfx(u8 windowId, u16 tileStart, u8 palette);
 void LoadStdWindowTiles(u8 windowId, u16 destOffset);
+void LoadDexNavWindowGfx(u8 windowId, u16 destOffset, u8 palOffset);
 
 #endif // GUARD_TEXT_WINDOW_H
