@@ -1840,6 +1840,33 @@ bool8 ScrCmd_dynmultipush(struct ScriptContext *ctx)
     return FALSE;
 }
 
+bool8 ScrCmd_namebox(struct ScriptContext *ctx)
+{
+    const u8 *msg = (const u8 *)ScriptReadWord(ctx);
+    u8 width = ScriptReadByte(ctx);
+    void (*callback)(struct TextPrinterTemplate *, u16) = NULL;
+
+    Script_RequestEffects(SCREFF_V1 | SCREFF_HARDWARE);
+
+    InitNameboxWindow(width);
+
+    DrawStdWindowFrame(gNameboxWindowId, FALSE);
+    
+    AddTextPrinterParameterized2(gNameboxWindowId, FONT_NORMAL, msg, 0, callback, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+
+    return FALSE;
+}
+
+bool8 ScrCmd_hidenamebox(struct ScriptContext *ctx)
+{
+    Script_RequestEffects(SCREFF_V1 | SCREFF_HARDWARE);
+
+    ClearStdWindowAndFrame(gNameboxWindowId, TRUE);
+    RemoveWindow(gNameboxWindowId);
+
+    return FALSE;
+}
+
 bool8 ScrCmd_multichoice(struct ScriptContext *ctx)
 {
     u8 left = ScriptReadByte(ctx);

@@ -1873,6 +1873,16 @@
 	.2byte \id
 	.endm
 
+	.macro namebox text:req, width=5
+	.byte SCR_OP_NAMEBOX
+	.4byte \text
+	.byte \width
+	.endm
+
+	.macro hidenamebox
+	.byte SCR_OP_HIDENAMEBOX
+	.endm
+
 	.macro dynmultistack left:req, top:req, ignoreBPress:req, maxBeforeScroll:req, shouldSort:req, initialSelected:req, callbacks:req
 	_dynmultichoice \left, \top, \ignoreBPress, \maxBeforeScroll, \shouldSort, \initialSelected, \callbacks, NULL
 	.endm

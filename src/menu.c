@@ -71,6 +71,7 @@ static EWRAM_DATA u8 sHofPCTopBarWindowId = 0;
 static EWRAM_DATA bool8 sScheduledBgCopiesToVram[4] = {FALSE};
 static EWRAM_DATA u16 sTempTileDataBufferIdx = 0;
 static EWRAM_DATA void *sTempTileDataBuffer[0x20] = {NULL};
+EWRAM_DATA u8 gNameboxWindowId = 0;
 
 const u16 gStandardMenuPalette[] = INCBIN_U16("graphics/interface/std_menu.gbapal");
 
@@ -149,6 +150,12 @@ void InitStandardTextBoxWindows(void)
     sMapNamePopupWindowId = WINDOW_NONE;
     if (OW_POPUP_GENERATION == GEN_5)
         sSecondaryPopupWindowId = WINDOW_NONE;
+}
+
+void InitNameboxWindow(u32 width)
+{
+    const struct WindowTemplate winTemp = CreateWindowTemplate(0, 2, 11, width, 2, 15, 0x08);
+    gNameboxWindowId = AddWindow(&winTemp);
 }
 
 void FreeAllOverworldWindowBuffers(void)
