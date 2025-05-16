@@ -35022,3 +35022,18 @@ gBattleAnimGeneral_DynamaxGrowth:: @ PORTED FROM CFRU
 	createvisualtask AnimTask_DynamaxGrowth, 0x5, 0x1, 0x0
 	waitforvisualfinish
 	end
+
+@@ CUSTOM
+
+gBattleAnimMove_MindDrift::
+	call InitRoomAnimation
+	playsewithpan SE_M_SUPERSONIC, SOUND_PAN_TARGET
+	fadetobg BG_TRICK_ROOM
+	waitbgfadein
+	delay 0x20
+	createvisualtask AnimTask_Teleport, 2
+	playsewithpan SE_M_TELEPORT, SOUND_PAN_ATTACKER
+	delay 0x40
+	restorebg
+	waitbgfadein
+	end

@@ -21007,6 +21007,29 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_ALL] =
         .battleAnimScript = gBattleAnimMove_MalignantChain,
     },
 
+    [MOVE_MIND_DRIFT] =
+    {
+        .name = COMPOUND_STRING("Mind Drift"),
+        .description = COMPOUND_STRING(
+            "Sets up Trick Room and switches\n"
+            "the user out."),
+        .effect = EFFECT_MIND_DRIFT,
+        .power = 0,
+        .type = TYPE_PSYCHIC,
+        .accuracy = 0,
+        .pp = 5,
+        .target = MOVE_TARGET_ALL_BATTLERS,
+        .priority = -7,
+        .category = DAMAGE_CATEGORY_STATUS,
+        .zMove = { .effect = Z_EFFECT_ACC_UP_1 },
+        .ignoresProtect = TRUE,
+        .contestEffect = CONTEST_EFFECT_NEXT_APPEAL_LATER,
+        .contestCategory = CONTEST_CATEGORY_CUTE,
+        .contestComboStarterId = 0,
+        .contestComboMoves = {0},
+        .battleAnimScript = gBattleAnimMove_MindDrift,
+    },
+
     // Z-Moves
     [MOVE_BREAKNECK_BLITZ] =
     {

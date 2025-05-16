@@ -15087,6 +15087,7 @@ static void Cmd_setroom(void)
     switch (GetMoveEffect(gCurrentMove))
     {
     case EFFECT_TRICK_ROOM:
+    case EFFECT_MIND_DRIFT:
         HandleRoomMove(STATUS_FIELD_TRICK_ROOM, &gFieldTimers.trickRoomTimer, 0);
         break;
     case EFFECT_WONDER_ROOM:
