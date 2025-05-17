@@ -5,9 +5,30 @@ static const struct TeraRaidMon sTeraRaidMons_InsideOfTruck[] =
         .moves = { MOVE_PSYBEAM, MOVE_STRUGGLE_BUG, MOVE_DISABLE, MOVE_BUG_BITE },
         .abilityNum = 0,
         .evs = { 0, 0, 0, 0, 0, 0 },
-        .extraActions = { 0, 0, 0, 0, 0 },
-        .fixedDrops = { 0, 0, 0, 0, 0, 0, 0 },
-        .randomDrops = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+        .extraActions = 
+        { 
+            .actions = 
+            { 
+                { .id = EXTRA_ACTION_NULLIFY_PLAYER, .hpPercentage = 50, },
+            },
+            .count = 1,
+        },
+        .fixedDrops =
+        {
+            .drops =
+            {
+                { .itemId = ITEM_PSYCHIC_GEM, .count = 1, },
+            },
+            .count = 1,
+        },
+        .randomDrops =
+        {
+            .drops =
+            {
+                { .itemId = ITEM_PSYCHIC_GEM, .count = 1, },
+            },
+            .count = 1,
+        },
     },
 };
 
