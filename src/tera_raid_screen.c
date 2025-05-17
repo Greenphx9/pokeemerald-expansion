@@ -458,7 +458,6 @@ static void Task_TeraRaidScreenWaitFadeAndExitGracefully(u8 taskId);
 
 // Sample UI helper functions
 void TeraRaidScreen_Init(MainCallback callback);
-static void TeraRaidScreen_ResetGpuRegsAndBgs(void);
 static bool8 TeraRaidScreen_InitBgs(void);
 static void TeraRaidScreen_FadeAndBail(void);
 static bool8 TeraRaidScreen_LoadGraphics(void);
@@ -520,45 +519,6 @@ void TeraRaidScreen_Init(MainCallback callback)
     SetMainCallback2(TeraRaidScreen_SetupCB);
 }
 
-// Credit: Jaizu, pret
-static void TeraRaidScreen_ResetGpuRegsAndBgs(void)
-{
-    SetGpuReg(REG_OFFSET_DISPCNT, 0);
-
-    /*
-     * Explicitly re-enable sprites. This isn't actually necessary if you aren't displaying sprites. However, let's do
-     * this here anyway, otherwise you might be confused wondering why your sprites aren't showing up!
-     *
-     * For more information, see GBATEK's documentation on the Display Control register:
-     *     https://problemkaputt.de/gbatek.htm#lcdiodisplaycontrol
-     */
-    SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJ_ON);
-
-    SetGpuReg(REG_OFFSET_BG3CNT, 0);
-    SetGpuReg(REG_OFFSET_BG2CNT, 0);
-    SetGpuReg(REG_OFFSET_BG1CNT, 0);
-    SetGpuReg(REG_OFFSET_BG0CNT, 0);
-    ChangeBgX(0, 0, BG_COORD_SET);
-    ChangeBgY(0, 0, BG_COORD_SET);
-    ChangeBgX(1, 0, BG_COORD_SET);
-    ChangeBgY(1, 0, BG_COORD_SET);
-    ChangeBgX(2, 0, BG_COORD_SET);
-    ChangeBgY(2, 0, BG_COORD_SET);
-    ChangeBgX(3, 0, BG_COORD_SET);
-    ChangeBgY(3, 0, BG_COORD_SET);
-    SetGpuReg(REG_OFFSET_BLDCNT, 0);
-    SetGpuReg(REG_OFFSET_BLDY, 0);
-    SetGpuReg(REG_OFFSET_BLDALPHA, 0);
-    SetGpuReg(REG_OFFSET_WIN0H, 0);
-    SetGpuReg(REG_OFFSET_WIN0V, 0);
-    SetGpuReg(REG_OFFSET_WIN1H, 0);
-    SetGpuReg(REG_OFFSET_WIN1V, 0);
-    SetGpuReg(REG_OFFSET_WININ, 0);
-    SetGpuReg(REG_OFFSET_WINOUT, 0);
-    CpuFill16(0, (void *)VRAM, VRAM_SIZE);
-    CpuFill32(0, (void *)OAM, OAM_SIZE);
-}
-
 static void TeraRaidScreen_SetupCB(void)
 {
     /*
@@ -580,7 +540,6 @@ static void TeraRaidScreen_SetupCB(void)
          * Reset all graphics registers and clear VRAM / OAM. There may be garbage values from previous screens that
          * could screw up your UI. It's safer to just reset everything so you have a blank slate.
          */
-        //TeraRaidScreen_ResetGpuRegsAndBgs();
         // Use DMA to completely clear VRAM
         DmaClearLarge16(3, (void *)VRAM, VRAM_SIZE, 0x1000);
         // Null out V/H blanking callbacks since we are not drawing anything atm
@@ -1280,8 +1239,6 @@ u8 DetermineRaidType(void)
 
 static void TeraRaidScreen_LoadTypesGfx(void)
 {
-    u32 i;
-    u16 species = gTeraRaidEncounter.species;
     gTeraRaidType = (gTeraRaidEncounter.teraType != TYPE_NONE) ? gTeraRaidEncounter.teraType : DetermineRaidType();
     sTeraRaidScreenState->typeIconSpriteId = 0xFF;
     LoadCompressedPalette(gMoveTypes_Pal, OBJ_PLTT_ID(11), 3 * PLTT_SIZE_4BPP);
