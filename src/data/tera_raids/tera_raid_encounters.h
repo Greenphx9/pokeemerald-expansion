@@ -1,8 +1,8 @@
 static const struct TeraRaidMon sTeraRaidMons_InsideOfTruck[] =
 {
     {
-        .species = SPECIES_VENONAT,
-        .moves = { MOVE_PSYBEAM, MOVE_STRUGGLE_BUG, MOVE_DISABLE, MOVE_BUG_BITE },
+        .species = SPECIES_WALKING_WAKE,
+        .moves = { MOVE_HYDRO_STEAM, MOVE_DRAGON_PULSE, MOVE_NOBLE_ROAR, MOVE_FLAMETHROWER },
         .abilityNum = 0,
         .evs = { 0, 0, 0, 0, 0, 0 },
         .extraActions = 
@@ -17,17 +17,30 @@ static const struct TeraRaidMon sTeraRaidMons_InsideOfTruck[] =
         {
             .drops =
             {
-                { .itemId = ITEM_PSYCHIC_GEM, .count = 1, },
+                { .itemId = ITEM_EXP_CANDY_L, .count = 1, },
+                { .itemId = ITEM_EXP_CANDY_XL, .count = 1, },
+                { .itemId = ITEM_HEALTH_FEATHER, .count = 3, },
             },
-            .count = 1,
+            .count = 3,
         },
         .randomDrops =
         {
             .drops =
             {
-                { .itemId = ITEM_PSYCHIC_GEM, .count = 1, },
+                { .itemId = ITEM_EXP_CANDY_L, .chance = 23, .count = 1, },
+                { .itemId = ITEM_EXP_CANDY_L, .chance = 11, .count = 2, },
+                { .itemId = ITEM_RARE_CANDY, .chance = 4, .count = 1, },
+                { .itemId = ITEM_HEALTH_FEATHER, .chance = 10, .count = 2, },
+                { .itemId = ITEM_TAMATO_BERRY, .chance = 8, .count = 3, },
+                { .itemId = ITEM_BIG_PEARL, .chance = 12, .count = 1, },
+                { .itemId = ITEM_PEARL_STRING, .chance = 2, .count = 1, },
+                { .itemId = ITEM_NUGGET, .chance = 5, .count = 1, },
+                { .itemId = ITEM_NAIVE_MINT, .chance = 2, .count = 1, },
+                { .itemId = ITEM_PP_UP, .chance = 3, .count = 1, },
+                { .itemId = ITEM_BOTTLE_CAP, .chance = 2, .count = 1, },
+                { .itemId = ITEM_ABILITY_CAPSULE, .chance = 2, .count = 1, },
             },
-            .count = 1,
+            .count = 12,
         },
     },
 };

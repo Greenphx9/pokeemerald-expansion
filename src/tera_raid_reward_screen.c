@@ -1,4 +1,5 @@
 #include "tera_raid_screen.h"
+#include "tera_raid_reward_screen.h"
 
 #include "gba/types.h"
 #include "gba/defines.h"
@@ -39,12 +40,14 @@
 #include "battle_main.h"
 #include "util.h"
 #include "battle.h"
+#include "item.h"
+#include "list_menu.h"
+#include "strings.h"
+#include "item_icon.h"
+#include "international_string_util.h"
 #include "constants/trainers.h"
 #include "constants/pokemon.h"
 #include "constants/abilities.h"
-
-#include "data/tera_raids/tera_raid_partners.h"
-#include "data/tera_raids/tera_raid_encounters.h"
 
 // This code is based on Ghoulslash's excellent UI tutorial:
 // https://www.pokecommunity.com/showpost.php?p=10441093
@@ -119,23 +122,23 @@
  *    `Task_OpenSampleUi_Simple'. It must then setup the transition (however is relevant based on its context) and set
  *    the active task to `Task_OpenSampleUi_Simple'. In our case, `start_menu.c' is the caller of this task.
  *
- * 2) `Task_OpenSampleUi_Simple' waits for any active fades to finish, then it calls our init code in `TeraRaidScreen_Init'
- *    which changes the gMainCallback2 to our `TeraRaidScreen_SetupCB'.
+ * 2) `Task_OpenSampleUi_Simple' waits for any active fades to finish, then it calls our init code in `TeraRaidRewardScreen_Init'
+ *    which changes the gMainCallback2 to our `TeraRaidRewardScreen_SetupCB'.
  *
- * 3) `TeraRaidScreen_SetupCB' runs each frame, bit-by-bit getting our menu initialized. Once initialization has finished,
+ * 3) `TeraRaidRewardScreen_SetupCB' runs each frame, bit-by-bit getting our menu initialized. Once initialization has finished,
  *    this callback:
- *       1) Sets up a new task `Task_TeraRaidScreenWaitFadeIn' which waits until we fade back in before hotswapping itself for
- *          `Task_TeraRaidScreenMainInput' which reads input and updates the menu state.
+ *       1) Sets up a new task `Task_TeraRaidRewardScreenWaitFadeIn' which waits until we fade back in before hotswapping itself for
+ *          `Task_TeraRaidRewardScreenMainInput' which reads input and updates the menu state.
  *       2) Starts a palette fade to bring the screen from black back to regular colors
- *       3) Sets our VBlank callback to `TeraRaidScreen_VBlankCB' (which is called every VBlank as part of the VBlank
+ *       3) Sets our VBlank callback to `TeraRaidRewardScreen_VBlankCB' (which is called every VBlank as part of the VBlank
  *          interrupt service routine). This callback transfers our OAM and palette buffers into VRAM, among other
  *          things
- *       4) Sets gMainCallback2 to our menu's main callback `TeraRaidScreen_MainCB', which does the standard processing of
+ *       4) Sets gMainCallback2 to our menu's main callback `TeraRaidRewardScreen_MainCB', which does the standard processing of
  *          tasks, animating of sprites, etc.
  *
- * 4) We have reached our standard menu state. Every frame `TeraRaidScreen_MainCB' runs, which calls `Task_TeraRaidScreenMainInput`
- *    to get input from the user and update menu state and backing graphics buffers. `TeraRaidScreen_MainCB' also updates
- *    other important gamestate. Then, when VBlank occurs, our `TeraRaidScreen_VBlankCB' copies palettes and OAM into VRAM
+ * 4) We have reached our standard menu state. Every frame `TeraRaidRewardScreen_MainCB' runs, which calls `Task_TeraRaidRewardScreenMainInput`
+ *    to get input from the user and update menu state and backing graphics buffers. `TeraRaidRewardScreen_MainCB' also updates
+ *    other important gamestate. Then, when VBlank occurs, our `TeraRaidRewardScreen_VBlankCB' copies palettes and OAM into VRAM
  *    before pending DMA transfers fire and copy any screen graphics updates into VRAM.
  */
 
@@ -143,22 +146,28 @@
  * Various state for the UI -- we'll allocate this on the heap since none of it needs to be preserved after we exit the
  * menu.
  */
-struct TeraRaidScreenState
+struct TeraRaidRewardScreenState
 {
     // Save the callback to run when we exit: i.e. where do we want to go after closing the menu
     MainCallback savedCallback;
     // We will use this later to track some loading state
     u8 loadState;
 
-    u8 partnerIndexes[3];
-    u8 chosenPartnerIndex;
-    u8 partnerSpriteId[3];
-    u8 partnerMonSpriteId[3][3];
-    u8 arrowSpriteId;
-    u8 arrowPos;
     u8 encounterSpriteId;
     bool8 outlinedSprite;
     u8 typeIconSpriteId;
+
+    struct ListMenuItem listItems[24];
+    u8 itemNames[24][ITEM_NAME_LENGTH + 10];
+
+    u8 listTaskId;
+    u16 itemsAbove;
+    u16 cursorPos;
+
+    u8 itemSpriteId;
+    u8 outlineItemSpriteIds[8];
+
+    u8 scrollIndicatorTaskId;
 };
 
 /*
@@ -167,12 +176,10 @@ struct TeraRaidScreenState
  * worth noting that every time the game re-loads into the overworld, the heap gets nuked from orbit. However, it is
  * still good practice to clean up after oneself, so we will be sure to free everything before exiting.
  */
-static EWRAM_DATA struct TeraRaidScreenState *sTeraRaidScreenState = NULL;
+static EWRAM_DATA struct TeraRaidRewardScreenState *sTeraRaidRewardScreenState = NULL;
 static EWRAM_DATA u8 *sBg1TilemapBuffer = NULL;
-EWRAM_DATA struct TeraRaidMon gTeraRaidEncounter;
-EWRAM_DATA u8 gTeraRaidStars;
-EWRAM_DATA u8 gTeraRaidSelectedPartner;
-EWRAM_DATA u8 gTeraRaidType;
+static EWRAM_DATA struct TeraRaidFixedDrop sTeraRaidRewardDrops[23] = {}; // reuse data struct
+static EWRAM_DATA u8 sTeraRaidRewardDropCount = 0;
 
 /*
  * Defines and read-only data for on-screen dex.
@@ -244,52 +251,63 @@ static const struct BgTemplate sSampleUiBgTemplates[] =
 // GF window system passes window IDs around, so define this to avoid using magic numbers everywhere
 enum WindowIds
 {
-    WIN_UI_RECOMMENDED_LEVEL,
-    WIN_UI_BATTLE_ENDS,
     WIN_UI_CONTROLS,
-    WIN_UI_AVAILABLE_PARTNERS,
+    WIN_UI_CAUGHT_MON,
+    WIN_UI_ITEM_LIST,
+    WIN_UI_REWARDS,
+    WIN_UI_ITEM_DESC,
 };
 static const struct WindowTemplate sTeraRaidScreenWindowTemplates[] =
 {
-    [WIN_UI_RECOMMENDED_LEVEL] =
-    {
-        .bg = 0,
-        .tilemapLeft = 16,
-        .tilemapTop = 0,
-        .width = 16,
-        .height = 2,
-        .paletteNum = 15,
-        .baseBlock = 1
-    },
-    [WIN_UI_BATTLE_ENDS] =
-    {
-        .bg = 0,
-        .tilemapLeft = 1,
-        .tilemapTop = 13,
-        .width = 10,
-        .height = 6,
-        .paletteNum = 15,
-        .baseBlock = 33
-    },
     [WIN_UI_CONTROLS] =
     {
         .bg = 0,
-        .tilemapLeft = 9,
+        .tilemapLeft = 25,
         .tilemapTop = 18,
-        .width = 23,
+        .width = 8,
         .height = 2,
         .paletteNum = 15,
         .baseBlock = 93
     },
-    [WIN_UI_AVAILABLE_PARTNERS] =
+    [WIN_UI_CAUGHT_MON] =
     {
         .bg = 0,
-        .tilemapLeft = 16,
-        .tilemapTop = 3,
-        .width = 14,
-        .height = 3,
+        .tilemapLeft = 1,
+        .tilemapTop = 0,
+        .width = 16,
+        .height = 2,
         .paletteNum = 15,
-        .baseBlock = 139,
+        .baseBlock = 109
+    },
+    [WIN_UI_ITEM_LIST] =
+    {
+        .bg = 0,
+        .tilemapLeft = 14,
+        .tilemapTop = 5,
+        .width = 18,
+        .height = 13,
+        .paletteNum = 15,
+        .baseBlock = 141
+    },
+    [WIN_UI_REWARDS] =
+    {
+        .bg = 0,
+        .tilemapLeft = 14,
+        .tilemapTop = 3,
+        .width = 7,
+        .height = 2,
+        .paletteNum = 15,
+        .baseBlock = 375,
+    },
+    [WIN_UI_ITEM_DESC] =
+    {
+        .bg = 0,
+        .tilemapLeft = 0,
+        .tilemapTop = 14,
+        .width = 12,
+        .height = 5,
+        .paletteNum = 15,
+        .baseBlock = 389,
     },
     DUMMY_WIN_TEMPLATE
 };
@@ -298,13 +316,13 @@ static const struct WindowTemplate sTeraRaidScreenWindowTemplates[] =
  * (you can technically get away with 8bpp indexing as long as each individual index is between 0-15). The easiest way
  * to make indexed PNGs is using a program like GraphicsGale or Aseprite (in Index mode).
  */
-static const u32 sTeraRaidScreenTiles[] = INCBIN_U32("graphics/tera_raid_screen/tera_raid_screen.4bpp.lz");
+static const u32 sTeraRaidRewardScreenTiles[] = INCBIN_U32("graphics/tera_raid_screen/tera_raid_reward_screen.4bpp.lz");
 
 /*
  * I created this tilemap in TilemapStudio using the above tile PNG. I highly recommend TilemapStudio for exporting maps
  * like this.
  */
-static const u32 sTeraRaidScreenTilemap[] = INCBIN_U32("graphics/tera_raid_screen/tera_raid_screen.bin.lz");
+static const u32 sTeraRaidRewardScreenTilemap[] = INCBIN_U32("graphics/tera_raid_screen/tera_raid_reward_screen.bin.lz");
 
 /*
  * This palette was built from a JASC palette file that you can export using GraphicsGale or Aseprite. Please note: the
@@ -313,57 +331,10 @@ static const u32 sTeraRaidScreenTilemap[] = INCBIN_U32("graphics/tera_raid_scree
  * CRLF. To remedy this, run your JASC palette file through a tool like unix2dos and you shouldn't have any more
  * problems.
  */
-static const u16 sTeraRaidScreenPalette[] = INCBIN_U16("graphics/tera_raid_screen/tera_raid_screen.gbapal");
+static const u16 sTeraRaidRewardScreenPalette[] = INCBIN_U16("graphics/tera_raid_screen/tera_raid_reward_screen.gbapal");
 
-#define GFXTAG_ARROWCURSOR 0x4000
-#define PALTAG_ARROWCURSOR 0x4001
-
-static const u32 sArrow_Gfx[]     = INCBIN_U32("graphics/tera_raid_screen/arrow.4bpp.lz");
-static const u16 sArrow_Pal[]     = INCBIN_U16("graphics/tera_raid_screen/arrow.gbapal"); 
-
-static const struct OamData sOamData_Arrow =
-{
-    .size = SPRITE_SIZE(32x32),
-    .shape = SPRITE_SHAPE(32x32),
-    .priority = 0,
-};
-
-static const struct CompressedSpriteSheet sSpriteSheet_Arrow =
-{
-    .data = sArrow_Gfx,
-    .size = 32*32,
-    .tag = GFXTAG_ARROWCURSOR,
-};
-
-static const struct SpritePalette sSpritePal_Arrow =
-{
-    .data = sArrow_Pal,
-    .tag = PALTAG_ARROWCURSOR
-};
-
-static const union AnimCmd sSpriteAnim_Arrow[] =
-{
-    ANIMCMD_FRAME(0, 32),
-    ANIMCMD_JUMP(0),
-};
-
-static const union AnimCmd *const sSpriteAnimTable_Arrow[] =
-{
-    sSpriteAnim_Arrow,
-};
-
-static void SpriteCB_Arrow(struct Sprite* sprite);
-
-static const struct SpriteTemplate sSpriteTemplate_Arrow =
-{
-    .tileTag = GFXTAG_ARROWCURSOR,
-    .paletteTag = PALTAG_ARROWCURSOR,
-    .oam = &sOamData_Arrow,
-    .anims = sSpriteAnimTable_Arrow,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCB_Arrow
-};
+#define TAG_ITEM_ICON    5110
+#define TAG_SCROLL_ARROW 5108
 
 #define GFXTAG_STAR 0x4002
 #define PALTAG_STAR 0x4003
@@ -434,48 +405,39 @@ static const u8 sTeraRaidScreenWindowFontColors[][3] =
     [FONT_BLUE]   = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_BLUE,       TEXT_COLOR_LIGHT_GRAY},
 };
 
-const u8 gTeraRaidStarToLevel[][2] = // fight & catch level
-{
-    [ONE_STAR]    = {12,  12},
-    [TWO_STARS]   = {20,  20},
-    [THREE_STARS] = {35,  35},
-    [FOUR_STARS]  = {45,  45},
-    [FIVE_STARS]  = {75,  75},
-    [SIX_STARS]   = {90,  75},
-    [SEVEN_STARS] = {100, 100},
-};
-
 // Callbacks for the sample UI
-static void TeraRaidScreen_SetupCB(void);
-static void TeraRaidScreen_MainCB(void);
-static void TeraRaidScreen_VBlankCB(void);
+static void TeraRaidRewardScreen_SetupCB(void);
+static void TeraRaidRewardScreen_MainCB(void);
+static void TeraRaidRewardScreen_VBlankCB(void);
 
 // Sample UI tasks
-static void Task_TeraRaidScreenWaitFadeIn(u8 taskId);
-static void Task_TeraRaidScreenMainInput(u8 taskId);
-static void Task_TeraRaidScreenWaitFadeAndBail(u8 taskId);
-static void Task_TeraRaidScreenWaitFadeAndExitGracefully(u8 taskId);
+static void Task_TeraRaidRewardScreenWaitFadeIn(u8 taskId);
+static void Task_TeraRaidRewardScreenMainInput(u8 taskId);
+static void Task_TeraRaidRewardScreenWaitFadeAndBail(u8 taskId);
+static void Task_TeraRaidRewardScreenWaitFadeAndExitGracefully(u8 taskId);
 
 // Sample UI helper functions
-void TeraRaidScreen_Init(MainCallback callback);
-static void TeraRaidScreen_ResetGpuRegsAndBgs(void);
-static bool8 TeraRaidScreen_InitBgs(void);
-static void TeraRaidScreen_FadeAndBail(void);
-static bool8 TeraRaidScreen_LoadGraphics(void);
-static void TeraRaidScreen_InitWindows(void);
-static void TeraRaidScreen_FreeResources(void);
-static void TeraRaidScreen_PrintWindowText(void);
-static void TeraRaidScreen_LoadPartnerGfx(void);
-static void TeraRaidscreen_LoadArrowGfx(void);
-static void TeraRaidScreen_LoadEncounterGfx(void);
-static void TeraRaidScreen_LoadTypesGfx(void);
-static void TeraRaidScreen_LoadStarGfx(void);
+void TeraRaidRewardScreen_Init(MainCallback callback);
+static void TeraRaidRewardScreen_ResetGpuRegsAndBgs(void);
+static bool8 TeraRaidRewardScreen_InitBgs(void);
+static void TeraRaidRewardScreen_FadeAndBail(void);
+static bool8 TeraRaidRewardScreen_LoadGraphics(void);
+static void TeraRaidRewardScreen_InitWindows(void);
+static void TeraRaidRewardScreen_FreeResources(void);
+static void TeraRaidRewardScreen_PrintWindowText(void);
+static void TeraRaidRewardScreen_LoadEncounterGfx(void);
+static void TeraRaidRewardScreen_LoadTypeGfx(void);
+static void TeraRaidRewardScreen_LoadStarGfx(void);
+static void TeraRaidRewardScreen_GiveItems(void);
+static void TeraRaidRewardScreen_CreateListMenu(void);
+static void TeraRaidRewardScreen_AddScrollIndicator(void);
+static void TeraRaidRewardScreen_RemoveScrollIndicator(void);
 
-static u32 GetRaidStars(void);
-static void DetermineRaidEncounter(void);
+static void TeraRaidRewardScreen_MoveCursor(s32 id, bool8 onInit, struct ListMenu *list);
+static void TeraRaidRewardScreen_PrintMenuItem(u8 windowId, u32 id, u8 yOffset);
 
 // Declared in sample_ui.h
-void Task_OpenSampleUi_StartHere(u8 taskId)
+void Task_OpenTeraRaidRewardScreen_StartHere(u8 taskId)
 {
     /*
      * We are still in the overworld callback, so wait until the palette fade is finished (i.e. the screen is entirely
@@ -490,16 +452,16 @@ void Task_OpenSampleUi_StartHere(u8 taskId)
          */
         CleanupOverworldWindowsAndTilemaps();
         // Allocate heap space for menu state and set up callbacks
-        TeraRaidScreen_Init(CB2_ReturnToFieldWithOpenMenu);
+        TeraRaidRewardScreen_Init(CB2_ReturnToFieldWithOpenMenu);
         // Our setup is done, so destroy ourself.
         DestroyTask(taskId);
     }
 }
 
-void TeraRaidScreen_Init(MainCallback callback)
+void TeraRaidRewardScreen_Init(MainCallback callback)
 {
-    sTeraRaidScreenState = AllocZeroed(sizeof(struct TeraRaidScreenState));
-    if (sTeraRaidScreenState == NULL)
+    sTeraRaidRewardScreenState = AllocZeroed(sizeof(struct TeraRaidRewardScreenState));
+    if (sTeraRaidRewardScreenState == NULL)
     {
         /*
          * If the heap allocation failed for whatever reason, then set the callback to just return to the overworld.
@@ -510,18 +472,18 @@ void TeraRaidScreen_Init(MainCallback callback)
         return;
     }
 
-    sTeraRaidScreenState->loadState = 0;
-    sTeraRaidScreenState->savedCallback = callback;
+    sTeraRaidRewardScreenState->loadState = 0;
+    sTeraRaidRewardScreenState->savedCallback = callback;
 
     /*
      * Next frame start running UI setup code. SetMainCallback2 also resets gMain.state to zero, which we will need for
      * the SetupCB
      */
-    SetMainCallback2(TeraRaidScreen_SetupCB);
+    SetMainCallback2(TeraRaidRewardScreen_SetupCB);
 }
 
 // Credit: Jaizu, pret
-static void TeraRaidScreen_ResetGpuRegsAndBgs(void)
+static void TeraRaidRewardScreen_ResetGpuRegsAndBgs(void)
 {
     SetGpuReg(REG_OFFSET_DISPCNT, 0);
 
@@ -559,7 +521,7 @@ static void TeraRaidScreen_ResetGpuRegsAndBgs(void)
     CpuFill32(0, (void *)OAM, OAM_SIZE);
 }
 
-static void TeraRaidScreen_SetupCB(void)
+static void TeraRaidRewardScreen_SetupCB(void)
 {
     /*
      * You may ask: why are these tasks in a giant switch statement? For one thing, it is because this is how GameFreak
@@ -580,7 +542,7 @@ static void TeraRaidScreen_SetupCB(void)
          * Reset all graphics registers and clear VRAM / OAM. There may be garbage values from previous screens that
          * could screw up your UI. It's safer to just reset everything so you have a blank slate.
          */
-        //TeraRaidScreen_ResetGpuRegsAndBgs();
+        //TeraRaidRewardScreen_ResetGpuRegsAndBgs();
         // Use DMA to completely clear VRAM
         DmaClearLarge16(3, (void *)VRAM, VRAM_SIZE, 0x1000);
         // Null out V/H blanking callbacks since we are not drawing anything atm
@@ -620,10 +582,10 @@ static void TeraRaidScreen_SetupCB(void)
         break;
     case 2:
         // Try to run the BG init code
-        if (TeraRaidScreen_InitBgs())
+        if (TeraRaidRewardScreen_InitBgs())
         {
             // If we successfully init the BGs, we can move on
-            sTeraRaidScreenState->loadState = 0;
+            sTeraRaidRewardScreenState->loadState = 0;
             gMain.state++;
         }
         else
@@ -632,13 +594,13 @@ static void TeraRaidScreen_SetupCB(void)
              * Otherwise, fade out, free the heap data, and return to main menu. Like before, this shouldn't ever really
              * happen but it's better to handle it then have a surprise hard-crash.
              */
-            TeraRaidScreen_FadeAndBail();
+            TeraRaidRewardScreen_FadeAndBail();
             return;
         }
         break;
     case 3:
-        // `TeraRaidScreen_LoadGraphics' has its own giant switch statement, so keep calling until it returns TRUE at the end
-        if (TeraRaidScreen_LoadGraphics() == TRUE)
+        // `TeraRaidRewardScreen_LoadGraphics' has its own giant switch statement, so keep calling until it returns TRUE at the end
+        if (TeraRaidRewardScreen_LoadGraphics() == TRUE)
         {
             // Only advance the state of this load switch statment once all the LoadGraphics logic has finished.
             gMain.state++;
@@ -646,7 +608,7 @@ static void TeraRaidScreen_SetupCB(void)
         break;
     case 4:
         // Set up our text windows
-        TeraRaidScreen_InitWindows();
+        TeraRaidRewardScreen_InitWindows();
         gMain.state++;
         break;
     case 5:
@@ -664,17 +626,19 @@ static void TeraRaidScreen_SetupCB(void)
          * this with the more granular `LoadMonIconPalette(u16 species)' and `FreeMonIconPalette(u16 species)'
          * functions.
          */
-        LoadMonIconPalettes();
-        DetermineRaidEncounter();
-        gTeraRaidStars = GetRaidStars();
-        TeraRaidScreen_PrintWindowText();
-        TeraRaidscreen_LoadArrowGfx();
-        TeraRaidScreen_LoadPartnerGfx();
-        TeraRaidScreen_LoadEncounterGfx();
-        TeraRaidScreen_LoadTypesGfx();
-        TeraRaidScreen_LoadStarGfx();
+
+        sTeraRaidRewardScreenState->cursorPos = 0;
+        sTeraRaidRewardScreenState->itemsAbove = 0;
+        sTeraRaidRewardScreenState->scrollIndicatorTaskId = TASK_NONE;
+
+        TeraRaidRewardScreen_GiveItems();
+        TeraRaidRewardScreen_CreateListMenu();
+        TeraRaidRewardScreen_PrintWindowText();
+        TeraRaidRewardScreen_LoadStarGfx();
+        TeraRaidRewardScreen_LoadTypeGfx();
+        TeraRaidRewardScreen_LoadEncounterGfx();
         // Create a task that does nothing until the palette fade is done. We will start the palette fade next frame.
-        CreateTask(Task_TeraRaidScreenWaitFadeIn, 0);
+        CreateTask(Task_TeraRaidRewardScreenWaitFadeIn, 0);
         gMain.state++;
         break;
     case 6:
@@ -687,13 +651,13 @@ static void TeraRaidScreen_SetupCB(void)
         break;
     case 7:
         // Finally we can set our main callbacks since loading is finished
-        SetVBlankCallback(TeraRaidScreen_VBlankCB);
-        SetMainCallback2(TeraRaidScreen_MainCB);
+        SetVBlankCallback(TeraRaidRewardScreen_VBlankCB);
+        SetMainCallback2(TeraRaidRewardScreen_MainCB);
         break;
     }
 }
 
-static void TeraRaidScreen_MainCB(void)
+static void TeraRaidRewardScreen_MainCB(void)
 {
     // Iterate through the Tasks list and run any active task callbacks
     RunTasks();
@@ -717,7 +681,7 @@ static void TeraRaidScreen_MainCB(void)
     UpdatePaletteFade();
 }
 
-static void TeraRaidScreen_VBlankCB(void)
+static void TeraRaidRewardScreen_VBlankCB(void)
 {
     /*
      * Handle direct CPU copies here during the VBlank period. All of these transfers affect what is displayed on
@@ -735,26 +699,17 @@ static void TeraRaidScreen_VBlankCB(void)
     TransferPlttBuffer();
 }
 
-static void Task_TeraRaidScreenWaitFadeIn(u8 taskId)
+static void Task_TeraRaidRewardScreenWaitFadeIn(u8 taskId)
 {
      // Do nothing until the palette fade finishes, then replace ourself with the main menu task.
     if (!gPaletteFade.active)
     {
-        gTasks[taskId].func = Task_TeraRaidScreenMainInput;
+        gTasks[taskId].func = Task_TeraRaidRewardScreenMainInput;
     }
 }
 
-static void Task_TeraRaidScreenMainInput(u8 taskId)
+static void Task_TeraRaidRewardScreenMainInput(u8 taskId)
 {
-    if (JOY_NEW(A_BUTTON))
-    {
-        PlaySE(SE_PC_ON);
-        gSpecialVar_Result = 1;
-        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
-        gTeraRaidSelectedPartner = sTeraRaidScreenState->partnerIndexes[sTeraRaidScreenState->arrowPos];
-        FlagSet(B_SMART_WILD_AI_FLAG);
-        gTasks[taskId].func = Task_TeraRaidScreenWaitFadeAndExitGracefully;
-    }
     // Exit the menu when the player presses B
     if (JOY_NEW(B_BUTTON))
     {
@@ -763,71 +718,30 @@ static void Task_TeraRaidScreenMainInput(u8 taskId)
         // Fade screen to black
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
         // Replace ourself with the "exit gracefully" task function
-        gTasks[taskId].func = Task_TeraRaidScreenWaitFadeAndExitGracefully;
+        gTasks[taskId].func = Task_TeraRaidRewardScreenWaitFadeAndExitGracefully;
     }
-    if (JOY_NEW(DPAD_DOWN))
+    else
     {
-        PlaySE(SE_SELECT);
-        if (sTeraRaidScreenState->arrowPos == 2)
-            sTeraRaidScreenState->arrowPos = 0;
-        else
-            sTeraRaidScreenState->arrowPos++;
-    }
-    if (JOY_NEW(DPAD_UP))
-    {
-        PlaySE(SE_SELECT);
-        if (sTeraRaidScreenState->arrowPos == 0)
-            sTeraRaidScreenState->arrowPos = 2;
-        else
-            sTeraRaidScreenState->arrowPos--;
-    }
-    if (JOY_NEW(START_BUTTON))
-    {
-        PlaySE(SE_PC_ON);
-        gSpecialVar_Result = 1;
-        BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
-        sTeraRaidScreenState->arrowPos = Random() % 3;
-        gTeraRaidSelectedPartner = sTeraRaidScreenState->partnerIndexes[sTeraRaidScreenState->arrowPos];
-        FlagSet(B_SMART_WILD_AI_FLAG);
-        gTasks[taskId].func = Task_TeraRaidScreenWaitFadeAndExitGracefully;
+        ListMenu_ProcessInput(sTeraRaidRewardScreenState->listTaskId);
+        ListMenuGetScrollAndRow(sTeraRaidRewardScreenState->listTaskId, &sTeraRaidRewardScreenState->itemsAbove, &sTeraRaidRewardScreenState->cursorPos);
     }
 }
 
-static void SpriteCB_Arrow(struct Sprite* sprite)
-{
-    sprite->y = 59 + (sTeraRaidScreenState->arrowPos * 33);
-
-	if (sprite->data[1])
-	{
-		sprite->data[0] -= 1;
-		if (sprite->data[0] == 0)
-			sprite->data[1] = FALSE;
-	}
-	else
-	{
-		sprite->data[0] += 1;
-		if (sprite->data[0] == 20)
-			sprite->data[1] = TRUE;
-	}
-
-	sprite->x2 = 5 - sprite->data[0] / 4;
-}
-
-static void Task_TeraRaidScreenWaitFadeAndBail(u8 taskId)
+static void Task_TeraRaidRewardScreenWaitFadeAndBail(u8 taskId)
 {
     // Wait until the screen fades to black before we start doing cleanup
     if (!gPaletteFade.active)
     {
-        SetMainCallback2(sTeraRaidScreenState->savedCallback);
-        TeraRaidScreen_FreeResources();
+        SetMainCallback2(sTeraRaidRewardScreenState->savedCallback);
+        TeraRaidRewardScreen_FreeResources();
         DestroyTask(taskId);
     }
 }
 
-static void Task_TeraRaidScreenWaitFadeAndExitGracefully(u8 taskId)
+static void Task_TeraRaidRewardScreenWaitFadeAndExitGracefully(u8 taskId)
 {
     /*
-     * This function is basically the same as Task_TeraRaidScreenWaitFadeAndBail. However, for this sample we broke it out
+     * This function is basically the same as Task_TeraRaidRewardScreenWaitFadeAndBail. However, for this sample we broke it out
      * because typically you might want to do something different if the user gracefully exits a menu vs if you got
      * booted from a menu due to heap allocation failure.
      */
@@ -838,12 +752,12 @@ static void Task_TeraRaidScreenWaitFadeAndExitGracefully(u8 taskId)
     if (!gPaletteFade.active)
     {
         SetMainCallback2(CB2_ReturnToFieldContinueScript);
-        TeraRaidScreen_FreeResources();
+        TeraRaidRewardScreen_FreeResources();
         DestroyTask(taskId);
     }
 }
 
-static bool8 TeraRaidScreen_InitBgs(void)
+static bool8 TeraRaidRewardScreen_InitBgs(void)
 {
     /*
      * 1 screenblock is 2 KiB, so that should be a good size for our tilemap buffer. We don't need more than one
@@ -896,22 +810,22 @@ static bool8 TeraRaidScreen_InitBgs(void)
     return TRUE;
 }
 
-static void TeraRaidScreen_FadeAndBail(void)
+static void TeraRaidRewardScreen_FadeAndBail(void)
 {
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
-    CreateTask(Task_TeraRaidScreenWaitFadeAndBail, 0);
+    CreateTask(Task_TeraRaidRewardScreenWaitFadeAndBail, 0);
 
     /*
      * Set callbacks to ours while we wait for the fade to finish, then our above task will cleanup and swap the
      * callbacks back to the one we saved earlier (which should re-load the overworld)
      */
-    SetVBlankCallback(TeraRaidScreen_VBlankCB);
-    SetMainCallback2(TeraRaidScreen_MainCB);
+    SetVBlankCallback(TeraRaidRewardScreen_VBlankCB);
+    SetMainCallback2(TeraRaidRewardScreen_MainCB);
 }
 
-static bool8 TeraRaidScreen_LoadGraphics(void)
+static bool8 TeraRaidRewardScreen_LoadGraphics(void)
 {
-    switch (sTeraRaidScreenState->loadState)
+    switch (sTeraRaidRewardScreenState->loadState)
     {
     case 0:
         /*
@@ -940,8 +854,8 @@ static bool8 TeraRaidScreen_LoadGraphics(void)
          * automatically frees the decompression buffer for you. If you want, you can use that here instead and remove
          * the `ResetTempTileDataBuffers' call above, since it doesn't use the temp tile data buffers.
          */
-        DecompressAndCopyTileDataToVram(1, sTeraRaidScreenTiles, 0, 0, 0);
-        sTeraRaidScreenState->loadState++;
+        DecompressAndCopyTileDataToVram(1, sTeraRaidRewardScreenTiles, 0, 0, 0);
+        sTeraRaidRewardScreenState->loadState++;
         break;
     case 1:
         /*
@@ -958,8 +872,8 @@ static bool8 TeraRaidScreen_LoadGraphics(void)
              * provided in the `src' (argument 1), and writes the decompressed data to a WRAM location given in `dest'
              * (argument 2). In our case `dest' is just the tilemap buffer we heap-allocated earlier.
              */
-            LZDecompressWram(sTeraRaidScreenTilemap, sBg1TilemapBuffer);
-            sTeraRaidScreenState->loadState++;
+            LZDecompressWram(sTeraRaidRewardScreenTilemap, sBg1TilemapBuffer);
+            sTeraRaidRewardScreenState->loadState++;
         }
         break;
     case 2:
@@ -967,21 +881,21 @@ static bool8 TeraRaidScreen_LoadGraphics(void)
          * Copy our palette into the game's BG palette buffer, slot 0 -- this step does not directly get the palette
          * into VRAM. That only happens during VBlank if the current callback specifies a buffer transfer.
          */
-        LoadPalette(sTeraRaidScreenPalette, BG_PLTT_ID(0), PLTT_SIZE_4BPP);
+        LoadPalette(sTeraRaidRewardScreenPalette, BG_PLTT_ID(0), PLTT_SIZE_4BPP);
         /*
          * Copy the message box palette into BG palette buffer, slot 15. Our window is set to use palette 15 and our
          * text color constants are defined assuming we are indexing into this palette.
          */
         LoadPalette(gMessageBox_Pal, BG_PLTT_ID(15), PLTT_SIZE_4BPP);
-        sTeraRaidScreenState->loadState++;
+        sTeraRaidRewardScreenState->loadState++;
     default:
-        sTeraRaidScreenState->loadState = 0;
+        sTeraRaidRewardScreenState->loadState = 0;
         return TRUE;
     }
     return FALSE;
 }
 
-static void TeraRaidScreen_InitWindows(void)
+static void TeraRaidRewardScreen_InitWindows(void)
 {
     /*
      * Initialize windows from the window templates we specified above. This makes two important allocations:
@@ -1017,11 +931,11 @@ static void TeraRaidScreen_InitWindows(void)
      * Fill each entire window pixel buffer (i.e. window.tileData) with the given value. In this case, fill it with 0s
      * to make the window completely transparent. We will draw text into the window pixel buffer later.
      */
-    FillWindowPixelBuffer(WIN_UI_RECOMMENDED_LEVEL, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
-    FillWindowPixelBuffer(WIN_UI_BATTLE_ENDS, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
     FillWindowPixelBuffer(WIN_UI_CONTROLS, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
-    FillWindowPixelBuffer(WIN_UI_AVAILABLE_PARTNERS, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
-
+    FillWindowPixelBuffer(WIN_UI_CAUGHT_MON, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    FillWindowPixelBuffer(WIN_UI_ITEM_LIST, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    FillWindowPixelBuffer(WIN_UI_REWARDS, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    FillWindowPixelBuffer(WIN_UI_ITEM_DESC, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
     /*
      * Write an increasing sequence of tile indexes into each window's tilemap buffer, based on the offset provided by
      * the window.baseBlock. Why? Because the window text will be drawn onto the tiles themselves. So we just want each
@@ -1032,10 +946,11 @@ static void TeraRaidScreen_InitWindows(void)
      * to VRAM locations, which in reality is basically a 1D array). I will leave exploration of the inner-workings of
      * this function as an exercise to the reader.
      */
-    PutWindowTilemap(WIN_UI_RECOMMENDED_LEVEL);
-    PutWindowTilemap(WIN_UI_BATTLE_ENDS);
     PutWindowTilemap(WIN_UI_CONTROLS);
-    PutWindowTilemap(WIN_UI_AVAILABLE_PARTNERS);
+    PutWindowTilemap(WIN_UI_CAUGHT_MON);
+    PutWindowTilemap(WIN_UI_ITEM_LIST);
+    PutWindowTilemap(WIN_UI_REWARDS);
+    PutWindowTilemap(WIN_UI_ITEM_DESC);
 
     /*
      * Copy (well, schedule to copy) each window into VRAM using DMA3 under the hood. The COPYWIN_FULL argument means we
@@ -1043,197 +958,87 @@ static void TeraRaidScreen_InitWindows(void)
      * and the tiles themselves. Typically when updating text on a window, you only need to copy the tile canvas (i.e.
      * using COPYWIN_GFX) since the tilemap should never change. But to init the window we need to get both into VRAM.
      */
-    CopyWindowToVram(WIN_UI_RECOMMENDED_LEVEL, COPYWIN_FULL);
-    CopyWindowToVram(WIN_UI_BATTLE_ENDS, COPYWIN_FULL);
     CopyWindowToVram(WIN_UI_CONTROLS, COPYWIN_FULL);
-    CopyWindowToVram(WIN_UI_AVAILABLE_PARTNERS, COPYWIN_FULL);
+    CopyWindowToVram(WIN_UI_CAUGHT_MON, COPYWIN_FULL);
+    CopyWindowToVram(WIN_UI_ITEM_LIST, COPYWIN_FULL);
+    CopyWindowToVram(WIN_UI_REWARDS, COPYWIN_FULL);
+    CopyWindowToVram(WIN_UI_ITEM_DESC, COPYWIN_FULL);
 }
 
-static void TeraRaidScreen_FreeResources(void)
+static void TeraRaidRewardScreen_FreeResources(void)
 {
     // Free our data struct and our BG1 tilemap buffer
-    if (sTeraRaidScreenState != NULL)
+    if (sTeraRaidRewardScreenState != NULL)
     {
-        Free(sTeraRaidScreenState);
+        Free(sTeraRaidRewardScreenState);
     }
     if (sBg1TilemapBuffer != NULL)
     {
         Free(sBg1TilemapBuffer);
     }
+    TeraRaidRewardScreen_RemoveScrollIndicator();
     // Free all allocated tilemap and pixel buffers associated with the windows.
     FreeAllWindowBuffers();
     // Reset all sprite data
     ResetSpriteData();
 }
 
-static const u8 sText_RecommendedLevel[] = _("Recommended Level: ");
-static const u8 sText_BattleEnds[] = _("Battle ends if:\n4 Pokémon faint\n10 turns pass");
-static const u8 sText_Controls[] = _("{DPAD_UPDOWN}Pick {A_BUTTON}Choose {START_BUTTON}Random {B_BUTTON}Cancel");
-static const u8 sText_AvailablePartners[] = _("Available Partners");
-static void TeraRaidScreen_PrintWindowText(void)
+static const u8 sText_Controls[] = _("{B_BUTTON}Close");
+static const u8 sText_CaughtMon[] = _("You caught {STR_VAR_1}!");
+static const u8 sText_Rewards[] = _("Rewards");
+static void TeraRaidRewardScreen_PrintWindowText(void)
 {
-	StringCopy(gStringVar1, sText_RecommendedLevel);
-	ConvertIntToDecimalStringN(gStringVar2, gTeraRaidStarToLevel[gTeraRaidStars][0], 0, 3);
-	StringAppend(gStringVar1, gStringVar2);
-    AddTextPrinterParameterized4(WIN_UI_RECOMMENDED_LEVEL, FONT_SMALL, 2, 0, 0, 0, sTeraRaidScreenWindowFontColors[FONT_WHITE], TEXT_SKIP_DRAW, gStringVar1);
-    AddTextPrinterParameterized4(WIN_UI_BATTLE_ENDS, FONT_SMALL, 0, 2, 2, 1, sTeraRaidScreenWindowFontColors[FONT_WHITE], TEXT_SKIP_DRAW, sText_BattleEnds);
-    AddTextPrinterParameterized4(WIN_UI_CONTROLS, FONT_SMALL, 0, 4, 0, 0, sTeraRaidScreenWindowFontColors[FONT_WHITE], TEXT_SKIP_DRAW, sText_Controls);
-    AddTextPrinterParameterized4(WIN_UI_AVAILABLE_PARTNERS, FONT_NORMAL, 1, 3, 0, 0, sTeraRaidScreenWindowFontColors[FONT_BLACK], TEXT_SKIP_DRAW, sText_AvailablePartners);
-    CopyWindowToVram(WIN_UI_RECOMMENDED_LEVEL, COPYWIN_GFX);
-    CopyWindowToVram(WIN_UI_BATTLE_ENDS, COPYWIN_GFX);
+    StringCopy(gStringVar1, GetSpeciesName(gTeraRaidEncounter.species));
+    StringExpandPlaceholders(gStringVar2, sText_CaughtMon);
+    AddTextPrinterParameterized4(WIN_UI_CONTROLS, FONT_SMALL, 4, 4, 0, 0, sTeraRaidScreenWindowFontColors[FONT_WHITE], TEXT_SKIP_DRAW, sText_Controls);
+    AddTextPrinterParameterized4(WIN_UI_CAUGHT_MON, FONT_SMALL, 0, 0, 0, 0, sTeraRaidScreenWindowFontColors[FONT_WHITE], TEXT_SKIP_DRAW, gStringVar2);
+    AddTextPrinterParameterized4(WIN_UI_REWARDS, FONT_NORMAL, 7, 0, 0, 0, sTeraRaidScreenWindowFontColors[FONT_BLACK], TEXT_SKIP_DRAW, sText_Rewards);
     CopyWindowToVram(WIN_UI_CONTROLS, COPYWIN_GFX);
-    CopyWindowToVram(WIN_UI_AVAILABLE_PARTNERS, COPYWIN_GFX);
+    CopyWindowToVram(WIN_UI_CAUGHT_MON, COPYWIN_GFX);
+    CopyWindowToVram(WIN_UI_REWARDS, COPYWIN_GFX);
 }
 
-#define OW_ICON_X 126
-#define MON_ICON_1_X 136
-#define MON_ICON_2_X 168
-#define MON_ICON_3_X 200
-
-// This is borrowed from Skeli's Dynamax Raids
-static u32 GetRaidRandomNumber(void)
+static void TeraRaidRewardScreen_LoadStarGfx(void)
 {
-	//Make sure no values are 0
-	u8 dayOfWeek = (RtcGetDayOfWeek() == 0) ? 8 : RtcGetDayOfWeek();
-	u8 hour = (RtcGetHour() == 0) ? 24 : RtcGetHour();
-	u8 day = (RtcGetDay() == 0) ? 32 : RtcGetDay();
-	u8 month = (RtcGetMonth() == 0) ? 13 : RtcGetMonth();
-	u8 lastMapGroup = (gSaveBlock1Ptr->dynamicWarp.mapGroup == 0) ? 0xFF : gSaveBlock1Ptr->dynamicWarp.mapGroup;
-	u8 lastMapNum = (gSaveBlock1Ptr->dynamicWarp.mapNum == 0) ? 0xFF : gSaveBlock1Ptr->dynamicWarp.mapNum;
-	u8 lastWarpId = (gSaveBlock1Ptr->dynamicWarp.warpId == 0) ? 0xFF : gSaveBlock1Ptr->dynamicWarp.warpId;
-	u16 lastPos = (gSaveBlock1Ptr->dynamicWarp.x + gSaveBlock1Ptr->dynamicWarp.y == 0) ? 0xFFFF : (u16) (gSaveBlock1Ptr->dynamicWarp.x + gSaveBlock1Ptr->dynamicWarp.y);
-	#ifdef VAR_RAID_NUMBER_OFFSET
-	u16 offset = VarGet(VAR_RAID_NUMBER_OFFSET); //Setting this var changes all the raid spawns for the current hour (helps with better Wishing Piece)
-	#else
-	u16 offset = 0;
-	#endif
-
-	return ((hour * (day + month) * lastMapGroup * (lastMapNum + lastWarpId + lastPos)) + ((hour * (day + month)) ^ dayOfWeek) + offset) ^ T1_READ_32(gSaveBlock2Ptr->playerTrainerId);
+    LoadCompressedSpriteSheet(&sSpriteSheet_Star);
+    LoadSpritePalette(&sSpritePal_Star); 
+    for (int i = 0; i < gTeraRaidStars + 1; ++i)
+		CreateSprite(&sSpriteTemplate_Star, 196 - (9 * i), 8, 0);
 }
 
-// source: https://bulbapedia.bulbagarden.net/wiki/Tera_Raid_Battle#Encounters
-static u32 GetRaidStars(void)
+//Type Icon
+static void SetSpriteInvisibility(u8 spriteArrayId, bool8 invisible)
 {
-    u8 badgeCount = 0;
-    u32 i;
-    u32 rand = GetRaidRandomNumber() % 100;
-
-    for (i = FLAG_BADGE01_GET; i < FLAG_BADGE01_GET + NUM_BADGES; i++)
-    {
-        if (FlagGet(i))
-            badgeCount++;
-    }
-
-
-    if (FlagGet(FLAG_SYS_GAME_CLEAR))
-    {
-        if (rand <= 40)
-            return THREE_STARS;
-        else if (rand <= 75)
-            return FOUR_STARS;
-        else 
-            return FIVE_STARS;
-    }
-    else if (badgeCount >= 6)
-    {
-        if (rand <= 20)
-            return ONE_STAR;
-        else if (rand <= 40)
-            return TWO_STARS;
-        else if (rand <= 70)
-            return THREE_STARS;
-        else
-            return FOUR_STARS;   
-    }
-    else if (badgeCount >= 3)
-    {
-        if (rand <= 30)
-            return ONE_STAR;
-        else if (rand <= 40)
-            return TWO_STARS;
-        else 
-            return THREE_STARS;
-    }
-    else
-        if (rand <= 80)
-            return ONE_STAR;
-        else
-            return TWO_STARS;
+    gSprites[sTeraRaidRewardScreenState->typeIconSpriteId].invisible = invisible;
 }
 
-// Based off Skeli's Dynamax Raids but not directly copied
-void DetermineRaidPartners(u32* goodIndexes, u8 maxPartners)
+static void SetTypeIconPosAndPal(u8 typeId, u8 x, u8 y, u8 spriteArrayId)
 {
-    u32 i, j, k, foundPartners = 0;
-    u32 randNum = GetRaidRandomNumber();
-    bool8 checkedPartners[ARRAY_COUNT(gTeraRaidPartners)];
-    for (k = 0; k < ARRAY_COUNT(checkedPartners); k++)
-        checkedPartners[k] = FALSE;
-    for (i = 0; i < 0xFFFF; i++)
-    {
-        if (randNum == 0)
-            randNum = 0xFFFF;
-        randNum ^= i;
-        j = randNum % ARRAY_COUNT(gTeraRaidPartners);
-        if (!checkedPartners[j])
-        {
-            if (gTeraRaidPartners[j].parties[gTeraRaidStars] != NULL)
-            {
-                checkedPartners[j] = TRUE;
-                goodIndexes[foundPartners] = j;
-                foundPartners++;
-            }
-        }
-        if (foundPartners >= maxPartners)
-            break;
-    }
+    struct Sprite *sprite;
+
+    sprite = &gSprites[sTeraRaidRewardScreenState->typeIconSpriteId];
+    StartSpriteAnim(sprite, typeId);
+    sprite->oam.paletteNum = gTypesInfo[typeId].palette - 2;
+    sprite->x = x + 16;
+    sprite->y = y + 8;
+    SetSpriteInvisibility(spriteArrayId, FALSE);
 }
 
-
-static void TeraRaidScreen_LoadPartnerGfx(void)
+static void TeraRaidRewardScreen_LoadTypeGfx(void)
 {
-    u32 i, j;
-    u32 indexes[3];
-    for (i = 0; i < 3; i++)
-        indexes[i] = 0xFFFF;
-    DetermineRaidPartners(indexes, 3);
-    for (i = 0; i < 3; i++)
-    {
-        u32 index = indexes[i];
-        sTeraRaidScreenState->partnerIndexes[i] = index;
-        sTeraRaidScreenState->partnerSpriteId[i] = CreateObjectGraphicsSprite(gTeraRaidPartners[index].objectEventGfx, SpriteCallbackDummy, 126, 59 + (i * 33), 0);
-        for (j = 0; j < 3; j++)
-        {
-            sTeraRaidScreenState->partnerMonSpriteId[i][j] = CreateMonIconNoPersonality(gTeraRaidPartners[index].parties[gTeraRaidStars][j].species, SpriteCB_MonIcon, 158 + (32 * j), 59 + (i * 33), 1);
-        }
-    }
-}
-
-static void TeraRaidscreen_LoadArrowGfx(void)
-{
-    LoadCompressedSpriteSheet(&sSpriteSheet_Arrow);
-    LoadSpritePalette(&sSpritePal_Arrow);    
-    sTeraRaidScreenState->arrowSpriteId = CreateSprite(&sSpriteTemplate_Arrow, 95, 59, 0);
-}
-
-static void DetermineRaidEncounter(void)
-{
-    u32 playerMapSec = gMapHeader.regionMapSectionId;
-    const struct TeraRaid* teraRaid = &sTeraRaidsByMapSec[playerMapSec][gTeraRaidStars];
-    u32 rand = (teraRaid->amount > 1) ? GetRaidRandomNumber() % teraRaid->amount : 0;
-    gTeraRaidEncounter = teraRaid->mons[rand];
+    sTeraRaidRewardScreenState->typeIconSpriteId = 0xFF;
+    LoadCompressedPalette(gMoveTypes_Pal, OBJ_PLTT_ID(11), 3 * PLTT_SIZE_4BPP);
+    LoadCompressedSpriteSheet(&gSpriteSheet_MoveTypes);
+    sTeraRaidRewardScreenState->typeIconSpriteId = CreateSprite(&gSpriteTemplate_MoveTypes, 10, 10, 2);
+    SetTypeIconPosAndPal(gTeraRaidType, 200, 0, 0);
 }
 
 // credits to AgustinGDLV
-static void TeraRaidScreen_LoadEncounterGfx(void)
+static void TeraRaidRewardScreen_LoadEncounterGfx(void)
 {
     u32 i, j, paletteOffset, spriteId;
-	sTeraRaidScreenState->encounterSpriteId  = CreateMonPicSprite(gTeraRaidEncounter.species, FALSE, 0xFFFFFFFF, TRUE, 45, 57, 14, TAG_NONE);
-    gSprites[sTeraRaidScreenState->encounterSpriteId].oam.priority = 0;
-
-	paletteOffset = 14 * 16 + 0x100;
-    BlendPalette(paletteOffset, 16, 16, RGB(4, 4, 4));
-    CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
+	sTeraRaidRewardScreenState->encounterSpriteId = CreateMonPicSprite(gTeraRaidEncounter.species, FALSE, 0xFFFFFFFF, TRUE, 50, 53, 14, TAG_NONE);
+    gSprites[sTeraRaidRewardScreenState->encounterSpriteId].oam.priority = 0;
 
 	// Create white outline.
     // TODO: Nicer looking way to do this with fancy VRAM trick, see CFRU.
@@ -1243,70 +1048,210 @@ static void TeraRaidScreen_LoadEncounterGfx(void)
         {
             if (i == 1 && j == 1)
                 continue;
-            spriteId = CreateMonPicSprite(gTeraRaidEncounter.species, FALSE, 0xFFFFFFFF, TRUE, 44 + i, 56 + j, gSprites[sTeraRaidScreenState->encounterSpriteId].oam.paletteNum + 1, TAG_NONE);
+            spriteId = CreateMonPicSprite(gTeraRaidEncounter.species, FALSE, 0xFFFFFFFF, TRUE, 49 + i, 52 + j, gSprites[sTeraRaidRewardScreenState->encounterSpriteId].oam.paletteNum + 1, TAG_NONE);
             gSprites[spriteId].oam.priority = 1;
         }
     }
-    paletteOffset += 16;
+    paletteOffset = 15 * 16 + 0x100;
     FillPalette(RGB_WHITE, paletteOffset, 32);
     CpuCopy32(gPlttBufferFaded + paletteOffset, gPlttBufferUnfaded + paletteOffset, 32);
 }
 
-//Type Icon
-static void SetSpriteInvisibility(u8 spriteArrayId, bool8 invisible)
+// spaghetti below, be warned
+static void TeraRaidRewardScreen_GiveItems(void)
 {
-    gSprites[sTeraRaidScreenState->typeIconSpriteId].invisible = invisible;
+    u32 i, j;
+    bool32 found = FALSE;
+    
+    for (i = 0; i < sTeraRaidRewardDropCount; i++)
+    {
+        sTeraRaidRewardDrops[i].itemId = ITEM_NONE;
+        sTeraRaidRewardDrops[i].count = 0;
+    }
+    sTeraRaidRewardDropCount = 0;
+
+    for (i = 0; i < gTeraRaidEncounter.fixedDrops.count; i++)
+    {
+        sTeraRaidRewardDrops[i].itemId = gTeraRaidEncounter.fixedDrops.drops[i].itemId;
+        sTeraRaidRewardDrops[i].count = gTeraRaidEncounter.fixedDrops.drops[i].count;
+        sTeraRaidRewardDropCount++;
+    }
+
+    for (i = 0; i < gTeraRaidEncounter.randomDrops.count; i++)
+    {
+        struct TeraRaidRandomDrop rDrop = gTeraRaidEncounter.randomDrops.drops[i];
+        u32 rand = Random() % 100;
+        if (rand < rDrop.chance)
+        {
+            found = FALSE;
+            for (j = 0; j < sTeraRaidRewardDropCount; j++)
+            {
+                if (rDrop.itemId == sTeraRaidRewardDrops[j].itemId)
+                {
+                    found = TRUE;
+                    sTeraRaidRewardDrops[j].count += rDrop.count;
+                    break;
+                }
+            }
+            if (!found)
+            {
+                sTeraRaidRewardDrops[sTeraRaidRewardDropCount].itemId = rDrop.itemId;
+                sTeraRaidRewardDrops[sTeraRaidRewardDropCount].count = rDrop.count;
+                sTeraRaidRewardDropCount += 1;
+            }
+        }
+    }
+    for (i = 0; i < sTeraRaidRewardDropCount; i++)
+    {
+        AddBagItem(sTeraRaidRewardDrops[i].itemId, sTeraRaidRewardDrops[i].count);
+    }
 }
 
-static void SetTypeIconPosAndPal(u8 typeId, u8 x, u8 y, u8 spriteArrayId)
+static const struct ListMenuTemplate sTeraRaidRewardMenu_ItemStorage =
 {
-    struct Sprite *sprite;
+    .items = NULL,
+    .moveCursorFunc = TeraRaidRewardScreen_MoveCursor,
+    .itemPrintFunc = TeraRaidRewardScreen_PrintMenuItem,
+    .totalItems = 0,
+    .maxShowed = 0,
+    .windowId = 0,
+    .header_X = 0,
+    .item_X = 14,
+    .cursor_X = 6,
+    .upText_Y = 12,
+    .cursorPal = 2,
+    .fillValue = 0,
+    .cursorShadowPal = 3,
+    .lettersSpacing = FALSE,
+    .itemVerticalPadding = 0,
+    .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
+    .fontId = FONT_SMALL,
+    .cursorKind = CURSOR_BLACK_ARROW,
+    .textNarrowWidth = 74,
+};
 
-    sprite = &gSprites[sTeraRaidScreenState->typeIconSpriteId];
-    StartSpriteAnim(sprite, typeId);
-    sprite->oam.paletteNum = gTypesInfo[typeId].palette - 2;
-    sprite->x = x + 16;
-    sprite->y = y + 8;
-    SetSpriteInvisibility(spriteArrayId, FALSE);
+static void TeraRaidRewardScreen_DrawItemIcon(u16 itemId)
+{
+    u32 i, j, k = 0;
+    u8 spriteId;
+    u8 *spriteIdLoc = &sTeraRaidRewardScreenState->itemSpriteId;
+
+    if (*spriteIdLoc == SPRITE_NONE)
+    {
+        FreeSpriteTilesByTag(TAG_ITEM_ICON);
+        FreeSpritePaletteByTag(TAG_ITEM_ICON);
+        spriteId = AddItemIconSprite(TAG_ITEM_ICON, TAG_ITEM_ICON, itemId);
+        if (spriteId != MAX_SPRITES)
+        {
+            *spriteIdLoc = spriteId;
+            gSprites[spriteId].oam.priority = 0;
+            gSprites[spriteId].x = 51;
+            gSprites[spriteId].y = 109;
+        }
+        for (i = 0; i < 3; i++)
+        {
+            for (j = 0; j < 3; j++)
+            {
+                if (i == 1 && j == 1)
+                    continue;
+                sTeraRaidRewardScreenState->outlineItemSpriteIds[k] = AddItemIconSprite2(TAG_ITEM_ICON + k + 1, TAG_ITEM_ICON + k + 1, itemId, FALSE);
+                gSprites[sTeraRaidRewardScreenState->outlineItemSpriteIds[k]].oam.priority = 1;
+                gSprites[sTeraRaidRewardScreenState->outlineItemSpriteIds[k]].x = 50 + i;
+                gSprites[sTeraRaidRewardScreenState->outlineItemSpriteIds[k]].y = 108 + j;
+                gSprites[sTeraRaidRewardScreenState->outlineItemSpriteIds[k]].oam.paletteNum = 15;
+                k++;
+            }
+        }
+    }
 }
 
-u8 DetermineRaidType(void)
-{
-    u8 type = GetRaidRandomNumber() % NUMBER_OF_MON_TYPES;
-    if (type == TYPE_NONE || type == TYPE_MYSTERY)
-        type++;
-    return type;
-}
-
-static void TeraRaidScreen_LoadTypesGfx(void)
+static void TeraRaidRewardScreen_EraseItemIcon(void)
 {
     u32 i;
-    u16 species = gTeraRaidEncounter.species;
-    gTeraRaidType = (gTeraRaidEncounter.teraType != TYPE_NONE) ? gTeraRaidEncounter.teraType : DetermineRaidType();
-    sTeraRaidScreenState->typeIconSpriteId = 0xFF;
-    LoadCompressedPalette(gMoveTypes_Pal, OBJ_PLTT_ID(11), 3 * PLTT_SIZE_4BPP);
-    LoadCompressedSpriteSheet(&gSpriteSheet_MoveTypes);
-    sTeraRaidScreenState->typeIconSpriteId = CreateSprite(&gSpriteTemplate_MoveTypes, 10, 10, 2);
-    SetTypeIconPosAndPal(gTeraRaidType, 64, 0, 0);
+    u8 *spriteIdLoc = &sTeraRaidRewardScreenState->itemSpriteId;
+    if (*spriteIdLoc != SPRITE_NONE)
+    {
+        FreeSpriteTilesByTag(TAG_ITEM_ICON);
+        FreeSpritePaletteByTag(TAG_ITEM_ICON);
+        DestroySprite(&gSprites[*spriteIdLoc]);
+        *spriteIdLoc = SPRITE_NONE;
+        for (i = 0; i < 8; i++)
+        {
+            FreeSpriteTilesByTag(TAG_ITEM_ICON + i + 1);
+            FreeSpritePaletteByTag(TAG_ITEM_ICON + i + 1);
+            DestroySprite(&gSprites[sTeraRaidRewardScreenState->outlineItemSpriteIds[i]]);
+        }
+    }
 }
 
-static void TeraRaidScreen_LoadStarGfx(void)
+static void TeraRaidRewardScreen_PrintDescription(s32 id)
 {
-    LoadCompressedSpriteSheet(&sSpriteSheet_Star);
-    LoadSpritePalette(&sSpritePal_Star); 
-    for (int i = 0; i < gTeraRaidStars + 1; ++i)
-		CreateSprite(&sSpriteTemplate_Star, 6 + (9 * i), 8, 0);
+    const u8 *description;
+    u8 windowId = WIN_UI_ITEM_DESC;
+
+    description = (u8 *)ItemId_GetDescription(sTeraRaidRewardDrops[id].itemId);
+
+    FillWindowPixelBuffer(windowId, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    AddTextPrinterParameterized4(windowId, FONT_SMALL_NARROW, 2, 4, 0, 2, sTeraRaidScreenWindowFontColors[FONT_WHITE], 0, description);
 }
 
-// specials
-void IsRaidAvailable(void)
+static void TeraRaidRewardScreen_MoveCursor(s32 id, bool8 onInit, struct ListMenu *list)
 {
-    const struct TeraRaid *teraRaid = &sTeraRaidsByMapSec[gMapHeader.regionMapSectionId][GetRaidStars()];
-    gSpecialVar_Result = teraRaid->mons != NULL;
+    if (onInit != TRUE)
+        PlaySE(SE_SELECT);
+    TeraRaidRewardScreen_EraseItemIcon();
+    TeraRaidRewardScreen_DrawItemIcon(sTeraRaidRewardDrops[id].itemId);
+    TeraRaidRewardScreen_PrintDescription(id);
 }
 
-// assumes you have called IsRaidAvailable
-void InitTeraRaidScreen(void)
+static void TeraRaidRewardScreen_PrintMenuItem(u8 windowId, u32 id, u8 yOffset)
 {
-    CreateTask(Task_OpenSampleUi_StartHere, 0);
+    ConvertIntToDecimalStringN(gStringVar1, sTeraRaidRewardDrops[id].count, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    StringExpandPlaceholders(gStringVar4, gText_xVar1);
+    AddTextPrinterParameterized4(windowId, FONT_SMALL, GetStringRightAlignXOffset(FONT_NARROW, gStringVar4, 122), yOffset, 0, 0, sTeraRaidScreenWindowFontColors[FONT_BLACK], TEXT_SKIP_DRAW, gStringVar4);
+}
+
+static void TeraRaidRewardScreen_CreateListMenu(void)
+{
+    u32 i;
+    for (i = 0; i < sTeraRaidRewardDropCount; i++)
+    {
+        CopyItemName(sTeraRaidRewardDrops[i].itemId, &sTeraRaidRewardScreenState->itemNames[i][0]);
+        sTeraRaidRewardScreenState->listItems[i].name = &sTeraRaidRewardScreenState->itemNames[i][0];
+        sTeraRaidRewardScreenState->listItems[i].id = i;
+    }
+
+    gMultiuseListMenuTemplate = sTeraRaidRewardMenu_ItemStorage;
+    gMultiuseListMenuTemplate.windowId = WIN_UI_ITEM_LIST;
+    gMultiuseListMenuTemplate.totalItems = sTeraRaidRewardDropCount;
+    gMultiuseListMenuTemplate.items = sTeraRaidRewardScreenState->listItems;
+    gMultiuseListMenuTemplate.maxShowed = 7;
+
+    ListMenuInit(&gMultiuseListMenuTemplate, sTeraRaidRewardScreenState->itemsAbove, sTeraRaidRewardScreenState->cursorPos);
+    TeraRaidRewardScreen_AddScrollIndicator();
+}
+
+static void TeraRaidRewardScreen_AddScrollIndicator(void)
+{
+    if (sTeraRaidRewardScreenState->scrollIndicatorTaskId == TASK_NONE)
+        sTeraRaidRewardScreenState->scrollIndicatorTaskId = AddScrollIndicatorArrowPairParameterized(SCROLL_ARROW_UP, 178, 44, 148,
+                                                                                                sTeraRaidRewardDropCount - 7,
+                                                                                                TAG_SCROLL_ARROW,
+                                                                                                TAG_SCROLL_ARROW,
+                                                                                                &sTeraRaidRewardScreenState->itemsAbove);
+}
+
+static void TeraRaidRewardScreen_RemoveScrollIndicator(void)
+{
+    if (sTeraRaidRewardScreenState->scrollIndicatorTaskId != TASK_NONE)
+    {
+        RemoveScrollIndicatorArrowPair(sTeraRaidRewardScreenState->scrollIndicatorTaskId);
+        sTeraRaidRewardScreenState->scrollIndicatorTaskId = TASK_NONE;
+    }
+}
+
+
+void InitTeraRaidRewardScreen(void)
+{
+    CreateTask(Task_OpenTeraRaidRewardScreen_StartHere, 0);
 }

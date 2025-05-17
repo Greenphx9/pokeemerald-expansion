@@ -557,3 +557,4 @@ gSpecials::
 	def_special IsRaidAvailable
 	def_special InitTeraRaidScreen
 	def_special CreateTeraRaidMon
+	def_special InitTeraRaidRewardScreen

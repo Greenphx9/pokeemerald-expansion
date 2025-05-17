@@ -160,6 +160,15 @@ Debug_EventScript_Script_1::
 	setvar VAR_0x8004, FRONTIER_UTIL_FUNC_SAVE_PARTY
 	special CallFrontierUtilFunc
 	special LoadPlayerParty
+	specialvar VAR_RESULT, GetBattleOutcome
+	goto_if_eq VAR_RESULT, B_OUTCOME_WON, RaidScript_ShowRewardScreen
+	goto_if_eq VAR_RESULT, B_OUTCOME_RAN, RaidScript_ShowRewardScreen
+	goto_if_eq VAR_RESULT, B_OUTCOME_CAUGHT, RaidScript_ShowRewardScreen
+	release
+	end
+
+RaidScript_ShowRewardScreen:
+	special InitTeraRaidRewardScreen
 	release
 	end
 
