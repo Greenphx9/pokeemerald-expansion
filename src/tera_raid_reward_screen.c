@@ -481,6 +481,27 @@ void TeraRaidRewardScreen_Init(MainCallback callback)
     SetMainCallback2(TeraRaidRewardScreen_SetupCB);
 }
 
+// credits to Skeli & CFRU: https://github.com/Skeli789/Complete-Fire-Red-Upgrade/blob/master/src/raid_intro.c#L691
+static void TeraRaidRewardScreen_ClearVramOamPlttRegs(void)
+{
+	DmaFill16(3, 0, VRAM, VRAM_SIZE);
+	DmaFill32(3, 0, OAM, OAM_SIZE);
+	DmaFill16(3, 0, PLTT, PLTT_SIZE);
+	SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP);
+	SetGpuReg(REG_OFFSET_BG3CNT, DISPCNT_MODE_0);
+	SetGpuReg(REG_OFFSET_BG2CNT, DISPCNT_MODE_0);
+	SetGpuReg(REG_OFFSET_BG1CNT, DISPCNT_MODE_0);
+	SetGpuReg(REG_OFFSET_BG0CNT, DISPCNT_MODE_0);
+	SetGpuReg(REG_OFFSET_BG3HOFS, DISPCNT_MODE_0);
+	SetGpuReg(REG_OFFSET_BG3VOFS, DISPCNT_MODE_0);
+	SetGpuReg(REG_OFFSET_BG2HOFS, DISPCNT_MODE_0);
+	SetGpuReg(REG_OFFSET_BG2VOFS, DISPCNT_MODE_0);
+	SetGpuReg(REG_OFFSET_BG1HOFS, DISPCNT_MODE_0);
+	SetGpuReg(REG_OFFSET_BG1VOFS, DISPCNT_MODE_0);
+	SetGpuReg(REG_OFFSET_BG0HOFS, DISPCNT_MODE_0);
+	SetGpuReg(REG_OFFSET_BG0VOFS, DISPCNT_MODE_0);
+}
+
 static void TeraRaidRewardScreen_SetupCB(void)
 {
     /*
@@ -502,8 +523,7 @@ static void TeraRaidRewardScreen_SetupCB(void)
          * Reset all graphics registers and clear VRAM / OAM. There may be garbage values from previous screens that
          * could screw up your UI. It's safer to just reset everything so you have a blank slate.
          */
-        // Use DMA to completely clear VRAM
-        DmaClearLarge16(3, (void *)VRAM, VRAM_SIZE, 0x1000);
+        TeraRaidRewardScreen_ClearVramOamPlttRegs();
         // Null out V/H blanking callbacks since we are not drawing anything atm
         SetVBlankHBlankCallbacksToNull();
         /*
@@ -1187,7 +1207,8 @@ static void TeraRaidRewardScreen_CreateListMenu(void)
     gMultiuseListMenuTemplate.maxShowed = 7;
 
     ListMenuInit(&gMultiuseListMenuTemplate, sTeraRaidRewardScreenState->itemsAbove, sTeraRaidRewardScreenState->cursorPos);
-    TeraRaidRewardScreen_AddScrollIndicator();
+    if (sTeraRaidRewardDropCount > 7)
+        TeraRaidRewardScreen_AddScrollIndicator();
 }
 
 static void TeraRaidRewardScreen_AddScrollIndicator(void)

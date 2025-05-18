@@ -519,6 +519,27 @@ void TeraRaidScreen_Init(MainCallback callback)
     SetMainCallback2(TeraRaidScreen_SetupCB);
 }
 
+// credits to Skeli & CFRU: https://github.com/Skeli789/Complete-Fire-Red-Upgrade/blob/master/src/raid_intro.c#L691
+static void TeraRaidScreen_ClearVramOamPlttRegs(void)
+{
+	DmaFill16(3, 0, VRAM, VRAM_SIZE);
+	DmaFill32(3, 0, OAM, OAM_SIZE);
+	DmaFill16(3, 0, PLTT, PLTT_SIZE);
+	SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP);
+	SetGpuReg(REG_OFFSET_BG3CNT, DISPCNT_MODE_0);
+	SetGpuReg(REG_OFFSET_BG2CNT, DISPCNT_MODE_0);
+	SetGpuReg(REG_OFFSET_BG1CNT, DISPCNT_MODE_0);
+	SetGpuReg(REG_OFFSET_BG0CNT, DISPCNT_MODE_0);
+	SetGpuReg(REG_OFFSET_BG3HOFS, DISPCNT_MODE_0);
+	SetGpuReg(REG_OFFSET_BG3VOFS, DISPCNT_MODE_0);
+	SetGpuReg(REG_OFFSET_BG2HOFS, DISPCNT_MODE_0);
+	SetGpuReg(REG_OFFSET_BG2VOFS, DISPCNT_MODE_0);
+	SetGpuReg(REG_OFFSET_BG1HOFS, DISPCNT_MODE_0);
+	SetGpuReg(REG_OFFSET_BG1VOFS, DISPCNT_MODE_0);
+	SetGpuReg(REG_OFFSET_BG0HOFS, DISPCNT_MODE_0);
+	SetGpuReg(REG_OFFSET_BG0VOFS, DISPCNT_MODE_0);
+}
+
 static void TeraRaidScreen_SetupCB(void)
 {
     /*
@@ -540,8 +561,7 @@ static void TeraRaidScreen_SetupCB(void)
          * Reset all graphics registers and clear VRAM / OAM. There may be garbage values from previous screens that
          * could screw up your UI. It's safer to just reset everything so you have a blank slate.
          */
-        // Use DMA to completely clear VRAM
-        DmaClearLarge16(3, (void *)VRAM, VRAM_SIZE, 0x1000);
+        TeraRaidScreen_ClearVramOamPlttRegs();
         // Null out V/H blanking callbacks since we are not drawing anything atm
         SetVBlankHBlankCallbacksToNull();
         /*
@@ -626,8 +646,8 @@ static void TeraRaidScreen_SetupCB(void)
         LoadMonIconPalettes();
         DetermineRaidEncounter();
         gTeraRaidStars = GetRaidStars();
-        TeraRaidScreen_PrintWindowText();
         TeraRaidscreen_LoadArrowGfx();
+        TeraRaidScreen_PrintWindowText();
         TeraRaidScreen_LoadPartnerGfx();
         TeraRaidScreen_LoadEncounterGfx();
         TeraRaidScreen_LoadTypesGfx();
@@ -645,6 +665,7 @@ static void TeraRaidScreen_SetupCB(void)
         gMain.state++;
         break;
     case 7:
+
         // Finally we can set our main callbacks since loading is finished
         SetVBlankCallback(TeraRaidScreen_VBlankCB);
         SetMainCallback2(TeraRaidScreen_MainCB);
