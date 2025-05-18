@@ -3,24 +3,24 @@
 
 ASSUMPTIONS
 {
-    ASSUME(gMovesInfo[MOVE_PROTECT].effect == EFFECT_PROTECT);
-    ASSUME(gMovesInfo[MOVE_DETECT].effect == EFFECT_PROTECT);
-    ASSUME(gMovesInfo[MOVE_KINGS_SHIELD].effect == EFFECT_PROTECT);
-    ASSUME(gMovesInfo[MOVE_SILK_TRAP].effect == EFFECT_PROTECT);
-    ASSUME(gMovesInfo[MOVE_SPIKY_SHIELD].effect == EFFECT_PROTECT);
-    ASSUME(gMovesInfo[MOVE_WIDE_GUARD].effect == EFFECT_PROTECT);
-    ASSUME(gMovesInfo[MOVE_QUICK_GUARD].effect == EFFECT_PROTECT);
-    ASSUME(gMovesInfo[MOVE_CRAFTY_SHIELD].effect == EFFECT_PROTECT);
-    ASSUME(gMovesInfo[MOVE_BANEFUL_BUNKER].effect == EFFECT_PROTECT);
-    ASSUME(gMovesInfo[MOVE_BURNING_BULWARK].effect == EFFECT_PROTECT);
-    ASSUME(gMovesInfo[MOVE_TACKLE].category == DAMAGE_CATEGORY_PHYSICAL);
-    ASSUME(gMovesInfo[MOVE_TACKLE].makesContact);
-    ASSUME(gMovesInfo[MOVE_LEER].category == DAMAGE_CATEGORY_STATUS);
-    ASSUME(gMovesInfo[MOVE_WATER_GUN].category == DAMAGE_CATEGORY_SPECIAL);
-    ASSUME(!(gMovesInfo[MOVE_WATER_GUN].makesContact));
+    ASSUME(GetMoveEffect(MOVE_PROTECT) == EFFECT_PROTECT);
+    ASSUME(GetMoveEffect(MOVE_DETECT) == EFFECT_PROTECT);
+    ASSUME(GetMoveEffect(MOVE_KINGS_SHIELD) == EFFECT_PROTECT);
+    ASSUME(GetMoveEffect(MOVE_SILK_TRAP) == EFFECT_PROTECT);
+    ASSUME(GetMoveEffect(MOVE_SPIKY_SHIELD) == EFFECT_PROTECT);
+    ASSUME(GetMoveEffect(MOVE_WIDE_GUARD) == EFFECT_PROTECT);
+    ASSUME(GetMoveEffect(MOVE_QUICK_GUARD) == EFFECT_PROTECT);
+    ASSUME(GetMoveEffect(MOVE_CRAFTY_SHIELD) == EFFECT_PROTECT);
+    ASSUME(GetMoveEffect(MOVE_BANEFUL_BUNKER) == EFFECT_PROTECT);
+    ASSUME(GetMoveEffect(MOVE_BURNING_BULWARK) == EFFECT_PROTECT);
+    ASSUME(GetMoveCategory(MOVE_TACKLE) == DAMAGE_CATEGORY_PHYSICAL);
+    ASSUME(MoveMakesContact(MOVE_TACKLE));
+    ASSUME(GetMoveCategory(MOVE_LEER) == DAMAGE_CATEGORY_STATUS);
+    ASSUME(GetMoveCategory(MOVE_WATER_GUN) == DAMAGE_CATEGORY_SPECIAL);
+    ASSUME(!(MoveMakesContact(MOVE_WATER_GUN)));
 }
 
-SINGLE_BATTLE_TEST("Protect, Detect, Spiky Shield, Baneful Bunker and Burning Bulwark protect from all moves")
+SINGLE_BATTLE_TEST("Protect: Protect, Detect, Spiky Shield, Baneful Bunker and Burning Bulwark protect from all moves")
 {
     u32 j;
     static const u16 protectMoves[] = {
@@ -59,7 +59,7 @@ SINGLE_BATTLE_TEST("Protect, Detect, Spiky Shield, Baneful Bunker and Burning Bu
     }
 }
 
-SINGLE_BATTLE_TEST("King's Shield, Silk Trap and Obstruct protect from damaging moves and lower stats on contact")
+SINGLE_BATTLE_TEST("Protect: King's Shield, Silk Trap and Obstruct protect from damaging moves and lower stats on contact")
 {
     u32 j;
     static const u16 protectMoves[][3] =
@@ -125,7 +125,7 @@ SINGLE_BATTLE_TEST("King's Shield, Silk Trap and Obstruct protect from damaging 
     }
 }
 
-SINGLE_BATTLE_TEST("Spiky Shield does 1/8 dmg of max hp of attackers making contact and may faint them")
+SINGLE_BATTLE_TEST("Protect: Spiky Shield does 1/8 dmg of max hp of attackers making contact and may faint them")
 {
     u16 usedMove = MOVE_NONE;
     u16 hp = 400, maxHp = 400;
@@ -162,7 +162,7 @@ SINGLE_BATTLE_TEST("Spiky Shield does 1/8 dmg of max hp of attackers making cont
     }
 }
 
-SINGLE_BATTLE_TEST("Baneful Bunker poisons pokemon for moves making contact")
+SINGLE_BATTLE_TEST("Protect: Baneful Bunker poisons pokemon for moves making contact")
 {
     u16 usedMove = MOVE_NONE;
 
@@ -194,7 +194,7 @@ SINGLE_BATTLE_TEST("Baneful Bunker poisons pokemon for moves making contact")
     }
 }
 
-SINGLE_BATTLE_TEST("Burning Bulwark burns pokemon for moves making contact")
+SINGLE_BATTLE_TEST("Protect: Burning Bulwark burns pokemon for moves making contact")
 {
     u16 usedMove = MOVE_NONE;
 
@@ -226,7 +226,7 @@ SINGLE_BATTLE_TEST("Burning Bulwark burns pokemon for moves making contact")
     }
 }
 
-SINGLE_BATTLE_TEST("Recoil damage is not applied if target was protected")
+SINGLE_BATTLE_TEST("Protect: Recoil damage is not applied if target was protected")
 {
     u32 j, k;
     static const u16 protectMoves[] = { MOVE_PROTECT, MOVE_DETECT, MOVE_KINGS_SHIELD, MOVE_BANEFUL_BUNKER, MOVE_SILK_TRAP, MOVE_OBSTRUCT, MOVE_SPIKY_SHIELD };
@@ -244,10 +244,10 @@ SINGLE_BATTLE_TEST("Recoil damage is not applied if target was protected")
 
 
     GIVEN {
-        ASSUME(gMovesInfo[MOVE_VOLT_TACKLE].recoil > 0);
-        ASSUME(gMovesInfo[MOVE_HEAD_SMASH].recoil > 0);
-        ASSUME(gMovesInfo[MOVE_TAKE_DOWN].recoil > 0);
-        ASSUME(gMovesInfo[MOVE_DOUBLE_EDGE].recoil > 0);
+        ASSUME(GetMoveRecoil(MOVE_VOLT_TACKLE) > 0);
+        ASSUME(GetMoveRecoil(MOVE_HEAD_SMASH) > 0);
+        ASSUME(GetMoveRecoil(MOVE_TAKE_DOWN) > 0);
+        ASSUME(GetMoveRecoil(MOVE_DOUBLE_EDGE) > 0);
         PLAYER(SPECIES_RAPIDASH);
         OPPONENT(SPECIES_BEAUTIFLY);
     } WHEN {
@@ -269,7 +269,7 @@ SINGLE_BATTLE_TEST("Recoil damage is not applied if target was protected")
     }
 }
 
-SINGLE_BATTLE_TEST("Multi-hit moves don't hit a protected target and fail only once")
+SINGLE_BATTLE_TEST("Protect: Multi-hit moves don't hit a protected target and fail only once")
 {
     u16 move = MOVE_NONE;
 
@@ -282,7 +282,7 @@ SINGLE_BATTLE_TEST("Multi-hit moves don't hit a protected target and fail only o
     PARAMETRIZE { move = MOVE_SPIKY_SHIELD; }
 
     GIVEN {
-        ASSUME(gMovesInfo[MOVE_ARM_THRUST].effect == EFFECT_MULTI_HIT);
+        ASSUME(GetMoveEffect(MOVE_ARM_THRUST) == EFFECT_MULTI_HIT);
         PLAYER(SPECIES_RAPIDASH);
         OPPONENT(SPECIES_BEAUTIFLY);
     } WHEN {
@@ -316,7 +316,7 @@ SINGLE_BATTLE_TEST("Multi-hit moves don't hit a protected target and fail only o
     }
 }
 
-DOUBLE_BATTLE_TEST("Wide Guard protects self and ally from multi-target moves")
+DOUBLE_BATTLE_TEST("Protect: Wide Guard protects self and ally from multi-target moves")
 {
     u16 move = MOVE_NONE;
 
@@ -325,9 +325,9 @@ DOUBLE_BATTLE_TEST("Wide Guard protects self and ally from multi-target moves")
     PARAMETRIZE { move = MOVE_HYPER_VOICE; } // 2 foes
 
     GIVEN {
-        ASSUME(gMovesInfo[MOVE_TACKLE].target == MOVE_TARGET_SELECTED);
-        ASSUME(gMovesInfo[MOVE_SURF].target == MOVE_TARGET_FOES_AND_ALLY);
-        ASSUME(gMovesInfo[MOVE_HYPER_VOICE].target == MOVE_TARGET_BOTH);
+        ASSUME(GetMoveTarget(MOVE_TACKLE) == MOVE_TARGET_SELECTED);
+        ASSUME(GetMoveTarget(MOVE_SURF) == MOVE_TARGET_FOES_AND_ALLY);
+        ASSUME(GetMoveTarget(MOVE_HYPER_VOICE) == MOVE_TARGET_BOTH);
         PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_WOBBUFFET);
@@ -358,13 +358,13 @@ DOUBLE_BATTLE_TEST("Wide Guard protects self and ally from multi-target moves")
     }
 }
 
-DOUBLE_BATTLE_TEST("Wide Guard can not fail on consecutive turns")
+DOUBLE_BATTLE_TEST("Protect: Wide Guard can not fail on consecutive turns")
 {
     u8 turns;
 
     PASSES_RANDOMLY(2, 2);
     GIVEN {
-        ASSUME(gMovesInfo[MOVE_HYPER_VOICE].target == MOVE_TARGET_BOTH);
+        ASSUME(GetMoveTarget(MOVE_HYPER_VOICE) == MOVE_TARGET_BOTH);
         PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_WOBBUFFET);
@@ -386,7 +386,7 @@ DOUBLE_BATTLE_TEST("Wide Guard can not fail on consecutive turns")
     }
 }
 
-DOUBLE_BATTLE_TEST("Quick Guard protects self and ally from priority moves")
+DOUBLE_BATTLE_TEST("Protect: Quick Guard protects self and ally from priority moves")
 {
     u16 move = MOVE_NONE;
     struct BattlePokemon *targetOpponent = NULL;
@@ -397,8 +397,8 @@ DOUBLE_BATTLE_TEST("Quick Guard protects self and ally from priority moves")
     PARAMETRIZE { move = MOVE_QUICK_ATTACK; targetOpponent = opponentRight; }
 
     GIVEN {
-        ASSUME(gMovesInfo[MOVE_TACKLE].priority == 0);
-        ASSUME(gMovesInfo[MOVE_QUICK_ATTACK].priority == 1);
+        ASSUME(GetMovePriority(MOVE_TACKLE) == 0);
+        ASSUME(GetMovePriority(MOVE_QUICK_ATTACK) == 1);
         PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_WOBBUFFET);
@@ -421,13 +421,13 @@ DOUBLE_BATTLE_TEST("Quick Guard protects self and ally from priority moves")
     }
 }
 
-DOUBLE_BATTLE_TEST("Quick Guard can not fail on consecutive turns")
+DOUBLE_BATTLE_TEST("Protect: Quick Guard can not fail on consecutive turns")
 {
     u8 turns;
 
     PASSES_RANDOMLY(2, 2);
     GIVEN {
-        ASSUME(gMovesInfo[MOVE_QUICK_ATTACK].priority == 1);
+        ASSUME(GetMovePriority(MOVE_QUICK_ATTACK) == 1);
         PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_WOBBUFFET);
@@ -446,7 +446,7 @@ DOUBLE_BATTLE_TEST("Quick Guard can not fail on consecutive turns")
     }
 }
 
-DOUBLE_BATTLE_TEST("Crafty Shield protects self and ally from status moves")
+DOUBLE_BATTLE_TEST("Protect: Crafty Shield protects self and ally from status moves")
 {
     u16 move = MOVE_NONE;
     struct BattlePokemon *targetOpponent = NULL;
@@ -457,9 +457,9 @@ DOUBLE_BATTLE_TEST("Crafty Shield protects self and ally from status moves")
     PARAMETRIZE { move = MOVE_TACKLE; targetOpponent = opponentRight; }
 
     GIVEN {
-        ASSUME(gMovesInfo[MOVE_LEER].target == MOVE_TARGET_BOTH);
-        ASSUME(gMovesInfo[MOVE_HYPER_VOICE].target == MOVE_TARGET_BOTH);
-        ASSUME(gMovesInfo[MOVE_HYPER_VOICE].category == DAMAGE_CATEGORY_SPECIAL);
+        ASSUME(GetMoveTarget(MOVE_LEER) == MOVE_TARGET_BOTH);
+        ASSUME(GetMoveTarget(MOVE_HYPER_VOICE) == MOVE_TARGET_BOTH);
+        ASSUME(GetMoveCategory(MOVE_HYPER_VOICE) == DAMAGE_CATEGORY_SPECIAL);
         PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_WOBBUFFET);
@@ -487,17 +487,17 @@ DOUBLE_BATTLE_TEST("Crafty Shield protects self and ally from status moves")
     }
 }
 
-SINGLE_BATTLE_TEST("Protect does not block Confide or Decorate")
+SINGLE_BATTLE_TEST("Protect: Protect does not block Confide or Decorate")
 {
     u32 move;
     PARAMETRIZE { move = MOVE_CONFIDE; }
     PARAMETRIZE { move = MOVE_DECORATE; }
 
     GIVEN {
-        ASSUME(gMovesInfo[MOVE_CONFIDE].effect == EFFECT_SPECIAL_ATTACK_DOWN);
-        ASSUME(gMovesInfo[MOVE_CONFIDE].ignoresProtect == TRUE);
-        ASSUME(gMovesInfo[MOVE_DECORATE].effect == EFFECT_DECORATE);
-        ASSUME(gMovesInfo[MOVE_DECORATE].ignoresProtect == TRUE);
+        ASSUME(GetMoveEffect(MOVE_CONFIDE) == EFFECT_SPECIAL_ATTACK_DOWN);
+        ASSUME(MoveIgnoresProtect(MOVE_CONFIDE));
+        ASSUME(GetMoveEffect(MOVE_DECORATE) == EFFECT_DECORATE);
+        ASSUME(MoveIgnoresProtect(MOVE_DECORATE));
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
@@ -516,10 +516,10 @@ DOUBLE_BATTLE_TEST("Crafty Shield protects self and ally from Confide and Decora
     PARAMETRIZE { move = MOVE_DECORATE; }
 
     GIVEN {
-        ASSUME(gMovesInfo[MOVE_CONFIDE].effect == EFFECT_SPECIAL_ATTACK_DOWN);
-        ASSUME(gMovesInfo[MOVE_CONFIDE].ignoresProtect == TRUE);
-        ASSUME(gMovesInfo[MOVE_DECORATE].effect == EFFECT_DECORATE);
-        ASSUME(gMovesInfo[MOVE_DECORATE].ignoresProtect == TRUE);
+        ASSUME(GetMoveEffect(MOVE_CONFIDE) == EFFECT_SPECIAL_ATTACK_DOWN);
+        ASSUME(MoveIgnoresProtect(MOVE_CONFIDE));
+        ASSUME(GetMoveEffect(MOVE_DECORATE) == EFFECT_DECORATE);
+        ASSUME(MoveIgnoresProtect(MOVE_DECORATE));
         PLAYER(SPECIES_WOBBUFFET);
         PLAYER(SPECIES_WYNAUT);
         OPPONENT(SPECIES_WOBBUFFET);
@@ -564,22 +564,57 @@ DOUBLE_BATTLE_TEST("Crafty Shield does not protect against moves that target all
     }
 }
 
-SINGLE_BATTLE_TEST("Spiky Shield does not damage users on Counter or Mirror Coat")
+SINGLE_BATTLE_TEST("Protect: Quick Guard, Wide Guard and Crafty Shield don't reduce Max Move demage", s16 damage)
 {
+    s16 dmg[2];
     u32 move;
-    PARAMETRIZE { move = MOVE_MIRROR_COAT; }
-    PARAMETRIZE { move = MOVE_COUNTER; }
+
+    PARAMETRIZE { move = MOVE_WIDE_GUARD; }
+    PARAMETRIZE { move = MOVE_QUICK_GUARD; }
+    PARAMETRIZE { move = MOVE_CRAFTY_SHIELD; }
+
     GIVEN {
         PLAYER(SPECIES_WOBBUFFET);
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
-        TURN { MOVE(player, MOVE_SPIKY_SHIELD); MOVE(opponent, move); }
+        TURN { MOVE(player, MOVE_TACKLE, gimmick: GIMMICK_DYNAMAX); }
+        TURN { MOVE(player, MOVE_TACKLE); MOVE(opponent, move); }
     } SCENE {
-        ANIMATION(ANIM_TYPE_MOVE, MOVE_SPIKY_SHIELD, player);
-        NONE_OF {
-            ANIMATION(ANIM_TYPE_MOVE, move, opponent);
-            HP_BAR(opponent);
-        }
+        HP_BAR(opponent, captureDamage: &dmg[0]);
+        HP_BAR(opponent, captureDamage: &dmg[1]);
+    } FINALLY {
+        EXPECT_EQ(dmg[0], dmg[1]);
     }
 }
 
+SINGLE_BATTLE_TEST("Protect: Quick Guard, Wide Guard and Crafty Shield don't reduce Z-Move demage", s16 damage)
+{
+    bool32 protected;
+    u32 move;
+
+    PARAMETRIZE { protected = TRUE; move = MOVE_WIDE_GUARD; }
+    PARAMETRIZE { protected = FALSE; move = MOVE_WIDE_GUARD; }
+
+    PARAMETRIZE { protected = TRUE; move = MOVE_QUICK_GUARD; }
+    PARAMETRIZE { protected = FALSE; move = MOVE_QUICK_GUARD; }
+
+    PARAMETRIZE { protected = TRUE; move = MOVE_CRAFTY_SHIELD; }
+    PARAMETRIZE { protected = FALSE; move = MOVE_CRAFTY_SHIELD; }
+
+    GIVEN {
+        ASSUME(GetMoveType(MOVE_TACKLE) == TYPE_NORMAL);
+        PLAYER(SPECIES_WOBBUFFET) { Item(ITEM_NORMALIUM_Z); }
+        OPPONENT(SPECIES_WOBBUFFET);
+    } WHEN {
+        if (protected)
+            TURN { MOVE(player, MOVE_TACKLE, gimmick: GIMMICK_Z_MOVE); MOVE(opponent, move); }
+        else
+            TURN { MOVE(player, MOVE_TACKLE, gimmick: GIMMICK_Z_MOVE); }
+    } SCENE {
+        HP_BAR(opponent, captureDamage: &results[i].damage);
+    } FINALLY {
+        EXPECT_EQ(results[0].damage, results[1].damage);
+        EXPECT_EQ(results[2].damage, results[3].damage);
+        EXPECT_EQ(results[4].damage, results[5].damage);
+    }
+}

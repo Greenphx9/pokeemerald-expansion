@@ -45,7 +45,7 @@ void ActivateTera(u32 battler)
     if (gBattleTypeFlags & BATTLE_TYPE_TERA_RAID && battler == GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT))
     {
         struct Pokemon *mon = &GetSideParty(GetBattlerSide(battler))[gBattlerPartyIndexes[battler]];
-        RecalcBattlerStats(battler, mon);
+        RecalcBattlerStats(battler, mon, FALSE);
     }
         
 }
@@ -69,7 +69,10 @@ void ApplyBattlerVisualsForTeraAnim(u32 battler)
 bool32 CanTerastallize(u32 battler)
 {
     u32 holdEffect = GetBattlerHoldEffect(battler, FALSE);
-
+    
+    if (gBattleMons[battler].status2 & STATUS2_TRANSFORMED && GET_BASE_SPECIES_ID(gBattleMons[battler].species) == SPECIES_TERAPAGOS)
+        return FALSE;
+    
     // Prevents Zigzagoon from terastalizing in vanilla.
     if (gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE && GetBattlerSide(battler) == B_SIDE_OPPONENT)
         return FALSE;

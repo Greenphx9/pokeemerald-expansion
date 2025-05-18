@@ -3,7 +3,7 @@
 
 ASSUMPTIONS
 {
-    ASSUME(gMovesInfo[MOVE_STOMPING_TANTRUM].effect == EFFECT_STOMPING_TANTRUM);
+    ASSUME(GetMoveEffect(MOVE_STOMPING_TANTRUM) == EFFECT_STOMPING_TANTRUM);
 }
 
 SINGLE_BATTLE_TEST("Stomping Tatrum will deal double damage if user flinched on the previous turn")
@@ -90,7 +90,7 @@ SINGLE_BATTLE_TEST("Stomping Tatrum will not deal double damage if target protec
     }
 }
 
-SINGLE_BATTLE_TEST("Stomping Tatrum will not deal double damage if it failed on the previous turn cause of Protect")
+SINGLE_BATTLE_TEST("Stomping Tatrum will not deal double if it missed")
 {
     s16 damage[2];
     GIVEN {
