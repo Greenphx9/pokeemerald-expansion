@@ -14,5 +14,5 @@ This is my implementation of Tera Raids in pokeemerald-expansion. Huge credits t
     - [x] Reset negative stat changes & status
     - [x] Reset player's positive stat changes & nullify abillity
 - [x] 100% catch rate
-- [ ] Tera Raid Rewards UI
-- [ ] Tera Raid Reward system
+- [x] Tera Raid Rewards UI
+- [x] Tera Raid Reward system
