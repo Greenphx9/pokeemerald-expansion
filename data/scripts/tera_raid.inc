@@ -2,6 +2,7 @@ EventScript_Raid_Start::
     special IsRaidAvailable
 	special InitTeraRaidScreen
 	waitstate
+	special InitTeraRaidRewardScreen
 	goto_if_eq VAR_RESULT, 0, EventScript_Raid_End
 	special SavePlayerParty
 	fadescreen FADE_TO_BLACK

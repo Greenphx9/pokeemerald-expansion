@@ -34,8 +34,6 @@ void ApplyTeraRaidHPMultiplier(u32 battler, struct Pokemon* mon)
         u32 scale = sTeraLevelScale[gTeraRaidStars];
         u32 hp = (GetMonData(mon, MON_DATA_HP) * scale + 99) / 100;
         u32 maxHP = (GetMonData(mon, MON_DATA_MAX_HP) * scale + 99) / 100;
-        DebugPrintf("hp: %d, new hp: %d", GetMonData(mon, MON_DATA_HP), hp);
-        DebugPrintf("max hp: %d, new max hp: %d", GetMonData(mon, MON_DATA_MAX_HP), maxHP);
         SetMonData(mon, MON_DATA_HP, &hp);
         SetMonData(mon, MON_DATA_MAX_HP, &maxHP);
     }

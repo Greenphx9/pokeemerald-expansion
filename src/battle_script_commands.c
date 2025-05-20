@@ -7383,10 +7383,7 @@ static void Cmd_moveend(void)
             && IsBattlerTurnDamaged(gBattlerTarget)
             && gBattleStruct->teraOrbCharges[gBattlerAttacker] < 3)
             {
-                DebugPrintf("Charges before for %S: %d", GetSpeciesName(gBattleMons[gBattlerAttacker].species), gBattleStruct->teraOrbCharges[gBattlerAttacker]);
                 gBattleStruct->teraOrbCharges[gBattlerAttacker]++;
-                DebugPrintf("Charges before for %S: %d", GetSpeciesName(gBattleMons[gBattlerAttacker].species), gBattleStruct->teraOrbCharges[gBattlerAttacker]);
-
             }
             
             gBattleScripting.moveendState++;

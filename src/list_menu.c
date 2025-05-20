@@ -1159,8 +1159,6 @@ static void Task_ScrollIndicatorArrowPair(u8 taskId)
     struct ScrollIndicatorPair *data = (void *) gTasks[taskId].data;
     u16 currItem = (*data->scrollOffset);
 
-    DebugPrintf("hi");
-
     if (currItem == data->fullyUpThreshold && currItem != 0xFFFF)
         gSprites[data->topSpriteId].invisible = TRUE;
     else

@@ -178,7 +178,7 @@ struct TeraRaidRewardScreenState
  */
 static EWRAM_DATA struct TeraRaidRewardScreenState *sTeraRaidRewardScreenState = NULL;
 static EWRAM_DATA u8 *sBg1TilemapBuffer = NULL;
-static EWRAM_DATA struct TeraRaidFixedDrop sTeraRaidRewardDrops[23] = {}; // reuse data struct
+static EWRAM_DATA struct TeraRaidFixedDrop sTeraRaidRewardDrops[30] = {}; // reuse data struct
 static EWRAM_DATA u8 sTeraRaidRewardDropCount = 0;
 
 /*
@@ -1042,7 +1042,7 @@ static void TeraRaidRewardScreen_GiveItems(void)
     u32 i, j;
     bool32 found = FALSE;
     
-    for (i = 0; i < sTeraRaidRewardDropCount; i++)
+    for (i = 0; i < 30; i++)
     {
         sTeraRaidRewardDrops[i].itemId = ITEM_NONE;
         sTeraRaidRewardDrops[i].count = 0;

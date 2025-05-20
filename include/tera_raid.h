@@ -77,13 +77,13 @@ struct TeraRaidMon
 
     struct
     {
-        struct TeraRaidFixedDrop drops[7];
+        struct TeraRaidFixedDrop drops[10];
         u8 count;
     } fixedDrops;
 
     struct 
     {
-        struct TeraRaidRandomDrop drops[19];
+        struct TeraRaidRandomDrop drops[20];
         u8 count;
     } randomDrops;
 };
@@ -93,8 +93,6 @@ struct TeraRaid
     const struct TeraRaidMon* mons;
     u16 amount;
 };
-
-#define EXTRA_ACTION_DUMMY { .id = EXTRA_ACTION_COUNT, .hpPercentage = 255 }
 
 bool8 IsTeraRaidOver(void);
 void ApplyTeraRaidHPMultiplier(u32 battler, struct Pokemon* mon);

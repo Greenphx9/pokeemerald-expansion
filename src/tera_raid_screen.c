@@ -1098,6 +1098,8 @@ static u32 GetRaidStars(void)
     u32 i;
     u32 rand = GetRaidRandomNumber() % 100;
 
+    return FIVE_STARS;
+
     for (i = FLAG_BADGE01_GET; i < FLAG_BADGE01_GET + NUM_BADGES; i++)
     {
         if (FlagGet(i))
