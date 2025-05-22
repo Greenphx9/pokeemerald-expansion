@@ -10153,4 +10153,3 @@ BattleScript_TeraRaidBossStoleCharges::
 	printstring STRINGID_STOLETERAORBCHARGE
 	waitmessage B_WAIT_TIME_LONG
 	end
-	

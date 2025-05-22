@@ -1202,7 +1202,8 @@ static void DetermineRaidEncounter(void)
 {
     u32 playerMapSec = gMapHeader.regionMapSectionId;
     const struct TeraRaid* teraRaid = &sTeraRaidsByMapSec[playerMapSec][gTeraRaidStars];
-    u32 rand = (teraRaid->amount > 1) ? GetRaidRandomNumber() % teraRaid->amount : 0;
+    u32 r = GetRaidRandomNumber();
+    u32 rand = (teraRaid->amount > 1) ? (r >> 8) % teraRaid->amount : 0;
     gTeraRaidEncounter = teraRaid->mons[rand];
 }
 
@@ -1254,9 +1255,14 @@ static void SetTypeIconPosAndPal(u8 typeId, u8 x, u8 y, u8 spriteArrayId)
 
 u8 DetermineRaidType(void)
 {
-    u8 type = GetRaidRandomNumber() % NUMBER_OF_MON_TYPES;
+    u32 rand = GetRaidRandomNumber();
+    u8 type = (rand >> 8) % NUMBER_OF_MON_TYPES;
     if (type == TYPE_NONE || type == TYPE_MYSTERY)
         type++;
+    #if TERA_RAID_STELLAR == FALSE
+    if (type == TYPE_STELLAR)
+        type--;
+    #endif
     return type;
 }
 

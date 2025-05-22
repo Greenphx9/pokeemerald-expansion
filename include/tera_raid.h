@@ -15,6 +15,20 @@
 #define SEVEN_STARS 6 // not available naturally 
 #define STAR_COUNT  7 
 
+// configuration
+#define TERA_RAID_STELLAR              TRUE // if TRUE, tera raids can be randomly stellar
+
+// These numbers are based off testing, if you want accurate values it is:
+// 500, 500, 800, 1200, 2000, 2500 for 1-6 stars
+// Seven stars varies in game, see: ApplyTeraRaidHPMultiplier to implement custom multipliers
+#define TERA_RAID_ONE_STAR_HP_MULT      250  // Divide by 100 to get true multiplier (250 / 100 = 2.5x)
+#define TERA_RAID_TWO_STAR_HP_MULT      250
+#define TERA_RAID_THREE_STAR_HP_MULT    400
+#define TERA_RAID_FOUR_STAR_HP_MULT     600
+#define TERA_RAID_FIVE_STAR_HP_MULT     1000
+#define TERA_RAID_SIX_STAR_HP_MULT      1250
+#define TERA_RAID_SEVEN_STAR_HP_MULT    1250
+
 struct TeraRaidPartner
 {
     u8 trainerName[TRAINER_NAME_LENGTH + 1];

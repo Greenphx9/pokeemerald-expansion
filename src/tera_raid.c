@@ -16,13 +16,13 @@ bool8 IsTeraRaidOver(void)
 
 const u16 sTeraLevelScale[] =
 {
-    [ONE_STAR]    = 250,
-    [TWO_STARS]   = 250,
-    [THREE_STARS] = 400,
-    [FOUR_STARS]  = 600,
-    [FIVE_STARS]  = 1000,
-    [SIX_STARS]   = 1250,
-    [SEVEN_STARS] = 1500, // varies in game, here we have it at 1500 (15x multiplier), change below code to have custom multiplier
+    [ONE_STAR]    = TERA_RAID_ONE_STAR_HP_MULT,
+    [TWO_STARS]   = TERA_RAID_TWO_STAR_HP_MULT,
+    [THREE_STARS] = TERA_RAID_THREE_STAR_HP_MULT,
+    [FOUR_STARS]  = TERA_RAID_FOUR_STAR_HP_MULT,
+    [FIVE_STARS]  = TERA_RAID_FIVE_STAR_HP_MULT,
+    [SIX_STARS]   = TERA_RAID_SIX_STAR_HP_MULT,
+    [SEVEN_STARS] = TERA_RAID_SEVEN_STAR_HP_MULT,
 };
 
 void ApplyTeraRaidHPMultiplier(u32 battler, struct Pokemon* mon)
