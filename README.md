@@ -7,7 +7,7 @@ I am currently looking for a set of Generation 8 regular + shiny icons. I have r
 
 ## Progress
 Overall:
-- Roughly **26.01%** complete (237 / around 1153)
+- Roughly **26.01%** complete (300 / around 1153)
 
 Main:
 -  Kanto: 100.00% (151/151)
