@@ -143,17 +143,17 @@ static const u16 sSpriteImageSizes[3][4] =
     },
 };
 
-const u32 gMonIconPalettesCompressed[][16] =
+const u16 gMonIconPalettesCompressed[][16] =
 {
-    INCBIN_U32("graphics/pokemon/icon_palettes/pal0.gbapal.lz"),
-    INCBIN_U32("graphics/pokemon/icon_palettes/pal1.gbapal.lz"),
-    INCBIN_U32("graphics/pokemon/icon_palettes/pal2.gbapal.lz"),
-    INCBIN_U32("graphics/pokemon/icon_palettes/pal3.gbapal.lz"),
-    INCBIN_U32("graphics/pokemon/icon_palettes/pal4.gbapal.lz"),
-    INCBIN_U32("graphics/pokemon/icon_palettes/pal5.gbapal.lz"),
+    INCBIN_U16("graphics/pokemon/icon_palettes/pal0.gbapal"),
+    INCBIN_U16("graphics/pokemon/icon_palettes/pal1.gbapal"),
+    INCBIN_U16("graphics/pokemon/icon_palettes/pal2.gbapal"),
+    INCBIN_U16("graphics/pokemon/icon_palettes/pal3.gbapal"),
+    INCBIN_U16("graphics/pokemon/icon_palettes/pal4.gbapal"),
+    INCBIN_U16("graphics/pokemon/icon_palettes/pal5.gbapal"),
 };
 
-const u32 * GetIconPalette(u32 species, bool32 isShiny)
+const u16 * GetIconPalette(u32 species, bool32 isShiny)
 {
     if (gSpeciesInfo[species].iconPalette != NULL)
         return (isShiny) ? gSpeciesInfo[species].shinyIconPalette : gSpeciesInfo[species].iconPalette;
@@ -215,7 +215,7 @@ u8 CreateMonIcon3(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, 
 u8 CreateMonIcon2(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority, bool32 isShiny, u32 personality)
 {
     u32 paletteNum;
-    const u32 *palette = GetIconPalette(species, isShiny);
+    const u16 *palette = GetIconPalette(species, isShiny);
     u16 tag = GetIconPalTag(species, isShiny);
 
     if ((paletteNum = IndexOfSpritePaletteTag(tag)) >= 16) 
@@ -223,7 +223,7 @@ u8 CreateMonIcon2(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, 
         if ((paletteNum = FindFreeIconPaletteSlot(tag)) < 16) 
         {
             SetSpritePaletteTagByPaletteNum(paletteNum, tag);
-            LoadCompressedPaletteFast(palette, paletteNum*16 + 0x100, 32);
+            LoadPalette(palette, paletteNum*16 + 0x100, 32);
         }
     }
 
@@ -242,7 +242,7 @@ void SetMonIconPalette(struct Pokemon *mon, struct Sprite *sprite, u8 paletteNum
 {
     if (paletteNum >= 16)
         return;
-    LoadCompressedPalette(GetMonFrontSpritePal(mon), paletteNum*16 + 0x100, 32);
+    LoadPalette(GetMonFrontSpritePal(mon), paletteNum*16 + 0x100, 32);
     if (sprite)
         sprite->oam.paletteNum = paletteNum;
 }

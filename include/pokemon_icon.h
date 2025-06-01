@@ -7,17 +7,17 @@ const u8 *GetMonIconTiles(u16 species, u32 personality);
 void TryLoadAllMonIconPalettesAtOffset(u16 offset);
 // todo check if these are used
 u8 GetValidMonIconPalIndex(u16 species);
-const u8 *GetMonIconPtr(u16 speciesId, u32 personality);
-const u16 *GetValidMonIconPalettePtr(u16 speciesId);
+const u8 *GetMonIconPtr(u16 species, u32 personality);
+const u16 *GetValidMonIconPalettePtr(u16 species);
 // 
 u16 GetIconSpecies(u16 species, u32 personality);
 u16 GetUnownLetterByPersonality(u32 personality);
-u16 GetIconSpeciesNoPersonality(u16 speciesId);
+u16 GetIconSpeciesNoPersonality(u16 species);
 void LoadMonIconPalettes(void);
 void FreeMonIconPalettes(void);
 u8 CreateMonIconNoPersonality(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority);
 void FreeAndDestroyMonIconSprite(struct Sprite *sprite);
-const u32 * GetIconPalette(u32 species, bool32 isShiny);
+const u16 * GetIconPalette(u32 species, bool32 isShiny);
 const u32 GetIconPalTag(u32 species, bool32 isShiny);
 u32 FindFreeIconPaletteSlot(u16 tag);
 u8 CreateMonIcon(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority, u32 personality);

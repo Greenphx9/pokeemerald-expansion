@@ -1365,13 +1365,13 @@ static void LoadMonIconGfx(void)
     u32 paletteStart = 5;
 
     for (i = 0; i < PARTY_SIZE; i++) {
-        const u32 *palette;
+        const u16 *palette;
         if (!sData->trainerCard.monSpecies[i])
             continue;
 
         palette = GetMonSpritePalFromSpeciesAndPersonality(sData->trainerCard.monSpecies[i], FALSE, 0);
 
-        LZDecompressWram(palette, sData->monIconPal);
+        CpuSet(palette, sData->monIconPal, PLTT_SIZE_4BPP);
 
         switch (sData->trainerCard.monIconTint)
         {
