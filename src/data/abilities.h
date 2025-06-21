@@ -1447,6 +1447,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Wimp Out"),
         .description = COMPOUND_STRING("Flees at half HP."),
+        .longDescription = COMPOUND_STRING("Switches out when HP drops to\nhalf or lower."),
         .aiRating = 3,
     },
 
@@ -1454,6 +1455,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Emergency Exit"),
         .description = COMPOUND_STRING("Flees at half HP."),
+        .longDescription = COMPOUND_STRING("Switches out when HP drops to\nhalf or lower."),
         .aiRating = 3,
     },
 
@@ -1461,6 +1463,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Water Compaction"),
         .description = COMPOUND_STRING("Water boosts Defense."),
+        .longDescription = COMPOUND_STRING("Sharply boosts Defense when hit\nby a Water-type move."),
         .aiRating = 4,
     },
 
@@ -1475,6 +1478,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Shields Down"),
         .description = COMPOUND_STRING("Shell breaks at half HP."),
+        .longDescription = COMPOUND_STRING("Shell breaks at half HP.\nChanges form and behaviour."),
         .aiRating = 6,
         .cantBeCopied = TRUE,
         .cantBeSwapped = TRUE,
@@ -1487,6 +1491,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Stakeout"),
         .description = COMPOUND_STRING("Stronger as foes switch in."),
+        .longDescription = COMPOUND_STRING("Deals double damage to foes\nthat just switched in."),
         .aiRating = 6,
     },
 
@@ -1508,6 +1513,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Berserk"),
         .description = COMPOUND_STRING("Boosts Sp. Atk at low HP."),
+        .longDescription = COMPOUND_STRING("Boosts Sp. Atk when hit and HP\ndrops to half or less."),
         .aiRating = 5,
     },
 
@@ -1529,6 +1535,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Liquid Voice"),
         .description = COMPOUND_STRING("Makes sound moves Water."),
+        .longDescription = COMPOUND_STRING("Sound-based moves become Water-\ntype moves."),
         .aiRating = 5,
     },
 
@@ -1543,6 +1550,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Galvanize"),
         .description = COMPOUND_STRING("Normal moves turn Electric."),
+        .longDescription = COMPOUND_STRING("Normal moves become Electric\nand get a slight power boost."),
         .aiRating = 8,
     },
 
@@ -1550,6 +1558,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Surge Surfer"),
         .description = COMPOUND_STRING("Faster on electricity."),
+        .longDescription = COMPOUND_STRING("Doubles Speed while the field\nis Electric Terrain."),
         .aiRating = 4,
     },
 
@@ -1557,6 +1566,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Schooling"),
         .description = COMPOUND_STRING("Forms a school when strong."),
+        .longDescription = COMPOUND_STRING("Forms a school with high HP,\nreverts when HP is low."),
         .aiRating = 6,
         .cantBeCopied = TRUE,
         .cantBeSwapped = TRUE,
@@ -1569,6 +1579,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Disguise"),
         .description = COMPOUND_STRING("Decoy protects it once."),
+        .longDescription = COMPOUND_STRING("Prevents one hit per battle,\ntaking 12.5% HP as cost."),
         .aiRating = 8,
         .breakable = TRUE,
         .cantBeCopied = TRUE,
@@ -1582,7 +1593,13 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_BATTLE_BOND] =
     {
         .name = _("Battle Bond"),
+        #if B_BATTLE_BOND == GEN_9
+        .description = COMPOUND_STRING("Boosts stats after a KO."),
+        .longDescription = COMPOUND_STRING("Knocking out a foe boosts Atk,\nSp. Atk, and Speed."),
+        #else
         .description = COMPOUND_STRING("Changes form after a KO."),
+        .longDescription = COMPOUND_STRING("Defeating a foe transforms it\ninto Ash-Greninja."),
+        #endif
         .aiRating = 6,
         .cantBeCopied = TRUE,
         .cantBeSwapped = TRUE,
@@ -1595,6 +1612,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Power Construct"),
         .description = COMPOUND_STRING("Cells aid it when weakened."),
+        .longDescription = COMPOUND_STRING("Changes to Complete Forme when\nHP drops below half."),
         .aiRating = 10,
         .cantBeCopied = TRUE,
         .cantBeSwapped = TRUE,
@@ -1607,6 +1625,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Corrosion"),
         .description = COMPOUND_STRING("Poisons any type."),
+        .longDescription = COMPOUND_STRING("Can poison even Steel- and\nPoison-type Pokémon."),
         .aiRating = 5,
     },
 
@@ -1614,6 +1633,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Comatose"),
         .description = COMPOUND_STRING("Always drowsing."),
+        .longDescription = COMPOUND_STRING("Always drowsing. Can attack and\ncannot be woken up."),
         .aiRating = 6,
         .cantBeCopied = TRUE,
         .cantBeSwapped = TRUE,
@@ -1634,6 +1654,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Innards Out"),
         .description = COMPOUND_STRING("Hurts foe when defeated."),
+        .longDescription = COMPOUND_STRING("When KO'd, deals damage equal\nto its lost HP."),
         .aiRating = 5,
     },
 
@@ -1641,6 +1662,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Dancer"),
         .description = COMPOUND_STRING("Dances along with others."),
+        .longDescription = COMPOUND_STRING("Copies any dance move used by\nanother Pokémon."),
         .aiRating = 5,
     },
 
@@ -1655,6 +1677,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Fluffy"),
         .description = COMPOUND_STRING("Tougher but flammable."),
+        .longDescription = COMPOUND_STRING("Halves contact move damage\nbut doubles Fire damage."),
         .aiRating = 5,
         .breakable = TRUE,
     },
@@ -1671,6 +1694,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Soul-Heart"),
         .description = COMPOUND_STRING("KOs raise Sp. Atk."),
+        .longDescription = COMPOUND_STRING("Boosts Sp. Atk whenever another\nPokémon faints."),
         .aiRating = 7,
     },
 
@@ -1685,6 +1709,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Receiver"),
         .description = COMPOUND_STRING("Copies ally's ability."),
+        .longDescription = COMPOUND_STRING("Takes the Ability of a fainted\nally."),
         .aiRating = 0,
         .cantBeCopied = TRUE,
         .cantBeTraced = TRUE,
@@ -1694,6 +1719,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Power Of Alchemy"),
         .description = COMPOUND_STRING("Copies ally's ability."),
+        .longDescription = COMPOUND_STRING("Takes the Ability of a fainted\nally."),
         .aiRating = 0,
         .cantBeCopied = TRUE,
         .cantBeTraced = TRUE,
@@ -1710,6 +1736,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("RKS System"),
         .description = COMPOUND_STRING("Memories change its type."),
+        .longDescription = COMPOUND_STRING("Changes the Pokémon's type to\nmatch its held Memory."),
         .aiRating = 8,
         .cantBeCopied = TRUE,
         .cantBeSwapped = TRUE,
@@ -1722,6 +1749,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Electric Surge"),
         .description = COMPOUND_STRING("Field becomes Electric."),
+        .longDescription = COMPOUND_STRING("Creates Electric Terrain when\nit enters battle."),
         .aiRating = 8,
     },
 
@@ -1729,6 +1757,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Psychic Surge"),
         .description = COMPOUND_STRING("Field becomes weird."),
+        .longDescription = COMPOUND_STRING("Creates Psychic Terrain when\nit enters battle."),
         .aiRating = 8,
     },
 
@@ -1736,6 +1765,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Misty Surge"),
         .description = COMPOUND_STRING("Field becomes misty."),
+        .longDescription = COMPOUND_STRING("Creates Misty Terrain when\nit enters battle."),
         .aiRating = 8,
     },
 
@@ -1743,6 +1773,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Grassy Surge"),
         .description = COMPOUND_STRING("Field becomes grassy."),
+        .longDescription = COMPOUND_STRING("Creates Grassy Terrain when\nit enters battle."),
         .aiRating = 8,
     },
 
@@ -1764,6 +1795,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Prism Armor"),
         .description = COMPOUND_STRING("Weakens “supereffective”."),
+        .longDescription = COMPOUND_STRING("Reduces damage from\nsupereffective moves."),
         .aiRating = 6,
     },
 
@@ -1771,6 +1803,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Neuroforce"),
         .description = COMPOUND_STRING("Ups “supereffective”."),
+        .longDescription = COMPOUND_STRING("Powers up supereffective moves\neven more."),
         .aiRating = 6,
     },
 
