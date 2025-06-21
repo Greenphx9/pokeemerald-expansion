@@ -1778,6 +1778,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Intrepid Sword"),
         .description = COMPOUND_STRING("Ups Attack on entry."),
+        .longDescription = COMPOUND_STRING("Boosts Attack the first time\nit enters the battle."),
         .aiRating = 3,
     },
 
@@ -1785,6 +1786,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Dauntless Shield"),
         .description = COMPOUND_STRING("Ups Defense on entry."),
+        .longDescription = COMPOUND_STRING("Boosts Defense the first time\nit enters the battle."),
         .aiRating = 3,
     },
 
@@ -1792,6 +1794,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Libero"),
         .description = COMPOUND_STRING("Changes type to move's."),
+        .longDescription = COMPOUND_STRING("Changes type to match its move\nonce per switch-in."),
     },
 
     [ABILITY_BALL_FETCH] =
@@ -1805,6 +1808,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Cotton Down"),
         .description = COMPOUND_STRING("Lower Speed of all when hit."),
+        .longDescription = COMPOUND_STRING("Lowers Speed of all other\nPokémon when it's hit."),
         .aiRating = 3,
     },
 
@@ -1812,6 +1816,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Propeller Tail"),
         .description = COMPOUND_STRING("Ignores foe's redirection."),
+        .longDescription = COMPOUND_STRING("Ignores Abilities and moves that\nredirect attacks."),
         .aiRating = 2,
     },
 
@@ -1827,6 +1832,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Gulp Missile"),
         .description = COMPOUND_STRING("If hit, spits prey from sea."),
+        .longDescription = COMPOUND_STRING("Returns with prey from Dive/Surf\nand spits it on taking damage."),
         .aiRating = 3,
         .cantBeCopied = TRUE,
         .cantBeSuppressed = TRUE,
@@ -1838,6 +1844,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Stalwart"),
         .description = COMPOUND_STRING("Ignores foe's redirection."),
+        .longDescription = COMPOUND_STRING("Ignores Abilities and moves that\nredirect attacks."),
         .aiRating = 2,
     },
 
@@ -1845,6 +1852,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Steam Engine"),
         .description = COMPOUND_STRING("Fire or Water hits up Speed."),
+        .longDescription = COMPOUND_STRING("Greatly boosts Speed if hit\nby Fire- or Water-type moves."),
         .aiRating = 3,
     },
 
@@ -1852,6 +1860,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Punk Rock"),
         .description = COMPOUND_STRING("Ups and resists sound."),
+        .longDescription = COMPOUND_STRING("Boosts sound-based moves and\ntakes half damage from them."),
         .aiRating = 2,
         .breakable = TRUE,
     },
@@ -1882,6 +1891,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Ice Face"),
         .description = COMPOUND_STRING("Hail or Snow renew free hit."),
+        .longDescription = COMPOUND_STRING("Takes a physical hit with its\nice head. Restores in snow."),
         .aiRating = 4,
         .cantBeCopied = TRUE,
         .cantBeSwapped = TRUE,
@@ -1903,6 +1913,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Mimicry"),
         .description = COMPOUND_STRING("Changes type on terrain."),
+        .longDescription = COMPOUND_STRING("Changes the Pokémon's type to\nmatch the terrain."),
         .aiRating = 2,
     },
 
@@ -1910,6 +1921,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Screen Cleaner"),
         .description = COMPOUND_STRING("Removes walls of light."),
+        .longDescription = COMPOUND_STRING("Removes screens and Veil when\nit enters the battle."),
         .aiRating = 3,
     },
 
@@ -1917,6 +1929,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Steely Spirit"),
         .description = COMPOUND_STRING("Boosts ally's Steel moves."),
+        .longDescription = COMPOUND_STRING("Powers up Steel-type moves for\nit and its allies."),
         .aiRating = 2,
     },
 
@@ -1924,6 +1937,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Perish Body"),
         .description = COMPOUND_STRING("Foe faints in 3 turns if hit."),
+        .longDescription = COMPOUND_STRING("On contact, both Pokémon faint\nin 3 turns unless they switch."),
         .aiRating = -1,
     },
 
@@ -1938,6 +1952,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Gorilla Tactics"),
         .description = COMPOUND_STRING("Ups Attack and locks move."),
+        .longDescription = COMPOUND_STRING("Boosts Attack but only lets it\nuse its first selected move."),
         .aiRating = 4,
     },
 
@@ -1956,6 +1971,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Pastel Veil"),
         .description = COMPOUND_STRING("Protects team from poison."),
+        .longDescription = COMPOUND_STRING("Protects the Pokémon and allies\nfrom being poisoned."),
         .aiRating = 4,
         .breakable = TRUE,
     },
@@ -1964,6 +1980,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Hunger Switch"),
         .description = COMPOUND_STRING("Changes form each turn."),
+        .longDescription = COMPOUND_STRING("Changes between Full Belly and\nHangry forms each turn."),
         .aiRating = 2,
         .cantBeCopied = TRUE,
         .cantBeSwapped = TRUE,
@@ -1982,6 +1999,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Unseen Fist"),
         .description = COMPOUND_STRING("Contact evades protection."),
+        .longDescription = COMPOUND_STRING("Contact moves hit through\nProtect-type effects."),
         .aiRating = 6,
     },
 
