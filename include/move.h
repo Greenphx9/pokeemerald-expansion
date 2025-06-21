@@ -67,6 +67,7 @@ struct MoveInfo
 {
     const u8 *name;
     const u8 *description;
+    const u8 *longDescription;
     u16 effect;
     u16 type:5;     // Up to 32
     u16 category:2;

@@ -3997,7 +3997,9 @@ static void PrintMonAbilityName(void)
 static void PrintMonAbilityDescription(void)
 {
     u16 ability = GetAbilityBySpecies(sMonSummaryScreen->summary.species, sMonSummaryScreen->summary.abilityNum);
-    PrintTextOnWindow_BW_Font(AddWindowFromTemplateList(sPageSkillsTemplate, PSS_DATA_WINDOW_SKILLS_ABILITY), gAbilitiesInfo[ability].description, 4, 15, 0, 0);
+    PrintTextOnWindow_BW_Font(AddWindowFromTemplateList(sPageSkillsTemplate, PSS_DATA_WINDOW_SKILLS_ABILITY), 
+    gAbilitiesInfo[ability].longDescription == NULL ? gAbilitiesInfo[ability].description : gAbilitiesInfo[ability].longDescription,
+    4, 15, 0, 0);
 }
 
 static void BufferMonTrainerMemo(void)
@@ -4680,7 +4682,7 @@ static void PrintMoveDetails(u16 move)
             if (BW_SUMMARY_AUTO_FORMAT_MOVE_DESCRIPTIONS)
             {
                 if (gMovesInfo[move].effect != EFFECT_PLACEHOLDER)
-                    FormatTextByWidth(desc, 119, FONT_BW_SUMMARY_SCREEN, gMovesInfo[move].description, GetFontAttribute(FONT_BW_SUMMARY_SCREEN, FONTATTR_LETTER_SPACING));
+                    FormatTextByWidth(desc, 119, FONT_BW_SUMMARY_SCREEN, gMovesInfo[move].longDescription == NULL ? gMovesInfo[move].description : gMovesInfo[move].longDescription, GetFontAttribute(FONT_BW_SUMMARY_SCREEN, FONTATTR_LETTER_SPACING));
                 else
                     FormatTextByWidth(desc, 119, FONT_BW_SUMMARY_SCREEN, gNotDoneYetDescription, GetFontAttribute(FONT_BW_SUMMARY_SCREEN, FONTATTR_LETTER_SPACING));
 
@@ -4689,7 +4691,7 @@ static void PrintMoveDetails(u16 move)
             else
             {
                 if (gMovesInfo[move].effect != EFFECT_PLACEHOLDER)
-                    PrintTextOnWindow_BW_Font(windowId, gMovesInfo[move].description, 2, 0, 0, 0);
+                    PrintTextOnWindow_BW_Font(windowId, gMovesInfo[move].longDescription == NULL ? gMovesInfo[move].description : gMovesInfo[move].longDescription, 2, 0, 0, 0);
                 else
                     PrintTextOnWindow_BW_Font(windowId, gNotDoneYetDescription, 2, 0, 0, 0);
             }
