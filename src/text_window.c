@@ -55,7 +55,7 @@ static const struct TilesPal sWindowFrames[WINDOW_FRAMES_COUNT] =
 };
 
 static const u16 sTextWindowDexNavFrame[] = INCBIN_U16("graphics/text_window/dexnav_pal.gbapal");
-static const struct TilesPal sDexNavWindowFrame = {gTextWindowFrame1_Gfx, sTextWindowDexNavFrame};
+static const struct TilesPal sDexNavWindowFrame = {gUserFrame_Type1_Gfx, sTextWindowDexNavFrame};
 
 // code
 const struct TilesPal *GetWindowFrameTilesPal(u8 id)

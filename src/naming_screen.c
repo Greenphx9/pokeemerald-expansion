@@ -2180,7 +2180,7 @@ static const struct NamingScreenTemplate sRivalNamingScreenTemplate =
 {
     .copyExistingString = FALSE,
     .maxChars = PLAYER_NAME_LENGTH,
-    .iconFunction = 5,
+    .iconFunction = 6,
     .addGenderIcon = 0,
     .initialPage = KBPAGE_LETTERS_UPPER,
     .title = gText_RivalsName,
