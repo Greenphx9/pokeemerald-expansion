@@ -3999,7 +3999,7 @@ static void PrintMonAbilityDescription(void)
     u16 ability = GetAbilityBySpecies(sMonSummaryScreen->summary.species, sMonSummaryScreen->summary.abilityNum);
     PrintTextOnWindow_BW_Font(AddWindowFromTemplateList(sPageSkillsTemplate, PSS_DATA_WINDOW_SKILLS_ABILITY), 
     gAbilitiesInfo[ability].longDescription == NULL ? gAbilitiesInfo[ability].description : gAbilitiesInfo[ability].longDescription,
-    4, 15, 0, 0);
+    4, 14, 0, 0);
 }
 
 static void BufferMonTrainerMemo(void)
