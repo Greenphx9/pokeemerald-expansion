@@ -1250,6 +1250,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Flower Veil"),
         .description = COMPOUND_STRING("Protects Grass-types."),
+        .longDescription = COMPOUND_STRING("Protects ally Grass types from\nstatus and stat drops."),
         .aiRating = 0,
     },
 
@@ -1264,6 +1265,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Protean"),
         .description = COMPOUND_STRING("Changes type to used move."),
+        .longDescription = COMPOUND_STRING("Changes type to match its move\nonce per switch-in."),
         .aiRating = 8,
     },
 
@@ -1271,6 +1273,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Fur Coat"),
         .description = COMPOUND_STRING("Raises Defense."),
+        .longDescription = COMPOUND_STRING("Halves damage from physical\nmoves."),
         .aiRating = 7,
         .breakable = TRUE,
     },
@@ -1286,6 +1289,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Bulletproof"),
         .description = COMPOUND_STRING("Avoids some projectiles."),
+        .longDescription = COMPOUND_STRING("Protects from ball and bomb\nmoves."),
         .aiRating = 7,
     },
 
@@ -1300,6 +1304,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Strong Jaw"),
         .description = COMPOUND_STRING("Boosts biting moves."),
+        .longDescription = COMPOUND_STRING("Powers up the Pokémon's biting\nmoves."),
         .aiRating = 6,
     },
 
@@ -1307,6 +1312,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Refrigerate"),
         .description = COMPOUND_STRING("Normal moves become Ice."),
+        .longDescription = COMPOUND_STRING("Normal moves become Ice\nand get a slight power boost."),
         .aiRating = 8,
     },
 
@@ -1314,6 +1320,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Sweet Veil"),
         .description = COMPOUND_STRING("Prevents party from sleep."),
+        .longDescription = COMPOUND_STRING("Prevents the Pokémon and allies\nfrom falling asleep."),
         .aiRating = 4,
         .breakable = TRUE,
     },
@@ -1322,6 +1329,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Stance Change"),
         .description = COMPOUND_STRING("Transforms as it battles."),
+        .longDescription = COMPOUND_STRING("Switches among Blade and Shield\nFormes when it attacks or guards."),
         .aiRating = 10,
         .cantBeCopied = TRUE,
         .cantBeSwapped = TRUE,
@@ -1334,6 +1342,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Gale Wings"),
         .description = COMPOUND_STRING("Flying moves go first."),
+        .longDescription = COMPOUND_STRING("Flying moves get priority while\nits HP is full."),
         .aiRating = 6,
     },
 
@@ -1341,6 +1350,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Mega Launcher"),
         .description = COMPOUND_STRING("Boosts pulse moves."),
+        .longDescription = COMPOUND_STRING("Powers up the Pokémon's\npulse-based moves."),
         .aiRating = 7,
     },
 
@@ -1348,6 +1358,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Grass Pelt"),
         .description = COMPOUND_STRING("Ups Defense in grass."),
+        .longDescription = COMPOUND_STRING("Boosts Defense while on Grassy\nTerrain."),
         .aiRating = 2,
         .breakable = TRUE,
     },
@@ -1363,6 +1374,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Tough Claws"),
         .description = COMPOUND_STRING("Boosts contact moves."),
+        .longDescription = COMPOUND_STRING("Powers up moves that make\ndirect contact."),
         .aiRating = 7,
     },
 
@@ -1370,6 +1382,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Pixilate"),
         .description = COMPOUND_STRING("Normal moves become Fairy."),
+        .longDescription = COMPOUND_STRING("Normal moves become Fairy\nand get a slight power boost."),
         .aiRating = 8,
     },
 
@@ -1384,6 +1397,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Aerilate"),
         .description = COMPOUND_STRING("Normal moves become Flying."),
+        .longDescription = COMPOUND_STRING("Normal moves become Flying\nand get a slight power boost."),
         .aiRating = 8,
     },
 
@@ -1412,6 +1426,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Aura Break"),
         .description = COMPOUND_STRING("Reverse aura abilities."),
+        .longDescription = COMPOUND_STRING("Reverses Aura Abilities, weakening\nthose move types instead."),
         .aiRating = 3,
     },
 
@@ -1419,6 +1434,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Primordial Sea"),
         .description = COMPOUND_STRING("Summons heavy rain."),
+        .longDescription = COMPOUND_STRING("Summons heavy rain that\nnullifies Fire-type attacks."),
         .aiRating = 10,
     },
 
@@ -1426,6 +1442,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Desolate Land"),
         .description = COMPOUND_STRING("Summons intense sunlight."),
+        .longDescription = COMPOUND_STRING("Summons intense sunlight that\nnullifies Water-type attacks."),
         .aiRating = 10,
     },
 
@@ -1433,6 +1450,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Delta Stream"),
         .description = COMPOUND_STRING("Summons strong winds."),
+        .longDescription = COMPOUND_STRING("Removes Flying's weaknesses with\nmysterious winds."),
         .aiRating = 10,
     },
 
