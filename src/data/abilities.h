@@ -942,6 +942,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Sheer Force"),
         .description = COMPOUND_STRING("Trades effects for power."),
+         .longDescription = COMPOUND_STRING("Removes move effects to boost\ntheir power."),
         .aiRating = 8,
     },
 
@@ -971,6 +972,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Defeatist"),
         .description = COMPOUND_STRING("Gives up at half HP."),
+        .longDescription = COMPOUND_STRING("Halves offensive stats when HP\ndrops below half."),
         .aiRating = -1,
     },
 
@@ -978,6 +980,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Cursed Body"),
         .description = COMPOUND_STRING("Disables moves on contact."),
+        .longDescription = COMPOUND_STRING("May disable a move that damaged\nit."),
         .aiRating = 4,
     },
 
@@ -985,6 +988,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Healer"),
         .description = COMPOUND_STRING("Heals partner Pokémon."),
+        .longDescription = COMPOUND_STRING("May cure status of allies each\nturn."),
         .aiRating = 0,
     },
 
@@ -992,6 +996,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Friend Guard"),
         .description = COMPOUND_STRING("Lowers damage to partner."),
+        .longDescription = COMPOUND_STRING("Reduces damage taken by allies."),
         .aiRating = 0,
         .breakable = TRUE,
     },
@@ -1000,6 +1005,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Weak Armor"),
         .description = COMPOUND_STRING("Its stats change when hit."),
+        .longDescription = COMPOUND_STRING("Lowers Defense but sharply\nraises Speed when physically hit."),
         .aiRating = 2,
     },
 
@@ -1060,6 +1066,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Moody"),
         .description = COMPOUND_STRING("Stats change gradually."),
+        .longDescription = COMPOUND_STRING("Each turn, sharply boosts one\nstat and lowers another."),
         .aiRating = 10,
     },
 
@@ -1067,6 +1074,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Overcoat"),
         .description = COMPOUND_STRING("Blocks weather and powder."),
+        .longDescription = COMPOUND_STRING("Immune to weather damage and\npowders or spores."),
         .aiRating = 5,
         .breakable = TRUE,
     },
@@ -1075,6 +1083,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Poison Touch"),
         .description = COMPOUND_STRING("Poisons foe on contact."),
+        .longDescription = COMPOUND_STRING("May poison the target on contact."),
         .aiRating = 4,
     },
 
@@ -1104,6 +1113,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Wonder Skin"),
         .description = COMPOUND_STRING("May avoid status problems."),
+        .longDescription = COMPOUND_STRING("Makes status moves more likely\nto miss."),
         .aiRating = 4,
         .breakable = TRUE,
     },
@@ -1119,6 +1129,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Illusion"),
         .description = COMPOUND_STRING("Appears as a partner."),
+        .longDescription = COMPOUND_STRING("Disguises as the last party\nmember when entering battle."),
         .aiRating = 8,
         .cantBeCopied = TRUE,
         .cantBeSwapped = TRUE,
@@ -1138,6 +1149,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Infiltrator"),
         .description = COMPOUND_STRING("Passes through barriers."),
+        .longDescription = COMPOUND_STRING("Ignores barriers, Substitute,\nand similar effects."),
         .aiRating = 6,
     },
 
@@ -1145,6 +1157,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Mummy"),
         .description = COMPOUND_STRING("Spreads with contact."),
+        .longDescription = COMPOUND_STRING("Contact changes the attacker's\nAbility to Mummy."),
         .aiRating = 5,
     },
 
@@ -1166,6 +1179,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Rattled"),
         .description = COMPOUND_STRING("Raises Speed when scared."),
+        .longDescription = COMPOUND_STRING("Speed rises if hit by Bug, Ghost,\nor Dark-type moves or Intimidate."),
         .aiRating = 3,
     },
 
@@ -1181,6 +1195,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Sap Sipper"),
         .description = COMPOUND_STRING("Grass increases Attack."),
+        .longDescription = COMPOUND_STRING("Takes no damage from Grass\nmoves. Boosts Attack instead."),
         .aiRating = 7,
         .breakable = TRUE,
     },
@@ -1196,6 +1211,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Sand Force"),
         .description = COMPOUND_STRING("Powers up in a sandstorm."),
+        .longDescription = COMPOUND_STRING("Boosts Rock, Ground, and Steel\nmoves in a sandstorm."),
         .aiRating = 4,
     },
 
@@ -1203,6 +1219,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     {
         .name = _("Iron Barbs"),
         .description = COMPOUND_STRING("Hurts to touch."),
+        .longDescription = COMPOUND_STRING("Damages foes that hit it with\ncontact moves."),
         .aiRating = 6,
     },
 
