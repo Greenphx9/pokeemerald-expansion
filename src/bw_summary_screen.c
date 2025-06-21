@@ -583,7 +583,7 @@ static const struct WindowTemplate sSummaryTemplate[] =
     [PSS_LABEL_WINDOW_MOVES_POWER_ACC] = {
         .bg = 0,
         .tilemapLeft = 23,
-        .tilemapTop = 10,
+        .tilemapTop = 7,
         .width = 7,
         .height = 4,
         .paletteNum = 6,
@@ -728,9 +728,9 @@ static const struct WindowTemplate sPageMovesTemplate[] = // This is used for bo
     [PSS_DATA_WINDOW_MOVE_DESCRIPTION] = {
         .bg = 0,
         .tilemapLeft = 15,
-        .tilemapTop = 14,
+        .tilemapTop = 11,
         .width = 15,
-        .height = 9,
+        .height = 12,
         .paletteNum = 6,
         .baseBlock = 515,
     },
@@ -4779,7 +4779,7 @@ static void PrintHMMovesCantBeForgotten(void)
 static void ShowCategoryIcon(u16 move)
 {
     if (sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_CATEGORY] == SPRITE_NONE)
-        sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_CATEGORY] = CreateSprite(&sSpriteTemplate_CategoryIcons, 223, 96, 0);
+        sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_CATEGORY] = CreateSprite(&sSpriteTemplate_CategoryIcons, 223, 72, 0);
     
     gSprites[sMonSummaryScreen->spriteIds[SPRITE_ARR_ID_CATEGORY]].invisible = FALSE;
 
