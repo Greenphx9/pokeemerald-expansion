@@ -841,3 +841,14 @@ const struct Tileset gTileset_RG_General =
     .metatileAttributes = gMetatileAttributes_RG_General,
     .callback = InitTilesetAnim_RG_General,
 };
+
+const struct Tileset gTileset_RG_PalletTown =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_RG_PalletTown,
+    .palettes = gTilesetPalettes_RG_PalletTown,
+    .metatiles = gMetatiles_RG_PalletTown,
+    .metatileAttributes = gMetatileAttributes_RG_PalletTown,
+    .callback = NULL,
+};

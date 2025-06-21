@@ -93,6 +93,8 @@ static const u8 sDoorAnimTiles_TrainerHillRoofElevator[] = INCBIN_U8("graphics/d
 static const u8 sDoorAnimTiles_RG_General[] = INCBIN_U8("graphics/door_anims/rg_general.4bpp");
 static const u8 sDoorAnimTiles_RG_SlidingSingle[] = INCBIN_U8("graphics/door_anims/rg_sliding_single.4bpp");
 static const u8 sDoorAnimTiles_RG_SlidingDouble[] = INCBIN_U8("graphics/door_anims/rg_sliding_double.4bpp");
+static const u8 sDoorAnimTiles_RG_Pallet[] = INCBIN_U8("graphics/door_anims/rg_pallet.4bpp");
+static const u8 sDoorAnimTiles_RG_OaksLab[] = INCBIN_U8("graphics/door_anims/rg_oaks_lab.4bpp");
 
 #define CLOSED_DOOR_TILES_OFFSET 0xFFFF
 
@@ -203,6 +205,8 @@ static const u8 sDoorAnimPalettes_TrainerHillRoofElevator[] = {9, 9, 7, 7, 7, 7,
 static const u8 sDoorAnimPalettes_RG_General[] = {2, 2, 2, 2, 2, 2, 2, 2};
 static const u8 sDoorAnimPalettes_RG_SlidingSingle[] = {3, 3, 3, 3, 3, 3, 3, 3};
 static const u8 sDoorAnimPalettes_RG_SlidingDouble[] = {3, 3, 3, 3, 3, 3, 3, 3};
+static const u8 sDoorAnimPalettes_RG_Pallet[] = {8, 8, 8, 8, 8, 8, 8, 8};
+static const u8 sDoorAnimPalettes_RG_OaksLab[] = {10, 10, 10, 10, 10, 10, 10, 10};
 
 static const struct DoorGraphics sDoorAnimGraphicsTable[] =
 {
@@ -262,6 +266,8 @@ static const struct DoorGraphics sDoorAnimGraphicsTable[] =
     {METATILE_RG_General_Door,                              DOOR_SOUND_FRLG,    DOOR_SIZE_1x1, sDoorAnimTiles_RG_General, sDoorAnimPalettes_RG_General},
     {METATILE_RG_General_SlidingSingleDoor,                 DOOR_SOUND_SLIDING, DOOR_SIZE_1x1, sDoorAnimTiles_RG_SlidingSingle, sDoorAnimPalettes_RG_SlidingSingle},
     {METATILE_RG_General_SlidingDoubleDoor,                 DOOR_SOUND_SLIDING, DOOR_SIZE_1x1, sDoorAnimTiles_RG_SlidingDouble, sDoorAnimPalettes_RG_SlidingDouble},
+    {METATILE_RG_PalletTown_Door,                           DOOR_SOUND_FRLG,    DOOR_SIZE_1x1, sDoorAnimTiles_RG_Pallet, sDoorAnimPalettes_RG_Pallet},
+    {METATILE_RG_PalletTown_OaksLabDoor,                    DOOR_SOUND_FRLG,    DOOR_SIZE_1x1, sDoorAnimTiles_RG_OaksLab, sDoorAnimPalettes_RG_OaksLab},
     {},
 };
 
