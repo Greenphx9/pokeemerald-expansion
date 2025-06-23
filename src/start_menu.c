@@ -25,6 +25,7 @@
 #include "menu.h"
 #include "new_game.h"
 #include "option_menu.h"
+#include "option_menu_plus.h"
 #include "overworld.h"
 #include "palette.h"
 #include "party_menu.h"
@@ -768,7 +769,7 @@ static bool8 StartMenuOptionCallback(void)
         PlayRainStoppingSoundEffect();
         RemoveExtraStartMenuWindows();
         CleanupOverworldWindowsAndTilemaps();
-        SetMainCallback2(CB2_InitOptionMenu); // Display option menu
+        CreateTask(Task_OpenSampleUi_BlankTemplate, 0);
         gMain.savedCallback = CB2_ReturnToFieldWithOpenMenu;
 
         return TRUE;
