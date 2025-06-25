@@ -19,6 +19,7 @@
 #include "mystery_event_menu.h"
 #include "naming_screen.h"
 #include "option_menu.h"
+#include "option_menu_plus.h"
 #include "overworld.h"
 #include "palette.h"
 #include "pokeball.h"
@@ -1089,7 +1090,7 @@ static void Task_HandleMainMenuAPressed(u8 taskId)
                 break;
             case ACTION_OPTION:
                 gMain.savedCallback = CB2_ReinitMainMenu;
-                SetMainCallback2(CB2_InitOptionMenu);
+                CreateTask(Task_OpenOptionsMenuPlus, 0);
                 DestroyTask(taskId);
                 break;
             case ACTION_MYSTERY_GIFT:

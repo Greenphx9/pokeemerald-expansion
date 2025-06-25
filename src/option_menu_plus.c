@@ -64,7 +64,7 @@ struct OptionMenuPlusUiState
 
 enum WindowIds
 {
-    WINDOW_0,
+    WINDOW_OPTIONS,
     WINDOW_DESC,
     WINDOW_PAGE,
     WINDOW_CONTROLS,
@@ -73,7 +73,7 @@ enum WindowIds
 static EWRAM_DATA struct OptionMenuPlusUiState *sOptionMenuPlusUiState = NULL;
 static EWRAM_DATA u8 *sBg1TilemapBuffer = NULL;
 
-static const struct BgTemplate sSampleUiBgTemplates[] =
+static const struct BgTemplate sOptionMenuPlusBgTemplates[] =
 {
     {
         .bg = 0,
@@ -89,9 +89,9 @@ static const struct BgTemplate sSampleUiBgTemplates[] =
     }
 };
 
-static const struct WindowTemplate sSampleUiWindowTemplates[] =
+static const struct WindowTemplate sOptionMenuPlusWindowTemplates[] =
 {
-    [WINDOW_0] =
+    [WINDOW_OPTIONS] =
     {
         .bg = 0,
         .tilemapLeft = 2,
@@ -146,7 +146,7 @@ enum FontColor
     FONT_WHITE,
     FONT_RED,
 };
-static const u8 sSampleUiWindowFontColors[][3] =
+static const u8 sOptionMenuPlusWindowFontColors[][3] =
 {
     [FONT_BLACK]  = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GRAY,  TEXT_COLOR_LIGHT_GRAY},
     [FONT_WHITE]  = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_WHITE,      TEXT_COLOR_DARK_GRAY},
@@ -156,7 +156,6 @@ static const u8 sSampleUiWindowFontColors[][3] =
 static const u8 sOptionMenuPickSwitchCancelTextColor[] = {TEXT_DYNAMIC_COLOR_6, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY};
 
 #define TAG_SCROLL_ARROW 5108
-#define TAG_SCROLL_ARROW_2 5110
 
 enum 
 {
@@ -287,26 +286,25 @@ const u8 sText_PickSwitchCancel[] = _("{DPAD_UPDOWN}Pick {DPAD_LEFTRIGHT}Switch 
 
 #define OPTION_X 150
 
-// Callbacks for the sample UI
-static void SampleUi_SetupCB(void);
-static void SampleUi_MainCB(void);
-static void SampleUi_VBlankCB(void);
+// Callbacks for the Option Menu Plus
+static void OptionMenuPlus_MainCB(void);
+static void OptionMenuPlus_VBlankCB(void);
 
-// Sample UI tasks
-static void Task_SampleUiWaitFadeIn(u8 taskId);
-static void Task_SampleUiMainInput(u8 taskId);
+// Option Menu Plus UI tasks
+static void Task_OptionMenuPlusWaitFadeIn(u8 taskId);
+static void Task_OptionMenuPlusMainInput(u8 taskId);
 static void OptionMenuPlus_VerticalDpad(bool8 up);
-static void Task_SampleUiWaitFadeAndBail(u8 taskId);
-static void Task_SampleUiWaitFadeAndExitGracefully(u8 taskId);
+static void Task_OptionMenuPlusWaitFadeAndBail(u8 taskId);
+static void Task_OptionMenuPlusWaitFadeAndExitGracefully(u8 taskId);
 
-// Sample UI helper functions
-static void SampleUi_Init(MainCallback callback);
-static void SampleUi_ResetGpuRegsAndBgs(void);
-static bool8 SampleUi_InitBgs(void);
-static void SampleUi_FadeAndBail(void);
-static bool8 SampleUi_LoadGraphics(void);
-static void SampleUi_InitWindows(void);
-static void SampleUi_FreeResources(void);
+// Option Menu Plus helper functions
+static void OptionMenuPlus_Init(MainCallback callback);
+static void OptionMenuPlus_ResetGpuRegsAndBgs(void);
+static bool8 OptionMenuPlus_InitBgs(void);
+static void OptionMenuPlus_FadeAndBail(void);
+static bool8 OptionMenuPlus_LoadGraphics(void);
+static void OptionMenuPlus_InitWindows(void);
+static void OptionMenuPlus_FreeResources(void);
 
 static void OptionMenuPlus_CreateListMenu(void);
 static void OptionMenuPlus_AddScrollIndicator(void);
@@ -445,18 +443,17 @@ const struct OptionPage sOptionMenuPlus_Pages[MENUPAGE_COUNT] =
     }
 };
 
-// Declared in sample_ui.h
-void Task_OpenSampleUi_BlankTemplate(u8 taskId)
+void Task_OpenOptionsMenuPlus(u8 taskId)
 {
     if (!gPaletteFade.active)
     {
         CleanupOverworldWindowsAndTilemaps();
-        SampleUi_Init(CB2_ReturnToFieldWithOpenMenu);
+        OptionMenuPlus_Init(gMain.savedCallback);
         DestroyTask(taskId);
     }
 }
 
-static void SampleUi_Init(MainCallback callback)
+static void OptionMenuPlus_Init(MainCallback callback)
 {
     sOptionMenuPlusUiState = AllocZeroed(sizeof(struct OptionMenuPlusUiState));
     if (sOptionMenuPlusUiState == NULL)
@@ -468,54 +465,48 @@ static void SampleUi_Init(MainCallback callback)
     sOptionMenuPlusUiState->loadState = 0;
     sOptionMenuPlusUiState->savedCallback = callback;
 
-    SetMainCallback2(SampleUi_SetupCB);
+    SetMainCallback2(OptionMenuPlus_SetupCB);
 }
 
-// Credit: Jaizu, pret
-static void SampleUi_ResetGpuRegsAndBgs(void)
+static void OptionMenuPlus_ResetGpuRegsAndBgs(void)
 {
-    /*
-     * TODO : these settings are overkill, and seem to be clearing some
-     * important values. I need to come back and investigate this. For now, they
-     * are disabled. Note: by not resetting the various BG and GPU regs, we are
-     * effectively assuming that the user of this UI is entering from the
-     * overworld. If this UI is entered from a different screen, it's possible
-     * some regs won't be set correctly. In that case, you'll need to figure
-     * out which ones you need.
-     */
-    // SetGpuReg(REG_OFFSET_DISPCNT, 0);
-    // SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJ_ON);
-    // SetGpuReg(REG_OFFSET_BG3CNT, 0);
-    // SetGpuReg(REG_OFFSET_BG2CNT, 0);
-    // SetGpuReg(REG_OFFSET_BG1CNT, 0);
-    // SetGpuReg(REG_OFFSET_BG0CNT, 0);
-    // ChangeBgX(0, 0, BG_COORD_SET);
-    // ChangeBgY(0, 0, BG_COORD_SET);
-    // ChangeBgX(1, 0, BG_COORD_SET);
-    // ChangeBgY(1, 0, BG_COORD_SET);
-    // ChangeBgX(2, 0, BG_COORD_SET);
-    // ChangeBgY(2, 0, BG_COORD_SET);
-    // ChangeBgX(3, 0, BG_COORD_SET);
-    // ChangeBgY(3, 0, BG_COORD_SET);
-    // SetGpuReg(REG_OFFSET_BLDCNT, 0);
-    // SetGpuReg(REG_OFFSET_BLDY, 0);
-    // SetGpuReg(REG_OFFSET_BLDALPHA, 0);
-    // SetGpuReg(REG_OFFSET_WIN0H, 0);
-    // SetGpuReg(REG_OFFSET_WIN0V, 0);
-    // SetGpuReg(REG_OFFSET_WIN1H, 0);
-    // SetGpuReg(REG_OFFSET_WIN1V, 0);
-    // SetGpuReg(REG_OFFSET_WININ, 0);
-    // SetGpuReg(REG_OFFSET_WINOUT, 0);
-    // CpuFill16(0, (void *)VRAM, VRAM_SIZE);
-    // CpuFill32(0, (void *)OAM, OAM_SIZE);
+    /* These are needed otherwise there will be graphical issues if
+       launching from the main menu.
+    */
+     SetGpuReg(REG_OFFSET_DISPCNT, 0);
+     SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJ_1D_MAP | DISPCNT_OBJ_ON);
+
+     SetGpuReg(REG_OFFSET_BG3CNT, 0);
+     SetGpuReg(REG_OFFSET_BG2CNT, 0);
+     SetGpuReg(REG_OFFSET_BG1CNT, 0);
+     SetGpuReg(REG_OFFSET_BG0CNT, 0);
+     ChangeBgX(0, 0, BG_COORD_SET);
+     ChangeBgY(0, 0, BG_COORD_SET);
+     ChangeBgX(1, 0, BG_COORD_SET);
+     ChangeBgY(1, 0, BG_COORD_SET);
+     ChangeBgX(2, 0, BG_COORD_SET);
+     ChangeBgY(2, 0, BG_COORD_SET);
+     ChangeBgX(3, 0, BG_COORD_SET);
+     ChangeBgY(3, 0, BG_COORD_SET);
+     SetGpuReg(REG_OFFSET_BLDCNT, 0);
+     SetGpuReg(REG_OFFSET_BLDY, 0);
+     SetGpuReg(REG_OFFSET_BLDALPHA, 0);
+     SetGpuReg(REG_OFFSET_WIN0H, 0);
+     SetGpuReg(REG_OFFSET_WIN0V, 0);
+     SetGpuReg(REG_OFFSET_WIN1H, 0);
+     SetGpuReg(REG_OFFSET_WIN1V, 0);
+     SetGpuReg(REG_OFFSET_WININ, 0);
+     SetGpuReg(REG_OFFSET_WINOUT, 0);
+     CpuFill16(0, (void *)VRAM, VRAM_SIZE);
+     CpuFill32(0, (void *)OAM, OAM_SIZE);
 }
 
-static void SampleUi_SetupCB(void)
+void OptionMenuPlus_SetupCB(void)
 {
     switch (gMain.state)
     {
     case 0:
-        SampleUi_ResetGpuRegsAndBgs();
+        OptionMenuPlus_ResetGpuRegsAndBgs();
         SetVBlankHBlankCallbacksToNull();
         ClearScheduledBgCopiesToVram();
         gMain.state++;
@@ -529,25 +520,25 @@ static void SampleUi_SetupCB(void)
         gMain.state++;
         break;
     case 2:
-        if (SampleUi_InitBgs())
+        if (OptionMenuPlus_InitBgs())
         {
             sOptionMenuPlusUiState->loadState = 0;
             gMain.state++;
         }
         else
         {
-            SampleUi_FadeAndBail();
+            OptionMenuPlus_FadeAndBail();
             return;
         }
         break;
     case 3:
-        if (SampleUi_LoadGraphics() == TRUE)
+        if (OptionMenuPlus_LoadGraphics() == TRUE)
         {
             gMain.state++;
         }
         break;
     case 4:
-        SampleUi_InitWindows();
+        OptionMenuPlus_InitWindows();
         gMain.state++;
         break;
     case 5:
@@ -559,7 +550,7 @@ static void SampleUi_SetupCB(void)
         OptionMenuPlus_PrintControls();
 
         OptionMenuPlus_CreateListMenu();
-        CreateTask(Task_SampleUiWaitFadeIn, 0);
+        CreateTask(Task_OptionMenuPlusWaitFadeIn, 0);
         gMain.state++;
         break;
     case 6:
@@ -567,13 +558,13 @@ static void SampleUi_SetupCB(void)
         gMain.state++;
         break;
     case 7:
-        SetVBlankCallback(SampleUi_VBlankCB);
-        SetMainCallback2(SampleUi_MainCB);
+        SetVBlankCallback(OptionMenuPlus_VBlankCB);
+        SetMainCallback2(OptionMenuPlus_MainCB);
         break;
     }
 }
 
-static void SampleUi_MainCB(void)
+static void OptionMenuPlus_MainCB(void)
 {
     RunTasks();
     AnimateSprites();
@@ -582,29 +573,29 @@ static void SampleUi_MainCB(void)
     UpdatePaletteFade();
 }
 
-static void SampleUi_VBlankCB(void)
+static void OptionMenuPlus_VBlankCB(void)
 {
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
 }
 
-static void Task_SampleUiWaitFadeIn(u8 taskId)
+static void Task_OptionMenuPlusWaitFadeIn(u8 taskId)
 {
     if (!gPaletteFade.active)
     {
-        gTasks[taskId].func = Task_SampleUiMainInput;
+        gTasks[taskId].func = Task_OptionMenuPlusMainInput;
     }
 }
 
-static void Task_SampleUiMainInput(u8 taskId)
+static void Task_OptionMenuPlusMainInput(u8 taskId)
 {
     if (JOY_NEW(B_BUTTON))
     {
         PlaySE(SE_PC_OFF);
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
         OptionMenuPlus_SaveOptionValues();
-        gTasks[taskId].func = Task_SampleUiWaitFadeAndExitGracefully;
+        gTasks[taskId].func = Task_OptionMenuPlusWaitFadeAndExitGracefully;
     }
     else if (JOY_NEW(A_BUTTON))
     {
@@ -613,7 +604,7 @@ static void Task_SampleUiMainInput(u8 taskId)
             PlaySE(SE_PC_OFF);
             BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
             OptionMenuPlus_SaveOptionValues();
-            gTasks[taskId].func = Task_SampleUiWaitFadeAndExitGracefully;
+            gTasks[taskId].func = Task_OptionMenuPlusWaitFadeAndExitGracefully;
         }
         else
             PlaySE(SE_FAILURE);
@@ -715,27 +706,27 @@ static void OptionMenuPlus_VerticalDpad(bool8 up)
     OptionMenuPlus_PrintDescription(sOptionMenuPlusUiState->realCursorPos); 
 }
 
-static void Task_SampleUiWaitFadeAndBail(u8 taskId)
+static void Task_OptionMenuPlusWaitFadeAndBail(u8 taskId)
 {
     if (!gPaletteFade.active)
     {
         SetMainCallback2(sOptionMenuPlusUiState->savedCallback);
-        SampleUi_FreeResources();
+        OptionMenuPlus_FreeResources();
         DestroyTask(taskId);
     }
 }
 
-static void Task_SampleUiWaitFadeAndExitGracefully(u8 taskId)
+static void Task_OptionMenuPlusWaitFadeAndExitGracefully(u8 taskId)
 {
     if (!gPaletteFade.active)
     {
         SetMainCallback2(sOptionMenuPlusUiState->savedCallback);
-        SampleUi_FreeResources();
+        OptionMenuPlus_FreeResources();
         DestroyTask(taskId);
     }
 }
 #define TILEMAP_BUFFER_SIZE (1024 * 2)
-static bool8 SampleUi_InitBgs(void)
+static bool8 OptionMenuPlus_InitBgs(void)
 {
     ResetAllBgsCoordinates();
 
@@ -746,7 +737,7 @@ static bool8 SampleUi_InitBgs(void)
     }
 
     ResetBgsAndClearDma3BusyFlags(0);
-    InitBgsFromTemplates(0, sSampleUiBgTemplates, NELEMS(sSampleUiBgTemplates));
+    InitBgsFromTemplates(0, sOptionMenuPlusBgTemplates, NELEMS(sOptionMenuPlusBgTemplates));
 
     SetBgTilemapBuffer(1, sBg1TilemapBuffer);
     ScheduleBgCopyTilemapToVram(1);
@@ -758,15 +749,15 @@ static bool8 SampleUi_InitBgs(void)
 }
 #undef TILEMAP_BUFFER_SIZE
 
-static void SampleUi_FadeAndBail(void)
+static void OptionMenuPlus_FadeAndBail(void)
 {
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
-    CreateTask(Task_SampleUiWaitFadeAndBail, 0);
-    SetVBlankCallback(SampleUi_VBlankCB);
-    SetMainCallback2(SampleUi_MainCB);
+    CreateTask(Task_OptionMenuPlusWaitFadeAndBail, 0);
+    SetVBlankCallback(OptionMenuPlus_VBlankCB);
+    SetMainCallback2(OptionMenuPlus_MainCB);
 }
 
-static bool8 SampleUi_LoadGraphics(void)
+static bool8 OptionMenuPlus_LoadGraphics(void)
 {
     switch (sOptionMenuPlusUiState->loadState)
     {
@@ -797,27 +788,27 @@ static bool8 SampleUi_LoadGraphics(void)
     return FALSE;
 }
 
-static void SampleUi_InitWindows(void)
+static void OptionMenuPlus_InitWindows(void)
 {
-    InitWindows(sSampleUiWindowTemplates);
+    InitWindows(sOptionMenuPlusWindowTemplates);
     DeactivateAllTextPrinters();
     ScheduleBgCopyTilemapToVram(0);
-    FillWindowPixelBuffer(WINDOW_0, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    FillWindowPixelBuffer(WINDOW_OPTIONS, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
     FillWindowPixelBuffer(WINDOW_DESC, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
     FillWindowPixelBuffer(WINDOW_PAGE, PIXEL_FILL(TEXT_DYNAMIC_COLOR_6));
     FillWindowPixelBuffer(WINDOW_CONTROLS, PIXEL_FILL(TEXT_DYNAMIC_COLOR_6));
-    PutWindowTilemap(WINDOW_0);
+    PutWindowTilemap(WINDOW_OPTIONS);
     PutWindowTilemap(WINDOW_DESC);
     PutWindowTilemap(WINDOW_PAGE);
     PutWindowTilemap(WINDOW_CONTROLS);
-    DrawStdWindowFrame(WINDOW_0, FALSE);
-    CopyWindowToVram(WINDOW_0, 3);
+    DrawStdWindowFrame(WINDOW_OPTIONS, FALSE);
+    CopyWindowToVram(WINDOW_OPTIONS, 3);
     CopyWindowToVram(WINDOW_DESC, 3);
     CopyWindowToVram(WINDOW_PAGE, 3);
     CopyWindowToVram(WINDOW_CONTROLS, 3);
 }
 
-static void SampleUi_FreeResources(void)
+static void OptionMenuPlus_FreeResources(void)
 {
     if (sOptionMenuPlusUiState != NULL)
     {
@@ -866,7 +857,7 @@ static void OptionMenuPlus_CreateListMenu(void)
     }
 
     gMultiuseListMenuTemplate = sOptionMenuPlus_ListMenu;
-    gMultiuseListMenuTemplate.windowId = WINDOW_0;
+    gMultiuseListMenuTemplate.windowId = WINDOW_OPTIONS;
     gMultiuseListMenuTemplate.totalItems = OptionMenuPlus_GetPageCount();
     gMultiuseListMenuTemplate.items = sOptionMenuPlusUiState->listItems;
     gMultiuseListMenuTemplate.maxShowed = 7;
@@ -912,7 +903,7 @@ static void OptionMenuPlus_PrintMenuItem(u8 windowId, u32 id, u8 yOffset)
     u8 page = sOptionMenuPlusUiState->page;
     if (OptionMenuPlus_IsCancel(id)) return;
     StringCopy(gStringVar1, sOptionMenuPlus_Pages[page].options[id].options[sOptionMenuPlus_Pages[page].options[id].func(0)]);
-    AddTextPrinterParameterized4(windowId, FONT_SHORT, OPTION_X, yOffset, 0, 0, sSampleUiWindowFontColors[FONT_BLACK], TEXT_SKIP_DRAW, gStringVar1);
+    AddTextPrinterParameterized4(windowId, FONT_SHORT, OPTION_X, yOffset, 0, 0, sOptionMenuPlusWindowFontColors[FONT_BLACK], TEXT_SKIP_DRAW, gStringVar1);
 }
 
 static void OptionMenuPlus_UpdateMenuItem(void)
@@ -921,11 +912,11 @@ static void OptionMenuPlus_UpdateMenuItem(void)
     u8 y = sOptionMenuPlusUiState->cursorPos * 14;
     u8 id = sOptionMenuPlusUiState->realCursorPos;
     u8 page = sOptionMenuPlusUiState->page;
-    FillWindowPixelRect(WINDOW_0, 1, x, y, 120, 14);
+    FillWindowPixelRect(WINDOW_OPTIONS, 1, x, y, 120, 14);
     StringCopy(gStringVar1, sOptionMenuPlus_Pages[page].options[id].options[sOptionMenuPlus_Pages[page].options[id].func(0)]);
-    AddTextPrinterParameterized4(WINDOW_0, FONT_SHORT, x, y, 0, 0, sSampleUiWindowFontColors[FONT_BLACK], TEXT_SKIP_DRAW, gStringVar1);
-    PutWindowTilemap(WINDOW_0);
-    CopyWindowToVram(WINDOW_0, COPYWIN_FULL);
+    AddTextPrinterParameterized4(WINDOW_OPTIONS, FONT_SHORT, x, y, 0, 0, sOptionMenuPlusWindowFontColors[FONT_BLACK], TEXT_SKIP_DRAW, gStringVar1);
+    PutWindowTilemap(WINDOW_OPTIONS);
+    CopyWindowToVram(WINDOW_OPTIONS, COPYWIN_FULL);
 }
 
 static void OptionMenuPlus_PrintDescription(u8 id)
@@ -938,7 +929,7 @@ static void OptionMenuPlus_PrintDescription(u8 id)
             StringCopy(gStringVar1, option.optionsDesc[0]);
         else
             StringCopy(gStringVar1, option.optionsDesc[option.func(0)]);
-        AddTextPrinterParameterized4(WINDOW_DESC, FONT_SHORT, 0, 0, 0, 0, sSampleUiWindowFontColors[FONT_BLACK], TEXT_SKIP_DRAW, gStringVar1);
+        AddTextPrinterParameterized4(WINDOW_DESC, FONT_SHORT, 0, 0, 0, 0, sOptionMenuPlusWindowFontColors[FONT_BLACK], TEXT_SKIP_DRAW, gStringVar1);
     }
     PutWindowTilemap(WINDOW_DESC);
     CopyWindowToVram(WINDOW_DESC, COPYWIN_FULL);

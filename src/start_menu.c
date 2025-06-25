@@ -769,8 +769,8 @@ static bool8 StartMenuOptionCallback(void)
         PlayRainStoppingSoundEffect();
         RemoveExtraStartMenuWindows();
         CleanupOverworldWindowsAndTilemaps();
-        CreateTask(Task_OpenSampleUi_BlankTemplate, 0);
         gMain.savedCallback = CB2_ReturnToFieldWithOpenMenu;
+        CreateTask(Task_OpenOptionsMenuPlus, 0);
 
         return TRUE;
     }

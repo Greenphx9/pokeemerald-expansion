@@ -3,7 +3,8 @@
 
 // see sOptionMenuPlus_Pages and use the template to add more options or pages!
 
-void Task_OpenSampleUi_BlankTemplate(u8 taskId);
+void OptionMenuPlus_SetupCB(void);
+void Task_OpenOptionsMenuPlus(u8 taskId);
 
 struct OptionPage
 {
