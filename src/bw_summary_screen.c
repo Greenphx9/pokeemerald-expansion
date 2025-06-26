@@ -3658,14 +3658,14 @@ static void PrintPageNamesAndStats(void)
 
     ShowCancelOrRenamePrompt();
 
-    stringXPos = GetStringRightAlignXOffset(FONT_NORMAL, sText_Info, 62);
+    stringXPos = GetStringRightAlignXOffset(FONT_SHORT, sText_Info, 62);
     iconXPos = stringXPos - 16;
     if (iconXPos < 0)
         iconXPos = 0;
     PrintAOrBButtonIcon(PSS_LABEL_WINDOW_PROMPT_INFO, FALSE, iconXPos);
     PrintTextOnWindow(PSS_LABEL_WINDOW_PROMPT_INFO, sText_Info, stringXPos, 1, 0, 1);
 
-    stringXPos = GetStringRightAlignXOffset(FONT_NORMAL, sText_Switch, 62);
+    stringXPos = GetStringRightAlignXOffset(FONT_SHORT, sText_Switch, 62);
     iconXPos = stringXPos - 16;
     if (iconXPos < 0)
         iconXPos = 0;
@@ -3676,14 +3676,14 @@ static void PrintPageNamesAndStats(void)
     {
         if (BW_SUMMARY_IV_EV_DISPLAY == BW_IV_EV_GRADED)
         {
-            stringXPos = GetStringRightAlignXOffset(FONT_NORMAL, sText_ViewIVs_Graded, skillsLabelWidth);
+            stringXPos = GetStringRightAlignXOffset(FONT_SHORT, sText_ViewIVs_Graded, skillsLabelWidth);
             iconXPos = stringXPos - 16;
             if (iconXPos < 0)
                 iconXPos = 0;
             PrintAOrBButtonIcon(PSS_LABEL_WINDOW_PROMPT_IVS, FALSE, iconXPos);
             PrintTextOnWindow(PSS_LABEL_WINDOW_PROMPT_IVS, sText_ViewIVs_Graded, stringXPos, 1, 0, 1);
 
-            stringXPos = GetStringRightAlignXOffset(FONT_NORMAL, sText_ViewEVs_Graded, skillsLabelWidth);
+            stringXPos = GetStringRightAlignXOffset(FONT_SHORT, sText_ViewEVs_Graded, skillsLabelWidth);
             iconXPos = stringXPos - 16;
             if (iconXPos < 0)
                 iconXPos = 0;
@@ -3692,14 +3692,14 @@ static void PrintPageNamesAndStats(void)
         }
         else // precise display
         {
-            stringXPos = GetStringRightAlignXOffset(FONT_NORMAL, sText_ViewIVs, skillsLabelWidth);
+            stringXPos = GetStringRightAlignXOffset(FONT_SHORT, sText_ViewIVs, skillsLabelWidth);
             iconXPos = stringXPos - 16;
             if (iconXPos < 0)
                 iconXPos = 0;
             PrintAOrBButtonIcon(PSS_LABEL_WINDOW_PROMPT_IVS, FALSE, iconXPos);
             PrintTextOnWindow(PSS_LABEL_WINDOW_PROMPT_IVS, sText_ViewIVs, stringXPos, 1, 0, 1);
 
-            stringXPos = GetStringRightAlignXOffset(FONT_NORMAL, sText_ViewEVs, skillsLabelWidth);
+            stringXPos = GetStringRightAlignXOffset(FONT_SHORT, sText_ViewEVs, skillsLabelWidth);
             iconXPos = stringXPos - 16;
             if (iconXPos < 0)
                 iconXPos = 0;
@@ -3707,7 +3707,7 @@ static void PrintPageNamesAndStats(void)
             PrintTextOnWindow(PSS_LABEL_WINDOW_PROMPT_EVS, sText_ViewEVs, stringXPos, 1, 0, 1);
         }
 
-        stringXPos = GetStringRightAlignXOffset(FONT_NORMAL, sText_ViewStats, skillsLabelWidth);
+        stringXPos = GetStringRightAlignXOffset(FONT_SHORT, sText_ViewStats, skillsLabelWidth);
         iconXPos = stringXPos - 16;
         if (iconXPos < 0)
             iconXPos = 0;
@@ -4274,7 +4274,7 @@ static void UNUSED PrintRibbonCount(void)
         text = gStringVar4;
     }
 
-    x = GetStringCenterAlignXOffset(FONT_NORMAL, text, 70) + 6;
+    x = GetStringCenterAlignXOffset(FONT_SHORT, text, 70) + 6;
     PrintTextOnWindow(AddWindowFromTemplateList(sPageSkillsTemplate, PSS_DATA_WINDOW_SKILLS_RIBBON_COUNT), text, x, 1, 0, 0);
 }
 
@@ -5500,7 +5500,7 @@ static void ShowCancelOrRenamePrompt(void)
 {
     const u8 *promptText = ShouldShowRename() ? gText_Rename : gText_Cancel2;
 
-    int stringXPos = GetStringRightAlignXOffset(FONT_NORMAL, promptText, 62);
+    int stringXPos = GetStringRightAlignXOffset(FONT_SHORT, promptText, 62);
     int iconXPos = stringXPos - 16;
     if (iconXPos < 0)
         iconXPos = 0;

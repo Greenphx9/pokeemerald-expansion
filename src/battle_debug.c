@@ -960,7 +960,7 @@ static void PutMovesPointsText(struct BattleDebugMenu *data)
     {
         text[0] = CHAR_SPACE;
         StringCopy(text + 1, GetMoveName(gBattleMons[data->aiBattlerId].moves[i]));
-        AddTextPrinterParameterized(data->aiMovesWindowId, FONT_NORMAL, text, 0, i * 15, 0, NULL);
+        AddTextPrinterParameterized(data->aiMovesWindowId, FONT_SHORT, text, 0, i * 15, 0, NULL);
         for (count = 0, j = 0; j < MAX_BATTLERS_COUNT; j++)
         {
             if (data->spriteIds.aiIconSpriteIds[j] == 0xFF)
@@ -969,12 +969,12 @@ static void PutMovesPointsText(struct BattleDebugMenu *data)
             ConvertIntToDecimalStringN(text,
                                        gAiBattleData->finalScore[data->aiBattlerId][battlerDef][i],
                                        STR_CONV_MODE_RIGHT_ALIGN, 3);
-            AddTextPrinterParameterized(data->aiMovesWindowId, FONT_NORMAL, text, 83 + count * 54, i * 15, 0, NULL);
+            AddTextPrinterParameterized(data->aiMovesWindowId, FONT_SHORT, text, 83 + count * 54, i * 15, 0, NULL);
 
             ConvertIntToDecimalStringN(text,
                                        AI_GetDamage(data->aiBattlerId, battlerDef, i, AI_ATTACKING, gAiLogicData),
                                        STR_CONV_MODE_RIGHT_ALIGN, 3);
-            AddTextPrinterParameterized(data->aiMovesWindowId, FONT_NORMAL, text, 110 + count * 54, i * 15, 0, NULL);
+            AddTextPrinterParameterized(data->aiMovesWindowId, FONT_SHORT, text, 110 + count * 54, i * 15, 0, NULL);
 
             count++;
         }
@@ -984,8 +984,8 @@ static void PutMovesPointsText(struct BattleDebugMenu *data)
     {
         u32 switchMon = GetMonData(&gEnemyParty[gAiLogicData->mostSuitableMonId[data->aiBattlerId]], MON_DATA_SPECIES);
 
-        AddTextPrinterParameterized(data->aiMovesWindowId, FONT_NORMAL, sText_IsSwitching, 74, 64, 0, NULL);
-        AddTextPrinterParameterized(data->aiMovesWindowId, FONT_NORMAL, gSpeciesInfo[switchMon].speciesName, 74 + 68, 64, 0, NULL);
+        AddTextPrinterParameterized(data->aiMovesWindowId, FONT_SHORT, sText_IsSwitching, 74, 64, 0, NULL);
+        AddTextPrinterParameterized(data->aiMovesWindowId, FONT_SHORT, gSpeciesInfo[switchMon].speciesName, 74 + 68, 64, 0, NULL);
     }
 
     CopyWindowToVram(data->aiMovesWindowId, COPYWIN_FULL);
@@ -1120,7 +1120,7 @@ static void PutAiInfoText(struct BattleDebugMenu *data)
     // item names
     for (i = 0; i < ARRAY_COUNT(sAiInfoItemNames); i++)
     {
-        AddTextPrinterParameterized(data->aiMovesWindowId, FONT_NORMAL, sAiInfoItemNames[i], 3, i * 15, 0, NULL);
+        AddTextPrinterParameterized(data->aiMovesWindowId, FONT_SHORT, sAiInfoItemNames[i], 3, i * 15, 0, NULL);
     }
 
     // items info
@@ -1524,7 +1524,7 @@ static void PrintOnBattlerWindow(u8 windowId, u8 battlerId)
     StringCopy(&text[4], gBattleMons[battlerId].nickname);
 
     FillWindowPixelBuffer(windowId, 0x11);
-    AddTextPrinterParameterized(windowId, FONT_NORMAL, text, 0, 0, 0, NULL);
+    AddTextPrinterParameterized(windowId, FONT_SHORT, text, 0, 0, 0, NULL);
     CopyWindowToVram(windowId, COPYWIN_FULL);
 }
 
@@ -1758,7 +1758,7 @@ static void PrintDigitChars(struct BattleDebugMenu *data)
     text[i] = EOS;
 
     FillWindowPixelBuffer(data->modifyWindowId, 0x11);
-    AddTextPrinterParameterized(data->modifyWindowId, FONT_NORMAL, text, 3, 0, 0, NULL);
+    AddTextPrinterParameterized(data->modifyWindowId, FONT_SHORT, text, 3, 0, 0, NULL);
 }
 
 static const u32 GetBitfieldToAndValue(u32 currBit, u32 bitsCount)

@@ -1762,7 +1762,7 @@ static void MoveSelectionDisplayMoveType(u32 battler)
     }
     end = StringCopy(txtPtr, gTypesInfo[type].name);
 
-    PrependFontIdToFit(txtPtr, end, FONT_NORMAL, WindowWidthPx(B_WIN_MOVE_TYPE) - 25);
+    PrependFontIdToFit(txtPtr, end, FONT_SHORT, WindowWidthPx(B_WIN_MOVE_TYPE) - 25);
     BattlePutTextOnWindow(gDisplayedStringBattle, B_WIN_MOVE_TYPE);
 }
 

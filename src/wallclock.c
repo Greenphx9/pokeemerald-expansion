@@ -720,7 +720,7 @@ void CB2_StartWallClock(void)
 
     WallClockInit();
 
-    AddTextPrinterParameterized(WIN_BUTTON_LABEL, FONT_NORMAL, gText_Confirm3, 0, 1, 0, NULL);
+    AddTextPrinterParameterized(WIN_BUTTON_LABEL, FONT_SHORT, gText_Confirm3, 0, 1, 0, NULL);
     PutWindowTilemap(WIN_BUTTON_LABEL);
     ScheduleBgCopyTilemapToVram(2);
 }
@@ -768,7 +768,7 @@ void CB2_ViewWallClock(void)
 
     WallClockInit();
 
-    AddTextPrinterParameterized(WIN_BUTTON_LABEL, FONT_NORMAL, gText_Cancel4, 0, 1, 0, NULL);
+    AddTextPrinterParameterized(WIN_BUTTON_LABEL, FONT_SHORT, gText_Cancel4, 0, 1, 0, NULL);
     PutWindowTilemap(WIN_BUTTON_LABEL);
     ScheduleBgCopyTilemapToVram(2);
 }
@@ -833,7 +833,7 @@ static void Task_SetClock_HandleInput(u8 taskId)
 static void Task_SetClock_AskConfirm(u8 taskId)
 {
     DrawStdFrameWithCustomTileAndPalette(WIN_MSG, FALSE, 0x250, 0x0d);
-    AddTextPrinterParameterized(WIN_MSG, FONT_NORMAL, gText_IsThisTheCorrectTime, 0, 1, 0, NULL);
+    AddTextPrinterParameterized(WIN_MSG, FONT_SHORT, gText_IsThisTheCorrectTime, 0, 1, 0, NULL);
     PutWindowTilemap(WIN_MSG);
     ScheduleBgCopyTilemapToVram(0);
     CreateYesNoMenu(&sWindowTemplate_ConfirmYesNo, 0x250, 0x0d, 1);

@@ -3192,7 +3192,7 @@ static bool8 UpdateMainCursor(void)
         else
         {
             CopyEasyChatWord(str, *ecWord);
-            stringWidth = GetStringWidth(FONT_NORMAL, str, 0);
+            stringWidth = GetStringWidth(FONT_SHORT, str, 0);
         }
 
         trueStringWidth = stringWidth + 17;
@@ -3946,9 +3946,9 @@ static void PrintTitle(void)
     if (!titleText)
         return;
 
-    xOffset = GetStringCenterAlignXOffset(FONT_NORMAL, titleText, 144);
+    xOffset = GetStringCenterAlignXOffset(FONT_SHORT, titleText, 144);
     FillWindowPixelBuffer(WIN_TITLE, PIXEL_FILL(0));
-    PrintEasyChatTextWithColors(WIN_TITLE, FONT_NORMAL, titleText, xOffset, 1, TEXT_SKIP_DRAW, TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY);
+    PrintEasyChatTextWithColors(WIN_TITLE, FONT_SHORT, titleText, xOffset, 1, TEXT_SKIP_DRAW, TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY);
     PutWindowTilemap(WIN_TITLE);
     CopyWindowToVram(WIN_TITLE, COPYWIN_FULL);
 }
@@ -4019,10 +4019,10 @@ static void PrintEasyChatStdMessage(u8 msgId)
 
     FillWindowPixelBuffer(WIN_MSG, PIXEL_FILL(1));
     if (text1)
-        PrintEasyChatText(WIN_MSG, FONT_NORMAL, text1, 0, 1, TEXT_SKIP_DRAW, 0);
+        PrintEasyChatText(WIN_MSG, FONT_SHORT, text1, 0, 1, TEXT_SKIP_DRAW, 0);
 
     if (text2)
-        PrintEasyChatText(WIN_MSG, FONT_NORMAL, text2, 0, 17, TEXT_SKIP_DRAW, 0);
+        PrintEasyChatText(WIN_MSG, FONT_SHORT, text2, 0, 17, TEXT_SKIP_DRAW, 0);
 
     CopyWindowToVram(WIN_MSG, COPYWIN_FULL);
 }
@@ -4115,7 +4115,7 @@ static void PrintCurrentPhrase(void)
         }
 
         *str = EOS;
-        PrintEasyChatText(sScreenControl->windowId, FONT_NORMAL, sScreenControl->phrasePrintBuffer, 0, i * 16 + 1, TEXT_SKIP_DRAW, 0);
+        PrintEasyChatText(sScreenControl->windowId, FONT_SHORT, sScreenControl->phrasePrintBuffer, 0, i * 16 + 1, TEXT_SKIP_DRAW, 0);
     }
 
     CopyWindowToVram(sScreenControl->windowId, COPYWIN_FULL);
@@ -4261,7 +4261,7 @@ static void PrintKeyboardGroupNames(void)
                 return;
             }
 
-            PrintEasyChatText(WIN_INPUT_SELECT, FONT_NORMAL, GetEasyChatWordGroupName(groupId), x * 84 + 10, y, TEXT_SKIP_DRAW, NULL);
+            PrintEasyChatText(WIN_INPUT_SELECT, FONT_SHORT, GetEasyChatWordGroupName(groupId), x * 84 + 10, y, TEXT_SKIP_DRAW, NULL);
         }
 
         y += 16;
@@ -4273,7 +4273,7 @@ static void PrintKeyboardAlphabet(void)
     u32 i;
 
     for (i = 0; i < ARRAY_COUNT(sEasyChatKeyboardAlphabet); i++)
-        PrintEasyChatText(WIN_INPUT_SELECT, FONT_NORMAL, sEasyChatKeyboardAlphabet[i], 10, 97 + i * 16, TEXT_SKIP_DRAW, NULL);
+        PrintEasyChatText(WIN_INPUT_SELECT, FONT_SHORT, sEasyChatKeyboardAlphabet[i], 10, 97 + i * 16, TEXT_SKIP_DRAW, NULL);
 }
 
 static void PrintInitialWordSelectText(void)
@@ -4344,9 +4344,9 @@ static void PrintWordSelectText(u8 scrollOffset, u8 numRows)
             {
                 CopyEasyChatWordPadded(sScreenControl->wordSelectPrintBuffer, easyChatWord, 0);
                 if (!DummyWordCheck(easyChatWord))
-                    PrintEasyChatText(WIN_INPUT_SELECT, FONT_NORMAL, sScreenControl->wordSelectPrintBuffer, (j * 13 + 3) * 8, y, TEXT_SKIP_DRAW, NULL);
+                    PrintEasyChatText(WIN_INPUT_SELECT, FONT_SHORT, sScreenControl->wordSelectPrintBuffer, (j * 13 + 3) * 8, y, TEXT_SKIP_DRAW, NULL);
                 else // Never reached
-                    PrintEasyChatTextWithColors(WIN_INPUT_SELECT, FONT_NORMAL, sScreenControl->wordSelectPrintBuffer, (j * 13 + 3) * 8, y, TEXT_SKIP_DRAW, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_RED, TEXT_COLOR_LIGHT_GRAY);
+                    PrintEasyChatTextWithColors(WIN_INPUT_SELECT, FONT_SHORT, sScreenControl->wordSelectPrintBuffer, (j * 13 + 3) * 8, y, TEXT_SKIP_DRAW, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_RED, TEXT_COLOR_LIGHT_GRAY);
             }
         }
 
@@ -5098,7 +5098,7 @@ static void AddMainScreenButtonWindow(void)
         if (str)
         {
             int x = sFooterOptionXOffsets[footerIndex][i];
-            PrintEasyChatText(windowId, FONT_NORMAL, str, x, 1, 0, NULL);
+            PrintEasyChatText(windowId, FONT_SHORT, str, x, 1, 0, NULL);
         }
     }
 

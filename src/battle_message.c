@@ -1554,7 +1554,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
 {
     [B_WIN_MSG] = {
         .fillValue = PIXEL_FILL(0xF),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = 0,
         .y = 1,
         .speed = 1,
@@ -1564,7 +1564,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_ACTION_PROMPT] = {
         .fillValue = PIXEL_FILL(0xF),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = 1,
         .y = 1,
         .speed = 0,
@@ -1574,7 +1574,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_ACTION_MENU] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = 0,
         .y = 1,
         .speed = 0,
@@ -1634,7 +1634,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_DUMMY] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = 0,
         .y = 1,
         .speed = 0,
@@ -1644,7 +1644,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_PP_REMAINING] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = 2,
         .y = 1,
         .speed = 0,
@@ -1674,7 +1674,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_YESNO] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = 0,
         .y = 1,
         .speed = 0,
@@ -1684,7 +1684,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_LEVEL_UP_BOX] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = 0,
         .y = 1,
         .speed = 0,
@@ -1694,7 +1694,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_LEVEL_UP_BANNER] = {
         .fillValue = PIXEL_FILL(0),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = 32,
         .y = 1,
         .speed = 0,
@@ -1703,7 +1703,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_VS_PLAYER] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = -1,
         .y = 1,
         .speed = 0,
@@ -1713,7 +1713,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_VS_OPPONENT] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = -1,
         .y = 1,
         .speed = 0,
@@ -1723,7 +1723,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_VS_MULTI_PLAYER_1] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = -1,
         .y = 1,
         .speed = 0,
@@ -1733,7 +1733,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_VS_MULTI_PLAYER_2] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = -1,
         .y = 1,
         .speed = 0,
@@ -1743,7 +1743,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_VS_MULTI_PLAYER_3] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = -1,
         .y = 1,
         .speed = 0,
@@ -1753,7 +1753,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_VS_MULTI_PLAYER_4] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = -1,
         .y = 1,
         .speed = 0,
@@ -1763,7 +1763,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_VS_OUTCOME_DRAW] = {
         .fillValue = PIXEL_FILL(0),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = -1,
         .y = 1,
         .speed = 0,
@@ -1772,7 +1772,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_VS_OUTCOME_LEFT] = {
         .fillValue = PIXEL_FILL(0),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = -1,
         .y = 1,
         .speed = 0,
@@ -1781,7 +1781,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
     },
     [B_WIN_VS_OUTCOME_RIGHT] = {
         .fillValue = PIXEL_FILL(0x0),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = -1,
         .y = 1,
         .speed = 0,
@@ -1806,7 +1806,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
 {
     [B_WIN_MSG] = {
         .fillValue = PIXEL_FILL(0xF),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = 0,
         .y = 1,
         .speed = 1,
@@ -1816,7 +1816,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [B_WIN_ACTION_PROMPT] = {
         .fillValue = PIXEL_FILL(0xF),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = 1,
         .y = 1,
         .speed = 0,
@@ -1826,7 +1826,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [B_WIN_ACTION_MENU] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = 0,
         .y = 1,
         .speed = 0,
@@ -1886,7 +1886,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [B_WIN_DUMMY] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = 0,
         .y = 1,
         .speed = 0,
@@ -1896,7 +1896,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [B_WIN_PP_REMAINING] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = 2,
         .y = 1,
         .speed = 0,
@@ -1926,7 +1926,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [B_WIN_YESNO] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = 0,
         .y = 1,
         .speed = 0,
@@ -1936,7 +1936,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [B_WIN_LEVEL_UP_BOX] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = 0,
         .y = 1,
         .speed = 0,
@@ -1946,7 +1946,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [B_WIN_LEVEL_UP_BANNER] = {
         .fillValue = PIXEL_FILL(0),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = 32,
         .y = 1,
         .speed = 0,
@@ -1955,7 +1955,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [ARENA_WIN_PLAYER_NAME] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = -1,
         .y = 1,
         .speed = 0,
@@ -1965,7 +1965,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [ARENA_WIN_VS] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = -1,
         .y = 1,
         .speed = 0,
@@ -1975,7 +1975,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [ARENA_WIN_OPPONENT_NAME] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = -1,
         .y = 1,
         .speed = 0,
@@ -1985,7 +1985,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [ARENA_WIN_MIND] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = -1,
         .y = 1,
         .speed = 0,
@@ -1995,7 +1995,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [ARENA_WIN_SKILL] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = -1,
         .y = 1,
         .speed = 0,
@@ -2005,7 +2005,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [ARENA_WIN_BODY] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = -1,
         .y = 1,
         .speed = 0,
@@ -2015,7 +2015,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [ARENA_WIN_JUDGMENT_TITLE] = {
         .fillValue = PIXEL_FILL(0xE),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = -1,
         .y = 1,
         .speed = 0,
@@ -2025,7 +2025,7 @@ static const struct BattleWindowText sTextOnWindowsInfo_Arena[] =
     },
     [ARENA_WIN_JUDGMENT_TEXT] = {
         .fillValue = PIXEL_FILL(0x1),
-        .fontId = FONT_NORMAL,
+        .fontId = FONT_SHORT,
         .x = 0,
         .y = 1,
         .speed = 1,
@@ -2594,7 +2594,7 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst, u32 dstSize)
     u8 text[max(max(max(32, TRAINER_NAME_LENGTH + 1), POKEMON_NAME_LENGTH + 1), ITEM_NAME_LENGTH)];
     u8 *textStart = &text[0];
     u8 multiplayerId;
-    u8 fontId = FONT_NORMAL;
+    u8 fontId = FONT_SHORT;
 
     if (gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK)
         multiplayerId = gRecordedBattleMultiplayerId;

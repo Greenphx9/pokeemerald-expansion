@@ -3233,7 +3233,7 @@ static void PrintInfoScreenText(const u8 *str, u8 left, u8 top)
     color[1] = TEXT_DYNAMIC_COLOR_6;
     color[2] = TEXT_COLOR_LIGHT_GRAY;
 
-    AddTextPrinterParameterized4(0, FONT_NORMAL, left, top, 0, 0, color, TEXT_SKIP_DRAW, str);
+    AddTextPrinterParameterized4(0, FONT_SHORT, left, top, 0, 0, color, TEXT_SKIP_DRAW, str);
 }
 
 #define tScrolling       data[0]
@@ -3845,7 +3845,7 @@ static void Task_LoadSizeScreen(u8 taskId)
 
             StringCopy(string, gText_SizeComparedTo);
             StringAppend(string, gSaveBlock2Ptr->playerName);
-            PrintInfoScreenText(string, GetStringCenterAlignXOffset(FONT_NORMAL, string, DISPLAY_WIDTH), 121);
+            PrintInfoScreenText(string, GetStringCenterAlignXOffset(FONT_SHORT, string, DISPLAY_WIDTH), 121);
             gMain.state++;
         }
         break;
@@ -4195,7 +4195,7 @@ static void PrintMonInfo(u32 num, u32 value, u32 owned, u32 newEntry)
     u8 digitCount = (NATIONAL_DEX_COUNT > 999 && IsNationalPokedexEnabled()) ? 4 : 3;
 
     if (newEntry)
-        PrintInfoScreenText(gText_PokedexRegistration, GetStringCenterAlignXOffset(FONT_NORMAL, gText_PokedexRegistration, DISPLAY_WIDTH), 0);
+        PrintInfoScreenText(gText_PokedexRegistration, GetStringCenterAlignXOffset(FONT_SHORT, gText_PokedexRegistration, DISPLAY_WIDTH), 0);
     if (value == 0)
         value = NationalToHoennOrder(num);
     else
@@ -4225,7 +4225,7 @@ static void PrintMonInfo(u32 num, u32 value, u32 owned, u32 newEntry)
         description = GetSpeciesPokedexDescription(species);
     else
         description = sExpandedPlaceholder_PokedexDescription;
-    PrintInfoScreenText(description, GetStringCenterAlignXOffset(FONT_NORMAL, description, DISPLAY_WIDTH), 95);
+    PrintInfoScreenText(description, GetStringCenterAlignXOffset(FONT_SHORT, description, DISPLAY_WIDTH), 95);
 }
 
 void PrintMonMeasurements(u16 species, u32 owned)
@@ -4694,7 +4694,7 @@ static void PrintInfoSubMenuText(u8 windowId, const u8 *str, u8 left, u8 top)
     color[1] = TEXT_DYNAMIC_COLOR_6;
     color[2] = TEXT_COLOR_LIGHT_GRAY;
 
-    AddTextPrinterParameterized4(windowId, FONT_NORMAL, left, top, 0, 0, color, TEXT_SKIP_DRAW, str);
+    AddTextPrinterParameterized4(windowId, FONT_SHORT, left, top, 0, 0, color, TEXT_SKIP_DRAW, str);
 }
 
 static void UNUSED UnusedPrintNum(u8 windowId, u16 num, u8 left, u8 top)
@@ -4721,7 +4721,7 @@ static u8 PrintCryScreenSpeciesName(u8 windowId, u16 num, u8 left, u8 top)
     default:
         for (i = 0; GetSpeciesName(num)[i] != EOS && i < POKEMON_NAME_LENGTH; i++)
             str[i] = GetSpeciesName(num)[i];
-        WrapFontIdToFit(str, str + i, FONT_NORMAL, 60);
+        WrapFontIdToFit(str, str + i, FONT_SHORT, 60);
         break;
     case 0:
         for (i = 0; i < 5; i++)
@@ -5047,14 +5047,14 @@ static u8 LoadSearchMenu(void)
 static void PrintSearchTextToFit(const u8 *str, u32 x, u32 y, u32 width)
 {
     static const u8 color[3] = { TEXT_COLOR_TRANSPARENT, TEXT_DYNAMIC_COLOR_6, TEXT_COLOR_DARK_GRAY };
-    u32 fontId = GetFontIdToFit(str, FONT_NORMAL, 0, width);
+    u32 fontId = GetFontIdToFit(str, FONT_SHORT, 0, width);
     AddTextPrinterParameterized4(0, fontId, x, y, 0, 0, color, TEXT_SKIP_DRAW, str);
 }
 
 static void PrintSearchText(const u8 *str, u32 x, u32 y)
 {
     static const u8 color[3] = { TEXT_COLOR_TRANSPARENT, TEXT_DYNAMIC_COLOR_6, TEXT_COLOR_DARK_GRAY };
-    AddTextPrinterParameterized4(0, FONT_NORMAL, x, y, 0, 0, color, TEXT_SKIP_DRAW, str);
+    AddTextPrinterParameterized4(0, FONT_SHORT, x, y, 0, 0, color, TEXT_SKIP_DRAW, str);
 }
 
 static void ClearSearchMenuRect(u32 x, u32 y, u32 width, u32 height)

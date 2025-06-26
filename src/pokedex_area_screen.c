@@ -671,7 +671,7 @@ static void AddTimeOfDayLabels(void)
 static void ShowEncounterInfoLabel(void)
 {
     const u8 *gText_TimeOfDay = GetTimeOfDayTextWithButton(gAreaTimeOfDay);
-    int stringXPos = GetStringCenterAlignXOffset(FONT_NORMAL, gText_TimeOfDay, 64);
+    int stringXPos = GetStringCenterAlignXOffset(FONT_SHORT, gText_TimeOfDay, 64);
 
     PrintAreaLabelText(gText_TimeOfDay, DEX_AREA_LABEL_TIME_OF_DAY, stringXPos);
 }
@@ -679,7 +679,7 @@ static void ShowEncounterInfoLabel(void)
 static void ShowAreaUnknownLabel(void)
 {
     static const u8 gText_AreaUnknown[] = _("AREA UNKNOWN");
-    int stringXPos = GetStringCenterAlignXOffset(FONT_NORMAL, gText_AreaUnknown, 80);
+    int stringXPos = GetStringCenterAlignXOffset(FONT_SHORT, gText_AreaUnknown, 80);
 
     PrintAreaLabelText(gText_AreaUnknown, DEX_AREA_LABEL_AREA_UNKNOWN, stringXPos);
 }
@@ -698,7 +698,7 @@ static void PrintAreaLabelText(const u8 *text, enum PokedexAreaLabels labelId, i
     PutWindowTilemap(sPokedexAreaScreen->areaScreenLabelIds[labelId]);
     FillWindowPixelBuffer(sPokedexAreaScreen->areaScreenLabelIds[labelId], PIXEL_FILL(7));
 
-    AddTextPrinterParameterized4(sPokedexAreaScreen->areaScreenLabelIds[labelId], FONT_NORMAL, textXPos, 0, 0, 0, sFontColor_AreaInfo, TEXT_SKIP_DRAW, text);
+    AddTextPrinterParameterized4(sPokedexAreaScreen->areaScreenLabelIds[labelId], FONT_SHORT, textXPos, 0, 0, 0, sFontColor_AreaInfo, TEXT_SKIP_DRAW, text);
     CopyWindowToVram(sPokedexAreaScreen->areaScreenLabelIds[labelId], COPYWIN_FULL);
 }
 

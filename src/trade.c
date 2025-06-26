@@ -609,7 +609,7 @@ static void CB2_CreateTradeMenu(void)
         break;
     case 12:
         // Create player's name text sprites
-        xPos = GetStringCenterAlignXOffset(FONT_NORMAL, gSaveBlock2Ptr->playerName, 120);
+        xPos = GetStringCenterAlignXOffset(FONT_SHORT, gSaveBlock2Ptr->playerName, 120);
         for (i = 0; i < NUM_PLAYER_NAME_SPRITES; i++)
         {
             temp = sSpriteTemplate_MenuText;
@@ -618,7 +618,7 @@ static void CB2_CreateTradeMenu(void)
         }
 
         // Create partner's name text sprites
-        xPos = GetStringCenterAlignXOffset(FONT_NORMAL, gLinkPlayers[GetMultiplayerId() ^ 1].name, 120);
+        xPos = GetStringCenterAlignXOffset(FONT_SHORT, gLinkPlayers[GetMultiplayerId() ^ 1].name, 120);
         for (i = 0; i < NUM_PARTNER_NAME_SPRITES; i++)
         {
             temp = sSpriteTemplate_MenuText;
@@ -798,7 +798,7 @@ static void CB2_ReturnToTradeMenu(void)
         break;
     case 12:
         // Create player's name text sprites
-        xPos = GetStringCenterAlignXOffset(FONT_NORMAL, gSaveBlock2Ptr->playerName, 120);
+        xPos = GetStringCenterAlignXOffset(FONT_SHORT, gSaveBlock2Ptr->playerName, 120);
         for (i = 0; i < NUM_PLAYER_NAME_SPRITES; i++)
         {
             temp = sSpriteTemplate_MenuText;
@@ -807,7 +807,7 @@ static void CB2_ReturnToTradeMenu(void)
         }
 
         // Create partner's name text sprites
-        xPos = GetStringCenterAlignXOffset(FONT_NORMAL, gLinkPlayers[GetMultiplayerId() ^ 1].name, 120);
+        xPos = GetStringCenterAlignXOffset(FONT_SHORT, gLinkPlayers[GetMultiplayerId() ^ 1].name, 120);
         for (i = 0; i < NUM_PARTNER_NAME_SPRITES; i++)
         {
             temp = sSpriteTemplate_MenuText;
@@ -1933,7 +1933,7 @@ static void DrawSelectedMonScreen(u8 whichParty)
         nameStringWidth = GetMonNicknameWidth(nickname, selectedMonParty, partyIdx);
         AddTextPrinterParameterized3((whichParty * 2) + 14, FONT_SMALL, (80 - nameStringWidth) / 2, 4, sTradeTextColors, 0, nickname);
         BufferMovesString(movesString, selectedMonParty, partyIdx);
-        AddTextPrinterParameterized4((whichParty * 2) + 15, FONT_NORMAL, 0, 0, 0, 0, sTradeTextColors, 0, movesString);
+        AddTextPrinterParameterized4((whichParty * 2) + 15, FONT_SHORT, 0, 0, 0, 0, sTradeTextColors, 0, movesString);
         PutWindowTilemap((whichParty * 2) + 14);
         CopyWindowToVram((whichParty * 2) + 14, COPYWIN_FULL);
         PutWindowTilemap((whichParty * 2) + 15);
@@ -2224,7 +2224,7 @@ static void DoQueuedActions(void)
 static void PrintTradeMessage(u8 messageId)
 {
     FillWindowPixelBuffer(0, PIXEL_FILL(1));
-    AddTextPrinterParameterized(0, FONT_NORMAL, sMessages[messageId], 0, 1, TEXT_SKIP_DRAW, NULL);
+    AddTextPrinterParameterized(0, FONT_SHORT, sMessages[messageId], 0, 1, TEXT_SKIP_DRAW, NULL);
     DrawTextBorderOuter(0, 20, 12);
     PutWindowTilemap(0);
     CopyWindowToVram(0, COPYWIN_FULL);
@@ -4875,7 +4875,7 @@ void DrawTextOnTradeWindow(u8 windowId, const u8 *str, u8 speed)
     sTradeAnim->textColors[0] = TEXT_DYNAMIC_COLOR_6;
     sTradeAnim->textColors[1] = TEXT_COLOR_WHITE;
     sTradeAnim->textColors[2] = TEXT_COLOR_GREEN;
-    AddTextPrinterParameterized4(windowId, FONT_NORMAL, 0, 2, 0, 0, sTradeAnim->textColors, speed, str);
+    AddTextPrinterParameterized4(windowId, FONT_SHORT, 0, 2, 0, 0, sTradeAnim->textColors, speed, str);
     CopyWindowToVram(windowId, COPYWIN_FULL);
 }
 

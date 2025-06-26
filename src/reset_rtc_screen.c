@@ -465,14 +465,14 @@ static void PrintTime(u8 windowId, u8 x, u8 y, u16 days, u8 hours, u8 minutes, u
     ConvertIntToDecimalStringN(gStringVar1, seconds, STR_CONV_MODE_LEADING_ZEROS, 2);
     dest = StringCopy(dest, gStringVar1);
 
-    AddTextPrinterParameterized(windowId, FONT_NORMAL, gStringVar4, x, y, TEXT_SKIP_DRAW, NULL);
+    AddTextPrinterParameterized(windowId, FONT_SHORT, gStringVar4, x, y, TEXT_SKIP_DRAW, NULL);
 }
 
 static void ShowChooseTimeWindow(u8 windowId, u16 days, u8 hours, u8 minutes, u8 seconds)
 {
     DrawStdFrameWithCustomTileAndPalette(windowId, FALSE, 0x214, 0xE);
     PrintTime(windowId, 0, 1, days, hours, minutes, seconds);
-    AddTextPrinterParameterized(windowId, FONT_NORMAL, gText_Confirm2, 126, 1, 0, NULL);
+    AddTextPrinterParameterized(windowId, FONT_SHORT, gText_Confirm2, 126, 1, 0, NULL);
     ScheduleBgCopyTilemapToVram(0);
 }
 
@@ -647,7 +647,7 @@ static void VBlankCB(void)
 static void ShowMessage(const u8 *str)
 {
     DrawDialogFrameWithCustomTileAndPalette(WIN_MSG, FALSE, 0x200, 0xF);
-    AddTextPrinterParameterized(WIN_MSG, FONT_NORMAL, str, 0, 1, 0, NULL);
+    AddTextPrinterParameterized(WIN_MSG, FONT_SHORT, str, 0, 1, 0, NULL);
     ScheduleBgCopyTilemapToVram(0);
 }
 
@@ -662,7 +662,7 @@ static void Task_ShowResetRtcPrompt(u8 taskId)
     case 0:
         DrawStdFrameWithCustomTileAndPalette(WIN_TIME, FALSE, 0x214, 0xE);
 
-        AddTextPrinterParameterized(WIN_TIME, FONT_NORMAL, gText_PresentTime, 0, 1, TEXT_SKIP_DRAW, 0);
+        AddTextPrinterParameterized(WIN_TIME, FONT_SHORT, gText_PresentTime, 0, 1, TEXT_SKIP_DRAW, 0);
         PrintTime(
             WIN_TIME,
             0,
@@ -672,7 +672,7 @@ static void Task_ShowResetRtcPrompt(u8 taskId)
             gLocalTime.minutes,
             gLocalTime.seconds);
 
-        AddTextPrinterParameterized(WIN_TIME, FONT_NORMAL, gText_PreviousTime, 0, 33, TEXT_SKIP_DRAW, 0);
+        AddTextPrinterParameterized(WIN_TIME, FONT_SHORT, gText_PreviousTime, 0, 33, TEXT_SKIP_DRAW, 0);
         PrintTime(
             WIN_TIME,
             0,

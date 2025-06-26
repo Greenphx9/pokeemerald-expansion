@@ -81,7 +81,7 @@ static const struct ListMenuTemplate sDaycareListMenuLevelTemplate =
     .lettersSpacing = 1,
     .itemVerticalPadding = 0,
     .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
-    .fontId = FONT_NORMAL,
+    .fontId = FONT_SHORT,
     .cursorKind = CURSOR_BLACK_ARROW
 };
 
@@ -1468,7 +1468,7 @@ static void DaycareAddTextPrinter(u8 windowId, const u8 *text, u32 x, u32 y)
 
     printer.currentChar = text;
     printer.windowId = windowId;
-    printer.fontId = FONT_NORMAL;
+    printer.fontId = FONT_SHORT;
     printer.x = x;
     printer.y = y;
     printer.currentX = x;
@@ -1503,7 +1503,7 @@ static void DaycarePrintMonLvl(struct DayCare *daycare, u8 windowId, u32 daycare
     level = GetLevelAfterDaycareSteps(&daycare->mons[daycareSlotId].mon, daycare->mons[daycareSlotId].steps);
     ConvertIntToDecimalStringN(intText, level, STR_CONV_MODE_LEFT_ALIGN, 3);
     StringAppend(lvlText, intText);
-    x = GetStringRightAlignXOffset(FONT_NORMAL, lvlText, 112);
+    x = GetStringRightAlignXOffset(FONT_SHORT, lvlText, 112);
     DaycareAddTextPrinter(windowId, lvlText, x, y);
 }
 
