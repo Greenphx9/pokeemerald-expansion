@@ -1008,8 +1008,8 @@ void TextPrinterClearDownArrow(struct TextPrinter *textPrinter)
         textPrinter->printerTemplate.bgColor << 4 | textPrinter->printerTemplate.bgColor,
         textPrinter->printerTemplate.currentX,
         textPrinter->printerTemplate.currentY,
-        8,
-        16);
+        10,
+        12);
     CopyWindowToVram(textPrinter->printerTemplate.windowId, COPYWIN_GFX);
 }
 
