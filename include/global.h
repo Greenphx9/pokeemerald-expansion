@@ -598,6 +598,12 @@ struct SaveBlock2
 #endif //FREE_RECORD_MIXING_HALL_RECORDS
     /*0x624*/ u16 contestLinkResults[CONTEST_CATEGORIES_COUNT][CONTESTANT_COUNT];
     /*0x64C*/ struct BattleFrontier frontier;
+              u16 optionsWildMusic:3;
+              u16 optionsTrainerMusic:3;
+              u16 optionsGymMusic:3;
+              u16 optionsE4Music:3;
+              u16 optionsChampionMusic:3;
+              u16 filler_1:1;
 }; // sizeof=0xF2C
 
 extern struct SaveBlock2 *gSaveBlock2Ptr;

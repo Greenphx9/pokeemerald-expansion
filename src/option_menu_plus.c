@@ -55,6 +55,8 @@ struct OptionMenuPlusUiState
     u8 wildMusic;
     u8 trainerMusic;
     u8 gymMusic;
+    u8 e4Music;
+    u8 championMusic;
 
     u8 page;
 
@@ -188,6 +190,8 @@ enum
     MENUITEM_WILDMUSIC,
     MENUITEM_TRAINERMUSIC,
     MENUITEM_GYMMUSIC,
+    MENUITEM_E4MUSIC,
+    MENUITEM_CHAMPIONMUSIC,
     MENUITEM_CANCELMUSIC,
     MENUITEM_COUNTMUSIC,
 };
@@ -229,10 +233,7 @@ static const u8 *const sFrameOptions[] =
     COMPOUND_STRING("1"),  COMPOUND_STRING("2"),  COMPOUND_STRING("3"),
     COMPOUND_STRING("4"),  COMPOUND_STRING("5"),  COMPOUND_STRING("6"),
     COMPOUND_STRING("7"),  COMPOUND_STRING("8"),  COMPOUND_STRING("9"),
-    COMPOUND_STRING("10"), COMPOUND_STRING("11"), COMPOUND_STRING("12"),
-    COMPOUND_STRING("13"), COMPOUND_STRING("14"), COMPOUND_STRING("15"),
-    COMPOUND_STRING("16"), COMPOUND_STRING("17"), COMPOUND_STRING("18"),
-    COMPOUND_STRING("19"), COMPOUND_STRING("20"),
+    COMPOUND_STRING("10"),
 };
 
 static const u8 *const sMusicOptions[] =
@@ -276,17 +277,27 @@ static const u8 *const sFrameDescs[] =
 
 static const u8 *const sWildMusicDescs[] =
 {
-    COMPOUND_STRING("Music that will play in wild battles."),
+    COMPOUND_STRING("Music that'll play in wild battles."),
 };
 
 static const u8 *const sTrainerMusicDescs[] =
 {
-    COMPOUND_STRING("Music that will play in trainer battles."),
+    COMPOUND_STRING("Music that'll play in trainer battles."),
 };
 
 static const u8 *const sGymMusicDescs[] =
 {
-    COMPOUND_STRING("Music that will play in gym battles."),
+    COMPOUND_STRING("Music that'll play in gym battles."),
+};
+
+static const u8 *const sE4MusicDescs[] =
+{
+    COMPOUND_STRING("Music that'll play in elite 4 battles."),
+};
+
+static const u8 *const sChampionMusicDescs[] =
+{
+    COMPOUND_STRING("Music that'll play in the champion battle."),
 };
 
 const u8 sText_PickSwitchCancel[] = _("{DPAD_UPDOWN}Pick {DPAD_LEFTRIGHT}Switch {L_BUTTON}{R_BUTTON}Page {B_BUTTON}Cancel");
@@ -338,6 +349,8 @@ static u16 OptionMenuPlus_FrameFunc(u8 value);
 static u16 OptionMenuPlus_WildMusicFunc(u8 value);
 static u16 OptionMenuPlus_TrainerMusicFunc(u8 value);
 static u16 OptionMenuPlus_GymMusicFunc(u8 value);
+static u16 OptionMenuPlus_E4MusicFunc(u8 value);
+static u16 OptionMenuPlus_ChampionMusicFunc(u8 value);
 
 const struct Option sOptionMenuPlus_GeneralPage[MENUITEM_COUNTOVERWORLD] = 
 {
@@ -409,7 +422,7 @@ const struct Option sOptionMenuPlus_BattlePage[MENUITEM_COUNTBATTLE] =
     },
 };
 
-const struct Option sOptionMenuPlus_MusicPage[MENUITEM_COUNTOVERWORLD] = 
+const struct Option sOptionMenuPlus_MusicPage[MENUITEM_COUNTMUSIC] = 
 {
     [MENUITEM_WILDMUSIC] =
     {
@@ -437,6 +450,24 @@ const struct Option sOptionMenuPlus_MusicPage[MENUITEM_COUNTOVERWORLD] =
         .sameDesc = TRUE,
         .optionCount = ARRAY_COUNT(sMusicOptions),
         .func = OptionMenuPlus_GymMusicFunc,
+    },
+    [MENUITEM_E4MUSIC] =
+    {
+        .name = COMPOUND_STRING("Elite 4 Music"),
+        .options = sMusicOptions,
+        .optionsDesc = sE4MusicDescs,
+        .sameDesc = TRUE,
+        .optionCount = ARRAY_COUNT(sMusicOptions),
+        .func = OptionMenuPlus_E4MusicFunc,
+    },
+    [MENUITEM_CHAMPIONMUSIC] =
+    {
+        .name = COMPOUND_STRING("Champion Music"),
+        .options = sMusicOptions,
+        .optionsDesc = sChampionMusicDescs,
+        .sameDesc = TRUE,
+        .optionCount = ARRAY_COUNT(sMusicOptions),
+        .func = OptionMenuPlus_ChampionMusicFunc,
     },
     [MENUITEM_CANCELMUSIC] = // handled specially
     {
@@ -1031,11 +1062,11 @@ static void OptionMenuPlus_LoadOptionValues(void)
     sOptionMenuPlusUiState->buttonMode = gSaveBlock2Ptr->optionsButtonMode;
     sOptionMenuPlusUiState->frameType = gSaveBlock2Ptr->optionsWindowFrameType;
 
-    // Music options, have no saveblock values as to not cause incompatibility.
-    // If you would like to save these values, update this func + below
-    sOptionMenuPlusUiState->wildMusic = 0;
-    sOptionMenuPlusUiState->trainerMusic = 0;
-    sOptionMenuPlusUiState->gymMusic = 0;
+    sOptionMenuPlusUiState->wildMusic = gSaveBlock2Ptr->optionsWildMusic;
+    sOptionMenuPlusUiState->trainerMusic = gSaveBlock2Ptr->optionsTrainerMusic;
+    sOptionMenuPlusUiState->gymMusic = gSaveBlock2Ptr->optionsGymMusic;
+    sOptionMenuPlusUiState->e4Music = gSaveBlock2Ptr->optionsE4Music;
+    sOptionMenuPlusUiState->championMusic = gSaveBlock2Ptr->optionsChampionMusic;
 }
 
 static void OptionMenuPlus_SaveOptionValues(void)
@@ -1046,6 +1077,12 @@ static void OptionMenuPlus_SaveOptionValues(void)
     gSaveBlock2Ptr->optionsSound = sOptionMenuPlusUiState->sound;
     gSaveBlock2Ptr->optionsButtonMode = sOptionMenuPlusUiState->buttonMode;
     gSaveBlock2Ptr->optionsWindowFrameType = sOptionMenuPlusUiState->frameType;
+
+    gSaveBlock2Ptr->optionsWildMusic = sOptionMenuPlusUiState->wildMusic;
+    gSaveBlock2Ptr->optionsTrainerMusic = sOptionMenuPlusUiState->trainerMusic;
+    gSaveBlock2Ptr->optionsGymMusic = sOptionMenuPlusUiState->gymMusic;
+    gSaveBlock2Ptr->optionsE4Music = sOptionMenuPlusUiState->e4Music;
+    gSaveBlock2Ptr->optionsChampionMusic = sOptionMenuPlusUiState->championMusic;
 }
 
 static u16 OptionMenuPlus_TextSpeedFunc(u8 value)
@@ -1144,5 +1181,27 @@ static u16 OptionMenuPlus_GymMusicFunc(u8 value)
     {
         sOptionMenuPlusUiState->gymMusic += value;
         return sOptionMenuPlusUiState->gymMusic;
+    }
+}
+
+static u16 OptionMenuPlus_E4MusicFunc(u8 value)
+{
+    if (value == 0) 
+        return sOptionMenuPlusUiState->e4Music;
+    else 
+    {
+        sOptionMenuPlusUiState->e4Music += value;
+        return sOptionMenuPlusUiState->e4Music;
+    }
+}
+
+static u16 OptionMenuPlus_ChampionMusicFunc(u8 value)
+{
+    if (value == 0) 
+        return sOptionMenuPlusUiState->championMusic;
+    else 
+    {
+        sOptionMenuPlusUiState->championMusic += value;
+        return sOptionMenuPlusUiState->championMusic;
     }
 }
