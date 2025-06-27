@@ -159,7 +159,8 @@ static const u8 sOptionMenuPickSwitchCancelTextColor[] = {TEXT_DYNAMIC_COLOR_6, 
 
 enum 
 {
-    MENUPAGE_GENERAL,
+    MENUPAGE_OVERWORLD,
+    MENUPAGE_BATTLE,
     MENUPAGE_MUSIC,
     MENUPAGE_COUNT,
 };
@@ -167,13 +168,19 @@ enum
 enum
 {
     MENUITEM_TEXTSPEED,
-    MENUITEM_BATTLESCENE,
-    MENUITEM_BATTLESTYLE,
     MENUITEM_SOUND,
     MENUITEM_BUTTONMODE,
     MENUITEM_FRAMETYPE,
-    MENUITEM_CANCELGENERAL,
-    MENUITEM_COUNTGENERAL,
+    MENUITEM_CANCELOVERWORLD,
+    MENUITEM_COUNTOVERWORLD,
+};
+
+enum
+{
+    MENUITEM_BATTLEEFFECTS,
+    MENUITEM_BATTLESTYLE,
+    MENUITEM_CANCELBATTLE,
+    MENUITEM_COUNTBATTLE,
 };
 
 enum 
@@ -192,7 +199,7 @@ static const u8 *const sTextSpeedOptions[] =
     COMPOUND_STRING("Fast")
 };
 
-static const u8 *const sBattleSceneOptions[] =
+static const u8 *const sBattleEffectOptions[] =
 {
     COMPOUND_STRING("On"), 
     COMPOUND_STRING("Off"), 
@@ -239,7 +246,7 @@ static const u8 *const sTextSpeedDescs[] =
     COMPOUND_STRING("Adjust text print speed."),
 };
 
-static const u8 *const sBattleSceneDescs[] =
+static const u8 *const sBattleEffectDescs[] =
 {
     COMPOUND_STRING("Battle animations will play."),
     COMPOUND_STRING("Battle animations will not play."),
@@ -332,7 +339,7 @@ static u16 OptionMenuPlus_WildMusicFunc(u8 value);
 static u16 OptionMenuPlus_TrainerMusicFunc(u8 value);
 static u16 OptionMenuPlus_GymMusicFunc(u8 value);
 
-const struct Option sOptionMenuPlus_GeneralPage[MENUITEM_COUNTGENERAL] = 
+const struct Option sOptionMenuPlus_GeneralPage[MENUITEM_COUNTOVERWORLD] = 
 {
     [MENUITEM_TEXTSPEED] =
     {
@@ -342,24 +349,6 @@ const struct Option sOptionMenuPlus_GeneralPage[MENUITEM_COUNTGENERAL] =
         .sameDesc = TRUE,
         .optionCount = ARRAY_COUNT(sTextSpeedOptions),
         .func = OptionMenuPlus_TextSpeedFunc,
-    },
-    [MENUITEM_BATTLESCENE] =
-    {
-        .name = COMPOUND_STRING("Battle Scene"),
-        .options = sBattleSceneOptions,
-        .optionsDesc = sBattleSceneDescs,
-        .sameDesc = FALSE,
-        .optionCount = ARRAY_COUNT(sBattleSceneOptions),
-        .func = OptionMenuPlus_BattleSceneFunc,
-    },
-    [MENUITEM_BATTLESTYLE] =
-    {
-        .name = COMPOUND_STRING("Battle Style"),
-        .options = sBattleStyleOptions,
-        .optionsDesc = sBattleStyleDescs,
-        .sameDesc = FALSE,
-        .optionCount = ARRAY_COUNT(sBattleStyleOptions),
-        .func = OptionMenuPlus_BattleStyleFunc,
     },
     [MENUITEM_SOUND] =
     {
@@ -388,13 +377,39 @@ const struct Option sOptionMenuPlus_GeneralPage[MENUITEM_COUNTGENERAL] =
         .optionCount = ARRAY_COUNT(sFrameOptions),
         .func = OptionMenuPlus_FrameFunc,
     },
-    [MENUITEM_CANCELGENERAL] = // handled specially
+    [MENUITEM_CANCELOVERWORLD] = // handled specially
     {
         .name = gText_OptionMenuCancel,
     },
 };
 
-const struct Option sOptionMenuPlus_MusicPage[MENUITEM_COUNTGENERAL] = 
+const struct Option sOptionMenuPlus_BattlePage[MENUITEM_COUNTBATTLE] = 
+{
+    [MENUITEM_BATTLEEFFECTS] =
+    {
+        .name = COMPOUND_STRING("Battle Effects"),
+        .options = sBattleEffectOptions,
+        .optionsDesc = sBattleEffectDescs,
+        .sameDesc = FALSE,
+        .optionCount = ARRAY_COUNT(sBattleEffectOptions),
+        .func = OptionMenuPlus_BattleSceneFunc,
+    },
+    [MENUITEM_BATTLESTYLE] =
+    {
+        .name = COMPOUND_STRING("Battle Style"),
+        .options = sBattleStyleOptions,
+        .optionsDesc = sBattleStyleDescs,
+        .sameDesc = FALSE,
+        .optionCount = ARRAY_COUNT(sBattleStyleOptions),
+        .func = OptionMenuPlus_BattleStyleFunc,
+    },
+    [MENUITEM_CANCELBATTLE] = // handled specially
+    {
+        .name = gText_OptionMenuCancel,
+    },
+};
+
+const struct Option sOptionMenuPlus_MusicPage[MENUITEM_COUNTOVERWORLD] = 
 {
     [MENUITEM_WILDMUSIC] =
     {
@@ -431,10 +446,15 @@ const struct Option sOptionMenuPlus_MusicPage[MENUITEM_COUNTGENERAL] =
 
 const struct OptionPage sOptionMenuPlus_Pages[MENUPAGE_COUNT] =
 {
-    [MENUPAGE_GENERAL] =
+    [MENUPAGE_OVERWORLD] =
     {
         .name = COMPOUND_STRING("General"),
         .options = sOptionMenuPlus_GeneralPage,
+    },
+    [MENUPAGE_BATTLE] =
+    {
+        .name = COMPOUND_STRING("Battle"),
+        .options = sOptionMenuPlus_BattlePage,
     },
     [MENUPAGE_MUSIC] =
     {
@@ -639,12 +659,12 @@ static void Task_OptionMenuPlusMainInput(u8 taskId)
             sOptionMenuPlus_Pages[page].options[cursorPos].func(1);
             sOptionMenuPlusUiState->selectedVal++;
             OptionMenuPlus_UpdateMenuItem();
-            if (page == MENUPAGE_GENERAL && cursorPos == MENUITEM_FRAMETYPE)
+            if (page == MENUPAGE_OVERWORLD && cursorPos == MENUITEM_FRAMETYPE)
             {
                 gSaveBlock2Ptr->optionsWindowFrameType++;
                 LoadMessageBoxAndBorderGfx();
             }
-            else if (page == MENUPAGE_GENERAL && cursorPos == MENUITEM_BUTTONMODE)
+            else if (page == MENUPAGE_OVERWORLD && cursorPos == MENUITEM_BUTTONMODE)
                 gSaveBlock2Ptr->optionsButtonMode++;
             OptionMenuPlus_PrintDescription(cursorPos);
             OptionMenuPlus_UpdateLeftRightScrollIndicator();
@@ -662,12 +682,12 @@ static void Task_OptionMenuPlusMainInput(u8 taskId)
             sOptionMenuPlusUiState->selectedVal--;
             OptionMenuPlus_UpdateMenuItem();
             OptionMenuPlus_UpdateMenuItem();
-            if (page == MENUPAGE_GENERAL && cursorPos == MENUITEM_FRAMETYPE)
+            if (page == MENUPAGE_OVERWORLD && cursorPos == MENUITEM_FRAMETYPE)
             {
                 gSaveBlock2Ptr->optionsWindowFrameType--;
                 LoadMessageBoxAndBorderGfx();
             }
-            else if (page == MENUPAGE_GENERAL && cursorPos == MENUITEM_BUTTONMODE)
+            else if (page == MENUPAGE_OVERWORLD && cursorPos == MENUITEM_BUTTONMODE)
                 gSaveBlock2Ptr->optionsButtonMode--;
             OptionMenuPlus_PrintDescription(cursorPos);
             OptionMenuPlus_UpdateLeftRightScrollIndicator();
@@ -842,7 +862,7 @@ static const struct ListMenuTemplate sOptionMenuPlus_ListMenu =
     .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
     .fontId = FONT_SHORT,
     .cursorKind = CURSOR_BLACK_ARROW,
-    .textNarrowWidth = 74,
+    .textNarrowWidth = 0,
 };
 
 static void OptionMenuPlus_CreateListMenu(void)
@@ -970,7 +990,9 @@ static void OptionMenuPlus_PrintControls(void)
 static bool8 OptionMenuPlus_IsCancel(u8 id)
 {
     u8 page = sOptionMenuPlusUiState->page;
-    if (page == MENUPAGE_GENERAL && id == MENUITEM_CANCELGENERAL)
+    if (page == MENUPAGE_OVERWORLD && id == MENUITEM_CANCELOVERWORLD)
+        return TRUE;
+    else if (page == MENUPAGE_BATTLE && id == MENUITEM_CANCELBATTLE)
         return TRUE;
     else if (page == MENUPAGE_MUSIC && id == MENUITEM_CANCELMUSIC)
         return TRUE;
@@ -980,8 +1002,10 @@ static bool8 OptionMenuPlus_IsCancel(u8 id)
 static bool8 OptionMenuPlus_GetPageCount(void)
 {
     u8 page = sOptionMenuPlusUiState->page;
-    if (page == MENUPAGE_GENERAL)
-        return MENUITEM_COUNTGENERAL;
+    if (page == MENUPAGE_OVERWORLD)
+        return MENUITEM_COUNTOVERWORLD;
+    else if (page == MENUPAGE_BATTLE)
+        return MENUITEM_COUNTBATTLE;
     else if (page == MENUPAGE_MUSIC)
         return MENUITEM_COUNTMUSIC;
     return 0;
