@@ -5860,19 +5860,21 @@ u16 GetBattleBGM(void)
         case TRAINER_CLASS_LEADER:
             switch(gSaveBlock2Ptr->optionsGymMusic)
             {
-                case 0:
-                    return MUS_VS_GYM_LEADER;
-                case 1:
-                    return MUS_RG_VS_GYM_LEADER;
+                case 0: return MUS_VS_GYM_LEADER;
+                case 1: return MUS_RG_VS_GYM_LEADER;
+                case 2: return MUS_DP_VS_GYM_LEADER;
+                case 3: return MUS_HG_VS_GYM_LEADER;
+                case 4: return MUS_BW_VS_GYM_LEADER;
             }
             return MUS_VS_GYM_LEADER;
         case TRAINER_CLASS_CHAMPION:
             switch(gSaveBlock2Ptr->optionsChampionMusic)
             {
-                case 0:
-                    return MUS_VS_CHAMPION;
-                case 1:
-                    return MUS_RG_VS_CHAMPION;
+                case 0: return MUS_VS_CHAMPION;
+                case 1: return MUS_RG_VS_CHAMPION;
+                case 2: return MUS_DP_VS_CHAMPION;
+                case 3: return MUS_HG_VS_CHAMPION;
+                case 4: return MUS_BW_VS_CHAMPION;
             }
             return MUS_VS_CHAMPION;
         case TRAINER_CLASS_RIVAL:
@@ -5884,10 +5886,11 @@ u16 GetBattleBGM(void)
         case TRAINER_CLASS_ELITE_FOUR:
             switch(gSaveBlock2Ptr->optionsE4Music)
             {
-                case 0:
-                    return MUS_VS_ELITE_FOUR;
-                case 1:
-                    return MUS_RG_VS_GYM_LEADER;
+                case 0: return MUS_VS_ELITE_FOUR;
+                case 1: return MUS_RG_VS_GYM_LEADER;
+                case 2: return MUS_DP_VS_ELITE_FOUR;
+                case 3: return MUS_HG_VS_GYM_LEADER;
+                case 4: return MUS_BW_VS_ELITE_FOUR;
             }
             return MUS_VS_ELITE_FOUR;
         case TRAINER_CLASS_SALON_MAIDEN:
@@ -5901,10 +5904,11 @@ u16 GetBattleBGM(void)
         default:
             switch(gSaveBlock2Ptr->optionsTrainerMusic)
             {
-                case 0:
-                    return MUS_VS_TRAINER;
-                case 1:
-                    return MUS_RG_VS_TRAINER;
+                case 0: return MUS_VS_TRAINER;
+                case 1: return MUS_RG_VS_TRAINER;
+                case 2: return MUS_DP_VS_TRAINER;
+                case 3: return MUS_HG_VS_TRAINER;
+                case 4: return MUS_BW_VS_TRAINER;
             }
             return MUS_VS_TRAINER;
         }
@@ -5913,10 +5917,11 @@ u16 GetBattleBGM(void)
     {
         switch(gSaveBlock2Ptr->optionsWildMusic)
         {
-            case 0:
-                return MUS_VS_WILD;
-            case 1:
-                return MUS_RG_VS_WILD;
+            case 0: return MUS_VS_WILD;
+            case 1: return MUS_RG_VS_WILD;
+            case 2: return MUS_DP_VS_WILD;
+            case 3: return MUS_HG_VS_WILD;
+            case 4: return MUS_BW_VS_WILD;
         }
         return MUS_VS_WILD;
     }

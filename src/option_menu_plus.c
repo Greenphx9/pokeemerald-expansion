@@ -240,6 +240,9 @@ static const u8 *const sMusicOptions[] =
 {
     COMPOUND_STRING("RSE"),
     COMPOUND_STRING("FRLG"),
+    COMPOUND_STRING("DPPT"),
+    COMPOUND_STRING("HGSS"),
+    COMPOUND_STRING("BW"),
 };
 
 static const u8 *const sTextSpeedDescs[] =
