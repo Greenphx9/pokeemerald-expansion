@@ -6,6 +6,10 @@ extern const u32 gSignpostWindow_Gfx[];
 extern const u32 gMessageBox_Gfx[];
 extern const u16 gMessageBox_Pal[];
 
+extern const u32 gSignpostWindow_HGSS_Gfx[];
+extern const u32 gMessageBox_HGSS_Gfx[];
+extern const u16 gMessageBox_HGSS_Pal[];
+
 // pokeballs
 extern const u32 gBallGfx_Strange[];
 extern const u16 gBallPal_Strange[];

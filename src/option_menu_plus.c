@@ -155,7 +155,7 @@ static const u8 sOptionMenuPlusWindowFontColors[][3] =
     [FONT_RED]    = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_RED,        TEXT_COLOR_LIGHT_GRAY},
 };
 
-static const u8 sOptionMenuPickSwitchCancelTextColor[] = {TEXT_DYNAMIC_COLOR_6, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY};
+static const u8 sOptionMenuPickSwitchCancelTextColor[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY};
 
 #define TAG_SCROLL_ARROW 5108
 
@@ -829,7 +829,7 @@ static bool8 OptionMenuPlus_LoadGraphics(void)
         break;
     case 2:
         LoadPalette(sOptionMenuPlusPalette, BG_PLTT_ID(0), PLTT_SIZE_4BPP);
-        LoadPalette(gMessageBox_Pal, BG_PLTT_ID(15), PLTT_SIZE_4BPP);
+        LoadPalette(gMessageBox_HGSS_Pal, BG_PLTT_ID(15), PLTT_SIZE_4BPP);
         sOptionMenuPlusUiState->loadState++;
         break;
     case 3:
@@ -849,8 +849,8 @@ static void OptionMenuPlus_InitWindows(void)
     ScheduleBgCopyTilemapToVram(0);
     FillWindowPixelBuffer(WINDOW_OPTIONS, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
     FillWindowPixelBuffer(WINDOW_DESC, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
-    FillWindowPixelBuffer(WINDOW_PAGE, PIXEL_FILL(TEXT_DYNAMIC_COLOR_6));
-    FillWindowPixelBuffer(WINDOW_CONTROLS, PIXEL_FILL(TEXT_DYNAMIC_COLOR_6));
+    FillWindowPixelBuffer(WINDOW_PAGE, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
+    FillWindowPixelBuffer(WINDOW_CONTROLS, PIXEL_FILL(TEXT_COLOR_TRANSPARENT));
     PutWindowTilemap(WINDOW_OPTIONS);
     PutWindowTilemap(WINDOW_DESC);
     PutWindowTilemap(WINDOW_PAGE);
@@ -1007,7 +1007,7 @@ static void OptionMenuPlus_UpdateLeftRightScrollIndicator(void)
 static void OptionMenuPlus_PrintPageName(void)
 {
     u8 page = sOptionMenuPlusUiState->page;
-    FillWindowPixelRect(WINDOW_PAGE, TEXT_DYNAMIC_COLOR_6, 0, 0, 120, 14);
+    FillWindowPixelRect(WINDOW_PAGE, TEXT_COLOR_TRANSPARENT, 0, 0, 120, 14);
     StringCopy(gStringVar1, sOptionMenuPlus_Pages[page].name);
     AddTextPrinterParameterized4(WINDOW_PAGE, FONT_SMALL, 2, 0, 0, 0, sOptionMenuPickSwitchCancelTextColor, TEXT_SKIP_DRAW, gStringVar1);
     PutWindowTilemap(WINDOW_PAGE);

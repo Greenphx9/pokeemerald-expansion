@@ -256,7 +256,7 @@ static void WindowFunc_DrawSignFrame(u8 bg, u8 tilemapLeft, u8 tilemapTop, u8 wi
 
 static inline void *GetWindowFunc_DialogueFrame(void)
 {
-    return (gMsgIsSignPost ? WindowFunc_DrawSignFrame : WindowFunc_DrawDialogueFrame);
+    return WindowFunc_DrawDialogueFrame;
 }
 
 void DrawDialogueFrame(u8 windowId, bool8 copyToVram)
