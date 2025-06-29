@@ -60,6 +60,7 @@ struct OptionMenuPlusUiState
 
     u8 sendToBox;
     u8 giveNickname;
+    u8 expShare;
 
     u8 page;
 
@@ -186,6 +187,7 @@ enum
     MENUITEM_BATTLESTYLE,
     MENUITEM_SENDTOBOX,
     MENUITEM_GIVENICKNAMES,
+    MENUITEM_EXPSHARE,
     MENUITEM_CANCELBATTLE,
     MENUITEM_COUNTBATTLE,
 };
@@ -326,6 +328,12 @@ static const u8 *const sGiveNicknameDescs[] =
     COMPOUND_STRING("Pokémon do not get nicknames."),
 };
 
+static const u8 *const sExpShareDescs[] =
+{
+    COMPOUND_STRING("All Pokémon gain exp no matter what."),
+    COMPOUND_STRING("Pokémon gain exp if they battled."),
+};
+
 const u8 sText_PickSwitchCancel[] = _("{DPAD_UPDOWN}Pick {DPAD_LEFTRIGHT}Switch {L_BUTTON}{R_BUTTON}Page {B_BUTTON}Cancel");
 
 #define OPTION_X 150
@@ -379,6 +387,7 @@ static u16 OptionMenuPlus_E4MusicFunc(u8 value);
 static u16 OptionMenuPlus_ChampionMusicFunc(u8 value);
 static u16 OptionMenuPlus_SendToBoxFunc(u8 value);
 static u16 OptionMenuPlus_GiveNicknamesFunc(u8 value);
+static u16 OptionMenuPlus_ExpShareFunc(u8 value);
 
 const struct Option sOptionMenuPlus_GeneralPage[MENUITEM_COUNTOVERWORLD] = 
 {
@@ -461,6 +470,15 @@ const struct Option sOptionMenuPlus_BattlePage[MENUITEM_COUNTBATTLE] =
         .sameDesc = FALSE,
         .optionCount = ARRAY_COUNT(sBattleEffectOptions),
         .func = OptionMenuPlus_GiveNicknamesFunc,
+    },
+    [MENUITEM_EXPSHARE] =
+    {
+        .name = COMPOUND_STRING("Exp. Share"),
+        .options = sBattleEffectOptions,
+        .optionsDesc = sExpShareDescs,
+        .sameDesc = FALSE,
+        .optionCount = ARRAY_COUNT(sBattleEffectOptions),
+        .func = OptionMenuPlus_ExpShareFunc,
     },
     [MENUITEM_CANCELBATTLE] = // handled specially
     {
@@ -1116,6 +1134,7 @@ static void OptionMenuPlus_LoadOptionValues(void)
 
     sOptionMenuPlusUiState->sendToBox = gSaveBlock2Ptr->optionsSendToBox;
     sOptionMenuPlusUiState->giveNickname = gSaveBlock2Ptr->optionsGiveNicknames;
+    sOptionMenuPlusUiState->expShare = gSaveBlock2Ptr->optionsExpShare;
 }
 
 static void OptionMenuPlus_SaveOptionValues(void)
@@ -1132,7 +1151,7 @@ static void OptionMenuPlus_SaveOptionValues(void)
     gSaveBlock2Ptr->optionsGymMusic = sOptionMenuPlusUiState->gymMusic;
     gSaveBlock2Ptr->optionsE4Music = sOptionMenuPlusUiState->e4Music;
     gSaveBlock2Ptr->optionsSendToBox = sOptionMenuPlusUiState->sendToBox;
-    gSaveBlock2Ptr->optionsGiveNicknames = sOptionMenuPlusUiState->giveNickname;
+    gSaveBlock2Ptr->optionsExpShare = sOptionMenuPlusUiState->expShare;
 }
 
 static u16 OptionMenuPlus_TextSpeedFunc(u8 value)
@@ -1275,5 +1294,16 @@ static u16 OptionMenuPlus_GiveNicknamesFunc(u8 value)
     {
         sOptionMenuPlusUiState->giveNickname += value;
         return sOptionMenuPlusUiState->giveNickname;
+    }
+}
+
+static u16 OptionMenuPlus_ExpShareFunc(u8 value)
+{
+    if (value == 0) 
+        return sOptionMenuPlusUiState->expShare;
+    else 
+    {
+        sOptionMenuPlusUiState->expShare += value;
+        return sOptionMenuPlusUiState->expShare;
     }
 }

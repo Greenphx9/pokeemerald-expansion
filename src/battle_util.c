@@ -11009,10 +11009,7 @@ bool32 MoveEffectIsGuaranteed(u32 battler, u32 battlerAbility, const struct Addi
 
 bool32 IsGen6ExpShareEnabled(void)
 {
-    if (I_EXP_SHARE_FLAG <= TEMP_FLAGS_END)
-        return FALSE;
-
-    return FlagGet(I_EXP_SHARE_FLAG);
+    return !gSaveBlock2Ptr->optionsExpShare;
 }
 
 
