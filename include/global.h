@@ -603,7 +603,7 @@ struct SaveBlock2
               u16 optionsGymMusic:3;
               u16 optionsE4Music:3;
               u16 optionsChampionMusic:3;
-              u16 filler_1:1;
+              u16 optionsSendToBox:1;
 }; // sizeof=0xF2C
 
 extern struct SaveBlock2 *gSaveBlock2Ptr;

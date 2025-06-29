@@ -58,6 +58,8 @@ struct OptionMenuPlusUiState
     u8 e4Music;
     u8 championMusic;
 
+    u8 sendToBox;
+
     u8 page;
 
     u8 realCursorPos; // for some reason, this is not equal to cursorPos?
@@ -181,6 +183,7 @@ enum
 {
     MENUITEM_BATTLEEFFECTS,
     MENUITEM_BATTLESTYLE,
+    MENUITEM_SENDTOBOX,
     MENUITEM_CANCELBATTLE,
     MENUITEM_COUNTBATTLE,
 };
@@ -245,6 +248,12 @@ static const u8 *const sMusicOptions[] =
     COMPOUND_STRING("BW"),
 };
 
+static const u8 *const sSendToBoxOptions[] =
+{
+    COMPOUND_STRING("Manual"),
+    COMPOUND_STRING("Automatic"),
+};
+
 static const u8 *const sTextSpeedDescs[] =
 {
     COMPOUND_STRING("Adjust text print speed."),
@@ -303,6 +312,12 @@ static const u8 *const sChampionMusicDescs[] =
     COMPOUND_STRING("Music that'll play in the champion battle."),
 };
 
+static const u8 *const sSendToBoxDescs[] =
+{
+    COMPOUND_STRING("Choose to send Pokémon to boxes."),
+    COMPOUND_STRING("Automatically send Pokémon to boxes."),
+};
+
 const u8 sText_PickSwitchCancel[] = _("{DPAD_UPDOWN}Pick {DPAD_LEFTRIGHT}Switch {L_BUTTON}{R_BUTTON}Page {B_BUTTON}Cancel");
 
 #define OPTION_X 150
@@ -354,6 +369,7 @@ static u16 OptionMenuPlus_TrainerMusicFunc(u8 value);
 static u16 OptionMenuPlus_GymMusicFunc(u8 value);
 static u16 OptionMenuPlus_E4MusicFunc(u8 value);
 static u16 OptionMenuPlus_ChampionMusicFunc(u8 value);
+static u16 OptionMenuPlus_SendToBoxFunc(u8 value);
 
 const struct Option sOptionMenuPlus_GeneralPage[MENUITEM_COUNTOVERWORLD] = 
 {
@@ -418,6 +434,15 @@ const struct Option sOptionMenuPlus_BattlePage[MENUITEM_COUNTBATTLE] =
         .sameDesc = FALSE,
         .optionCount = ARRAY_COUNT(sBattleStyleOptions),
         .func = OptionMenuPlus_BattleStyleFunc,
+    },
+    [MENUITEM_SENDTOBOX] =
+    {
+        .name = COMPOUND_STRING("Send To Boxes"),
+        .options = sSendToBoxOptions,
+        .optionsDesc = sSendToBoxDescs,
+        .sameDesc = FALSE,
+        .optionCount = ARRAY_COUNT(sSendToBoxOptions),
+        .func = OptionMenuPlus_SendToBoxFunc,
     },
     [MENUITEM_CANCELBATTLE] = // handled specially
     {
@@ -1070,6 +1095,8 @@ static void OptionMenuPlus_LoadOptionValues(void)
     sOptionMenuPlusUiState->gymMusic = gSaveBlock2Ptr->optionsGymMusic;
     sOptionMenuPlusUiState->e4Music = gSaveBlock2Ptr->optionsE4Music;
     sOptionMenuPlusUiState->championMusic = gSaveBlock2Ptr->optionsChampionMusic;
+
+    sOptionMenuPlusUiState->sendToBox = gSaveBlock2Ptr->optionsSendToBox;
 }
 
 static void OptionMenuPlus_SaveOptionValues(void)
@@ -1085,7 +1112,7 @@ static void OptionMenuPlus_SaveOptionValues(void)
     gSaveBlock2Ptr->optionsTrainerMusic = sOptionMenuPlusUiState->trainerMusic;
     gSaveBlock2Ptr->optionsGymMusic = sOptionMenuPlusUiState->gymMusic;
     gSaveBlock2Ptr->optionsE4Music = sOptionMenuPlusUiState->e4Music;
-    gSaveBlock2Ptr->optionsChampionMusic = sOptionMenuPlusUiState->championMusic;
+    gSaveBlock2Ptr->optionsSendToBox = sOptionMenuPlusUiState->sendToBox;
 }
 
 static u16 OptionMenuPlus_TextSpeedFunc(u8 value)
@@ -1206,5 +1233,16 @@ static u16 OptionMenuPlus_ChampionMusicFunc(u8 value)
     {
         sOptionMenuPlusUiState->championMusic += value;
         return sOptionMenuPlusUiState->championMusic;
+    }
+}
+
+static u16 OptionMenuPlus_SendToBoxFunc(u8 value)
+{
+    if (value == 0) 
+        return sOptionMenuPlusUiState->sendToBox;
+    else 
+    {
+        sOptionMenuPlusUiState->sendToBox += value;
+        return sOptionMenuPlusUiState->sendToBox;
     }
 }
