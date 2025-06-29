@@ -18716,3 +18716,13 @@ void BS_JumpIfNoWhiteOut(void)
     else
         gBattlescriptCurrInstr = cmd->nextInstr;
 }
+
+void BS_ShouldAskNickname(void)
+{
+    NATIVE_ARGS(const u8 *failInstr);
+
+    if (gSaveBlock2Ptr->optionsGiveNicknames == 0) // give nickname 
+        gBattlescriptCurrInstr = cmd->nextInstr;    
+    else
+        gBattlescriptCurrInstr = cmd->failInstr;    
+}

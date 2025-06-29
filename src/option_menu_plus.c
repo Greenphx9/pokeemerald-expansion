@@ -59,6 +59,7 @@ struct OptionMenuPlusUiState
     u8 championMusic;
 
     u8 sendToBox;
+    u8 giveNickname;
 
     u8 page;
 
@@ -184,6 +185,7 @@ enum
     MENUITEM_BATTLEEFFECTS,
     MENUITEM_BATTLESTYLE,
     MENUITEM_SENDTOBOX,
+    MENUITEM_GIVENICKNAMES,
     MENUITEM_CANCELBATTLE,
     MENUITEM_COUNTBATTLE,
 };
@@ -318,6 +320,12 @@ static const u8 *const sSendToBoxDescs[] =
     COMPOUND_STRING("Automatically send Pokémon to boxes."),
 };
 
+static const u8 *const sGiveNicknameDescs[] =
+{
+    COMPOUND_STRING("Choose to give Pokémon nicknames."),
+    COMPOUND_STRING("Pokémon do not get nicknames."),
+};
+
 const u8 sText_PickSwitchCancel[] = _("{DPAD_UPDOWN}Pick {DPAD_LEFTRIGHT}Switch {L_BUTTON}{R_BUTTON}Page {B_BUTTON}Cancel");
 
 #define OPTION_X 150
@@ -370,6 +378,7 @@ static u16 OptionMenuPlus_GymMusicFunc(u8 value);
 static u16 OptionMenuPlus_E4MusicFunc(u8 value);
 static u16 OptionMenuPlus_ChampionMusicFunc(u8 value);
 static u16 OptionMenuPlus_SendToBoxFunc(u8 value);
+static u16 OptionMenuPlus_GiveNicknamesFunc(u8 value);
 
 const struct Option sOptionMenuPlus_GeneralPage[MENUITEM_COUNTOVERWORLD] = 
 {
@@ -443,6 +452,15 @@ const struct Option sOptionMenuPlus_BattlePage[MENUITEM_COUNTBATTLE] =
         .sameDesc = FALSE,
         .optionCount = ARRAY_COUNT(sSendToBoxOptions),
         .func = OptionMenuPlus_SendToBoxFunc,
+    },
+    [MENUITEM_GIVENICKNAMES] =
+    {
+        .name = COMPOUND_STRING("Give Nicknames"),
+        .options = sBattleEffectOptions,
+        .optionsDesc = sGiveNicknameDescs,
+        .sameDesc = FALSE,
+        .optionCount = ARRAY_COUNT(sBattleEffectOptions),
+        .func = OptionMenuPlus_GiveNicknamesFunc,
     },
     [MENUITEM_CANCELBATTLE] = // handled specially
     {
@@ -1097,6 +1115,7 @@ static void OptionMenuPlus_LoadOptionValues(void)
     sOptionMenuPlusUiState->championMusic = gSaveBlock2Ptr->optionsChampionMusic;
 
     sOptionMenuPlusUiState->sendToBox = gSaveBlock2Ptr->optionsSendToBox;
+    sOptionMenuPlusUiState->giveNickname = gSaveBlock2Ptr->optionsGiveNicknames;
 }
 
 static void OptionMenuPlus_SaveOptionValues(void)
@@ -1113,6 +1132,7 @@ static void OptionMenuPlus_SaveOptionValues(void)
     gSaveBlock2Ptr->optionsGymMusic = sOptionMenuPlusUiState->gymMusic;
     gSaveBlock2Ptr->optionsE4Music = sOptionMenuPlusUiState->e4Music;
     gSaveBlock2Ptr->optionsSendToBox = sOptionMenuPlusUiState->sendToBox;
+    gSaveBlock2Ptr->optionsGiveNicknames = sOptionMenuPlusUiState->giveNickname;
 }
 
 static u16 OptionMenuPlus_TextSpeedFunc(u8 value)
@@ -1244,5 +1264,16 @@ static u16 OptionMenuPlus_SendToBoxFunc(u8 value)
     {
         sOptionMenuPlusUiState->sendToBox += value;
         return sOptionMenuPlusUiState->sendToBox;
+    }
+}
+
+static u16 OptionMenuPlus_GiveNicknamesFunc(u8 value)
+{
+    if (value == 0) 
+        return sOptionMenuPlusUiState->giveNickname;
+    else 
+    {
+        sOptionMenuPlusUiState->giveNickname += value;
+        return sOptionMenuPlusUiState->giveNickname;
     }
 }
