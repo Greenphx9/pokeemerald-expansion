@@ -12,3 +12,4 @@ Many branches or ideas are borrowed from other people and used by Pokemon Irides
 - Skeli: Lots of things, including
   - Options Menu: inspired by Unbound, created by me
 - CyanSMP64, aichiya: [DPPT, HGSS, BW Music Branch](https://github.com/aichiya/pokeemerald-expansion/commits/pokeemerald-expansion-dppt-hgss-music-plus-bw-sequences/)
+- Green Jerry: [HGSS Textboxes](https://www.pokecommunity.com/threads/firered-text-box-patches.410584/)
