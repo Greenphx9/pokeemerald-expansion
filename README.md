@@ -8,7 +8,9 @@ I am isolating some key features of my hack to their standalone branches for use
 ## Credits
 Many branches or ideas are borrowed from other people and used by Pokemon Iridescent Red. A comprehensive list of credits can be found below.
 - Based off RHH's pokeemerald-expansion 1.12.0 https://github.com/rh-hideout/pokeemerald-expansion/
-- Ravepossum: [BW Summary Screen Branch](https://github.com/ravepossum/pokeemerald-expansion/tree/bw_summary_screen_expansion)
+- Ravepossum: 
+  - [BW Summary Screen Branch](https://github.com/ravepossum/pokeemerald-expansion/tree/bw_summary_screen_expansion)
+  - [HGSS Battle UI Branch](https://github.com/ravepossum/pokeemerald-expansion/tree/hgss_battle_ui_expansion)
 - Skeli: Lots of things, including
   - Options Menu: inspired by Unbound, created by me
 - CyanSMP64, aichiya: [DPPT, HGSS, BW Music Branch](https://github.com/aichiya/pokeemerald-expansion/commits/pokeemerald-expansion-dppt-hgss-music-plus-bw-sequences/)
