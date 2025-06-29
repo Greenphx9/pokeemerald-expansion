@@ -606,7 +606,9 @@ struct SaveBlock2
               u16 optionsSendToBox:1;
               u16 optionsGiveNicknames:1;
               u16 optionsExpShare:1;
-              u16 filler_2:14;
+              u16 optionsGameMusic:1;
+              u16 optionsSoundEffects:1;
+              u16 filler_2:12;
 }; // sizeof=0xF2C
 
 extern struct SaveBlock2 *gSaveBlock2Ptr;

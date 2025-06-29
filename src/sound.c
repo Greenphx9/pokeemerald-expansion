@@ -264,6 +264,7 @@ static void CreateFanfareTask(void)
 
 void FadeInNewBGM(u16 songNum, u8 speed)
 {
+    gDisableMusic = gSaveBlock2Ptr->optionsGameMusic;
     if (gDisableMusic)
         songNum = 0;
     if (songNum == MUS_NONE)
@@ -380,6 +381,10 @@ void PlayCryInternal(u16 species, s8 pan, s8 volume, u8 priority, u8 mode)
     u32 length;
     u32 pitch;
     u32 chorus;
+
+    if (gSaveBlock2Ptr->optionsSoundEffects) // Cries count as SE to me at least
+        return;
+    
 
     // Set default values
     // May be overridden depending on mode.
@@ -543,6 +548,7 @@ static void RestoreBGMVolumeAfterPokemonCry(void)
 
 void PlayBGM(u16 songNum)
 {
+    gDisableMusic = gSaveBlock2Ptr->optionsGameMusic;
     if (gDisableMusic)
         songNum = 0;
     if (songNum == MUS_NONE)
@@ -552,30 +558,40 @@ void PlayBGM(u16 songNum)
 
 void PlaySE(u16 songNum)
 {
-    m4aSongNumStart(songNum);
+    if (!gSaveBlock2Ptr->optionsSoundEffects)
+        m4aSongNumStart(songNum);
 }
 
 void PlaySE12WithPanning(u16 songNum, s8 pan)
 {
-    m4aSongNumStart(songNum);
-    m4aMPlayImmInit(&gMPlayInfo_SE1);
-    m4aMPlayImmInit(&gMPlayInfo_SE2);
-    m4aMPlayPanpotControl(&gMPlayInfo_SE1, TRACKS_ALL, pan);
-    m4aMPlayPanpotControl(&gMPlayInfo_SE2, TRACKS_ALL, pan);
+    if (!gSaveBlock2Ptr->optionsSoundEffects)
+    {
+        m4aSongNumStart(songNum);
+        m4aMPlayImmInit(&gMPlayInfo_SE1);
+        m4aMPlayImmInit(&gMPlayInfo_SE2);
+        m4aMPlayPanpotControl(&gMPlayInfo_SE1, TRACKS_ALL, pan);
+        m4aMPlayPanpotControl(&gMPlayInfo_SE2, TRACKS_ALL, pan);
+    }
 }
 
 void PlaySE1WithPanning(u16 songNum, s8 pan)
 {
-    m4aSongNumStart(songNum);
-    m4aMPlayImmInit(&gMPlayInfo_SE1);
-    m4aMPlayPanpotControl(&gMPlayInfo_SE1, TRACKS_ALL, pan);
+    if (!gSaveBlock2Ptr->optionsSoundEffects)
+    {
+        m4aSongNumStart(songNum);
+        m4aMPlayImmInit(&gMPlayInfo_SE1);
+        m4aMPlayPanpotControl(&gMPlayInfo_SE1, TRACKS_ALL, pan);
+    }
 }
 
 void PlaySE2WithPanning(u16 songNum, s8 pan)
 {
-    m4aSongNumStart(songNum);
-    m4aMPlayImmInit(&gMPlayInfo_SE2);
-    m4aMPlayPanpotControl(&gMPlayInfo_SE2, TRACKS_ALL, pan);
+    if (!gSaveBlock2Ptr->optionsSoundEffects)
+    {
+        m4aSongNumStart(songNum);
+        m4aMPlayImmInit(&gMPlayInfo_SE2);
+        m4aMPlayPanpotControl(&gMPlayInfo_SE2, TRACKS_ALL, pan);
+    }
 }
 
 void SE12PanpotControl(s8 pan)

@@ -57,6 +57,8 @@ struct OptionMenuPlusUiState
     u8 gymMusic;
     u8 e4Music;
     u8 championMusic;
+    u8 gameMusic;
+    u8 soundEffects;
 
     u8 sendToBox;
     u8 giveNickname;
@@ -194,6 +196,8 @@ enum
 
 enum 
 {
+    MENUITEM_GAMEMUSIC,
+    MENUITEM_SOUNDEFFECTS,
     MENUITEM_WILDMUSIC,
     MENUITEM_TRAINERMUSIC,
     MENUITEM_GYMMUSIC,
@@ -334,6 +338,18 @@ static const u8 *const sExpShareDescs[] =
     COMPOUND_STRING("Pokémon gain exp if they battled."),
 };
 
+static const u8 *const sGameMusicDescs[] =
+{
+    COMPOUND_STRING("Game music will play."),
+    COMPOUND_STRING("Game music will not play."),
+};
+
+static const u8 *const sSoundEffectsDescs[] =
+{
+    COMPOUND_STRING("Sound effects will play."),
+    COMPOUND_STRING("Sound effects will not play."),
+};
+
 const u8 sText_PickSwitchCancel[] = _("{DPAD_UPDOWN}Pick {DPAD_LEFTRIGHT}Switch {L_BUTTON}{R_BUTTON}Page {B_BUTTON}Cancel");
 
 #define OPTION_X 150
@@ -388,6 +404,8 @@ static u16 OptionMenuPlus_ChampionMusicFunc(u8 value);
 static u16 OptionMenuPlus_SendToBoxFunc(u8 value);
 static u16 OptionMenuPlus_GiveNicknamesFunc(u8 value);
 static u16 OptionMenuPlus_ExpShareFunc(u8 value);
+static u16 OptionMenuPlus_GameMusicFunc(u8 value);
+static u16 OptionMenuPlus_SoundEffectsFunc(u8 value);
 
 const struct Option sOptionMenuPlus_GeneralPage[MENUITEM_COUNTOVERWORLD] = 
 {
@@ -488,6 +506,24 @@ const struct Option sOptionMenuPlus_BattlePage[MENUITEM_COUNTBATTLE] =
 
 const struct Option sOptionMenuPlus_MusicPage[MENUITEM_COUNTMUSIC] = 
 {
+    [MENUITEM_GAMEMUSIC] =
+    {
+        .name = COMPOUND_STRING("Game Music"),
+        .options = sBattleEffectOptions,
+        .optionsDesc = sGameMusicDescs,
+        .sameDesc = FALSE,
+        .optionCount = ARRAY_COUNT(sBattleEffectOptions),
+        .func = OptionMenuPlus_GameMusicFunc,
+    },
+    [MENUITEM_SOUNDEFFECTS] =
+    {
+        .name = COMPOUND_STRING("Sound Effects"),
+        .options = sBattleEffectOptions,
+        .optionsDesc = sSoundEffectsDescs,
+        .sameDesc = FALSE,
+        .optionCount = ARRAY_COUNT(sBattleEffectOptions),
+        .func = OptionMenuPlus_SoundEffectsFunc,
+    },
     [MENUITEM_WILDMUSIC] =
     {
         .name = COMPOUND_STRING("Wild Music"),
@@ -750,7 +786,6 @@ static void Task_OptionMenuPlusMainInput(u8 taskId)
         u8 page = sOptionMenuPlusUiState->page;
         if (sOptionMenuPlus_Pages[page].options[cursorPos].func(0) < sOptionMenuPlus_Pages[page].options[cursorPos].optionCount - 1)
         {
-            PlaySE(SE_SELECT);
             sOptionMenuPlus_Pages[page].options[cursorPos].func(1);
             sOptionMenuPlusUiState->selectedVal++;
             OptionMenuPlus_UpdateMenuItem();
@@ -761,8 +796,16 @@ static void Task_OptionMenuPlusMainInput(u8 taskId)
             }
             else if (page == MENUPAGE_OVERWORLD && cursorPos == MENUITEM_BUTTONMODE)
                 gSaveBlock2Ptr->optionsButtonMode++;
+            else if (page == MENUPAGE_MUSIC && cursorPos == MENUITEM_GAMEMUSIC)
+            {
+                PlayBGM(MUS_NONE);
+                gSaveBlock2Ptr->optionsGameMusic = TRUE;
+            }
+            else if (page == MENUPAGE_MUSIC && cursorPos == MENUITEM_SOUNDEFFECTS)
+                gSaveBlock2Ptr->optionsSoundEffects = TRUE;
             OptionMenuPlus_PrintDescription(cursorPos);
             OptionMenuPlus_UpdateLeftRightScrollIndicator();
+            PlaySE(SE_SELECT);
         }
             
     }
@@ -772,7 +815,6 @@ static void Task_OptionMenuPlusMainInput(u8 taskId)
         u8 page = sOptionMenuPlusUiState->page;
         if (sOptionMenuPlus_Pages[page].options[cursorPos].func(0) > 0)
         {
-            PlaySE(SE_SELECT);
             sOptionMenuPlus_Pages[page].options[cursorPos].func(-1);
             sOptionMenuPlusUiState->selectedVal--;
             OptionMenuPlus_UpdateMenuItem();
@@ -784,8 +826,16 @@ static void Task_OptionMenuPlusMainInput(u8 taskId)
             }
             else if (page == MENUPAGE_OVERWORLD && cursorPos == MENUITEM_BUTTONMODE)
                 gSaveBlock2Ptr->optionsButtonMode--;
+            else if (page == MENUPAGE_MUSIC && cursorPos == MENUITEM_GAMEMUSIC)
+            {
+                gSaveBlock2Ptr->optionsGameMusic = FALSE;
+                PlayBGM(GetCurrLocationDefaultMusic());
+            }
+            else if (page == MENUPAGE_MUSIC && cursorPos == MENUITEM_SOUNDEFFECTS)
+                gSaveBlock2Ptr->optionsSoundEffects = FALSE;
             OptionMenuPlus_PrintDescription(cursorPos);
             OptionMenuPlus_UpdateLeftRightScrollIndicator();
+            PlaySE(SE_SELECT);
         }
     }
     else if ((JOY_NEW(DPAD_DOWN) || JOY_REPEAT(DPAD_DOWN)))
@@ -1131,6 +1181,8 @@ static void OptionMenuPlus_LoadOptionValues(void)
     sOptionMenuPlusUiState->gymMusic = gSaveBlock2Ptr->optionsGymMusic;
     sOptionMenuPlusUiState->e4Music = gSaveBlock2Ptr->optionsE4Music;
     sOptionMenuPlusUiState->championMusic = gSaveBlock2Ptr->optionsChampionMusic;
+    sOptionMenuPlusUiState->gameMusic = gSaveBlock2Ptr->optionsGameMusic;
+    sOptionMenuPlusUiState->soundEffects = gSaveBlock2Ptr->optionsSoundEffects;
 
     sOptionMenuPlusUiState->sendToBox = gSaveBlock2Ptr->optionsSendToBox;
     sOptionMenuPlusUiState->giveNickname = gSaveBlock2Ptr->optionsGiveNicknames;
@@ -1152,6 +1204,8 @@ static void OptionMenuPlus_SaveOptionValues(void)
     gSaveBlock2Ptr->optionsE4Music = sOptionMenuPlusUiState->e4Music;
     gSaveBlock2Ptr->optionsSendToBox = sOptionMenuPlusUiState->sendToBox;
     gSaveBlock2Ptr->optionsExpShare = sOptionMenuPlusUiState->expShare;
+    gSaveBlock2Ptr->optionsGameMusic = sOptionMenuPlusUiState->gameMusic;
+    gSaveBlock2Ptr->optionsSoundEffects = sOptionMenuPlusUiState->soundEffects;
 }
 
 static u16 OptionMenuPlus_TextSpeedFunc(u8 value)
@@ -1305,5 +1359,27 @@ static u16 OptionMenuPlus_ExpShareFunc(u8 value)
     {
         sOptionMenuPlusUiState->expShare += value;
         return sOptionMenuPlusUiState->expShare;
+    }
+}
+
+static u16 OptionMenuPlus_GameMusicFunc(u8 value)
+{
+    if (value == 0) 
+        return sOptionMenuPlusUiState->gameMusic;
+    else 
+    {
+        sOptionMenuPlusUiState->gameMusic += value;
+        return sOptionMenuPlusUiState->gameMusic;
+    }
+}
+
+static u16 OptionMenuPlus_SoundEffectsFunc(u8 value)
+{
+    if (value == 0) 
+        return sOptionMenuPlusUiState->soundEffects;
+    else 
+    {
+        sOptionMenuPlusUiState->soundEffects += value;
+        return sOptionMenuPlusUiState->soundEffects;
     }
 }
