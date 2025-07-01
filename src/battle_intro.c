@@ -34,6 +34,8 @@ static const TaskFunc sBattleIntroSlideFuncs[] =
     [BATTLE_ENVIRONMENT_CAVE]       = BattleIntroSlide1,
     [BATTLE_ENVIRONMENT_BUILDING]   = BattleIntroSlide3,
     [BATTLE_ENVIRONMENT_PLAIN]      = BattleIntroSlide3,
+    [BATTLE_ENVIRONMENT_GEN4_GRASS] = BattleIntroSlide1,
+    [BATTLE_ENVIRONMENT_GEN4_WATER] = BattleIntroSlide2,
 };
 
 void SetAnimBgAttribute(u8 bgId, u8 attributeId, u8 value)
@@ -296,6 +298,7 @@ static void BattleIntroSlide2(u8 taskId)
     {
     case BATTLE_ENVIRONMENT_SAND:
     case BATTLE_ENVIRONMENT_WATER:
+    case BATTLE_ENVIRONMENT_GEN4_WATER:
         gBattle_BG1_X += 8;
         break;
     case BATTLE_ENVIRONMENT_UNDERWATER:
@@ -303,7 +306,7 @@ static void BattleIntroSlide2(u8 taskId)
         break;
     }
 
-    if (gTasks[taskId].tEnvironment == BATTLE_ENVIRONMENT_WATER)
+    if (gTasks[taskId].tEnvironment == BATTLE_ENVIRONMENT_WATER || gTasks[taskId].tEnvironment == BATTLE_ENVIRONMENT_GEN4_WATER)
     {
         gBattle_BG1_Y = Cos2(gTasks[taskId].data[6]) / 512 - 8;
         if (gTasks[taskId].data[6] < 180)

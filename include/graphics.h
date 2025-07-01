@@ -281,6 +281,30 @@ extern const u16 gBattleEnvironmentPalette_StadiumGlacia[];
 extern const u16 gBattleEnvironmentPalette_StadiumDrake[];
 extern const u16 gBattleEnvironmentPalette_StadiumWallace[];
 
+extern const u32 gBattleEnvironmentTiles_Gen4GrassDay[];
+extern const u32 gBattleEnvironmentTilemap_Gen4GrassDay[];
+extern const u8 gBattleEnvironmentPalette_Gen4GrassDay[];
+extern const u32 gBattleEnvironmentTiles_Gen4GrassAfternoon[];
+extern const u32 gBattleEnvironmentTilemap_Gen4GrassAfternoon[];
+extern const u8 gBattleEnvironmentPalette_Gen4GrassAfternoon[];
+extern const u32 gBattleEnvironmentTiles_Gen4GrassNight[];
+extern const u32 gBattleEnvironmentTilemap_Gen4GrassNight[];
+extern const u8 gBattleEnvironmentPalette_Gen4GrassNight[];
+extern const u32 gBattleEnvironmentAnimTiles_Gen4GrassDay[];
+extern const u32 gBattleEnvironmentAnimTilemap_Gen4GrassDay[];
+
+extern const u32 gBattleEnvironmentTiles_Gen4WaterDay[];
+extern const u32 gBattleEnvironmentTilemap_Gen4WaterDay[];
+extern const u8 gBattleEnvironmentPalette_Gen4WaterDay[];
+extern const u32 gBattleEnvironmentTiles_Gen4WaterAfternoon[];
+extern const u32 gBattleEnvironmentTilemap_Gen4WaterAfternoon[];
+extern const u8 gBattleEnvironmentPalette_Gen4WaterAfternoon[];
+extern const u32 gBattleEnvironmentTiles_Gen4WaterNight[];
+extern const u32 gBattleEnvironmentTilemap_Gen4WaterNight[];
+extern const u8 gBattleEnvironmentPalette_Gen4WaterNight[];
+extern const u32 gBattleEnvironmentAnimTiles_Gen4Water[];
+extern const u32 gBattleEnvironmentAnimTilemap_Gen4Water[];
+
 // Pokédex
 extern const u32 gPokedexInterface_Gfx[];
 extern const u16 gPokedexBgHoenn_Pal[];
