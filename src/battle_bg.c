@@ -734,6 +734,20 @@ const struct DNSBattleBackground sDNSBattleEnvironmentTable[] =
         .entryTileset = gBattleEnvironmentAnimTiles_Gen4Water,
         .entryTilemap = gBattleEnvironmentAnimTilemap_Gen4Water,
     },
+    [BATTLE_ENVIRONMENT_GEN4_WET_PATH] =
+    {
+        .dayTileset = gBattleEnvironmentTiles_Gen4WetPathDay,
+        .dayTilemap = gBattleEnvironmentTilemap_Gen4WetPathDay,
+        .dayPalette = gBattleEnvironmentPalette_Gen4WetPathDay,
+        .afternoonTileset = gBattleEnvironmentTiles_Gen4WetPathAfternoon,
+        .afternoonTilemap = gBattleEnvironmentTilemap_Gen4WetPathAfternoon,
+        .afternoonPalette = gBattleEnvironmentPalette_Gen4WetPathAfternoon,
+        .nightTileset = gBattleEnvironmentTiles_Gen4WetPathNight,
+        .nightTilemap = gBattleEnvironmentTilemap_Gen4WetPathNight,
+        .nightPalette = gBattleEnvironmentPalette_Gen4WetPathNight,
+        .entryTileset = gBattleEnvironmentAnimTiles_Gen4Water,
+        .entryTilemap = gBattleEnvironmentAnimTilemap_Gen4Water,
+    },
 };
 
 void BattleInitBgsAndWindows(void)
