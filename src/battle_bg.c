@@ -748,6 +748,14 @@ const struct DNSBattleBackground sDNSBattleEnvironmentTable[] =
         .entryTileset = gBattleEnvironmentAnimTiles_Gen4Water,
         .entryTilemap = gBattleEnvironmentAnimTilemap_Gen4Water,
     },
+    [BATTLE_ENVIRONMENT_GEN4_CAVE] =
+    {
+        .dayTileset = gBattleEnvironmentTiles_Gen4Cave,
+        .dayTilemap = gBattleEnvironmentTilemap_Gen4Cave,
+        .dayPalette = gBattleEnvironmentPalette_Gen4Cave,
+        .entryTileset = gBattleEnvironmentAnimTiles_Gen4Cave,
+        .entryTilemap = gBattleEnvironmentAnimTilemap_Gen4Cave,
+    },
 };
 
 void BattleInitBgsAndWindows(void)
@@ -799,6 +807,9 @@ void LoadBattleMenuWindowGfx(void)
 
 const u32 * GetDNSBattleEnvironmentTileset(u8 terrainId, u32 timeOfDay)
 {
+    if (terrainId >= BATTLE_ENVIRONMENT_GEN4_CAVE)
+        return sDNSBattleEnvironmentTable[terrainId].dayTileset;
+
     if (timeOfDay == TIME_NIGHT)
         return sDNSBattleEnvironmentTable[terrainId].nightTileset;
     else if (timeOfDay == TIME_EVENING)
@@ -808,6 +819,9 @@ const u32 * GetDNSBattleEnvironmentTileset(u8 terrainId, u32 timeOfDay)
 
 const u32 * GetDNSBattleEnvironmentTilemap(u8 terrainId, u32 timeOfDay)
 {
+    if (terrainId >= BATTLE_ENVIRONMENT_GEN4_CAVE)
+        return sDNSBattleEnvironmentTable[terrainId].dayTilemap;
+
     if (timeOfDay == TIME_NIGHT)
         return sDNSBattleEnvironmentTable[terrainId].nightTilemap;
     else if (timeOfDay == TIME_EVENING)
@@ -817,6 +831,9 @@ const u32 * GetDNSBattleEnvironmentTilemap(u8 terrainId, u32 timeOfDay)
 
 const u8 * GetDNSBattleEnvironmentPalette(u8 terrainId, u32 timeOfDay)
 {
+    if (terrainId >= BATTLE_ENVIRONMENT_GEN4_CAVE)
+        return sDNSBattleEnvironmentTable[terrainId].dayPalette;
+
     if (timeOfDay == TIME_NIGHT)
         return sDNSBattleEnvironmentTable[terrainId].nightPalette;
     else if (timeOfDay == TIME_EVENING)

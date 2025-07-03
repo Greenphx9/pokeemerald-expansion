@@ -120,3 +120,9 @@ const u32 gBattleEnvironmentTilemap_Gen4WetPathAfternoon[] = INCBIN_U32("graphic
 const u32 gBattleEnvironmentTiles_Gen4WetPathNight[] = INCBIN_U32("graphics/battle_environment/gen4/wet_path/night/tiles.4bpp.lz");
 const u8 gBattleEnvironmentPalette_Gen4WetPathNight[] = INCBIN_U8("graphics/battle_environment/gen4/wet_path/night/palette.gbapal");
 const u32 gBattleEnvironmentTilemap_Gen4WetPathNight[] = INCBIN_U32("graphics/battle_environment/gen4/wet_path/night/map.bin.lz");
+
+const u32 gBattleEnvironmentTiles_Gen4Cave[] = INCBIN_U32("graphics/battle_environment/gen4/cave/tiles.4bpp.lz");
+const u8 gBattleEnvironmentPalette_Gen4Cave[] = INCBIN_U8("graphics/battle_environment/gen4/cave/palette.gbapal");
+const u32 gBattleEnvironmentTilemap_Gen4Cave[] = INCBIN_U32("graphics/battle_environment/gen4/cave/map.bin.lz");
+const u32 gBattleEnvironmentAnimTiles_Gen4Cave[] = INCBIN_U32("graphics/battle_environment/gen4/cave/anim_tiles.4bpp.lz");
+const u32 gBattleEnvironmentAnimTilemap_Gen4Cave[] = INCBIN_U32("graphics/battle_environment/gen4/cave/anim_map.bin.lz");

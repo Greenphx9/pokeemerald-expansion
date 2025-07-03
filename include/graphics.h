@@ -316,6 +316,12 @@ extern const u32 gBattleEnvironmentTiles_Gen4WetPathNight[];
 extern const u32 gBattleEnvironmentTilemap_Gen4WetPathNight[];
 extern const u8 gBattleEnvironmentPalette_Gen4WetPathNight[];
 
+extern const u32 gBattleEnvironmentTiles_Gen4Cave[];
+extern const u8 gBattleEnvironmentPalette_Gen4Cave[];
+extern const u32 gBattleEnvironmentTilemap_Gen4Cave[];
+extern const u32 gBattleEnvironmentAnimTiles_Gen4Cave[];
+extern const u32 gBattleEnvironmentAnimTilemap_Gen4Cave[];
+
 // Pokédex
 extern const u32 gPokedexInterface_Gfx[];
 extern const u16 gPokedexBgHoenn_Pal[];
