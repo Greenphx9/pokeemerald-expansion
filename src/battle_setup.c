@@ -635,7 +635,7 @@ u8 BattleSetup_GetEnvironmentId(void)
     tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
 
     if (MetatileBehavior_IsTallGrass(tileBehavior))
-        return BATTLE_ENVIRONMENT_GEN4_PLAIN;
+        return BATTLE_ENVIRONMENT_GEN4_GRASS;
     if (MetatileBehavior_IsLongGrass(tileBehavior))
         return BATTLE_ENVIRONMENT_GEN4_GRASS;
     if (MetatileBehavior_IsSandOrDeepSand(tileBehavior))
@@ -683,7 +683,7 @@ u8 BattleSetup_GetEnvironmentId(void)
     if (GetSavedWeather() == WEATHER_SANDSTORM)
         return BATTLE_ENVIRONMENT_SAND;
 
-    return BATTLE_ENVIRONMENT_PLAIN;
+    return BATTLE_ENVIRONMENT_GEN4_PLAIN;
 }
 
 static u8 GetBattleTransitionTypeByMap(void)
