@@ -2035,8 +2035,8 @@ const u8 gMessageBox_Gfx[] = INCBIN_U8("graphics/text_window/menu_message.4bpp")
 const u8 gSignpostWindow_Gfx[] = INCBIN_U8("graphics/text_window/signpost.4bpp");
 
 const u16 gMessageBox_HGSS_Pal[] = INCBIN_U16("graphics/text_window/message_boxes/hgss.gbapal");
-const u8 gMessageBox_HGSS_Gfx[] = INCBIN_U8("graphics/text_window/message_boxes/hgss.4bpp");
-const u8 gSignpostWindow_HGSS_Gfx[] = INCBIN_U8("graphics/text_window/message_boxes/hgss_sign.4bpp");
+const u32 gMessageBox_HGSS_Gfx[] = INCBIN_U8("graphics/text_window/message_boxes/hgss.4bpp");
+const u32 gSignpostWindow_HGSS_Gfx[] = INCBIN_U8("graphics/text_window/message_boxes/hgss_sign.4bpp");
 
 const u32 gWallpaperIcon_Cross[] = INCBIN_U32("graphics/pokemon_storage/wallpapers/icons/cross.4bpp.lz");
 const u32 gWallpaperIcon_Bolt[] = INCBIN_U32("graphics/pokemon_storage/wallpapers/icons/bolt.4bpp.lz");
