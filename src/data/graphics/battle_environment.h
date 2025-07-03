@@ -126,3 +126,15 @@ const u8 gBattleEnvironmentPalette_Gen4Cave[] = INCBIN_U8("graphics/battle_envir
 const u32 gBattleEnvironmentTilemap_Gen4Cave[] = INCBIN_U32("graphics/battle_environment/gen4/cave/map.bin.lz");
 const u32 gBattleEnvironmentAnimTiles_Gen4Cave[] = INCBIN_U32("graphics/battle_environment/gen4/cave/anim_tiles.4bpp.lz");
 const u32 gBattleEnvironmentAnimTilemap_Gen4Cave[] = INCBIN_U32("graphics/battle_environment/gen4/cave/anim_map.bin.lz");
+
+const u32 gBattleEnvironmentTiles_Gen4Building1[] = INCBIN_U32("graphics/battle_environment/gen4/building/1/tiles.4bpp.lz");
+const u8 gBattleEnvironmentPalette_Gen4Building1[] = INCBIN_U8("graphics/battle_environment/gen4/building/1/palette.gbapal");
+const u32 gBattleEnvironmentTilemap_Gen4Building1[] = INCBIN_U32("graphics/battle_environment/gen4/building/1/map.bin.lz");
+const u32 gBattleEnvironmentTiles_Gen4Building2[] = INCBIN_U32("graphics/battle_environment/gen4/building/2/tiles.4bpp.lz");
+const u8 gBattleEnvironmentPalette_Gen4Building2[] = INCBIN_U8("graphics/battle_environment/gen4/building/2/palette.gbapal");
+const u32 gBattleEnvironmentTilemap_Gen4Building2[] = INCBIN_U32("graphics/battle_environment/gen4/building/2/map.bin.lz");
+const u32 gBattleEnvironmentTiles_Gen4Building3[] = INCBIN_U32("graphics/battle_environment/gen4/building/3/tiles.4bpp.lz");
+const u8 gBattleEnvironmentPalette_Gen4Building3[] = INCBIN_U8("graphics/battle_environment/gen4/building/3/palette.gbapal");
+const u32 gBattleEnvironmentTilemap_Gen4Building3[] = INCBIN_U32("graphics/battle_environment/gen4/building/3/map.bin.lz");
+const u32 gBattleEnvironmentAnimTiles_Gen4Building[] = INCBIN_U32("graphics/battle_environment/gen4/building/anim_tiles.4bpp.lz");
+const u32 gBattleEnvironmentAnimTilemap_Gen4Building[] = INCBIN_U32("graphics/battle_environment/gen4/building/anim_map.bin.lz");

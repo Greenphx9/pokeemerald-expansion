@@ -322,6 +322,18 @@ extern const u32 gBattleEnvironmentTilemap_Gen4Cave[];
 extern const u32 gBattleEnvironmentAnimTiles_Gen4Cave[];
 extern const u32 gBattleEnvironmentAnimTilemap_Gen4Cave[];
 
+extern const u32 gBattleEnvironmentTiles_Gen4Building1[];
+extern const u8 gBattleEnvironmentPalette_Gen4Building1[];
+extern const u32 gBattleEnvironmentTilemap_Gen4Building1[];
+extern const u32 gBattleEnvironmentTiles_Gen4Building2[];
+extern const u8 gBattleEnvironmentPalette_Gen4Building2[];
+extern const u32 gBattleEnvironmentTilemap_Gen4Building2[];
+extern const u32 gBattleEnvironmentTiles_Gen4Building3[];
+extern const u8 gBattleEnvironmentPalette_Gen4Building3[];
+extern const u32 gBattleEnvironmentTilemap_Gen4Building3[];
+extern const u32 gBattleEnvironmentAnimTiles_Gen4Building[];
+extern const u32 gBattleEnvironmentAnimTilemap_Gen4Building[];
+
 // Pokédex
 extern const u32 gPokedexInterface_Gfx[];
 extern const u16 gPokedexBgHoenn_Pal[];

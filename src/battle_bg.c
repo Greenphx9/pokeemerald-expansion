@@ -756,6 +756,30 @@ const struct DNSBattleBackground sDNSBattleEnvironmentTable[] =
         .entryTileset = gBattleEnvironmentAnimTiles_Gen4Cave,
         .entryTilemap = gBattleEnvironmentAnimTilemap_Gen4Cave,
     },
+    [BATTLE_ENVIRONMENT_GEN4_BUILDING_1] =
+    {
+        .dayTileset = gBattleEnvironmentTiles_Gen4Building1,
+        .dayTilemap = gBattleEnvironmentTilemap_Gen4Building1,
+        .dayPalette = gBattleEnvironmentPalette_Gen4Building1,
+        .entryTileset = gBattleEnvironmentAnimTiles_Gen4Building,
+        .entryTilemap = gBattleEnvironmentAnimTilemap_Gen4Building,
+    },
+    [BATTLE_ENVIRONMENT_GEN4_BUILDING_2] =
+    {
+        .dayTileset = gBattleEnvironmentTiles_Gen4Building2,
+        .dayTilemap = gBattleEnvironmentTilemap_Gen4Building2,
+        .dayPalette = gBattleEnvironmentPalette_Gen4Building2,
+        .entryTileset = gBattleEnvironmentAnimTiles_Gen4Building,
+        .entryTilemap = gBattleEnvironmentAnimTilemap_Gen4Building,
+    },
+    [BATTLE_ENVIRONMENT_GEN4_BUILDING_3] =
+    {
+        .dayTileset = gBattleEnvironmentTiles_Gen4Building3,
+        .dayTilemap = gBattleEnvironmentTilemap_Gen4Building3,
+        .dayPalette = gBattleEnvironmentPalette_Gen4Building3,
+        .entryTileset = gBattleEnvironmentAnimTiles_Gen4Building,
+        .entryTilemap = gBattleEnvironmentAnimTilemap_Gen4Building,
+    },
 };
 
 void BattleInitBgsAndWindows(void)
