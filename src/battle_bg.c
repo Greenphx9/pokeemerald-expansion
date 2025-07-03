@@ -734,6 +734,20 @@ const struct DNSBattleBackground sDNSBattleEnvironmentTable[] =
         .entryTileset = gBattleEnvironmentAnimTiles_Gen4Water,
         .entryTilemap = gBattleEnvironmentAnimTilemap_Gen4Water,
     },
+    [BATTLE_ENVIRONMENT_GEN4_PLAIN] =
+    {
+        .dayTileset = gBattleEnvironmentTiles_Gen4PlainDay,
+        .dayTilemap = gBattleEnvironmentTilemap_Gen4PlainDay,
+        .dayPalette = gBattleEnvironmentPalette_Gen4PlainDay,
+        .afternoonTileset = gBattleEnvironmentTiles_Gen4PlainAfternoon,
+        .afternoonTilemap = gBattleEnvironmentTilemap_Gen4PlainAfternoon,
+        .afternoonPalette = gBattleEnvironmentPalette_Gen4PlainAfternoon,
+        .nightTileset = gBattleEnvironmentTiles_Gen4PlainNight,
+        .nightTilemap = gBattleEnvironmentTilemap_Gen4PlainNight,
+        .nightPalette = gBattleEnvironmentPalette_Gen4PlainNight,
+        .entryTileset = gBattleEnvironmentAnimTiles_Gen4Building,
+        .entryTilemap = gBattleEnvironmentAnimTilemap_Gen4Building,
+    },
     [BATTLE_ENVIRONMENT_GEN4_WET_PATH] =
     {
         .dayTileset = gBattleEnvironmentTiles_Gen4WetPathDay,

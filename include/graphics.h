@@ -305,6 +305,17 @@ extern const u8 gBattleEnvironmentPalette_Gen4WaterNight[];
 extern const u32 gBattleEnvironmentAnimTiles_Gen4Water[];
 extern const u32 gBattleEnvironmentAnimTilemap_Gen4Water[];
 
+// reuses building anim tiles
+extern const u32 gBattleEnvironmentTiles_Gen4PlainDay[];
+extern const u32 gBattleEnvironmentTilemap_Gen4PlainDay[];
+extern const u8 gBattleEnvironmentPalette_Gen4PlainDay[];
+extern const u32 gBattleEnvironmentTiles_Gen4PlainAfternoon[];
+extern const u32 gBattleEnvironmentTilemap_Gen4PlainAfternoon[];
+extern const u8 gBattleEnvironmentPalette_Gen4PlainAfternoon[];
+extern const u32 gBattleEnvironmentTiles_Gen4PlainNight[];
+extern const u32 gBattleEnvironmentTilemap_Gen4PlainNight[];
+extern const u8 gBattleEnvironmentPalette_Gen4PlainNight[];
+
 // reuses water anim tiles
 extern const u32 gBattleEnvironmentTiles_Gen4WetPathDay[];
 extern const u32 gBattleEnvironmentTilemap_Gen4WetPathDay[];
