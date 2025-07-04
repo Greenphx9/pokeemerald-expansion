@@ -931,25 +931,6 @@ void DrawMainBattleBackground(void)
     }
     else
     {
-        if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
-        {
-            u32 trainerClass = GetTrainerClassFromId(TRAINER_BATTLE_PARAM.opponentA);
-            if (trainerClass == TRAINER_CLASS_LEADER)
-            {
-                LZDecompressVram(gBattleEnvironmentTiles_Building, (void *)(BG_CHAR_ADDR(2)));
-                LZDecompressVram(gBattleEnvironmentTilemap_Building, (void *)(BG_SCREEN_ADDR(26)));
-                LoadPalette(gBattleEnvironmentPalette_BuildingLeader, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
-                return;
-            }
-            else if (trainerClass == TRAINER_CLASS_CHAMPION)
-            {
-                LZDecompressVram(gBattleEnvironmentTiles_Stadium, (void *)(BG_CHAR_ADDR(2)));
-                LZDecompressVram(gBattleEnvironmentTilemap_Stadium, (void *)(BG_SCREEN_ADDR(26)));
-                LoadPalette(gBattleEnvironmentPalette_StadiumWallace, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
-                return;
-            }
-        }
-
         switch (GetCurrentMapBattleScene())
         {
         default:
@@ -975,9 +956,15 @@ void DrawMainBattleBackground(void)
             }
             break;
         case MAP_BATTLE_SCENE_GYM:
-            LZDecompressVram(gBattleEnvironmentTiles_Building, (void *)(BG_CHAR_ADDR(2)));
-            LZDecompressVram(gBattleEnvironmentTilemap_Building, (void *)(BG_SCREEN_ADDR(26)));
-            LoadPalette(gBattleEnvironmentPalette_BuildingGym, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
+            const u32 * tileset = GetDNSBattleEnvironmentTileset(BATTLE_ENVIRONMENT_GEN4_BUILDING_1, 0);
+            const u32 * tilemap = GetDNSBattleEnvironmentTilemap(BATTLE_ENVIRONMENT_GEN4_BUILDING_1, 0);
+            const u8 * palette = GetDNSBattleEnvironmentPalette(BATTLE_ENVIRONMENT_GEN4_BUILDING_1, 0);
+            LZDecompressVram(tileset, (void *)(BG_CHAR_ADDR(2)));
+            LZDecompressVram(tilemap, (void *)(BG_SCREEN_ADDR(26)));
+            // load first 3 palettes at BG ID 2
+            LoadPalette(palette, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
+            // load the other 3 palettes at BG ID 10
+            LoadPalette(palette + (3 * PLTT_SIZE_4BPP), BG_PLTT_ID(12), 4 * PLTT_SIZE_4BPP);          
             break;
         case MAP_BATTLE_SCENE_MAGMA:
             LZDecompressVram(gBattleEnvironmentTiles_Stadium, (void *)(BG_CHAR_ADDR(2)));
@@ -1455,7 +1442,7 @@ bool8 LoadChosenBattleElement(u8 caseId)
                     LZDecompressVram(sBattleEnvironmentTable[gBattleEnvironment].tileset, (void *)(BG_CHAR_ADDR(2)));
                 break;
             case MAP_BATTLE_SCENE_GYM:
-                LZDecompressVram(gBattleEnvironmentTiles_Building, (void *)(BG_CHAR_ADDR(2)));
+                LZDecompressVram(GetDNSBattleEnvironmentTileset(BATTLE_ENVIRONMENT_GEN4_BUILDING_1, 0), (void *)(BG_CHAR_ADDR(2)));
                 break;
             case MAP_BATTLE_SCENE_MAGMA:
                 LZDecompressVram(gBattleEnvironmentTiles_Stadium, (void *)(BG_CHAR_ADDR(2)));
@@ -1495,21 +1482,6 @@ bool8 LoadChosenBattleElement(u8 caseId)
         }
         else
         {
-            if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
-            {
-                u32 trainerClass = GetTrainerClassFromId(TRAINER_BATTLE_PARAM.opponentA);
-                if (trainerClass == TRAINER_CLASS_LEADER)
-                {
-                    LZDecompressVram(gBattleEnvironmentTilemap_Building, (void *)(BG_SCREEN_ADDR(26)));
-                    break;
-                }
-                else if (trainerClass == TRAINER_CLASS_CHAMPION)
-                {
-                    LZDecompressVram(gBattleEnvironmentTilemap_Stadium, (void *)(BG_SCREEN_ADDR(26)));
-                    break;
-                }
-            }
-
             switch (GetCurrentMapBattleScene())
             {
             default:
@@ -1520,7 +1492,7 @@ bool8 LoadChosenBattleElement(u8 caseId)
                     LZDecompressVram(sBattleEnvironmentTable[gBattleEnvironment].tilemap, (void *)(BG_SCREEN_ADDR(26)));
                 break;
             case MAP_BATTLE_SCENE_GYM:
-                LZDecompressVram(gBattleEnvironmentTilemap_Building, (void *)(BG_SCREEN_ADDR(26)));
+                LZDecompressVram(GetDNSBattleEnvironmentTilemap(BATTLE_ENVIRONMENT_GEN4_BUILDING_1, 0), (void *)(BG_SCREEN_ADDR(26)));
                 break;
             case MAP_BATTLE_SCENE_MAGMA:
                 LZDecompressVram(gBattleEnvironmentTilemap_Stadium, (void *)(BG_SCREEN_ADDR(26)));
@@ -1560,21 +1532,6 @@ bool8 LoadChosenBattleElement(u8 caseId)
         }
         else
         {
-            if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
-            {
-                u32 trainerClass = GetTrainerClassFromId(TRAINER_BATTLE_PARAM.opponentA);
-                if (trainerClass == TRAINER_CLASS_LEADER)
-                {
-                    LoadPalette(gBattleEnvironmentPalette_BuildingLeader, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
-                    break;
-                }
-                else if (trainerClass == TRAINER_CLASS_CHAMPION)
-                {
-                    LoadPalette(gBattleEnvironmentPalette_StadiumWallace, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
-                    break;
-                }
-            }
-
             switch (GetCurrentMapBattleScene())
             {
             default:
@@ -1592,7 +1549,11 @@ bool8 LoadChosenBattleElement(u8 caseId)
                     LoadPalette(sBattleEnvironmentTable[gBattleEnvironment].palette, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
                 break;
             case MAP_BATTLE_SCENE_GYM:
-                LoadPalette(gBattleEnvironmentPalette_BuildingGym, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
+                const u8 * palette = GetDNSBattleEnvironmentPalette(BATTLE_ENVIRONMENT_GEN4_BUILDING_1, 0);
+                // load first 3 palettes at BG ID 2
+                LoadPalette(palette, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
+                // load the other 3 palettes at BG ID 10
+                LoadPalette(palette + (3 * PLTT_SIZE_4BPP), BG_PLTT_ID(12), 4 * PLTT_SIZE_4BPP);       
                 break;
             case MAP_BATTLE_SCENE_MAGMA:
                 LoadPalette(gBattleEnvironmentPalette_StadiumMagma, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
