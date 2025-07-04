@@ -4,6 +4,7 @@ Pokemon Iridescent Red is an upcoming Pokemon ROM hack that is set in a moderniz
 ## Additional branches
 I am isolating some key features of my hack to their standalone branches for users to use.
 - [ir/gen3-tiles](https://github.com/Greenphx9/pokeemerald-expansion/tree/ir/gen3-tiles): Modernized Kanto tiles for Emerald, including sideways stairs, lit up windows, etc.
+- [ir/battle-bg](https://github.com/Greenphx9/pokeemerald-expansion/tree/ir/battle-bg): Platinum battle backgrounds + 6 colour background system
 
 ## Credits
 Many branches or ideas are borrowed from other people and used by Pokemon Iridescent Red. A comprehensive list of credits can be found below.

@@ -1326,7 +1326,7 @@ u32 GetBattlePalettesMask(bool8 battleBackground, bool8 attacker, bool8 target, 
     if (battleBackground)
     {
         if (!IsContest())
-            selectedPalettes = 0xe; // Palettes 1, 2, and 3
+            selectedPalettes = 0x701C; // Palettes 2, 3, 4, and 10–15
         else
             selectedPalettes = 1 << GetBattleBgPaletteNum();
     }

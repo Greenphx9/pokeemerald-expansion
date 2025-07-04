@@ -667,7 +667,7 @@ static void SpriteCB_BallThrow(struct Sprite *sprite)
         sprite->data[5] = 0;
         ballId = GetBattlerPokeballItemId(opponentBattler);
         AnimateBallOpenParticles(sprite->x, sprite->y - 5, 1, 28, ballId);
-        sprite->data[0] = LaunchBallFadeMonTask(FALSE, opponentBattler, 14, ballId);
+        sprite->data[0] = LaunchBallFadeMonTask(FALSE, opponentBattler, 0x701C, ballId);
         sprite->sBattler = opponentBattler;
         sprite->data[7] = noOfShakes;
         DestroyTask(taskId);
@@ -983,7 +983,7 @@ static void SpriteCB_ReleaseMonFromBall(struct Sprite *sprite)
     StartSpriteAnim(sprite, 1);
     ballId = GetBattlerPokeballItemId(battler);
     AnimateBallOpenParticles(sprite->x, sprite->y - 5, 1, 28, ballId);
-    sprite->data[0] = LaunchBallFadeMonTask(TRUE, sprite->sBattler, 14, ballId);
+    sprite->data[0] = LaunchBallFadeMonTask(TRUE, sprite->sBattler, 0x701C, ballId);
     sprite->callback = HandleBallAnimEnd;
 
     if (gMain.inBattle)

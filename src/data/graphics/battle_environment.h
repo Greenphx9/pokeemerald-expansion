@@ -86,3 +86,65 @@ const u32 gBattleEnvironmentAnimTilemap_Building[] = INCBIN_U32("graphics/battle
 
 const u32 gBattleEnvironmentAnimTiles_Rayquaza[] = INCBIN_U32("graphics/battle_environment/sky/anim_tiles.4bpp.lz");
 const u32 gBattleEnvironmentAnimTilemap_Rayquaza[] = INCBIN_U32("graphics/battle_environment/sky/anim_map.bin.lz");
+
+const u32 gBattleEnvironmentTiles_Gen4GrassDay[] = INCBIN_U32("graphics/battle_environment/gen4/grass/day/tiles.4bpp.lz");
+const u8 gBattleEnvironmentPalette_Gen4GrassDay[] = INCBIN_U8("graphics/battle_environment/gen4/grass/day/palette.gbapal");
+const u32 gBattleEnvironmentTilemap_Gen4GrassDay[] = INCBIN_U32("graphics/battle_environment/gen4/grass/day/map.bin.lz");
+const u32 gBattleEnvironmentTiles_Gen4GrassAfternoon[] = INCBIN_U32("graphics/battle_environment/gen4/grass/afternoon/tiles.4bpp.lz");
+const u8 gBattleEnvironmentPalette_Gen4GrassAfternoon[] = INCBIN_U8("graphics/battle_environment/gen4/grass/afternoon/palette.gbapal");
+const u32 gBattleEnvironmentTilemap_Gen4GrassAfternoon[] = INCBIN_U32("graphics/battle_environment/gen4/grass/afternoon/map.bin.lz");
+const u32 gBattleEnvironmentTiles_Gen4GrassNight[] = INCBIN_U32("graphics/battle_environment/gen4/grass/night/tiles.4bpp.lz");
+const u8 gBattleEnvironmentPalette_Gen4GrassNight[] = INCBIN_U8("graphics/battle_environment/gen4/grass/night/palette.gbapal");
+const u32 gBattleEnvironmentTilemap_Gen4GrassNight[] = INCBIN_U32("graphics/battle_environment/gen4/grass/night/map.bin.lz");
+const u32 gBattleEnvironmentAnimTiles_Gen4GrassDay[] = INCBIN_U32("graphics/battle_environment/gen4/grass/anim_tiles.4bpp.lz");
+const u32 gBattleEnvironmentAnimTilemap_Gen4GrassDay[] = INCBIN_U32("graphics/battle_environment/gen4/grass/anim_map.bin.lz");
+
+const u32 gBattleEnvironmentTiles_Gen4WaterDay[] = INCBIN_U32("graphics/battle_environment/gen4/water/day/tiles.4bpp.lz");
+const u8 gBattleEnvironmentPalette_Gen4WaterDay[] = INCBIN_U8("graphics/battle_environment/gen4/water/day/palette.gbapal");
+const u32 gBattleEnvironmentTilemap_Gen4WaterDay[] = INCBIN_U32("graphics/battle_environment/gen4/water/day/map.bin.lz");
+const u32 gBattleEnvironmentTiles_Gen4WaterAfternoon[] = INCBIN_U32("graphics/battle_environment/gen4/water/afternoon/tiles.4bpp.lz");
+const u8 gBattleEnvironmentPalette_Gen4WaterAfternoon[] = INCBIN_U8("graphics/battle_environment/gen4/water/afternoon/palette.gbapal");
+const u32 gBattleEnvironmentTilemap_Gen4WaterAfternoon[] = INCBIN_U32("graphics/battle_environment/gen4/water/afternoon/map.bin.lz");
+const u32 gBattleEnvironmentTiles_Gen4WaterNight[] = INCBIN_U32("graphics/battle_environment/gen4/water/night/tiles.4bpp.lz");
+const u8 gBattleEnvironmentPalette_Gen4WaterNight[] = INCBIN_U8("graphics/battle_environment/gen4/water/night/palette.gbapal");
+const u32 gBattleEnvironmentTilemap_Gen4WaterNight[] = INCBIN_U32("graphics/battle_environment/gen4/water/night/map.bin.lz");
+const u32 gBattleEnvironmentAnimTiles_Gen4Water[] = INCBIN_U32("graphics/battle_environment/gen4/water/anim_tiles.4bpp.lz");
+const u32 gBattleEnvironmentAnimTilemap_Gen4Water[] = INCBIN_U32("graphics/battle_environment/gen4/water/anim_map.bin.lz");
+
+const u32 gBattleEnvironmentTiles_Gen4PlainDay[] = INCBIN_U32("graphics/battle_environment/gen4/plain/day/tiles.4bpp.lz");
+const u8 gBattleEnvironmentPalette_Gen4PlainDay[] = INCBIN_U8("graphics/battle_environment/gen4/plain/day/palette.gbapal");
+const u32 gBattleEnvironmentTilemap_Gen4PlainDay[] = INCBIN_U32("graphics/battle_environment/gen4/plain/day/map.bin.lz");
+const u32 gBattleEnvironmentTiles_Gen4PlainAfternoon[] = INCBIN_U32("graphics/battle_environment/gen4/plain/afternoon/tiles.4bpp.lz");
+const u8 gBattleEnvironmentPalette_Gen4PlainAfternoon[] = INCBIN_U8("graphics/battle_environment/gen4/plain/afternoon/palette.gbapal");
+const u32 gBattleEnvironmentTilemap_Gen4PlainAfternoon[] = INCBIN_U32("graphics/battle_environment/gen4/plain/afternoon/map.bin.lz");
+const u32 gBattleEnvironmentTiles_Gen4PlainNight[] = INCBIN_U32("graphics/battle_environment/gen4/plain/night/tiles.4bpp.lz");
+const u8 gBattleEnvironmentPalette_Gen4PlainNight[] = INCBIN_U8("graphics/battle_environment/gen4/plain/night/palette.gbapal");
+const u32 gBattleEnvironmentTilemap_Gen4PlainNight[] = INCBIN_U32("graphics/battle_environment/gen4/plain/night/map.bin.lz");
+
+const u32 gBattleEnvironmentTiles_Gen4WetPathDay[] = INCBIN_U32("graphics/battle_environment/gen4/wet_path/day/tiles.4bpp.lz");
+const u8 gBattleEnvironmentPalette_Gen4WetPathDay[] = INCBIN_U8("graphics/battle_environment/gen4/wet_path/day/palette.gbapal");
+const u32 gBattleEnvironmentTilemap_Gen4WetPathDay[] = INCBIN_U32("graphics/battle_environment/gen4/wet_path/day/map.bin.lz");
+const u32 gBattleEnvironmentTiles_Gen4WetPathAfternoon[] = INCBIN_U32("graphics/battle_environment/gen4/wet_path/afternoon/tiles.4bpp.lz");
+const u8 gBattleEnvironmentPalette_Gen4WetPathAfternoon[] = INCBIN_U8("graphics/battle_environment/gen4/wet_path/afternoon/palette.gbapal");
+const u32 gBattleEnvironmentTilemap_Gen4WetPathAfternoon[] = INCBIN_U32("graphics/battle_environment/gen4/wet_path/afternoon/map.bin.lz");
+const u32 gBattleEnvironmentTiles_Gen4WetPathNight[] = INCBIN_U32("graphics/battle_environment/gen4/wet_path/night/tiles.4bpp.lz");
+const u8 gBattleEnvironmentPalette_Gen4WetPathNight[] = INCBIN_U8("graphics/battle_environment/gen4/wet_path/night/palette.gbapal");
+const u32 gBattleEnvironmentTilemap_Gen4WetPathNight[] = INCBIN_U32("graphics/battle_environment/gen4/wet_path/night/map.bin.lz");
+
+const u32 gBattleEnvironmentTiles_Gen4Cave[] = INCBIN_U32("graphics/battle_environment/gen4/cave/tiles.4bpp.lz");
+const u8 gBattleEnvironmentPalette_Gen4Cave[] = INCBIN_U8("graphics/battle_environment/gen4/cave/palette.gbapal");
+const u32 gBattleEnvironmentTilemap_Gen4Cave[] = INCBIN_U32("graphics/battle_environment/gen4/cave/map.bin.lz");
+const u32 gBattleEnvironmentAnimTiles_Gen4Cave[] = INCBIN_U32("graphics/battle_environment/gen4/cave/anim_tiles.4bpp.lz");
+const u32 gBattleEnvironmentAnimTilemap_Gen4Cave[] = INCBIN_U32("graphics/battle_environment/gen4/cave/anim_map.bin.lz");
+
+const u32 gBattleEnvironmentTiles_Gen4Building1[] = INCBIN_U32("graphics/battle_environment/gen4/building/1/tiles.4bpp.lz");
+const u8 gBattleEnvironmentPalette_Gen4Building1[] = INCBIN_U8("graphics/battle_environment/gen4/building/1/palette.gbapal");
+const u32 gBattleEnvironmentTilemap_Gen4Building1[] = INCBIN_U32("graphics/battle_environment/gen4/building/1/map.bin.lz");
+const u32 gBattleEnvironmentTiles_Gen4Building2[] = INCBIN_U32("graphics/battle_environment/gen4/building/2/tiles.4bpp.lz");
+const u8 gBattleEnvironmentPalette_Gen4Building2[] = INCBIN_U8("graphics/battle_environment/gen4/building/2/palette.gbapal");
+const u32 gBattleEnvironmentTilemap_Gen4Building2[] = INCBIN_U32("graphics/battle_environment/gen4/building/2/map.bin.lz");
+const u32 gBattleEnvironmentTiles_Gen4Building3[] = INCBIN_U32("graphics/battle_environment/gen4/building/3/tiles.4bpp.lz");
+const u8 gBattleEnvironmentPalette_Gen4Building3[] = INCBIN_U8("graphics/battle_environment/gen4/building/3/palette.gbapal");
+const u32 gBattleEnvironmentTilemap_Gen4Building3[] = INCBIN_U32("graphics/battle_environment/gen4/building/3/map.bin.lz");
+const u32 gBattleEnvironmentAnimTiles_Gen4Building[] = INCBIN_U32("graphics/battle_environment/gen4/building/anim_tiles.4bpp.lz");
+const u32 gBattleEnvironmentAnimTilemap_Gen4Building[] = INCBIN_U32("graphics/battle_environment/gen4/building/anim_map.bin.lz");
