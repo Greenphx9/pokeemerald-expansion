@@ -917,8 +917,8 @@ void DrawMainBattleBackground(void)
                 LZDecompressVram(tilemap, (void *)(BG_SCREEN_ADDR(26)));
                 // load first 3 palettes at BG ID 2
                 LoadPalette(palette, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
-                // load the other 6 palettes at BG ID 10
-                LoadPalette(palette + (3 * PLTT_SIZE_4BPP), BG_PLTT_ID(10), 6 * PLTT_SIZE_4BPP);                
+                // load the other 3 palettes at BG ID 10
+                LoadPalette(palette + (3 * PLTT_SIZE_4BPP), BG_PLTT_ID(12), 4 * PLTT_SIZE_4BPP);                
             }
             else
             {
@@ -964,8 +964,8 @@ void DrawMainBattleBackground(void)
                 LZDecompressVram(tilemap, (void *)(BG_SCREEN_ADDR(26)));
                 // load first 3 palettes at BG ID 2
                 LoadPalette(palette, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
-                // load the other 6 palettes at BG ID 10
-                LoadPalette(palette + (3 * PLTT_SIZE_4BPP), BG_PLTT_ID(10), 6 * PLTT_SIZE_4BPP);                
+                // load the other 3 palettes at BG ID 10
+                LoadPalette(palette + (3 * PLTT_SIZE_4BPP), BG_PLTT_ID(12), 4 * PLTT_SIZE_4BPP);                
             }
             else
             {
@@ -1585,8 +1585,8 @@ bool8 LoadChosenBattleElement(u8 caseId)
                     const u8 * palette = GetDNSBattleEnvironmentPalette(gBattleEnvironment, timeOfDay);
                     // load first 3 palettes at BG ID 2
                     LoadPalette(palette, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);
-                    // load the other 6 palettes at BG ID 10
-                    LoadPalette(palette + (3 * PLTT_SIZE_4BPP), BG_PLTT_ID(10), 6 * PLTT_SIZE_4BPP);            
+                    // load the other 3 palettes at BG ID 10
+                    LoadPalette(palette + (3 * PLTT_SIZE_4BPP), BG_PLTT_ID(12), 4 * PLTT_SIZE_4BPP);            
                 }
                 else
                     LoadPalette(sBattleEnvironmentTable[gBattleEnvironment].palette, BG_PLTT_ID(2), 3 * PLTT_SIZE_4BPP);

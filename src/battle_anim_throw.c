@@ -1098,7 +1098,7 @@ static void SpriteCB_Ball_Arc(struct Sprite *sprite)
 
             enum PokeBall ballId = ItemIdToBallId(gLastUsedItem);
             AnimateBallOpenParticles(sprite->x, sprite->y - 5, 1, 28, ballId);
-            LaunchBallFadeMonTask(FALSE, gBattleAnimTarget, 0xFC1C, ballId);
+            LaunchBallFadeMonTask(FALSE, gBattleAnimTarget, 0x701C, ballId);
         }
     }
 }
@@ -1678,7 +1678,7 @@ static void SpriteCB_Ball_Release_Step(struct Sprite *sprite)
 
     enum PokeBall ballId = ItemIdToBallId(gLastUsedItem);
     AnimateBallOpenParticles(sprite->x, sprite->y - 5, 1, 28, ballId);
-    LaunchBallFadeMonTask(TRUE, gBattleAnimTarget, 0xFC1C, ballId);
+    LaunchBallFadeMonTask(TRUE, gBattleAnimTarget, 0x701C, ballId);
 
     // Animate Pokémon emerging from Poké Ball
     gSprites[gBattlerSpriteIds[gBattleAnimTarget]].invisible = FALSE;

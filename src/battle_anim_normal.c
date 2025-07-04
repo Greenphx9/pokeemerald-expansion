@@ -611,7 +611,7 @@ void AnimTask_BlendColorCycleExclude(u8 taskId)
     }
 
     if (gBattleAnimArgs[0] == 1)
-        selectedPalettes |= 0xFC1C;
+        selectedPalettes |= 0x701C;
 
     gTasks[taskId].tPalSelectorHi = selectedPalettes >> 16;
     gTasks[taskId].tPalSelectorLo = selectedPalettes & 0xFFFF;
