@@ -177,6 +177,8 @@ Debug_CheckSaveBlock::
 	msgbox Debug_SaveBlock3Size, MSGBOX_DEFAULT
 	callnative CheckPokemonStorageSize
 	msgbox Debug_PokemonStorageSize, MSGBOX_DEFAULT
+	callnative CheckPokemonSize
+	msgbox Debug_PokemonSize, MSGBOX_DEFAULT
 	release
 	end
 
@@ -195,6 +197,9 @@ Debug_SaveBlock3Size::
 Debug_PokemonStorageSize::
 	.string "{PKMN}Storage size: {STR_VAR_1}b/{STR_VAR_2}b.\n"
 	.string "Free space: {STR_VAR_3}b.$"
+
+Debug_PokemonSize::
+	.string "{PKMN} size: {STR_VAR_1}b.$" 
 
 Debug_CheckROMSpace::
 	callnative CheckROMSize

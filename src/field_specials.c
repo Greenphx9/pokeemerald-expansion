@@ -1683,15 +1683,6 @@ bool8 BufferTMHMMoveName(void)
 
 bool8 IsBadEggInParty(void)
 {
-    u8 partyCount = CalculatePlayerPartyCount();
-    u8 i;
-
-    for (i = 0; i < partyCount; i++)
-    {
-        if (GetMonData(&gPlayerParty[i], MON_DATA_SANITY_IS_BAD_EGG) == TRUE)
-            return TRUE;
-    }
-
     return FALSE;
 }
 
