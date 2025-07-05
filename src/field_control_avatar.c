@@ -507,6 +507,23 @@ static const u8 *GetInteractedMetatileScript(struct MapPosition *position, u8 me
         return EventScript_Questionnaire;
     if (MetatileBehavior_IsTrainerHillTimer(metatileBehavior) == TRUE)
         return EventScript_TrainerHillTimer;
+
+    // FRLG scripts
+    if (MetatileBehavior_IsFood(metatileBehavior) == TRUE)
+        return EventScript_Food;
+    if (MetatileBehavior_IsDresser(metatileBehavior) == TRUE)
+        return EventScript_Dresser;
+    if (MetatileBehavior_IsKitchen(metatileBehavior) == TRUE)
+        return EventScript_Kitchen;
+    if (MetatileBehavior_IsComputer(metatileBehavior) == TRUE)
+        return EventScript_Computer;
+    if (MetatileBehavior_IsCup(metatileBehavior) == TRUE)
+        return EventScript_Cup;
+    if (MetatileBehavior_IsCabinet(metatileBehavior) == TRUE)
+        return EventScript_Cabinet;
+    if (MetatileBehavior_IsPainting(metatileBehavior) == TRUE)
+        return EventScript_Painting;
+
     if (MetatileBehavior_IsPokeMartSign(metatileBehavior) == TRUE)
     {
         if(direction != DIR_NORTH)
