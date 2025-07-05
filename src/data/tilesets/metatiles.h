@@ -219,3 +219,6 @@ const u16 gMetatileAttributes_RG_Building[] = INCBIN_U16("data/tilesets/primary/
 
 const u16 gMetatiles_RG_ViridianCity[] = INCBIN_U16("data/tilesets/secondary/rg_viridian_city/metatiles.bin");
 const u16 gMetatileAttributes_RG_ViridianCity[] = INCBIN_U16("data/tilesets/secondary/rg_viridian_city/metatile_attributes.bin");
+
+const u16 gMetatiles_RG_GenericBuilding1[] = INCBIN_U16("data/tilesets/secondary/rg_generic_building_1/metatiles.bin");
+const u16 gMetatileAttributes_RG_GenericBuilding1[] = INCBIN_U16("data/tilesets/secondary/rg_generic_building_1/metatile_attributes.bin");
