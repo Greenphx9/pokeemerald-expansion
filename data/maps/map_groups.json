@@ -34,7 +34,8 @@
     "gMapGroup_IndoorRoute123",
     "gMapGroup_IndoorRoute119",
     "gMapGroup_IndoorRoute124",
-    "gMapGroup_PalletTown"
+    "gMapGroup_PalletTown",
+    "gMapGroup_ViridianCity"
   ],
   "gMapGroup_TownsAndRoutes": [
     "PetalburgCity",
@@ -94,8 +95,7 @@
     "Underwater_Route129",
     "Underwater_Route105",
     "Underwater_Route125",
-    "TilesetTest",
-    "ViridianCity"
+    "TilesetTest"
   ],
   "gMapGroup_IndoorLittleroot": [
     "LittlerootTown_BrendansHouse_1F",
@@ -626,5 +626,8 @@
   ],
   "gMapGroup_PalletTown": [
     "PalletTown"
+  ],
+  "gMapGroup_ViridianCity": [
+    "ViridianCity"
   ]
 }
