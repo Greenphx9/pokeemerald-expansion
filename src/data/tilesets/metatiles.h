@@ -213,3 +213,6 @@ const u16 gMetatileAttributes_RG_General[] = INCBIN_U16("data/tilesets/primary/r
 
 const u16 gMetatiles_RG_PalletTown[] = INCBIN_U16("data/tilesets/secondary/rg_pallet_town/metatiles.bin");
 const u16 gMetatileAttributes_RG_PalletTown[] = INCBIN_U16("data/tilesets/secondary/rg_pallet_town/metatile_attributes.bin");
+
+const u16 gMetatiles_RG_Building[] = INCBIN_U16("data/tilesets/primary/rg_building/metatiles.bin");
+const u16 gMetatileAttributes_RG_Building[] = INCBIN_U16("data/tilesets/primary/rg_building/metatile_attributes.bin");

@@ -6,25 +6,25 @@
   "region_map_section": "MAPSEC_ABANDONED_SHIP",
   "requires_flash": false,
   "weather": "WEATHER_NONE",
-  "map_type": "MAP_TYPE_TOWN",
+  "map_type": "MAP_TYPE_INDOOR",
   "allow_cycling": false,
   "allow_escaping": false,
-  "allow_running": false,
+  "allow_running": true,
   "show_map_name": true,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
   "connections": null,
   "object_events": [],
   "warp_events": [
     {
-      "x": 6,
-      "y": 10,
+      "x": 4,
+      "y": 4,
       "elevation": 0,
       "dest_map": "MAP_TILESET_TEST",
       "dest_warp_id": "0"
     },
     {
-      "x": 13,
-      "y": 10,
+      "x": 11,
+      "y": 2,
       "elevation": 0,
       "dest_map": "MAP_TILESET_TEST",
       "dest_warp_id": "1"
@@ -37,8 +37,8 @@
       "dest_warp_id": "2"
     },
     {
-      "x": 7,
-      "y": 14,
+      "x": 9,
+      "y": 10,
       "elevation": 0,
       "dest_map": "MAP_TILESET_TEST",
       "dest_warp_id": "5"
@@ -58,8 +58,8 @@
       "dest_warp_id": "7"
     },
     {
-      "x": 18,
-      "y": 5,
+      "x": 9,
+      "y": 6,
       "elevation": 0,
       "dest_map": "MAP_TILESET_TEST",
       "dest_warp_id": "0"

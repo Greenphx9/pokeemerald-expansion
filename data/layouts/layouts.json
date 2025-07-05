@@ -4416,7 +4416,7 @@
       "name": "TilesetTest_Layout",
       "width": 30,
       "height": 30,
-      "primary_tileset": "gTileset_RG_General",
+      "primary_tileset": "gTileset_RG_Building",
       "secondary_tileset": "gTileset_RG_PalletTown",
       "border_filepath": "data/layouts/TilesetTest/border.bin",
       "blockdata_filepath": "data/layouts/TilesetTest/map.bin"
