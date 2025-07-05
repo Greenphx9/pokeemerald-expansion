@@ -16,15 +16,15 @@
   "object_events": [],
   "warp_events": [
     {
-      "x": 4,
-      "y": 4,
+      "x": 3,
+      "y": 6,
       "elevation": 0,
       "dest_map": "MAP_TILESET_TEST",
       "dest_warp_id": "0"
     },
     {
-      "x": 11,
-      "y": 2,
+      "x": 6,
+      "y": 23,
       "elevation": 0,
       "dest_map": "MAP_TILESET_TEST",
       "dest_warp_id": "1"
@@ -58,7 +58,7 @@
       "dest_warp_id": "7"
     },
     {
-      "x": 9,
+      "x": 16,
       "y": 6,
       "elevation": 0,
       "dest_map": "MAP_TILESET_TEST",

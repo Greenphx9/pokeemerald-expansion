@@ -440,6 +440,9 @@
 #define METATILE_RG_PalletTown_Door         0x2A3
 #define METATILE_RG_PalletTown_OaksLabDoor  0x2AC
 
+// gTileset_RG_ViridianCity
+#define METATILE_RG_ViridianCity_Door  0x299
+
 // gTileset_Rustboro
 #define METATILE_Rustboro_Door_Gray  0x21F
 #define METATILE_Rustboro_Door_Tan   0x22F
