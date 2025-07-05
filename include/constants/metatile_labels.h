@@ -431,10 +431,18 @@
 #define METATILE_PokemonCenter_Floor_ShadowTop           0x21E
 #define METATILE_PokemonCenter_Floor_ShadowTop_Alt       0x2DC
 
+// gTileset_RG_Building
+#define METATILE_RG_Building_PCOff  0x062
+#define METATILE_RG_Building_PCOn   0x063
+
 // gTileset_RG_General
 #define METATILE_RG_General_Door               0x03D
 #define METATILE_RG_General_SlidingDoubleDoor  0x15B
 #define METATILE_RG_General_SlidingSingleDoor  0x062
+
+// gTileset_RG_GenericBuilding1
+#define METATILE_RG_GenericBuilding1_PlayersPCOff  0x28F
+#define METATILE_RG_GenericBuilding1_PlayersPCOn   0x28A
 
 // gTileset_RG_PalletTown
 #define METATILE_RG_PalletTown_Door         0x2A3

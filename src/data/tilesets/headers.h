@@ -874,3 +874,14 @@ const struct Tileset gTileset_RG_ViridianCity =
     .metatileAttributes = gMetatileAttributes_RG_ViridianCity,
     .callback = NULL,
 };
+
+const struct Tileset gTileset_RG_GenericBuilding1 =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_RG_GenericBuilding1,
+    .palettes = gTilesetPalettes_RG_GenericBuilding1,
+    .metatiles = gMetatiles_RG_GenericBuilding1,
+    .metatileAttributes = gMetatileAttributes_RG_GenericBuilding1,
+    .callback = NULL,
+};
