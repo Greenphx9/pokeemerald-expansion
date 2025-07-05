@@ -207,3 +207,15 @@ const u16 gMetatileAttributes_MysteryEventsHouse[] = INCBIN_U16("data/tilesets/s
 
 const u16 gMetatiles_UnionRoom[] = INCBIN_U16("data/tilesets/secondary/union_room/metatiles.bin");
 const u16 gMetatileAttributes_UnionRoom[] = INCBIN_U16("data/tilesets/secondary/union_room/metatile_attributes.bin");
+
+const u16 gMetatiles_RG_General[] = INCBIN_U16("data/tilesets/primary/rg_general/metatiles.bin");
+const u16 gMetatileAttributes_RG_General[] = INCBIN_U16("data/tilesets/primary/rg_general/metatile_attributes.bin");
+
+const u16 gMetatiles_RG_PalletTown[] = INCBIN_U16("data/tilesets/secondary/rg_pallet_town/metatiles.bin");
+const u16 gMetatileAttributes_RG_PalletTown[] = INCBIN_U16("data/tilesets/secondary/rg_pallet_town/metatile_attributes.bin");
+
+const u16 gMetatiles_RG_Building[] = INCBIN_U16("data/tilesets/primary/rg_building/metatiles.bin");
+const u16 gMetatileAttributes_RG_Building[] = INCBIN_U16("data/tilesets/primary/rg_building/metatile_attributes.bin");
+
+const u16 gMetatiles_RG_ViridianCity[] = INCBIN_U16("data/tilesets/secondary/rg_viridian_city/metatiles.bin");
+const u16 gMetatileAttributes_RG_ViridianCity[] = INCBIN_U16("data/tilesets/secondary/rg_viridian_city/metatile_attributes.bin");

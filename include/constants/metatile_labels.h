@@ -431,6 +431,18 @@
 #define METATILE_PokemonCenter_Floor_ShadowTop           0x21E
 #define METATILE_PokemonCenter_Floor_ShadowTop_Alt       0x2DC
 
+// gTileset_RG_General
+#define METATILE_RG_General_Door               0x03D
+#define METATILE_RG_General_SlidingDoubleDoor  0x15B
+#define METATILE_RG_General_SlidingSingleDoor  0x062
+
+// gTileset_RG_PalletTown
+#define METATILE_RG_PalletTown_Door         0x2A3
+#define METATILE_RG_PalletTown_OaksLabDoor  0x2AC
+
+// gTileset_RG_ViridianCity
+#define METATILE_RG_ViridianCity_Door  0x299
+
 // gTileset_Rustboro
 #define METATILE_Rustboro_Door_Gray  0x21F
 #define METATILE_Rustboro_Door_Tan   0x22F

@@ -17,3 +17,5 @@ Many branches or ideas are borrowed from other people and used by Pokemon Irides
 - CyanSMP64, aichiya: [DPPT, HGSS, BW Music Branch](https://github.com/aichiya/pokeemerald-expansion/commits/pokeemerald-expansion-dppt-hgss-music-plus-bw-sequences/)
 - Green Jerry: [HGSS Textboxes](https://www.pokecommunity.com/threads/firered-text-box-patches.410584/)
 - TheXaman, Kiy, usigusom, (), 黒インク: [DS Party Screen](https://github.com/Greenphx9/pokeemerald-expansion/tree/ds-party-screen-expansion)
+- Ghoulslash: [Sideways Stairs tiles](https://www.pokecommunity.com/threads/sideways-stairs.435887/)
+- WesleyFG: [HGSS Path tiles](https://www.deviantart.com/wesleyfg/art/HGSS-TILISET-MY-WORK-COMPLETE-215147688)

@@ -830,3 +830,47 @@ const struct Tileset gTileset_UnionRoom =
     .metatileAttributes = gMetatileAttributes_UnionRoom,
     .callback = NULL,
 };
+
+const struct Tileset gTileset_RG_General =
+{
+    .isCompressed = TRUE,
+    .isSecondary = FALSE,
+    .tiles = gTilesetTiles_RG_General,
+    .palettes = gTilesetPalettes_RG_General,
+    .metatiles = gMetatiles_RG_General,
+    .metatileAttributes = gMetatileAttributes_RG_General,
+    .callback = InitTilesetAnim_RG_General,
+};
+
+const struct Tileset gTileset_RG_PalletTown =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_RG_PalletTown,
+    .palettes = gTilesetPalettes_RG_PalletTown,
+    .metatiles = gMetatiles_RG_PalletTown,
+    .metatileAttributes = gMetatileAttributes_RG_PalletTown,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_RG_Building =
+{
+    .isCompressed = TRUE,
+    .isSecondary = FALSE,
+    .tiles = gTilesetTiles_RG_Building,
+    .palettes = gTilesetPalettes_RG_Building,
+    .metatiles = gMetatiles_RG_Building,
+    .metatileAttributes = gMetatileAttributes_RG_Building,
+    .callback = NULL,
+};
+
+const struct Tileset gTileset_RG_ViridianCity =
+{
+    .isCompressed = TRUE,
+    .isSecondary = TRUE,
+    .tiles = gTilesetTiles_RG_ViridianCity,
+    .palettes = gTilesetPalettes_RG_ViridianCity,
+    .metatiles = gMetatiles_RG_ViridianCity,
+    .metatileAttributes = gMetatileAttributes_RG_ViridianCity,
+    .callback = NULL,
+};
