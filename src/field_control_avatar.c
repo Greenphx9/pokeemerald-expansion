@@ -425,6 +425,7 @@ static const u8 *GetInteractedBackgroundEventScript(struct MapPosition *position
     {
     case BG_EVENT_PLAYER_FACING_ANY:
     default:
+        gSpecialVar_Facing = direction;
         return bgEvent->bgUnion.script;
     case BG_EVENT_PLAYER_FACING_NORTH:
         if (direction != DIR_NORTH)
@@ -449,6 +450,7 @@ static const u8 *GetInteractedBackgroundEventScript(struct MapPosition *position
         gSpecialVar_0x8005 = (u32)bgEvent->bgUnion.script;
         if (FlagGet(gSpecialVar_0x8004) == TRUE)
             return NULL;
+        gSpecialVar_Facing = direction;
         return EventScript_HiddenItemScript;
     case BG_EVENT_SECRET_BASE:
         if (direction == DIR_NORTH)
@@ -460,12 +462,15 @@ static const u8 *GetInteractedBackgroundEventScript(struct MapPosition *position
         return NULL;
     }
 
+    gSpecialVar_Facing = direction;
     return bgEvent->bgUnion.script;
 }
 
 static const u8 *GetInteractedMetatileScript(struct MapPosition *position, u8 metatileBehavior, u8 direction)
 {
     s8 elevation;
+
+    gSpecialVar_Facing = direction;
 
     if (MetatileBehavior_IsPlayerFacingTVScreen(metatileBehavior, direction) == TRUE)
         return EventScript_TV;

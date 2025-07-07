@@ -5328,6 +5328,18 @@
       "secondary_tileset": "gTileset_RG_ViridianCity",
       "border_filepath": "data/layouts/ViridianCity/border.bin",
       "blockdata_filepath": "data/layouts/ViridianCity/map.bin"
+    },
+    {
+      "id": "LAYOUT_PALLET_TOWN_PLAYERS_HOUSE_1F",
+      "name": "PalletTown_PlayersHouse_1F_Layout",
+      "width": 13,
+      "height": 10,
+      "border_width": 2,
+      "border_height": 2,
+      "primary_tileset": "gTileset_RG_Building",
+      "secondary_tileset": "gTileset_RG_GenericBuilding1",
+      "border_filepath": "data/layouts/PalletTown_PlayersHouse_1F/border.bin",
+      "blockdata_filepath": "data/layouts/PalletTown_PlayersHouse_1F/map.bin"
     }
   ]
 }

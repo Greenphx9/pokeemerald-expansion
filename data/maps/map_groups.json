@@ -625,7 +625,8 @@
     "Route124_DivingTreasureHuntersHouse"
   ],
   "gMapGroup_PalletTown": [
-    "PalletTown"
+    "PalletTown",
+    "PalletTown_PlayersHouse_1F"
   ],
   "gMapGroup_ViridianCity": [
     "ViridianCity"

@@ -1,0 +1,29 @@
+mapscripts PalletTown_PlayersHouse_1F_MapScripts
+{
+    
+}
+
+script PalletTown_PlayersHouse_1F_EventScript_TV
+{
+    lockall
+    if (var(VAR_FACING) != DIR_NORTH)
+    {
+        msgbox("Oops, wrong side…")
+    }
+    else
+    {
+        checkplayergender
+        if (var(VAR_RESULT) == MALE)
+        {
+            msgbox("There's a movie on TV.\nFour boys are walking on railroad\ltracks.\p…I better go, too."
+            )
+        }
+        else
+        {
+            msgbox("There's a movie on TV.\nA girl with her hair in pigtails is\lwalking up a brick road.\p…I better go, too."
+            )
+        }
+    }
+    releaseall
+    end
+}
