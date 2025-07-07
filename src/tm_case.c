@@ -1,4 +1,5 @@
 #include "global.h"
+#include "battle_main.h"
 #include "bg.h"
 #include "data.h"
 #include "decompress.h"
@@ -12,6 +13,7 @@
 #include "menu.h"
 #include "menu_helpers.h"
 #include "money.h"
+#include "move.h"
 #include "palette.h"
 #include "party_menu.h"
 #include "pokemon_icon.h"
@@ -635,9 +637,9 @@ static bool8 HandleLoadTMCaseGraphicsAndPalettes(void)
         break;
     case 3:
         if (gSaveBlock2Ptr->playerGender == MALE)
-            LoadCompressedPalette(gTMCaseMenu_Male_Pal, BG_PLTT_ID(0), 4 * PLTT_SIZE_4BPP);
+            LoadPalette(gTMCaseMenu_Male_Pal, BG_PLTT_ID(0), 4 * PLTT_SIZE_4BPP);
         else
-            LoadCompressedPalette(gTMCaseMenu_Female_Pal, BG_PLTT_ID(0), 4 * PLTT_SIZE_4BPP);
+            LoadPalette(gTMCaseMenu_Female_Pal, BG_PLTT_ID(0), 4 * PLTT_SIZE_4BPP);
         sTMCaseDynamicResources->seqId++;
         break;
     case 4:
@@ -769,7 +771,7 @@ static void PrintDescription(s32 itemIndex)
 {
     const u8 * str;
     if (itemIndex != LIST_CANCEL)
-        str = ItemId_GetDescription(BagGetItemIdByPocketPosition(POCKET_TM_HM, itemIndex));
+        str = GetItemDescription(BagGetItemIdByPocketPosition(POCKET_TM_HM, itemIndex));
     else
         str = gText_TMCaseWillBePutAway;
     FillWindowPixelBuffer(WIN_DESCRIPTION, 0);
@@ -1194,7 +1196,7 @@ static void Task_SelectedTMHM_Sell(u8 taskId)
 {
     s16 * data = gTasks[taskId].data;
 
-    if (ItemId_GetPrice(gSpecialVar_ItemId) == 0)
+    if (GetItemPrice(gSpecialVar_ItemId) == 0)
     {
         // Can't sell TM/HMs with no price (by default this is just the HMs)
         CopyItemName(gSpecialVar_ItemId, gStringVar2);
@@ -1224,7 +1226,7 @@ static void Task_AskConfirmSaleWithAmount(u8 taskId)
 {
     s16 * data = gTasks[taskId].data;
 
-    ConvertIntToDecimalStringN(gStringVar3, ItemId_GetPrice(BagGetItemIdByPocketPosition(POCKET_TM_HM, tSelection)) / 2 * tQuantitySelected, STR_CONV_MODE_LEFT_ALIGN, 6);
+    ConvertIntToDecimalStringN(gStringVar3, GetItemPrice(BagGetItemIdByPocketPosition(POCKET_TM_HM, tSelection)) / 2 * tQuantitySelected, STR_CONV_MODE_LEFT_ALIGN, 6);
     StringExpandPlaceholders(gStringVar4, gText_ICanPayVar1);
     PrintMessageWithFollowupTask(taskId, FONT_SHORT, gStringVar4, Task_PlaceYesNoBox);
 }
@@ -1259,7 +1261,7 @@ static void Task_InitQuantitySelectUI(u8 taskId)
     ConvertIntToDecimalStringN(gStringVar1, 1, STR_CONV_MODE_LEADING_ZEROS, 2);
     StringExpandPlaceholders(gStringVar4, gText_xVar1);
     TMCase_Print(WIN_SELL_QUANTITY, FONT_SMALL, gStringVar4, 4, 10, 1, 0, 0, COLOR_DARK);
-    SellTM_PrintQuantityAndSalePrice(1, ItemId_GetPrice(BagGetItemIdByPocketPosition(POCKET_TM_HM, tSelection)) / 2 * tQuantitySelected);
+    SellTM_PrintQuantityAndSalePrice(1, GetItemPrice(BagGetItemIdByPocketPosition(POCKET_TM_HM, tSelection)) / 2 * tQuantitySelected);
     PrintPlayersMoney();
     CreateQuantityScrollArrows();
     ScheduleBgCopyTilemapToVram(0);
@@ -1282,7 +1284,7 @@ static void Task_QuantitySelect_HandleInput(u8 taskId)
 
     if (AdjustQuantityAccordingToDPadInput(&tQuantitySelected, tQuantityOwned) == 1)
     {
-        SellTM_PrintQuantityAndSalePrice(tQuantitySelected, ItemId_GetPrice(BagGetItemIdByPocketPosition(POCKET_TM_HM, tSelection)) / 2 * tQuantitySelected);
+        SellTM_PrintQuantityAndSalePrice(tQuantitySelected, GetItemPrice(BagGetItemIdByPocketPosition(POCKET_TM_HM, tSelection)) / 2 * tQuantitySelected);
     }
     else if (JOY_NEW(A_BUTTON))
     {
@@ -1317,7 +1319,7 @@ static void Task_PrintSaleConfirmedText(u8 taskId)
     PutWindowTilemap(WIN_LIST);
     ScheduleBgCopyTilemapToVram(0);
     CopyItemName(gSpecialVar_ItemId, gStringVar1);
-    ConvertIntToDecimalStringN(gStringVar3, ItemId_GetPrice(BagGetItemIdByPocketPosition(POCKET_TM_HM, tSelection)) / 2 * tQuantitySelected, STR_CONV_MODE_LEFT_ALIGN, 6);
+    ConvertIntToDecimalStringN(gStringVar3, GetItemPrice(BagGetItemIdByPocketPosition(POCKET_TM_HM, tSelection)) / 2 * tQuantitySelected, STR_CONV_MODE_LEFT_ALIGN, 6);
     StringExpandPlaceholders(gStringVar4, gText_TurnedOverVar1ForVar2);
     PrintMessageWithFollowupTask(taskId, FONT_SHORT, gStringVar4, Task_DoSaleOfTMs);
 }
@@ -1328,7 +1330,7 @@ static void Task_DoSaleOfTMs(u8 taskId)
 
     PlaySE(SE_SHOP);
     RemoveBagItem(gSpecialVar_ItemId, tQuantitySelected);
-    AddMoney(&gSaveBlock1Ptr->money, ItemId_GetPrice(gSpecialVar_ItemId) / 2 * tQuantitySelected);
+    AddMoney(&gSaveBlock1Ptr->money, GetItemPrice(gSpecialVar_ItemId) / 2 * tQuantitySelected);
     DestroyListMenuTask(tListTaskId, &sTMCaseStaticResources.scrollOffset, &sTMCaseStaticResources.selectedRow);
     TMCaseSetup_GetTMCount();
     TMCaseSetup_InitListMenuPositions();
@@ -1530,6 +1532,7 @@ static void SetDiscSpriteAnim(struct Sprite *sprite, u8 tmIdx)
 static void TintDiscpriteByType(u8 type)
 {
     u8 palOffset = PLTT_ID(IndexOfSpritePaletteTag(TAG_DISC));
+    DebugPrintf("Type: %S", gTypesInfo[type].name);
     LoadPalette(sTMSpritePaletteBuffer + sTMSpritePaletteOffsetByType[type], OBJ_PLTT_OFFSET + palOffset, PLTT_SIZE_4BPP);
 }
 
@@ -1578,6 +1581,7 @@ static void SpriteCB_SwapDisc(struct Sprite *sprite)
             if (sprite->sItemId != ITEM_NONE)
             {
                 sprite->sState++;
+                DebugPrintf("itemId: %d, move id: %S", sprite->sItemId, GetMoveName(ItemIdToBattleMoveId(sprite->sItemId)));
                 TintDiscpriteByType(gMovesInfo[ItemIdToBattleMoveId(sprite->sItemId)].type);
                 sprite->sItemId -= ITEM_TM01;
                 SetDiscSpriteAnim(sprite, sprite->sItemId);
@@ -1601,16 +1605,18 @@ static void SpriteCB_SwapDisc(struct Sprite *sprite)
 }
 
 // - 1 excludes TYPE_MYSTERY
-#define NUM_DISC_COLORS ((NUMBER_OF_MON_TYPES - 1) * 16)
+#define NUM_DISC_COLORS ((NUMBER_OF_MON_TYPES - 3) * 16)
 
 static void LoadDiscTypePalettes(void)
 {
     struct SpritePalette spritePalette;
 
     sTMSpritePaletteBuffer = Alloc(NUM_DISC_COLORS * sizeof(u16));
-    LZDecompressWram(gTMCaseDiscTypes1_Pal, sTMSpritePaletteBuffer); // Decompress the first 16
-    LZDecompressWram(gTMCaseDiscTypes2_Pal, sTMSpritePaletteBuffer + 0x100); // Decompress the rest (Only 17 total, this is just Dragon type)
-    spritePalette.data = sTMSpritePaletteBuffer + NUM_DISC_COLORS;
+
+    CpuCopy16(gTMCaseDiscTypes1_Pal, sTMSpritePaletteBuffer, 0x100 * sizeof(u16)); // Load the first 16 colours
+    CpuCopy16(gTMCaseDiscTypes2_Pal, sTMSpritePaletteBuffer + 0x100, (NUM_DISC_COLORS - 16) * 0x10 * sizeof(u16)); // Load the rest of the colours
+
+    spritePalette.data = sTMSpritePaletteBuffer;
     spritePalette.tag = TAG_DISC;
     LoadSpritePalette(&spritePalette);
 }

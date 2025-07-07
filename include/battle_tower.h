@@ -27,9 +27,9 @@ struct BattleFrontierTrainer
 };
 
 extern const u8 gTowerMaleFacilityClasses[30];
-extern const u8 gTowerMaleTrainerGfxIds[30];
+extern const u16 gTowerMaleTrainerGfxIds[30];
 extern const u8 gTowerFemaleFacilityClasses[20];
-extern const u8 gTowerFemaleTrainerGfxIds[20];
+extern const u16 gTowerFemaleTrainerGfxIds[20];
 extern const struct TrainerMon gBattleFrontierMons[];
 extern const struct BattleFrontierTrainer gBattleFrontierTrainers[];
 extern const struct TrainerMon gSlateportBattleTentMons[];
@@ -77,5 +77,6 @@ u16 FacilityClassToGraphicsId(u8 facilityClass);
 bool32 ValidateBattleTowerRecord(u8 recordId); // unused
 void TrySetLinkBattleTowerEnemyPartyLevel(void);
 void CreateFacilityMon(const struct TrainerMon *fmon, u16 level, u8 fixedIV, u32 otID, u32 flags, struct Pokemon *dst);
+void FillPartnerParty(u16 trainerId);
 
 #endif //GUARD_BATTLE_TOWER_H
