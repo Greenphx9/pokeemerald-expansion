@@ -4,6 +4,7 @@
 #include "blit.h"
 #include "dma3.h"
 #include "event_data.h"
+#include "field_specials.h"
 #include "field_weather.h"
 #include "graphics.h"
 #include "main.h"
@@ -190,6 +191,21 @@ u16 AddTextPrinterParameterized2(u8 windowId, u8 fontId, const u8 *str, u8 speed
 
     gTextFlags.useAlternateDownArrow = 0;
     return AddTextPrinter(&printer, speed, callback);
+}
+
+void AddTextPrinterDiffStyle(bool8 allowSkippingDelayWithButtonPress)
+{
+    u8 color;
+    void (*callback)(struct TextPrinterTemplate *, u16) = NULL;
+
+    gTextFlags.canABSpeedUpPrint = allowSkippingDelayWithButtonPress;    
+    color = ContextNpcGetTextColor();
+    if (color == NPC_TEXT_COLOR_MALE)
+        AddTextPrinterParameterized2(0, FONT_SHORT, gStringVar4, GetPlayerTextSpeedDelay(), callback, TEXT_COLOR_BLUE, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+    else if (color == NPC_TEXT_COLOR_FEMALE)
+        AddTextPrinterParameterized2(0, FONT_SHORT, gStringVar4, GetPlayerTextSpeedDelay(), callback, TEXT_COLOR_RED, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+    else // NPC_TEXT_COLOR_MON / NPC_TEXT_COLOR_NEUTRAL / NPC_TEXT_COLOR_FEMALE
+        AddTextPrinterParameterized2(0, FONT_SHORT, gStringVar4, GetPlayerTextSpeedDelay(), callback, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
 }
 
 void AddTextPrinterForMessage(bool8 allowSkippingDelayWithButtonPress)

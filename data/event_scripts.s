@@ -91,7 +91,8 @@ gSpecialVars::
 	.4byte gSpecialVar_ContestCategory
 	.4byte gSpecialVar_MonBoxId
 	.4byte gSpecialVar_MonBoxPos
-	.4byte gSpecialVar_Unused_0x8014
+	.4byte gSpecialVar_TextColor
+	.4byte gSpecialVar_PrevTextColor
 	.4byte gTrainerBattleParameter + 2 // gTrainerBattleParameter.params.opponentA
 
 	.include "data/specials.inc"

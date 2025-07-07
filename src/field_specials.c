@@ -7,6 +7,7 @@
 #include "data.h"
 #include "decoration.h"
 #include "diploma.h"
+#include "dynamic_placeholder_text_util.h"
 #include "event_data.h"
 #include "event_object_movement.h"
 #include "fieldmap.h"
@@ -4358,4 +4359,34 @@ void GetCodeFeedback(void)
         gSpecialVar_Result = 1;
     else
         gSpecialVar_Result = 0;
+}
+
+void ResetContextNpcTextColor(void)
+{
+    gSelectedObjectEvent = 0;
+    gSpecialVar_TextColor = NPC_TEXT_COLOR_DEFAULT;
+}
+
+u8 ContextNpcGetTextColor(void)
+{
+    u8 gfxId;
+    if (gSpecialVar_TextColor != NPC_TEXT_COLOR_DEFAULT)
+    {
+        // A text color has been specified, use that
+        return gSpecialVar_TextColor;
+    }
+    else if (gSelectedObjectEvent == 0)
+    {
+        // No text color specified and no object selected, use neutral
+        return NPC_TEXT_COLOR_NEUTRAL;
+    }
+    else
+    {
+        // An object is selected and no color has been specified.
+        // Use the text color normally associated with this object's sprite.
+        gfxId = gObjectEvents[gSelectedObjectEvent].graphicsId;
+        if (gfxId >= OBJ_EVENT_GFX_VAR_0)
+            gfxId = VarGetObjectEventGraphicsId(gfxId - OBJ_EVENT_GFX_VAR_0);
+        return GetColorFromTextColorTable(gfxId);
+    }
 }

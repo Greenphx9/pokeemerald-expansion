@@ -163,7 +163,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     u16 metatileBehavior;
 
     gSpecialVar_LastTalked = LOCALID_NONE;
-    gSelectedObjectEvent = 0;
+    ResetContextNpcTextColor();
 
     gMsgIsSignPost = FALSE;
     playerDirection = GetPlayerFacingDirection();

@@ -58,6 +58,7 @@ void LoadMessageBoxAndBorderGfx(void);
 void DrawDialogueFrame(u8 windowId, bool8 copyToVram);
 void ClearStdWindowAndFrame(u8 windowId, bool8 copyToVram);
 u16 AddTextPrinterParameterized2(u8 windowId, u8 fontId, const u8 *str, u8 speed, void (*callback)(struct TextPrinterTemplate *, u16), u8 fgColor, u8 bgColor, u8 shadowColor);
+void AddTextPrinterDiffStyle(bool8 allowSkippingDelayWithButtonPress);
 void PrintPlayerNameOnWindow(u8 windowId, const u8 *src, u16 x, u16 y);
 void ClearDialogWindowAndFrame(u8 windowId, bool8 copyToVram);
 void SetStandardWindowBorderStyle(u8 windowId, bool8 copyToVram);
