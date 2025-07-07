@@ -17,6 +17,9 @@ static const u8 sUserFrame_Type7_Gfx[] = INCBIN_U8("graphics/text_window/type7.4
 static const u8 sUserFrame_Type8_Gfx[] = INCBIN_U8("graphics/text_window/type8.4bpp");
 static const u8 sUserFrame_Type9_Gfx[] = INCBIN_U8("graphics/text_window/type9.4bpp");
 static const u8 sUserFrame_Type10_Gfx[] = INCBIN_U8("graphics/text_window/type10.4bpp");
+static const u8 sUserFrame_Type11_Gfx[] = INCBIN_U8("graphics/text_window/type11.4bpp");
+static const u8 sUserFrame_Type12_Gfx[] = INCBIN_U8("graphics/text_window/type12.4bpp");
+static const u8 sUserFrame_Type13_Gfx[] = INCBIN_U8("graphics/text_window/type13.4bpp");
 
 const u16 gUserFrame_Type1_Pal[] = INCBIN_U16("graphics/text_window/type1.gbapal");
 static const u16 sUserFrame_Type2_Pal[] = INCBIN_U16("graphics/text_window/type2.gbapal");
@@ -28,6 +31,9 @@ static const u16 sUserFrame_Type7_Pal[] = INCBIN_U16("graphics/text_window/type7
 static const u16 sUserFrame_Type8_Pal[] = INCBIN_U16("graphics/text_window/type8.gbapal");
 static const u16 sUserFrame_Type9_Pal[] = INCBIN_U16("graphics/text_window/type9.gbapal");
 static const u16 sUserFrame_Type10_Pal[] = INCBIN_U16("graphics/text_window/type10.gbapal");
+static const u16 sUserFrame_Type11_Pal[] = INCBIN_U16("graphics/text_window/type11.gbapal");
+static const u16 sUserFrame_Type12_Pal[] = INCBIN_U16("graphics/text_window/type12.gbapal");
+static const u16 sUserFrame_Type13_Pal[] = INCBIN_U16("graphics/text_window/type13.gbapal");
 
 static const u16 sStdTextWindow_Gfx[] = INCBIN_U16("graphics/text_window/std.4bpp");
 
@@ -52,6 +58,9 @@ static const struct TilesPal sWindowFrames[WINDOW_FRAMES_COUNT] =
     {sUserFrame_Type8_Gfx,  sUserFrame_Type8_Pal},
     {sUserFrame_Type9_Gfx,  sUserFrame_Type9_Pal},
     {sUserFrame_Type10_Gfx, sUserFrame_Type10_Pal},
+    {sUserFrame_Type11_Gfx, sUserFrame_Type11_Pal},
+    {sUserFrame_Type12_Gfx, sUserFrame_Type12_Pal},
+    {sUserFrame_Type13_Gfx, sUserFrame_Type13_Pal},
 };
 
 static const u16 sTextWindowDexNavFrame[] = INCBIN_U16("graphics/text_window/dexnav_pal.gbapal");

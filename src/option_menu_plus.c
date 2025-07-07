@@ -244,7 +244,8 @@ static const u8 *const sFrameOptions[] =
     COMPOUND_STRING("1"),  COMPOUND_STRING("2"),  COMPOUND_STRING("3"),
     COMPOUND_STRING("4"),  COMPOUND_STRING("5"),  COMPOUND_STRING("6"),
     COMPOUND_STRING("7"),  COMPOUND_STRING("8"),  COMPOUND_STRING("9"),
-    COMPOUND_STRING("10"),
+    COMPOUND_STRING("10"), COMPOUND_STRING("11"), COMPOUND_STRING("12"),
+    COMPOUND_STRING("13"),
 };
 
 static const u8 *const sMusicOptions[] =
