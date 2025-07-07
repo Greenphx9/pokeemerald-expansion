@@ -27,3 +27,31 @@ script PalletTown_PlayersHouse_1F_EventScript_TV
     releaseall
     end
 }
+
+script PalletTown_PlayersHouse_1F_EventScript_Mom
+{
+    lock
+    faceplayer
+    checkplayergender
+    if (var(VAR_RESULT) == MALE)
+    {
+        msgbox("Mom: …Right.\n"
+                "All boys leave home someday.\l"
+                "It said so on TV.\p"
+                "Oh, yes. Prof. Oak, next door, was\n"
+                "looking for you.")
+    }
+    else
+    {
+        msgbox("MOM: …Right.\n"
+                "All girls dream of traveling.\l"
+                "It said so on TV.\p"
+                "Oh, yes. Prof. Oak, next door, was\n"
+                "looking for you.")
+    }
+    closemessage
+    applymovement(LOCALID_MOM, Common_Movement_FaceOriginalDirection)
+    waitmovement(0)
+    release
+    end
+}

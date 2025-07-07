@@ -4964,3 +4964,6 @@ $(OBJEVENTGFXDIR)/people/player/green/green_surf.4bpp: %.4bpp: %.png
 
 $(OBJEVENTGFXDIR)/people/blue.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
+
+$(OBJEVENTGFXDIR)/people/rg/mom.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4

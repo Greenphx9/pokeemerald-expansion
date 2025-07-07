@@ -1515,3 +1515,9 @@ static const struct SpriteFrameImage sPicTable_GreenFish[] = {
 static const struct SpriteFrameImage sPicTable_Blue[] = {
     overworld_ascending_frames(gObjectEventPic_Blue, 2, 4),
 };
+
+static const struct SpriteFrameImage sPicTable_RG_Mom[] = {
+    overworld_frame(gObjectEventPic_RG_Mom, 2, 4, 0),
+    overworld_frame(gObjectEventPic_RG_Mom, 2, 4, 1),
+    overworld_frame(gObjectEventPic_RG_Mom, 2, 4, 2),
+};
