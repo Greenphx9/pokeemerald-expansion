@@ -609,6 +609,7 @@ struct SaveBlock2
               u16 optionsGameMusic:1;
               u16 optionsSoundEffects:1;
               u16 filler_2:12;
+              u8 rivalName[PLAYER_NAME_LENGTH + 1];
 }; // sizeof=0xF2C
 
 extern struct SaveBlock2 *gSaveBlock2Ptr;
@@ -1166,7 +1167,6 @@ struct SaveBlock1
     /*0x3???*/ struct TrainerHillSave trainerHill;
 #endif //FREE_TRAINER_HILL
     /*0x3???*/ struct WaldaPhrase waldaPhrase;
-    u8 rivalName[PLAYER_NAME_LENGTH + 1];
     // sizeof: 0x3???
 };
 
