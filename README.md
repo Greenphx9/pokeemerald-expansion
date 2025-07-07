@@ -12,7 +12,7 @@ EventScript_Text_ReceivedWithNature::
 EventScript_GiveMonWithNature::
 	givemon SPECIES_BULBASAUR, 20, show=TRUE
 	showmonpic SPECIES_BULBASAUR, 10, 3, VAR_TEMP_B
-	msgbox Debug_Text1, MSGBOX_DEFAULT
+	msgbox EventScript_Text_ReceivedWithNature, MSGBOX_DEFAULT
 	hidemonpic
 	release
 	end

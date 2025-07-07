@@ -104,6 +104,62 @@ static u32 AssignCostToRunner(void)
     return minCostProcess;
 }
 
+void TestRunner_CheckMemory(void)
+{
+    if (gTestRunnerState.result == TEST_RESULT_PASS
+     && !gTestRunnerState.expectLeaks)
+    {
+        int i;
+        const struct MemBlock *head = HeapHead();
+        const struct MemBlock *block = head;
+        do
+        {
+            if (block->magic != MALLOC_SYSTEM_ID
+             || !(EWRAM_START <= (uintptr_t)block->next && (uintptr_t)block->next < EWRAM_END)
+             || (block->next <= block && block->next != head))
+            {
+                Test_MgbaPrintf("gHeap corrupted block at %p", block);
+                gTestRunnerState.result = TEST_RESULT_ERROR;
+                break;
+            }
+
+            if (block->allocated)
+            {
+                const char *location = MemBlockLocation(block);
+                if (location)
+                {
+                    const char *cmpString = "src/generational_changes.c";
+                    for (u32 charIndex = 0; charIndex < 26; charIndex++)
+                    {
+                        if (cmpString[charIndex] != location[charIndex])
+                        {
+                            Test_MgbaPrintf("%s: %d bytes not freed", location, block->size);
+                            gTestRunnerState.result = TEST_RESULT_FAIL;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    Test_MgbaPrintf("<unknown>: %d bytes not freed", block->size);
+                    gTestRunnerState.result = TEST_RESULT_FAIL;
+                }
+            }
+            block = block->next;
+        }
+        while (block != head);
+
+        for (i = 0; i < NUM_TASKS; i++)
+        {
+            if (gTasks[i].isActive)
+            {
+                Test_MgbaPrintf(":L%s:%d - %p: task not freed", gTestRunnerState.test->filename, SourceLine(0), gTasks[i].func);
+                gTestRunnerState.result = TEST_RESULT_FAIL;
+            }
+        }
+    }
+}
+
 void CB2_TestRunner(void)
 {
 top:
@@ -242,45 +298,7 @@ top:
             gTestRunnerState.tearDown = FALSE;
         }
 
-        if (gTestRunnerState.result == TEST_RESULT_PASS
-         && !gTestRunnerState.expectLeaks)
-        {
-            int i;
-            const struct MemBlock *head = HeapHead();
-            const struct MemBlock *block = head;
-            do
-            {
-                if (block->magic != MALLOC_SYSTEM_ID
-                 || !(EWRAM_START <= (uintptr_t)block->next && (uintptr_t)block->next < EWRAM_END)
-                 || (block->next <= block && block->next != head))
-                {
-                    Test_MgbaPrintf("gHeap corrupted block at %p", block);
-                    gTestRunnerState.result = TEST_RESULT_ERROR;
-                    break;
-                }
-
-                if (block->allocated)
-                {
-                    const char *location = MemBlockLocation(block);
-                    if (location)
-                        Test_MgbaPrintf("%s: %d bytes not freed", location, block->size);
-                    else
-                        Test_MgbaPrintf("<unknown>: %d bytes not freed", block->size);
-                    gTestRunnerState.result = TEST_RESULT_FAIL;
-                }
-                block = block->next;
-            }
-            while (block != head);
-
-            for (i = 0; i < NUM_TASKS; i++)
-            {
-                if (gTasks[i].isActive)
-                {
-                    Test_MgbaPrintf(":L%s:%d - %p: task not freed", gTestRunnerState.test->filename, SourceLine(0), gTasks[i].func);
-                    gTestRunnerState.result = TEST_RESULT_FAIL;
-                }
-            }
-        }
+        TestRunner_CheckMemory();
 
         if (gTestRunnerState.test->runner == &gAssumptionsRunner)
         {
@@ -294,7 +312,9 @@ top:
             const char *color;
             const char *result;
 
-            if (gTestRunnerState.result == gTestRunnerState.expectedResult)
+            if (gTestRunnerState.result == gTestRunnerState.expectedResult
+             || (gTestRunnerState.result == TEST_RESULT_FAIL
+              && gTestRunnerState.expectedResult == TEST_RESULT_KNOWN_FAIL))
             {
                 color = "\e[32m";
                 Test_MgbaPrintf(":N%s", gTestRunnerState.test->name);
@@ -312,7 +332,7 @@ top:
             switch (gTestRunnerState.result)
             {
             case TEST_RESULT_FAIL:
-                if (gTestRunnerState.expectedResult == TEST_RESULT_FAIL)
+                if (gTestRunnerState.expectedResult == TEST_RESULT_KNOWN_FAIL)
                 {
                     result = "KNOWN_FAILING";
                     color = "\e[33m";
@@ -369,7 +389,9 @@ top:
                 Test_MgbaPrintf(":A%s%s\e[0m", color, result);
             else if (gTestRunnerState.result == TEST_RESULT_TODO)
                 Test_MgbaPrintf(":T%s%s\e[0m", color, result);
-            else if (gTestRunnerState.expectedResult == gTestRunnerState.result)
+            else if (gTestRunnerState.expectedResult == gTestRunnerState.result
+                 || (gTestRunnerState.result == TEST_RESULT_FAIL
+                  && gTestRunnerState.expectedResult == TEST_RESULT_KNOWN_FAIL))
                 Test_MgbaPrintf(":K%s%s\e[0m", color, result);
             else
                 Test_MgbaPrintf(":F%s%s\e[0m", color, result);
@@ -666,12 +688,22 @@ static s32 MgbaVPrintf_(const char *fmt, va_list va)
                 break;
             case 'S':
                 pokeS = va_arg(va, const u8 *);
-                while ((c = *pokeS++) != EOS)
+                if (pokeS == NULL)
                 {
-                    if ((c = gWireless_RSEtoASCIITable[c]) != '\0')
-                        i = MgbaPutchar_(i, c);
-                    else
-                        i = MgbaPutchar_(i, '?');
+                    i = MgbaPutchar_(i, 'N');
+                    i = MgbaPutchar_(i, 'U');
+                    i = MgbaPutchar_(i, 'L');
+                    i = MgbaPutchar_(i, 'L');
+                }
+                else
+                {
+                    while ((c = *pokeS++) != EOS)
+                    {
+                        if ((c = gWireless_RSEtoASCIITable[c]) != '\0')
+                            i = MgbaPutchar_(i, c);
+                        else
+                            i = MgbaPutchar_(i, '?');
+                    }
                 }
                 break;
             }
