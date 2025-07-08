@@ -60,7 +60,7 @@ endif
 
 CPP := $(PREFIX)cpp
 
-ROM_NAME := $(FILE_NAME)_clean.gba
+ROM_NAME := $(FILE_NAME).gba
 OBJ_DIR_NAME := $(BUILD_DIR)/modern
 OBJ_DIR_NAME_TEST := $(BUILD_DIR)/modern-test
 OBJ_DIR_NAME_DEBUG := $(BUILD_DIR)/modern-debug
