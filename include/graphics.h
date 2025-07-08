@@ -3452,4 +3452,15 @@ extern const u32 gBattleIcons_Gfx2[];
 extern const u16 gBattleIcons_Pal1[];
 extern const u16 gBattleIcons_Pal2[];
 
+// tm case
+extern const u32 gTMCase_Gfx[];
+extern const u32 gTMCase_Tilemap[];
+extern const u16 gTMCaseMenu_Male_Pal[];
+extern const u16 gTMCaseMenu_Female_Pal[];
+extern const u32 gTMCaseDisc_Gfx[];
+extern const u16 gTMCaseDiscTypes1_Pal[];
+extern const u16 gTMCaseDiscTypes2_Pal[];
+extern const u8 gTMCaseHM_Gfx[];
+extern const u8 gTMCaseHM_Gfx[];
+
 #endif //GUARD_GRAPHICS_H

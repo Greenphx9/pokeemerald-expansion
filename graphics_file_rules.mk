@@ -682,3 +682,6 @@ $(SPINDAGFXDIR)/spot_2.1bpp: %.1bpp: %.png
 
 $(SPINDAGFXDIR)/spot_3.1bpp: %.1bpp: %.png
 	$(GFX) $< $@ -plain -data_width 2
+
+graphics/tm_case/tm_case.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 91 -Wnum_tiles

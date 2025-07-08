@@ -62,6 +62,7 @@ void SwapRegisteredBike(void);
 u16 BagGetItemIdByPocketPosition(u8 pocketId, u16 pocketPos);
 u16 BagGetQuantityByPocketPosition(u8 pocketId, u16 pocketPos);
 void CompactItemsInBagPocket(struct BagPocket *bagPocket);
+void SortPocketAndPlaceHMsFirst(struct BagPocket * pocket);
 void SortBerriesOrTMHMs(struct BagPocket *bagPocket);
 void MoveItemSlotInList(struct ItemSlot *itemSlots_, u32 from, u32 to_);
 void ClearBag(void);
@@ -85,6 +86,7 @@ u32 GetItemFlingPower(u32 itemId);
 u32 GetItemStatus1Mask(u16 itemId);
 u32 GetItemStatus2Mask(u16 itemId);
 u32 GetItemSellPrice(u32 itemId);
+void SortAndCompactBagPocket(struct BagPocket * pocket);
 
 /* Expands to:
  * enum

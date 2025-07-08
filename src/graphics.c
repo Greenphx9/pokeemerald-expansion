@@ -2101,3 +2101,12 @@ const u32 gBattleIcons_Gfx2[] = INCBIN_U32("graphics/types/battle_icons2.4bpp.lz
 const u16 gBattleIcons_Pal1[] = INCBIN_U16("graphics/types/battle_icons1.gbapal");
 const u16 gBattleIcons_Pal2[] = INCBIN_U16("graphics/types/battle_icons2.gbapal");
 
+// tm case
+const u32 gTMCase_Gfx[] = INCBIN_U32("graphics/tm_case/tm_case.4bpp.lz");
+const u32 gTMCase_Tilemap[] = INCBIN_U32("graphics/tm_case/tm_case.bin.lz");
+const u16 gTMCaseMenu_Male_Pal[] = INCBIN_U16("graphics/tm_case/menu_male.gbapal");
+const u16 gTMCaseMenu_Female_Pal[] = INCBIN_U16("graphics/tm_case/menu_female.gbapal");
+const u32 gTMCaseDisc_Gfx[] = INCBIN_U32("graphics/tm_case/disc.4bpp.lz");
+const u16 gTMCaseDiscTypes1_Pal[] = INCBIN_U16("graphics/tm_case/disc_types_1.gbapal");
+const u16 gTMCaseDiscTypes2_Pal[] = INCBIN_U16("graphics/tm_case/disc_types_2.gbapal");
+const u8 gTMCaseHM_Gfx[] = INCBIN_U8("graphics/tm_case/hm.4bpp");

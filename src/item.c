@@ -273,6 +273,11 @@ bool8 AddBagItem(u16 itemId, u16 count)
             }
         }
 
+        if (GetPocketByItemId(itemId) - 1 == POCKET_TM_HM - 1 && !CheckBagHasItem(ITEM_TM_CASE, 1))
+        {
+            AddBagItem(ITEM_TM_CASE, 1);
+        }
+
         // we're done if quantity is equal to 0
         if (count > 0)
         {
@@ -583,6 +588,41 @@ void CompactItemsInBagPocket(struct BagPocket *bagPocket)
                 SwapItemSlots(&bagPocket->itemSlots[i], &bagPocket->itemSlots[j]);
         }
     }
+}
+
+void SortPocketAndPlaceHMsFirst(struct BagPocket * pocket)
+{
+    u16 i;
+    u16 j = 0;
+    u16 k;
+    struct ItemSlot * buff;
+
+    SortAndCompactBagPocket(pocket);
+
+    for (i = 0; i < pocket->capacity; i++)
+    {
+        if (pocket->itemSlots[i].itemId == ITEM_NONE && GetBagItemQuantity(&pocket->itemSlots[i].quantity) == 0)
+            return;
+        if (pocket->itemSlots[i].itemId >= ITEM_HM01 && GetBagItemQuantity(&pocket->itemSlots[i].quantity) != 0)
+        {
+            for (j = i + 1; j < pocket->capacity; j++)
+            {
+                if (pocket->itemSlots[j].itemId == ITEM_NONE && GetBagItemQuantity(&pocket->itemSlots[j].quantity) == 0)
+                    break;
+            }
+            break;
+        }
+    }
+
+    for (k = 0; k < pocket->capacity; k++)
+        pocket->itemSlots[k].quantity = GetBagItemQuantity(&pocket->itemSlots[k].quantity);
+    buff = AllocZeroed(pocket->capacity * sizeof(struct ItemSlot));
+    CpuCopy16(pocket->itemSlots + i, buff, (j - i) * sizeof(struct ItemSlot));
+    CpuCopy16(pocket->itemSlots, buff + (j - i), i * sizeof(struct ItemSlot));
+    CpuCopy16(buff, pocket->itemSlots, pocket->capacity * sizeof(struct ItemSlot));
+    for (k = 0; k < pocket->capacity; k++)
+        SetBagItemQuantity(&pocket->itemSlots[k].quantity, pocket->itemSlots[k].quantity);
+    Free(buff);
 }
 
 void SortBerriesOrTMHMs(struct BagPocket *bagPocket)
@@ -1017,4 +1057,18 @@ u32 GetItemStatus2Mask(u16 itemId)
 u32 GetItemSellPrice(u32 itemId)
 {
     return GetItemPrice(itemId) / ITEM_SELL_FACTOR;
+}
+
+void SortAndCompactBagPocket(struct BagPocket * pocket)
+{
+    u16 i, j;
+
+    for (i = 0; i < pocket->capacity; i++)
+    {
+        for (j = i + 1; j < pocket->capacity; j++)
+        {
+            if (GetBagItemQuantity(&pocket->itemSlots[i].quantity) == 0 || (GetBagItemQuantity(&pocket->itemSlots[j].quantity) != 0 && pocket->itemSlots[i].itemId > pocket->itemSlots[j].itemId))
+                SwapItemSlots(&pocket->itemSlots[i], &pocket->itemSlots[j]);
+        }
+    }
 }
