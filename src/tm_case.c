@@ -1532,7 +1532,6 @@ static void SetDiscSpriteAnim(struct Sprite *sprite, u8 tmIdx)
 static void TintDiscpriteByType(u8 type)
 {
     u8 palOffset = PLTT_ID(IndexOfSpritePaletteTag(TAG_DISC));
-    DebugPrintf("Type: %S", gTypesInfo[type].name);
     LoadPalette(sTMSpritePaletteBuffer + sTMSpritePaletteOffsetByType[type], OBJ_PLTT_OFFSET + palOffset, PLTT_SIZE_4BPP);
 }
 
@@ -1581,7 +1580,6 @@ static void SpriteCB_SwapDisc(struct Sprite *sprite)
             if (sprite->sItemId != ITEM_NONE)
             {
                 sprite->sState++;
-                DebugPrintf("itemId: %d, move id: %S", sprite->sItemId, GetMoveName(ItemIdToBattleMoveId(sprite->sItemId)));
                 TintDiscpriteByType(gMovesInfo[ItemIdToBattleMoveId(sprite->sItemId)].type);
                 sprite->sItemId -= ITEM_TM01;
                 SetDiscSpriteAnim(sprite, sprite->sItemId);
