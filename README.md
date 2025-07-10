@@ -3,7 +3,7 @@ This is a fork of [aarant's icons branch](https://github.com/aarant/pokeemerald/
 
 I am currently looking for a set of Generation 8 regular + shiny icons. I have regular icons but no shiny atm.
 
-![Generation 1 icon comparison](https://i.imgur.com/6Ia4Sw9.png)
+![Generation 1 icon comparison](https://i.imgur.com/7lPMY13.png)
 
 ## Progress
 Overall:
