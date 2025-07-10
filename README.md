@@ -7,12 +7,12 @@ I am currently looking for a set of Generation 8 regular + shiny icons. I have r
 
 ## Progress
 Overall:
-- Roughly **26.01%** complete (300 / around 1153)
+- Roughly **28.47%** complete (408 / around 1433)
 
 Main:
 -  Kanto: 100.00% (151/151)
 -  Johto: 100.00% (100/100)
--  Hoenn: 20.00% (27/135)
+-  Hoenn: 100.00% (135/135)
 -  Sinnoh: 0.00% (0/107)
 -  Unova: 0.00% (0/156)
 -  Kalos: 0.00% (0/72)
@@ -22,11 +22,12 @@ Main:
 -  Paldea: 0.00% (0/145)
 
 Forms:
-- Megas / Primals: 0.00% (0/48)
-- Alolan: 100.00% (18/18)
+- Megas / Primals: 0.00% (0/50)
+- Alolan: 100.00% (17/17)
 - Galarian: 0.00% (0/18)
 - Hisuian: 0.00% (0/15)
 - Paldean: 100.00% (4/4)
+- Misc Forms: 0.00% (0/279)
 
 ## Credits
 - [aarant/merrp:](https://github.com/aarant) [icons branch](https://github.com/aarant/pokeemerald/tree/icons)
