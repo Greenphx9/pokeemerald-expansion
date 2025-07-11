@@ -20,4 +20,22 @@
 
                                             // Grand Total: 3790
 
+// Options to free members in BoxMon that the user may not need
+// Note that it only removes the value in BoxMon and associated cases in 
+// Get/SetBoxMon, not the actual MON_DATA calls, no clue what will happen
+// if you tried to get or set a value that doesn't exist!   
+#define FREE_CONTEST_STATS                  FALSE   // Removes contest stats (cool, sheen, etc) (6 bytes)
+#define FREE_RIBBONS                        FALSE   // Removes contest ribbons (3 bytes)
+#define FREE_POKERUS                        FALSE   // Removes pokerus (1 byte)
+#define FREE_LOST_HP                        FALSE   // Removes lost HP, note that putting in PC will restore HP! (2 bytes)
+#define FREE_MARKINGS_AND_STATUS            FALSE   // Removes PC markings and compressed status (1 byte)
+                                                   // Note that this does not change the PC UI, so players can still mark, although it will not save.
+#define FREE_OT_NAME                        FALSE   // Reduces ot name to 1 byte, by using a lookup table (6 bytes)
+                                                   // Pokemon traded between games will have incorrect ot names!
+                                                   // See: gOtNames in src/pokemon.c if you enable this
+#define FREE_MET_GAME_DYNAMAX_LEVEL         FALSE   // Removes the met game, not needed, and dynamax level (1 byte)
+
+
+                                            // Total: 20 bytes
+
 #endif // GUARD_CONFIG_SAVE_H

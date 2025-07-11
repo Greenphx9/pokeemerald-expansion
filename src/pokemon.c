@@ -999,6 +999,18 @@ static const u32 sCompressedStatuses[] =
     STATUS1_FROSTBITE,
 };
 
+// if FREE_OT_NAME is TRUE, this table will be used to assign a proper ot name
+// Follows the order of ingame trade partners after 0
+// 0 = player's name
+const u8 *const gOtNames[] =
+{
+    [0] = COMPOUND_STRING("......."), // placeholder
+    [1] = COMPOUND_STRING("KOBE"),
+    [2] = COMPOUND_STRING("ROMAN"),
+    [3] = COMPOUND_STRING("SKYLAR"),
+    [4] = COMPOUND_STRING("ISIS"),
+};
+
 // Attempt to detect situations where the BoxPokemon struct is unable to
 // contain all the values.
 // TODO: Is it possible to compute:
@@ -1033,6 +1045,7 @@ STATIC_ASSERT(MAX_DYNAMAX_LEVEL < (1 << 4), PokemonSubstruct3_dynamaxLevel_TooSm
 STATIC_ASSERT(MAX_PER_STAT_IVS < (1 << 5), PokemonSubstruct3_ivs_TooSmall);
 STATIC_ASSERT(NUM_NATURES <= (1 << 5), BoxPokemon_hiddenNatureModifier_TooSmall);
 
+#if FREE_MARKINGS_AND_STATUS == FALSE
 static u32 CompressStatus(u32 status)
 {
     s32 i;
@@ -1051,6 +1064,7 @@ static u32 UncompressStatus(u32 compressedStatus)
     else
         return STATUS1_NONE;
 }
+#endif
 
 void ZeroBoxMonData(struct BoxPokemon *boxMon)
 {
@@ -1802,7 +1816,11 @@ void BoxMonToMon(const struct BoxPokemon *src, struct Pokemon *dest)
     dest->maxHP = 0;
     value = MAIL_NONE;
     SetMonData(dest, MON_DATA_MAIL, &value);
+    #if FREE_LOST_HP == FALSE
     value = GetBoxMonData(&dest->box, MON_DATA_HP_LOST);
+    #else
+    value = 0; // don't reduce HP if we have removed lost hp
+    #endif
     CalculateMonStats(dest);
     value = GetMonData(dest, MON_DATA_MAX_HP) - value;
     SetMonData(dest, MON_DATA_HP, &value);
@@ -2324,12 +2342,16 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
 
     switch (field)
     {
+    #if FREE_MARKINGS_AND_STATUS == FALSE
     case MON_DATA_STATUS:
         retVal = UncompressStatus(boxMon->compressedStatus);
         break;
+    #endif
+    #if FREE_LOST_HP == FALSE
     case MON_DATA_HP_LOST:
         retVal = boxMon->hpLost;
         break;
+    #endif
     case MON_DATA_PERSONALITY:
         retVal = boxMon->personality;
         break;
@@ -2348,6 +2370,7 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
     case MON_DATA_SANITY_IS_EGG:
         retVal = boxMon->isEgg;
         break;
+    #if FREE_OT_NAME == FALSE
     case MON_DATA_OT_NAME:
     {
         retVal = 0;
@@ -2357,13 +2380,34 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
             data[retVal] = boxMon->otName[retVal];
             retVal++;
         }
-
+        
         data[retVal] = EOS;
         break;
     }
+    #else
+    case MON_DATA_OT_NAME:
+    {
+        u8 otNameId = boxMon->otNameId;
+        retVal = 0;
+
+        while (retVal < PLAYER_NAME_LENGTH)
+        {
+            if (otNameId == 0)
+                data[retVal] = gSaveBlock2Ptr->playerName[retVal];
+            else
+                data[retVal] = gOtNames[otNameId][retVal];
+            retVal++;
+        }
+        
+        data[retVal] = EOS;
+        break;
+    }
+    #endif
+    #if FREE_MARKINGS_AND_STATUS == FALSE
     case MON_DATA_MARKINGS:
         retVal = boxMon->markings;
         break;
+    #endif
     case MON_DATA_IS_SHINY:
     {
         u32 shinyValue = GET_SHINY_VALUE(boxMon->otId, boxMon->personality);
@@ -2507,6 +2551,7 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
     case MON_DATA_SPDEF_EV:
         retVal = boxMon->spDefenseEV;
         break;
+    #if FREE_CONTEST_STATS == FALSE
     case MON_DATA_COOL:
         retVal = boxMon->cool;
         break;
@@ -2525,17 +2570,25 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
     case MON_DATA_SHEEN:
         retVal = boxMon->sheen;
         break;
+    #endif
+    #if FREE_POKERUS == FALSE
     case MON_DATA_POKERUS:
         retVal = boxMon->pokerus;
         break;
+    #endif
     case MON_DATA_MET_LOCATION:
         retVal = boxMon->metLocation;
         break;
     case MON_DATA_MET_LEVEL:
         retVal = boxMon->metLevel;
         break;
+    
     case MON_DATA_MET_GAME:
+        #if FREE_MET_GAME_DYNAMAX_LEVEL == FALSE
         retVal = boxMon->metGame;
+        #else
+        retVal = VERSION_EMERALD;
+        #endif
         break;
     case MON_DATA_POKEBALL:
         retVal = boxMon->pokeball;
@@ -2567,6 +2620,7 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
     case MON_DATA_ABILITY_NUM:
         retVal = boxMon->abilityNum;
         break;
+    #if FREE_RIBBONS == FALSE
     case MON_DATA_COOL_RIBBON:
         retVal = boxMon->coolRibbon;
         break;
@@ -2618,6 +2672,7 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
     case MON_DATA_WORLD_RIBBON:
         retVal = boxMon->worldRibbon;
         break;
+    #endif
     case MON_DATA_MODERN_FATEFUL_ENCOUNTER:
         retVal = boxMon->modernFatefulEncounter;
         break;
@@ -2654,6 +2709,7 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
         break;
     case MON_DATA_RIBBON_COUNT:
         retVal = 0;
+        #if FREE_RIBBONS == FALSE
         if (boxMon->species && !boxMon->isEgg)
         {
             retVal += boxMon->coolRibbon;
@@ -2674,9 +2730,11 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
             retVal += boxMon->earthRibbon;
             retVal += boxMon->worldRibbon;
         }
+        #endif
         break;
     case MON_DATA_RIBBONS:
         retVal = 0;
+        #if FREE_RIBBONS == FALSE
         if (boxMon->species && !boxMon->isEgg)
         {
             retVal = boxMon->championRibbon
@@ -2697,6 +2755,7 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
                 | (boxMon->earthRibbon << 25)
                 | (boxMon->worldRibbon << 26);
         }
+        #endif
         break;
     case MON_DATA_HYPER_TRAINED_HP:
         retVal = boxMon->hyperTrainedHP;
@@ -2719,9 +2778,11 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
     case MON_DATA_IS_SHADOW:
         retVal = boxMon->isShadow;
         break;
+    #if FREE_MET_GAME_DYNAMAX_LEVEL == FALSE
     case MON_DATA_DYNAMAX_LEVEL:
         retVal = boxMon->dynamaxLevel;
         break;
+    #endif
     case MON_DATA_GIGANTAMAX_FACTOR:
         retVal = boxMon->gigantamaxFactor;
         break;
@@ -2783,6 +2844,7 @@ void SetMonData(struct Pokemon *mon, s32 field, const void *dataArg)
         SetBoxMonData(&mon->box, MON_DATA_HP_LOST, &hpLost);
         break;
     }
+    #if FREE_LOST_HP == FALSE
     case MON_DATA_HP_LOST:
     {
         u32 hpLost;
@@ -2791,6 +2853,7 @@ void SetMonData(struct Pokemon *mon, s32 field, const void *dataArg)
         SetBoxMonData(&mon->box, MON_DATA_HP_LOST, &hpLost);
         break;
     }
+    #endif
     case MON_DATA_MAX_HP:
         SET16(mon->maxHP);
         break;
@@ -2830,12 +2893,16 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
     {
         u32 status;
         SET32(status);
+        #if FREE_MARKINGS_AND_STATUS == FALSE
         boxMon->compressedStatus = CompressStatus(status);
+        #endif
         break;
     }
+    #if FREE_LOST_HP == FALSE
     case MON_DATA_HP_LOST:
         SET16(boxMon->hpLost);
         break;
+    #endif
     case MON_DATA_PERSONALITY:
         SET32(boxMon->personality);
         break;
@@ -2854,6 +2921,7 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
     case MON_DATA_SANITY_IS_EGG:
         SET8(boxMon->isEgg);
         break;
+    #if FREE_OT_NAME == FALSE
     case MON_DATA_OT_NAME:
     {
         s32 i;
@@ -2861,9 +2929,62 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
             boxMon->otName[i] = data[i];
         break;
     }
+    #else
+    case MON_DATA_OT_NAME:
+    {
+        s32 i;
+        u32 same = TRUE;
+        // See if it is our player's name
+        for (i = 0; i < PLAYER_NAME_LENGTH; i++)
+        {
+            if (data[i] != gSaveBlock2Ptr->playerName[i])
+            {
+                same = FALSE;
+                break;
+            }
+                
+        }
+        // If its the exact same, set ID to 0
+        if (same)
+            boxMon->otNameId = 0;
+        else
+        {
+            // If different, go through ot name list
+            s32 j;
+            u32 found = FALSE;
+            
+            for (j = 0; j < ARRAY_COUNT(gOtNames); j++)
+            {
+                u32 same2 = TRUE;
+                for (i = 0; i < PLAYER_NAME_LENGTH; i++)
+                {
+                    if (data[i] != gOtNames[j][i])
+                    {
+                        same2 = FALSE;
+                        break;
+                    }
+                }
+                if (same2)
+                {
+                    boxMon->otNameId = j;
+                    found = TRUE;
+                    break;
+                }
+            }
+            
+            // If no match found, set to 0, player ID
+            if (!found)
+                boxMon->otNameId = 0;
+        }
+
+        break;
+    }
+    #endif
+    #if FREE_MARKINGS_AND_STATUS == FALSE
     case MON_DATA_MARKINGS:
         SET8(boxMon->markings);
         break;
+    #endif
     case MON_DATA_IS_SHINY:
     {
         u32 shinyValue = GET_SHINY_VALUE(boxMon->otId, boxMon->personality);
@@ -2966,6 +3087,7 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
     case MON_DATA_SPDEF_EV:
         SET8(boxMon->spDefenseEV);
         break;
+    #if FREE_CONTEST_STATS == FALSE
     case MON_DATA_COOL:
         SET8(boxMon->cool);
         break;
@@ -2984,18 +3106,23 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
     case MON_DATA_SHEEN:
         SET8(boxMon->sheen);
         break;
+    #endif
+    #if FREE_POKERUS == FALSE
     case MON_DATA_POKERUS:
         SET8(boxMon->pokerus);
         break;
+    #endif
     case MON_DATA_MET_LOCATION:
         SET8(boxMon->metLocation);
         break;
     case MON_DATA_MET_LEVEL:
         SET8(boxMon->metLevel);
         break;
+    #if FREE_MET_GAME_DYNAMAX_LEVEL == FALSE
     case MON_DATA_MET_GAME:
         SET8(boxMon->metGame);
         break;
+    #endif
     case MON_DATA_POKEBALL:
         SET8(boxMon->pokeball);
         break;
@@ -3026,6 +3153,7 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
     case MON_DATA_ABILITY_NUM:
         SET8(boxMon->abilityNum);
         break;
+    #if FREE_RIBBONS == FALSE
     case MON_DATA_COOL_RIBBON:
         SET8(boxMon->coolRibbon);
         break;
@@ -3077,6 +3205,7 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
     case MON_DATA_WORLD_RIBBON:
         SET8(boxMon->worldRibbon);
         break;
+    #endif
     case MON_DATA_MODERN_FATEFUL_ENCOUNTER:
         SET8(boxMon->modernFatefulEncounter);
         break;
@@ -3113,9 +3242,11 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
     case MON_DATA_IS_SHADOW:
         SET8(boxMon->isShadow);
         break;
+    #if FREE_MET_GAME_DYNAMAX_LEVEL == FALSE
     case MON_DATA_DYNAMAX_LEVEL:
         SET8(boxMon->dynamaxLevel);
         break;
+    #endif
     case MON_DATA_GIGANTAMAX_FACTOR:
         SET8(boxMon->gigantamaxFactor);
         break;
