@@ -121,8 +121,27 @@ enum {
     MON_DATA_EVOLUTION_TRACKER,
 };
 
-struct PokemonSubstruct0
+struct BoxPokemon
 {
+    u32 personality;
+    u32 otId;
+    u8 nickname[min(10, POKEMON_NAME_LENGTH)];
+    u8 language:3;
+    u8 hiddenNatureModifier:5; // 31 natures.
+    u8 isBadEgg:1;
+    u8 hasSpecies:1;
+    u8 unused_01:1;
+    u8 blockBoxRS:1; // Unused, but Pokémon Box Ruby & Sapphire will refuse to deposit a Pokémon with this flag set.
+    u8 daysSinceFormChange:3; // 7 days.
+    u8 unused_13:1;
+    u8 otName[PLAYER_NAME_LENGTH];
+    u8 markings:4;
+    u8 compressedStatus:4;
+    u16 hpLost:14; // 16383 HP.
+    u16 shinyModifier:1;
+    u16 unused_1E:1;
+
+    // Previously substruct 0
     u16 species:11; // 2047 species.
     u16 teraType:5; // 30 types.
     u16 heldItem:10; // 1023 items.
@@ -135,16 +154,14 @@ struct PokemonSubstruct0
     u16 pokeball:6; // 63 balls.
     u16 nickname12:8; // 12th character of nickname.
     u16 unused_0A:2;
-};
 
-struct PokemonSubstruct1
-{
+    // Previous substruct 1
     u16 move1:11; // 2047 moves.
     u16 evolutionTracker1:5;
     u16 move2:11; // 2047 moves.
     u16 evolutionTracker2:5;
     u16 move3:11; // 2047 moves.
-    u16 unused_04:5;
+    u16 unused_05:5;
     u16 move4:11; // 2047 moves.
     u16 unused_06:3;
     u16 hyperTrainedHP:1;
@@ -157,10 +174,8 @@ struct PokemonSubstruct1
     u8 hyperTrainedSpAttack:1;
     u8 pp4:7; // 127 PP.
     u8 hyperTrainedSpDefense:1;
-};
 
-struct PokemonSubstruct2
-{
+    // Previously substruct 2
     u8 hpEV;
     u8 attackEV;
     u8 defenseEV;
@@ -173,10 +188,8 @@ struct PokemonSubstruct2
     u8 smart;
     u8 tough;
     u8 sheen;
-};
 
-struct PokemonSubstruct3
-{
+    // Previously substruct 3
     u8 pokerus;
     u8 metLocation;
     u16 metLevel:7;
@@ -219,52 +232,6 @@ struct PokemonSubstruct3
     // Set for in-game event island legendaries, events distributed after a certain date, & Pokémon from XD: Gale of Darkness.
     // Not to be confused with METLOC_FATEFUL_ENCOUNTER.
     u32 modernFatefulEncounter:1;
-};
-
-// Number of bytes in the largest Pokémon substruct.
-// They are assumed to be the same size, and will be padded to
-// the largest size by the union.
-// By default they are all 12 bytes.
-#define NUM_SUBSTRUCT_BYTES (max(sizeof(struct PokemonSubstruct0),     \
-                             max(sizeof(struct PokemonSubstruct1),     \
-                             max(sizeof(struct PokemonSubstruct2),     \
-                                 sizeof(struct PokemonSubstruct3)))))
-
-union PokemonSubstruct
-{
-    struct PokemonSubstruct0 type0;
-    struct PokemonSubstruct1 type1;
-    struct PokemonSubstruct2 type2;
-    struct PokemonSubstruct3 type3;
-    u16 raw[NUM_SUBSTRUCT_BYTES / 2]; // /2 because it's u16, not u8
-};
-
-struct BoxPokemon
-{
-    u32 personality;
-    u32 otId;
-    u8 nickname[min(10, POKEMON_NAME_LENGTH)];
-    u8 language:3;
-    u8 hiddenNatureModifier:5; // 31 natures.
-    u8 isBadEgg:1;
-    u8 hasSpecies:1;
-    u8 isEgg:1;
-    u8 blockBoxRS:1; // Unused, but Pokémon Box Ruby & Sapphire will refuse to deposit a Pokémon with this flag set.
-    u8 daysSinceFormChange:3; // 7 days.
-    u8 unused_13:1;
-    u8 otName[PLAYER_NAME_LENGTH];
-    u8 markings:4;
-    u8 compressedStatus:4;
-    u16 checksum;
-    u16 hpLost:14; // 16383 HP.
-    u16 shinyModifier:1;
-    u16 unused_1E:1;
-
-    union
-    {
-        u32 raw[(NUM_SUBSTRUCT_BYTES * 4) / 4]; // *4 because there are 4 substructs, /4 because it's u32, not u8
-        union PokemonSubstruct substructs[4];
-    } secure;
 };
 
 struct Pokemon
