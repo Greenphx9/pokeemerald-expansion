@@ -9,7 +9,8 @@
     "gMapGroup_ViridianCity"
   ],
   "gMapGroup_TownsAndRoutes": [
-    "DemoTown"
+    "DemoTown",
+    "TilemapTest"
   ],
   "gMapGroup_Dungeons": [],
   "gMapGroup_IndoorDynamic": [
