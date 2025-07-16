@@ -2504,7 +2504,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .palette = gMonPalette_Bonsly,
         .shinyPalette = gMonShinyPalette_Bonsly,
         .iconSprite = gMonIcon_Bonsly,
-        .iconPalIndex = 1,
+        .iconPalette = gMonIconPalette_Bonsly,
+        .shinyIconPalette = gMonShinyIconPalette_Bonsly,
         .pokemonJumpType = PKMN_JUMP_TYPE_FAST,
         SHADOW(-3, 4, SHADOW_SIZE_S)
         FOOTPRINT(Bonsly)
@@ -2990,7 +2991,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .palette = gMonPalette_Ambipom,
         .shinyPalette = gMonShinyPalette_Ambipom,
         .iconSprite = gMonIcon_Ambipom,
-        .iconPalIndex = 2,
+        .iconPalette = gMonIconPalette_Ambipom,
+        .shinyIconPalette = gMonShinyIconPalette_Ambipom,
 #if P_GENDER_DIFFERENCES
         .frontPicFemale = gMonFrontPic_AmbipomF,
         .frontPicSizeFemale = MON_COORDS_SIZE(64, 64),
@@ -3806,7 +3808,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .palette = gMonPalette_Honchkrow,
         .shinyPalette = gMonShinyPalette_Honchkrow,
         .iconSprite = gMonIcon_Honchkrow,
-        .iconPalIndex = 2,
+        .iconPalette = gMonIconPalette_Honchkrow,
+        .shinyIconPalette = gMonShinyIconPalette_Honchkrow,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(5, 7, SHADOW_SIZE_M)
         FOOTPRINT(Honchkrow)
@@ -3966,7 +3969,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .palette = gMonPalette_Mismagius,
         .shinyPalette = gMonShinyPalette_Mismagius,
         .iconSprite = gMonIcon_Mismagius,
-        .iconPalIndex = 2,
+        .iconPalette = gMonIconPalette_Mismagius,
+        .shinyIconPalette = gMonShinyIconPalette_Mismagius,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(1, 11, SHADOW_SIZE_M)
         FOOTPRINT(Mismagius)
@@ -7053,7 +7057,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .palette = gMonPalette_Mantyke,
         .shinyPalette = gMonShinyPalette_Mantyke,
         .iconSprite = gMonIcon_Mantyke,
-        .iconPalIndex = 0,
+        .iconPalette = gMonIconPalette_Mantyke,
+        .shinyIconPalette = gMonShinyIconPalette_Mantyke,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(-1, 3, SHADOW_SIZE_S)
         FOOTPRINT(Mantyke)

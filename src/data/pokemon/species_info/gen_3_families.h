@@ -6084,7 +6084,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .palette = gMonPalette_Budew,
         .shinyPalette = gMonShinyPalette_Budew,
         .iconSprite = gMonIcon_Budew,
-        .iconPalIndex = 1,
+        .iconPalette = gMonIconPalette_Budew,
+        .shinyIconPalette = gMonShinyIconPalette_Budew,
         .pokemonJumpType = PKMN_JUMP_TYPE_SLOW,
         SHADOW(-3, 0, SHADOW_SIZE_S)
         FOOTPRINT(Budew)
@@ -6250,7 +6251,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .palette = gMonPalette_Roserade,
         .shinyPalette = gMonShinyPalette_Roserade,
         .iconSprite = gMonIcon_Roserade,
-        .iconPalIndex = 0,
+        .iconPalette = gMonIconPalette_Roserade,
+        .shinyIconPalette = gMonShinyIconPalette_Roserade,
 #if P_GENDER_DIFFERENCES
         .frontPicFemale = gMonFrontPic_RoseradeF,
         .frontPicSizeFemale = MON_COORDS_SIZE(48, 56),
@@ -10336,7 +10338,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .palette = gMonPalette_Chingling,
         .shinyPalette = gMonShinyPalette_Chingling,
         .iconSprite = gMonIcon_Chingling,
-        .iconPalIndex = 1,
+        .iconPalette = gMonIconPalette_Chingling,
+        .shinyIconPalette = gMonShinyIconPalette_Chingling,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(-1, -2, SHADOW_SIZE_S)
         FOOTPRINT(Chingling)
