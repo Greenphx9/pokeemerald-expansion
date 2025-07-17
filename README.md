@@ -7,13 +7,13 @@ I am currently looking for a set of Generation 8 regular + shiny icons. I have r
 
 ## Progress
 Overall:
-- Roughly **28.47%** complete (408 / around 1433)
+- Roughly **35.87%** complete (514 / around 1433)
 
 Main:
 -  Kanto: 100.00% (151/151)
 -  Johto: 100.00% (100/100)
 -  Hoenn: 100.00% (135/135)
--  Sinnoh: 0.00% (0/107)
+-  Sinnoh: 100.00% (107/107)
 -  Unova: 0.00% (0/156)
 -  Kalos: 0.00% (0/72)
 -  Alola: 0.00% (0/88)
