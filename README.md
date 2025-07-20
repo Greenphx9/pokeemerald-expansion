@@ -35,4 +35,4 @@ Forms:
 - [larryturbo:](https://www.deviantart.com/larryturbo) [Gen 8 regular icons](https://www.deviantart.com/larryturbo/art/Gen-8-Galar-Menu-Box-Sprites-32x32-16-819999589)
 - [Ezerart:](https://www.deviantart.com/ezerart) [Gen 9 regular icons](https://www.deviantart.com/ezerart/art/Pokemon-Gen-9-Icon-sprites-3DS-Style-944211258), [Gen 9 shiny icons](https://www.deviantart.com/ezerart/art/Shiny-Pokemon-Gen-9-Icon-sprites-3DS-Style-944778082)
 - [mbcmechachu:](https://www.deviantart.com/mbcmechachu) National Dex Icon Resource ([Regular](https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-824897934), [Shiny](https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-Shiny-910547529))
-- MultiDiegoDani: Dialga + Palkia Origin sprites
+- MultiDiegoDani: Dialga + Palkia Origin, Samurott-Hisui sprites
