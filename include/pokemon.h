@@ -121,32 +121,77 @@ enum {
     MON_DATA_EVOLUTION_TRACKER,
 };
 
-struct PokemonSubstruct0
+struct BoxPokemon
 {
+    u32 personality;
+    #if FREE_OT_ID == FALSE
+    u32 otId;
+    #else
+    u8 otId;
+    #endif
+    u8 nickname[min(10, POKEMON_NAME_LENGTH)];
+    u8 language:3;
+    u8 hiddenNatureModifier:5; // 31 natures.
+    u8 isBadEgg:1;
+    u8 hasSpecies:1;
+    #if FREE_RANDOM_UNUSED_BYTES == FALSE
+    u8 unused_01:1;
+    #endif
+    u8 blockBoxRS:1; // Unused, but Pokémon Box Ruby & Sapphire will refuse to deposit a Pokémon with this flag set.
+    u8 daysSinceFormChange:3; // 7 days.
+    #if FREE_LOST_HP == FALSE
+    u8 unused_13:1;
+    #else
+    u8 shinyModifier:1; // we can repurpose this byte
+    #endif
+    #if FREE_OT_NAME == FALSE
+    u8 otName[PLAYER_NAME_LENGTH];
+    #else
+    u8 otNameId;
+    #endif
+    #if FREE_MARKINGS_AND_STATUS == FALSE
+    u8 markings:4;
+    u8 compressedStatus:4;
+    #endif
+    #if FREE_LOST_HP == FALSE
+    u16 hpLost:14; // 16383 HP.
+    u16 shinyModifier:1;
+    u16 unused_1E:1;
+    #endif
+
+    // Previously substruct 0
     u16 species:11; // 2047 species.
     u16 teraType:5; // 30 types.
     u16 heldItem:10; // 1023 items.
+    #if FREE_RANDOM_UNUSED_BYTES == FALSE
     u16 unused_02:6;
+    #endif
     u32 experience:21;
     u32 nickname11:8; // 11th character of nickname.
+    #if FREE_RANDOM_UNUSED_BYTES == FALSE
     u32 unused_04:3;
+    #endif
     u8 ppBonuses;
     u8 friendship;
     u16 pokeball:6; // 63 balls.
     u16 nickname12:8; // 12th character of nickname.
+    #if FREE_RANDOM_UNUSED_BYTES == FALSE
     u16 unused_0A:2;
-};
+    #endif
 
-struct PokemonSubstruct1
-{
+    // Previous substruct 1
     u16 move1:11; // 2047 moves.
     u16 evolutionTracker1:5;
     u16 move2:11; // 2047 moves.
     u16 evolutionTracker2:5;
     u16 move3:11; // 2047 moves.
-    u16 unused_04:5;
+    #if FREE_RANDOM_UNUSED_BYTES == FALSE
+    u16 unused_05:5;
+    #endif
     u16 move4:11; // 2047 moves.
+    #if FREE_RANDOM_UNUSED_BYTES == FALSE
     u16 unused_06:3;
+    #endif
     u16 hyperTrainedHP:1;
     u16 hyperTrainedAttack:1;
     u8 pp1:7; // 127 PP.
@@ -157,40 +202,47 @@ struct PokemonSubstruct1
     u8 hyperTrainedSpAttack:1;
     u8 pp4:7; // 127 PP.
     u8 hyperTrainedSpDefense:1;
-};
 
-struct PokemonSubstruct2
-{
+    // Previously substruct 2
     u8 hpEV;
     u8 attackEV;
     u8 defenseEV;
     u8 speedEV;
     u8 spAttackEV;
     u8 spDefenseEV;
+    #if FREE_CONTEST_STATS == FALSE
     u8 cool;
     u8 beauty;
     u8 cute;
     u8 smart;
     u8 tough;
     u8 sheen;
-};
+    #endif
 
-struct PokemonSubstruct3
-{
+    // Previously substruct 3
+    #if FREE_POKERUS == FALSE
     u8 pokerus;
+    #endif
     u8 metLocation;
+    #if FREE_MET_GAME_DYNAMAX_LEVEL == FALSE
     u16 metLevel:7;
     u16 metGame:4;
     u16 dynamaxLevel:4;
     u16 otGender:1;
+    #else
+    u8 metLevel:7;
+    u8 otGender:1;
+    #endif
     u32 hpIV:5;
     u32 attackIV:5;
     u32 defenseIV:5;
     u32 speedIV:5;
     u32 spAttackIV:5;
     u32 spDefenseIV:5;
+    
     u32 isEgg:1;
     u32 gigantamaxFactor:1;
+    #if FREE_RIBBONS == FALSE
     u32 coolRibbon:3;     // Stores the highest contest rank achieved in the Cool category.
     u32 beautyRibbon:3;   // Stores the highest contest rank achieved in the Beauty category.
     u32 cuteRibbon:3;     // Stores the highest contest rank achieved in the Cute category.
@@ -211,60 +263,16 @@ struct PokemonSubstruct3
     u32 isShadow:1;
     u32 unused_0B:1;
     u32 abilityNum:2;
-
-    // The functionality of this bit changed in FRLG:
-    // In RS, this bit does nothing, is never set, & is accidentally unset when hatching Eggs.
-    // In FRLG & Emerald, this controls Mew & Deoxys obedience and whether they can be traded.
-    // If set, a Pokémon is a fateful encounter in FRLG's summary screen if hatched & for all Pokémon in Gen 4+ summary screens.
-    // Set for in-game event island legendaries, events distributed after a certain date, & Pokémon from XD: Gale of Darkness.
-    // Not to be confused with METLOC_FATEFUL_ENCOUNTER.
     u32 modernFatefulEncounter:1;
-};
-
-// Number of bytes in the largest Pokémon substruct.
-// They are assumed to be the same size, and will be padded to
-// the largest size by the union.
-// By default they are all 12 bytes.
-#define NUM_SUBSTRUCT_BYTES (max(sizeof(struct PokemonSubstruct0),     \
-                             max(sizeof(struct PokemonSubstruct1),     \
-                             max(sizeof(struct PokemonSubstruct2),     \
-                                 sizeof(struct PokemonSubstruct3)))))
-
-union PokemonSubstruct
-{
-    struct PokemonSubstruct0 type0;
-    struct PokemonSubstruct1 type1;
-    struct PokemonSubstruct2 type2;
-    struct PokemonSubstruct3 type3;
-    u16 raw[NUM_SUBSTRUCT_BYTES / 2]; // /2 because it's u16, not u8
-};
-
-struct BoxPokemon
-{
-    u32 personality;
-    u32 otId;
-    u8 nickname[min(10, POKEMON_NAME_LENGTH)];
-    u8 language:3;
-    u8 hiddenNatureModifier:5; // 31 natures.
-    u8 isBadEgg:1;
-    u8 hasSpecies:1;
-    u8 isEgg:1;
-    u8 blockBoxRS:1; // Unused, but Pokémon Box Ruby & Sapphire will refuse to deposit a Pokémon with this flag set.
-    u8 daysSinceFormChange:3; // 7 days.
-    u8 unused_13:1;
-    u8 otName[PLAYER_NAME_LENGTH];
-    u8 markings:4;
-    u8 compressedStatus:4;
-    u16 checksum;
-    u16 hpLost:14; // 16383 HP.
-    u16 shinyModifier:1;
-    u16 unused_1E:1;
-
-    union
-    {
-        u32 raw[(NUM_SUBSTRUCT_BYTES * 4) / 4]; // *4 because there are 4 substructs, /4 because it's u32, not u8
-        union PokemonSubstruct substructs[4];
-    } secure;
+    #else
+    u8 isShadow:1;
+    #if FREE_RANDOM_UNUSED_BYTES == FALSE
+    u8 unused_0B:4;
+    #endif
+    u8 abilityNum:2;
+    u8 modernFatefulEncounter:1;
+    #endif
+    
 };
 
 struct Pokemon
