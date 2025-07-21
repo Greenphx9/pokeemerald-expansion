@@ -9,6 +9,7 @@
 #include "field_screen_effect.h"
 #include "field_weather.h"
 #include "fieldmap.h"
+#include "frlg_item_menu.h"
 #include "gpu_regs.h"
 #include "graphics.h"
 #include "international_string_util.h"
@@ -36,6 +37,7 @@
 #include "tv.h"
 #include "constants/decorations.h"
 #include "constants/event_objects.h"
+#include "constants/item.h"
 #include "constants/items.h"
 #include "constants/metatile_behaviors.h"
 #include "constants/rgb.h"
@@ -117,6 +119,7 @@ static void Task_ShopMenu(u8 taskId);
 static void Task_HandleShopMenuQuit(u8 taskId);
 static void CB2_InitBuyMenu(void);
 static void Task_GoToBuyOrSellMenu(u8 taskId);
+static void CB2_FRLG_GoToSellMenu(void);
 static void MapPostLoadHook_ReturnToShopMenu(void);
 static void Task_ReturnToShopMenu(u8 taskId);
 static void ShowShopMenuAfterExitingBuyOrSellMenu(u8 taskId);
@@ -427,10 +430,16 @@ static void Task_HandleShopMenuBuy(u8 taskId)
 static void Task_HandleShopMenuSell(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
-    tCallbackHi = (u32)CB2_GoToSellMenu >> 16;
-    tCallbackLo = (u32)CB2_GoToSellMenu;
+    tCallbackHi = (u32)CB2_FRLG_GoToSellMenu >> 16;
+    tCallbackLo = (u32)CB2_FRLG_GoToSellMenu;
     gTasks[taskId].func = Task_GoToBuyOrSellMenu;
     FadeScreen(FADE_TO_BLACK, 0);
+}
+
+static void CB2_FRLG_GoToSellMenu(void)
+{
+    FRLG_GoToBagMenu(FRLG_ITEMMENULOCATION_SHOP, OPEN_BAG_LAST, CB2_ReturnToField);
+    gFieldCallback = MapPostLoadHook_ReturnToShopMenu;
 }
 
 void CB2_ExitSellMenu(void)

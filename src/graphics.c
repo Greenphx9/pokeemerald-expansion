@@ -2105,3 +2105,16 @@ const u32 gBattleIcons_Gfx2[] = INCBIN_U32("graphics/types/battle_icons2.4bpp.lz
 const u16 gBattleIcons_Pal1[] = INCBIN_U16("graphics/types/battle_icons1.gbapal");
 const u16 gBattleIcons_Pal2[] = INCBIN_U16("graphics/types/battle_icons2.gbapal");
 
+// FRLG Bag
+const u32 gBagBg_Gfx[] = INCBIN_U32("graphics/item_menu/bg.4bpp.lz");
+const u32 gBagBg_Tilemap[] = INCBIN_U32("graphics/item_menu/bg.bin.lz");
+const u32 gBagBg_ItemPC_Tilemap[] = INCBIN_U32("graphics/item_menu/bg_item_pc.bin.lz");
+const u16 gBagBgPalette[] = INCBIN_U16("graphics/item_menu/bg.gbapal"); // palette 1 (Boy + misc Pal)
+const u16 gBagBgPalette_FemaleOverride[] = INCBIN_U16("graphics/item_menu/bg_female.gbapal"); // palette 2 (Girl)
+
+const u32 gBagMale_Gfx[] = INCBIN_U32("graphics/item_menu/bag_male.4bpp.lz");
+const u32 gBagFemale_Gfx[] = INCBIN_U32("graphics/item_menu/bag_female.4bpp.lz");
+const u16 gBag_Pal[] = INCBIN_U16("graphics/item_menu/bag.gbapal");
+
+const u32 gSwapLine_Gfx[] = INCBIN_U32("graphics/item_menu/bag_swap.4bpp.lz");
+const u16 gSwapLine_Pal[] = INCBIN_U16("graphics/item_menu/bag_swap.gbapal");

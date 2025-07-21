@@ -311,6 +311,7 @@ extern const u8 gText_Var1IsSelected[];
 extern const u8 gText_TossHowManyVar1s[];
 extern const u8 gText_ConfirmTossItems[];
 extern const u8 gText_ThrewAwayVar2Var1s[];
+extern const u8 gText_ThrowAwayStrVar2OfThisItemQM[];
 extern const u8 gText_CantWriteMail[];
 extern const u8 gText_NoPokemon[];
 extern const u8 gText_Var1CantBeHeld[];
@@ -2425,5 +2426,15 @@ extern const u8 gText_Rename[]; // change nickname from summary screen
 
 // Switch Caught Mon into Party
 extern const u8 gText_CannotSendMonToBoxHM[];
+
+// FRLG Bag
+extern const u8 gOtherText_WhereShouldTheStrVar1BePlaced[];
+extern const u8 gText_OhNoICantBuyThat[];
+extern const u8 gText_HowManyWouldYouLikeToSell[];
+extern const u8 gText_ICanPayThisMuch_WouldThatBeOkay[];
+extern const u8 gText_TurnedOverItemsWorthYen[];
+extern const u8 gText_NoRoomToStoreItems[];
+extern const u8 gText_DepositHowManyVar1[];
+extern const u8 gText_DepositedVar2Var1s[];
 
 #endif // GUARD_STRINGS_H

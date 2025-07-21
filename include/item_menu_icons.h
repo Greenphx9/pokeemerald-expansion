@@ -7,6 +7,13 @@ extern const struct SpritePalette gBagPaletteTable;
 extern const struct CompressedSpriteSheet gBerryCheckCircleSpriteSheet;
 extern const struct SpritePalette gBerryCheckCirclePaletteTable;
 
+extern const struct CompressedSpriteSheet gSpriteSheet_BagMale;
+extern const struct CompressedSpriteSheet gSpriteSheet_BagFemale;
+extern const struct SpritePalette gSpritePalette_Bag;
+
+extern const struct CompressedSpriteSheet gBagSwapSpriteSheet;
+extern const struct SpritePalette gBagSwapSpritePalette;
+
 void RemoveBagSprite(u8 id);
 void AddBagVisualSprite(u8 bagPocketId);
 void SetBagVisualPocketId(u8 bagPocketId, bool8 isSwitchingPockets);
@@ -31,5 +38,15 @@ void DestroyBerryIconSpritePtr(struct Sprite *sprite, u32 berryId, bool32 freePa
 void FreeBerryIconSpritePalette(u32 berryId); // Unused atm, because it's also handled by DestroyBerryIconSprite. Leaving it as it is, because it may still be useful in some custom cases.
 
 u8 CreateBerryFlavorCircleSprite(s16 x);
+void ResetItemMenuIconState(void);
+void CreateBagSprite(u8 animNum);
+void FRLG_SetBagVisualPocketId(u8 animNum);
+void FRLG_ShakeBagSprite(void);
+void CreateSwapLine(void);
+void FRLG_CreateSwapLine(void);
+void FRLG_SetSwapLineInvisibility(bool8 invisible);
+void FRLG_UpdateSwapLinePos(s16 x, u16 y);
+void CreateItemMenuIcon(u16 itemId, u8 idx);
+void DestroyItemMenuIcon(u8 idx);
 
 #endif // GUARD_ITEM_MENU_ICONS_H

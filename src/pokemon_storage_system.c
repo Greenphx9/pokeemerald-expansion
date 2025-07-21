@@ -10,6 +10,7 @@
 #include "field_screen_effect.h"
 #include "field_weather.h"
 #include "fldeff_misc.h"
+#include "frlg_item_menu.h"
 #include "gpu_regs.h"
 #include "graphics.h"
 #include "international_string_util.h"
@@ -38,6 +39,7 @@
 #include "walda_phrase.h"
 #include "window.h"
 #include "constants/form_change_types.h"
+#include "constants/item.h"
 #include "constants/items.h"
 #include "constants/moves.h"
 #include "constants/rgb.h"
@@ -1995,7 +1997,7 @@ void EnterPokeStorage(u8 boxOption)
     }
 }
 
-static void CB2_ReturnToPokeStorage(void)
+void CB2_ReturnToPokeStorage(void)
 {
     ResetTasks();
     sStorage = Alloc(sizeof(*sStorage));
@@ -3755,7 +3757,7 @@ static void Task_ChangeScreen(u8 taskId)
         break;
     case SCREEN_CHANGE_ITEM_FROM_BAG:
         FreePokeStorageData();
-        GoToBagMenu(ITEMMENULOCATION_PCBOX, 0, CB2_ReturnToPokeStorage);
+        FRLG_GoToBagMenu(FRLG_ITEMMENULOCATION_PCBOX, 0, CB2_ReturnToPokeStorage);
         break;
     }
 

@@ -3393,4 +3393,17 @@ extern const u32 gBattleIcons_Gfx2[];
 extern const u16 gBattleIcons_Pal1[];
 extern const u16 gBattleIcons_Pal2[];
 
+// FRLG Bag
+extern const u32 gBagBg_Gfx[];
+extern const u32 gBagBg_Tilemap[];
+extern const u32 gBagBg_ItemPC_Tilemap[];
+extern const u16 gBagBgPalette[];
+extern const u16 gBagBgPalette_FemaleOverride[];
+
+extern const u32 gBagMale_Gfx[];
+extern const u32 gBagFemale_Gfx[];
+extern const u16 gBag_Pal[];
+extern const u32 gSwapLine_Gfx[];
+extern const u16 gSwapLine_Pal[];
+
 #endif //GUARD_GRAPHICS_H

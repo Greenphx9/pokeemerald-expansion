@@ -16,6 +16,7 @@ struct YesNoFuncTable
 };
 
 void ResetVramOamAndBgCntRegs(void);
+void ResetAllBgsCoordinatesAndBgCntRegs(void);
 void ResetAllBgsCoordinates(void);
 void SetVBlankHBlankCallbacksToNull(void);
 void DisplayMessageAndContinueTask(u8 taskId, u8 windowId, u16 tileNum, u8 paletteNum, u8 fontId, u8 textSpeed, const u8 *string, void *taskFunc);
@@ -28,6 +29,7 @@ u8 GetLRKeysPressedAndHeld(void);
 bool8 IsHoldingItemAllowed(u16 itemId);
 bool8 IsWritingMailAllowed(u16 itemId);
 bool8 MenuHelpers_IsLinkActive(void);
+bool8 IsActiveOverworldLinkBusy(void);
 bool8 MenuHelpers_ShouldWaitForLinkRecv(void);
 void SetItemListPerPageCount(struct ItemSlot *slots, u8 slotsCount, u8 *pageItems, u8 *totalItems, u8 maxPerPage);
 void SetCursorWithinListBounds(u16 *scrollOffset, u16 *cursorPos, u8 maxShownItems, u8 totalItems);

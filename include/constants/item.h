@@ -15,6 +15,7 @@
 #define BERRIES_POCKET     3
 #define KEYITEMS_POCKET    4
 #define POCKETS_COUNT      5
+#define POCKETS_NO_CASES 3 // number of pockets without considering TM case or berry pouch
 
 #define REPEL_LURE_MASK         (1 << 15)
 #define IS_LAST_USED_LURE(var)  (var & REPEL_LURE_MASK)
