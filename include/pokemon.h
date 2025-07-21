@@ -124,13 +124,19 @@ enum {
 struct BoxPokemon
 {
     u32 personality;
+    #if FREE_OT_ID == FALSE
     u32 otId;
+    #else
+    u8 otId;
+    #endif
     u8 nickname[min(10, POKEMON_NAME_LENGTH)];
     u8 language:3;
     u8 hiddenNatureModifier:5; // 31 natures.
     u8 isBadEgg:1;
     u8 hasSpecies:1;
+    #if FREE_RANDOM_UNUSED_BYTES == FALSE
     u8 unused_01:1;
+    #endif
     u8 blockBoxRS:1; // Unused, but Pokémon Box Ruby & Sapphire will refuse to deposit a Pokémon with this flag set.
     u8 daysSinceFormChange:3; // 7 days.
     #if FREE_LOST_HP == FALSE
@@ -157,15 +163,21 @@ struct BoxPokemon
     u16 species:11; // 2047 species.
     u16 teraType:5; // 30 types.
     u16 heldItem:10; // 1023 items.
+    #if FREE_RANDOM_UNUSED_BYTES == FALSE
     u16 unused_02:6;
+    #endif
     u32 experience:21;
     u32 nickname11:8; // 11th character of nickname.
+    #if FREE_RANDOM_UNUSED_BYTES == FALSE
     u32 unused_04:3;
+    #endif
     u8 ppBonuses;
     u8 friendship;
     u16 pokeball:6; // 63 balls.
     u16 nickname12:8; // 12th character of nickname.
+    #if FREE_RANDOM_UNUSED_BYTES == FALSE
     u16 unused_0A:2;
+    #endif
 
     // Previous substruct 1
     u16 move1:11; // 2047 moves.
@@ -173,9 +185,13 @@ struct BoxPokemon
     u16 move2:11; // 2047 moves.
     u16 evolutionTracker2:5;
     u16 move3:11; // 2047 moves.
+    #if FREE_RANDOM_UNUSED_BYTES == FALSE
     u16 unused_05:5;
+    #endif
     u16 move4:11; // 2047 moves.
+    #if FREE_RANDOM_UNUSED_BYTES == FALSE
     u16 unused_06:3;
+    #endif
     u16 hyperTrainedHP:1;
     u16 hyperTrainedAttack:1;
     u8 pp1:7; // 127 PP.
@@ -250,7 +266,9 @@ struct BoxPokemon
     u32 modernFatefulEncounter:1;
     #else
     u8 isShadow:1;
+    #if FREE_RANDOM_UNUSED_BYTES == FALSE
     u8 unused_0B:4;
+    #endif
     u8 abilityNum:2;
     u8 modernFatefulEncounter:1;
     #endif

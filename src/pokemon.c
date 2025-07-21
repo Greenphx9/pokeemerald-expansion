@@ -1009,6 +1009,19 @@ const u8 *const gOtNames[] =
     [2] = COMPOUND_STRING("ROMAN"),
     [3] = COMPOUND_STRING("SKYLAR"),
     [4] = COMPOUND_STRING("ISIS"),
+    [5] = COMPOUND_STRING("STEVEN"),
+};
+
+// if FREE_OT_ID is TRUE, this table will be used to assign a proper ot id
+// Follows the order of ingame trade partners after 0
+// 0 = player's ot id
+const u32 gOtIds[] =
+{
+    [0] = 0x0,
+    [1] = 38726,
+    [2] = 73996,
+    [3] = 46285,
+    [4] = 91481,
 };
 
 // Attempt to detect situations where the BoxPokemon struct is unable to
@@ -2355,9 +2368,25 @@ u32 GetBoxMonData3(struct BoxPokemon *boxMon, s32 field, u8 *data)
     case MON_DATA_PERSONALITY:
         retVal = boxMon->personality;
         break;
+    #if FREE_OT_NAME == FALSE
     case MON_DATA_OT_ID:
         retVal = boxMon->otId;
         break;
+    #else
+    case MON_DATA_OT_ID:
+        u8 otId = boxMon->otId;
+        if (otId == 0)
+        {
+            u32 value = gSaveBlock2Ptr->playerTrainerId[0]
+                | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
+                | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
+                | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
+            retVal = value;
+        }        
+        else
+            retVal = gOtIds[otId];
+        break;
+    #endif
     case MON_DATA_LANGUAGE:
         retVal = boxMon->language;
         break;
@@ -2906,9 +2935,35 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
     case MON_DATA_PERSONALITY:
         SET32(boxMon->personality);
         break;
+    #if FREE_OT_NAME == FALSE
     case MON_DATA_OT_ID:
         SET32(boxMon->otId);
         break;
+    #else
+    case MON_DATA_OT_ID:
+        u32 otId = data[0] + (data[1] << 8) + (data[2] << 16) + (data[3] << 24);
+        u32 i;
+        u32 value = gSaveBlock2Ptr->playerTrainerId[0]
+                | (gSaveBlock2Ptr->playerTrainerId[1] << 8)
+                | (gSaveBlock2Ptr->playerTrainerId[2] << 16)
+                | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
+        if (value == otId)
+        {
+            boxMon->otId = 0;
+        }
+        else
+        {
+            for (i = 0; i < ARRAY_COUNT(gOtIds); i++)
+            {
+                if (gOtIds[i] == otId)
+                {
+                    boxMon->otId = i;
+                    break;
+                }
+            }
+        }
+        break;
+    #endif
     case MON_DATA_LANGUAGE:
         SET8(boxMon->language);
         break;

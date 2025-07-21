@@ -29,13 +29,15 @@
 #define FREE_POKERUS                        FALSE   // Removes pokerus (1 byte)
 #define FREE_LOST_HP                        FALSE   // Removes lost HP, note that putting in PC will restore HP! (2 bytes)
 #define FREE_MARKINGS_AND_STATUS            FALSE   // Removes PC markings and compressed status (1 byte)
-                                                   // Note that this does not change the PC UI, so players can still mark, although it will not save.
+                                                    // Note that this does not change the PC UI, so players can still mark, although it will not save.
 #define FREE_OT_NAME                        FALSE   // Reduces ot name to 1 byte, by using a lookup table (6 bytes)
-                                                   // Pokemon traded between games will have incorrect ot names!
-                                                   // See: gOtNames in src/pokemon.c if you enable this
+                                                    // Pokemon traded between games will have incorrect ot names!
+                                                    // See: gOtNames in src/pokemon.c if you enable this
 #define FREE_MET_GAME_DYNAMAX_LEVEL         FALSE   // Removes the met game, not needed, and dynamax level (1 byte)
 
+#define FREE_RANDOM_UNUSED_BYTES            FALSE   // Compiler somehow optimizes the struct when unused bits are removed (4 bytes)
+#define FREE_OT_ID                          FALSE   // Reduces ot id to 1 byte, by using a lookup table (3 bytes)
 
-                                            // Total: 20 bytes
+                                            // Total: 27 bytes
 
 #endif // GUARD_CONFIG_SAVE_H
