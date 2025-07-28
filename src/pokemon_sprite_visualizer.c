@@ -1269,7 +1269,7 @@ void CB2_Pokemon_Sprite_Visualizer(void)
             data = AllocZeroed(sizeof(struct PokemonSpriteVisualizer));
             SetStructPtr(taskId, data);
 
-            data->currentmonId = SPECIES_VICTINI,
+            data->currentmonId = SPECIES_DWEBBLE,
             species = data->currentmonId;
 
             //Print instructions
