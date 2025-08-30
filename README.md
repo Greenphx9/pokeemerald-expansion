@@ -7,7 +7,7 @@ I am currently looking for a set of Generation 8 regular + shiny icons. I have r
 
 ## Progress
 Overall:
-- Roughly **48.78%** complete (699 / around 1433)
+- Roughly **57.29%** complete (821 / around 1433)
 
 Main:
 -  Kanto: 100.00% (151/151)
@@ -15,14 +15,14 @@ Main:
 -  Hoenn: 100.00% (135/135)
 -  Sinnoh: 100.00% (107/107)
 -  Unova: 100.00% (156/156)
--  Kalos: 0.00% (0/72)
+-  Kalos: 100.00% (72/72)
 -  Alola: 0.00% (0/88)
 -  Galar: 0.00% (0/89)
 -  Hisui: 0.00% (0/7)
 -  Paldea: 0.00% (0/145)
 
 Forms:
-- Megas / Primals: 0.00% (0/50)
+- Megas / Primals: 100.00% (50/50)
 - Alolan: 100.00% (17/17)
 - Galarian: 100.00% (18/18)
 - Hisuian: 73.33% (11/15)
