@@ -55,7 +55,7 @@ Forms:
 - LuigiTKO: Arcanine-Hisui, Overqwil, Sneasler, Basculin-White-Stripe sprites
 - VentZX: Typhlosion-Hisui sprite
 - MultiDiegoDani: Growlithe-Hisui, Qwilfish-Hisui, Sneasel-Hisui, Dialga + Palkia Origin, Samurott-Hisui sprites
-- Cesare_CBass: Lilligant-Hisui sprite
+- Cesare_CBass: Lilligant-Hisui, Decidueye-Hisui sprite
 - StarrWolf & Pokemon Shattered Light Team: Shinies for:
   - Arcanine-Hisui
   - Mr. Mime-G
