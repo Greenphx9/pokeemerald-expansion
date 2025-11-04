@@ -6078,7 +6078,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .palette = gMonPalette_Ursaluna,
         .shinyPalette = gMonShinyPalette_Ursaluna,
         .iconSprite = gMonIcon_Ursaluna,
-        .iconPalIndex = 2,
+        .iconPalette = gMonIconPalette_Ursaluna,
+        .shinyIconPalette = gMonShinyIconPalette_Ursaluna,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(1, 4, SHADOW_SIZE_XL_BATTLE_ONLY)
         FOOTPRINT(Ursaluna)
@@ -6761,7 +6762,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .palette = gMonPalette_Cursola,
         .shinyPalette = gMonShinyPalette_Cursola,
         .iconSprite = gMonIcon_Cursola,
-        .iconPalIndex = 0,
+        .iconPalette = gMonIconPalette_Cursola,
+        .shinyIconPalette = gMonShinyIconPalette_Cursola,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(-3, 13, SHADOW_SIZE_S)
         FOOTPRINT(Cursola)
@@ -7750,7 +7752,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .palette = gMonPalette_Wyrdeer,
         .shinyPalette = gMonShinyPalette_Wyrdeer,
         .iconSprite = gMonIcon_Wyrdeer,
-        .iconPalIndex = 2,
+        .iconPalette = gMonIconPalette_Wyrdeer,
+        .shinyIconPalette = gMonShinyIconPalette_Wyrdeer,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(-1, 13, SHADOW_SIZE_M)
         FOOTPRINT(Wyrdeer)

@@ -1438,7 +1438,8 @@ const struct SpeciesInfo gSpeciesInfoGen3[] =
         .palette = gMonPalette_Obstagoon,
         .shinyPalette = gMonShinyPalette_Obstagoon,
         .iconSprite = gMonIcon_Obstagoon,
-        .iconPalIndex = 0,
+        .iconPalette = gMonIconPalette_Obstagoon,
+        .shinyIconPalette = gMonShinyIconPalette_Obstagoon,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(2, 13, SHADOW_SIZE_M)
         FOOTPRINT(Obstagoon)
