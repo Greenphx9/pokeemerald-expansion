@@ -248,3 +248,8 @@ const struct SpeciesInfo gSpeciesInfo[] =
     },
     */
 };
+
+const struct SpeciesInfo gRebalancedSpeciesInfo[NUM_SPECIES] =
+{
+    #include "species_info/rebalanced_families.h"
+};

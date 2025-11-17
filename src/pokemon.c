@@ -36,6 +36,7 @@
 #include "pokemon_summary_screen.h"
 #include "pokemon_storage_system.h"
 #include "random.h"
+#include "rebalancing.h"
 #include "recorded_battle.h"
 #include "rtc.h"
 #include "sound.h"
@@ -3547,42 +3548,42 @@ u32 GetSpeciesWeight(u16 species)
 
 u32 GetSpeciesType(u16 species, u8 slot)
 {
-    return gSpeciesInfo[SanitizeSpeciesId(species)].types[slot];
+    return GetSpeciesInfo(SanitizeSpeciesId(species)).types[slot];
 }
 
 u32 GetSpeciesAbility(u16 species, u8 slot)
 {
-    return gSpeciesInfo[SanitizeSpeciesId(species)].abilities[slot];
+    return GetSpeciesInfo(SanitizeSpeciesId(species)).abilities[slot];
 }
 
 u32 GetSpeciesBaseHP(u16 species)
 {
-    return gSpeciesInfo[SanitizeSpeciesId(species)].baseHP;
+    return GetSpeciesInfo(SanitizeSpeciesId(species)).baseHP;
 }
 
 u32 GetSpeciesBaseAttack(u16 species)
 {
-    return gSpeciesInfo[SanitizeSpeciesId(species)].baseAttack;
+    return GetSpeciesInfo(SanitizeSpeciesId(species)).baseAttack;
 }
 
 u32 GetSpeciesBaseDefense(u16 species)
 {
-    return gSpeciesInfo[SanitizeSpeciesId(species)].baseDefense;
+    return GetSpeciesInfo(SanitizeSpeciesId(species)).baseDefense;
 }
 
 u32 GetSpeciesBaseSpAttack(u16 species)
 {
-    return gSpeciesInfo[SanitizeSpeciesId(species)].baseSpAttack;
+    return GetSpeciesInfo(SanitizeSpeciesId(species)).baseSpAttack;
 }
 
 u32 GetSpeciesBaseSpDefense(u16 species)
 {
-    return gSpeciesInfo[SanitizeSpeciesId(species)].baseSpDefense;
+    return GetSpeciesInfo(SanitizeSpeciesId(species)).baseSpDefense;
 }
 
 u32 GetSpeciesBaseSpeed(u16 species)
 {
-    return gSpeciesInfo[SanitizeSpeciesId(species)].baseSpeed;
+    return GetSpeciesInfo(SanitizeSpeciesId(species)).baseSpeed;
 }
 
 u32 GetSpeciesBaseStat(u16 species, u32 statIndex)
