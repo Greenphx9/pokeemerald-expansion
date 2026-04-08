@@ -1385,6 +1385,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .teachableLearnset = sMausholdTeachableLearnset,
         .formSpeciesIdTable = sMausholdFormSpeciesIdTable,
     },
+
     [SPECIES_MAUSHOLD_FOUR] =
     {
         .baseHP        = 74,
@@ -7313,6 +7314,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .evolutions = EVOLUTION({EVO_ITEM, ITEM_UNREMARKABLE_TEACUP, SPECIES_SINISTCHA_UNREMARKABLE}),
         .formSpeciesIdTable = sPoltchageistFormSpeciesIdTable,
     },
+
     [SPECIES_POLTCHAGEIST_ARTISAN] =
     {
         .baseHP        = 40,
@@ -7445,6 +7447,7 @@ const struct SpeciesInfo gSpeciesInfoGen9[] =
         .teachableLearnset = sSinistchaTeachableLearnset,
         .formSpeciesIdTable = sSinistchaFormSpeciesIdTable,
     },
+
     [SPECIES_SINISTCHA_MASTERPIECE] =
     {
         .baseHP        = 71,
