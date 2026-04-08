@@ -269,7 +269,9 @@
 #define VAR_0x40FE                 0x40FE
 #define VAR_0x40FF                 0x40FF
 
-#define VARS_END_FRLG              0x40FF
+#define VAR_0x42FF                 0x42FF
+
+#define VARS_END_FRLG              0x42FF
 #define VARS_COUNT_FRLG            (VARS_END_FRLG - VARS_START_FRLG + 1)
 
 #define SPECIAL_VARS_START         0x8000

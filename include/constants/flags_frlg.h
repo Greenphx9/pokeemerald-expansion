@@ -1489,7 +1489,11 @@
 #define FLAG_0x8FE                                                  (SYS_FLAGS + 0xFE)
 #define FLAG_0x8FF                                                  (SYS_FLAGS + 0xFF)
 
-#define FLAGS_COUNT (FLAG_0x8FF + 1)
+// custom free flags
+#define FLAG_0x900                                                  0x900
+#define FLAG_0x1500                                                 0x1500
+
+#define FLAGS_COUNT (FLAG_0x1500 + 1)
 
 // Special Flags (Stored in EWRAM (sSpecialFlags, not in the SaveBlock)
 #define SPECIAL_FLAGS_START           0x4000
