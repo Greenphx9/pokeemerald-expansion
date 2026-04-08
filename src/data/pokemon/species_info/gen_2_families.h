@@ -3658,7 +3658,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .palette = gMonPalette_Clodsire,
         .shinyPalette = gMonShinyPalette_Clodsire,
         .iconSprite = gMonIcon_Clodsire,
-        .iconPalIndex = 0,
+        .iconPalette = gMonIconPalette_Clodsire,
+        .shinyIconPalette = gMonShinyIconPalette_Clodsire,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(-2, 3, SHADOW_SIZE_L)
         FOOTPRINT(Clodsire)
@@ -4401,7 +4402,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .palette = gMonPalette_Farigiraf,
         .shinyPalette = gMonShinyPalette_Farigiraf,
         .iconSprite = gMonIcon_Farigiraf,
-        .iconPalIndex = 0,
+        .iconPalette = gMonIconPalette_Farigiraf,
+        .shinyIconPalette = gMonShinyIconPalette_Farigiraf,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(11, 13, SHADOW_SIZE_L)
         FOOTPRINT(Farigiraf)
@@ -4697,8 +4699,9 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         //.backAnimId = BACK_ANIM_NONE,
         .palette = gMonPalette_Dudunsparce,
         .shinyPalette = gMonShinyPalette_Dudunsparce,
-        .iconSprite = gMonIcon_Dudunsparce,
-        .iconPalIndex = 0,
+        .iconSprite = gMonIcon_DudunsparceTwoSegment,
+        .iconPalette = gMonIconPalette_DudunsparceTwoSegment,
+        .shinyIconPalette = gMonShinyIconPalette_DudunsparceTwoSegment,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(0, 5, SHADOW_SIZE_L)
         FOOTPRINT(Dudunsparce)
@@ -4761,8 +4764,9 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         //.backAnimId = BACK_ANIM_NONE,
         .palette = gMonPalette_Dudunsparce,
         .shinyPalette = gMonShinyPalette_Dudunsparce,
-        .iconSprite = gMonIcon_Dudunsparce,
-        .iconPalIndex = 0,
+        .iconSprite = gMonIcon_DudunsparceThreeSegment,
+        .iconPalette = gMonIconPalette_DudunsparceThreeSegment,
+        .shinyIconPalette = gMonShinyIconPalette_DudunsparceThreeSegment,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(4, 4, SHADOW_SIZE_L)
         FOOTPRINT(Dudunsparce)
@@ -6163,7 +6167,8 @@ const struct SpeciesInfo gSpeciesInfoGen2[] =
         .palette = gMonPalette_UrsalunaBloodmoon,
         .shinyPalette = gMonShinyPalette_UrsalunaBloodmoon,
         .iconSprite = gMonIcon_UrsalunaBloodmoon,
-        .iconPalIndex = 2,
+        .iconPalette = gMonIconPalette_UrsalunaBloodmoon,
+        .shinyIconPalette = gMonShinyIconPalette_UrsalunaBloodmoon,
         .pokemonJumpType = PKMN_JUMP_TYPE_NONE,
         SHADOW(6, 11, SHADOW_SIZE_L)
         FOOTPRINT(Ursaluna)
