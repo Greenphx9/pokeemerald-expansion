@@ -1695,7 +1695,7 @@ const u32 gBattleAnimBgImage_Swamp[] = INCBIN_U32("graphics/battle_anims/backgro
 const u16 gBattleAnimBGPalette_Swamp[] = INCBIN_U16("graphics/battle_anims/backgrounds/swampswizzle.gbapal");
 const u32 gBattleAnimBgTilemap_Swamp[] = INCBIN_U32("graphics/battle_anims/backgrounds/swampswizzle.bin.smolTM");
 
-const u32 gStatusGfx_Icons[] = INCBIN_U32("graphics/interface/status_icons.4bpp.lz");
+const u32 gStatusGfx_Icons[] = INCBIN_U32("graphics/interface/status_icons.4bpp.smol");
 const u16 gStatusPal_Icons[] = INCBIN_U16("graphics/interface/status_icons.gbapal");
 
 const u16 gCategoryIcons_Pal[] = INCBIN_U16("graphics/interface/category_icons.gbapal");
