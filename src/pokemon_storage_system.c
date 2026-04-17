@@ -1771,10 +1771,10 @@ static void SetDefaultWallpapers(void)
 
     for (i = 0; i < TOTAL_BOXES_COUNT; i++)
     {
-        if (i < 8)
+        if (i < 12)
             SetBoxWallpaper(i, i);
         else
-            SetBoxWallpaper(i, wallpapers[i - 8]);
+            SetBoxWallpaper(i, wallpapers[i - 12]);
     }
 }
 
